@@ -1,0 +1,8 @@
+*.elf
+*.hex
+*.swp
+*~
+
+obj
+lib
+apidoc
