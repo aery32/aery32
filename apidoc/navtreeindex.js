@@ -1,0 +1,24 @@
+var NAVTREEINDEX =
+{
+"index.html":[],
+"files.html":[0,0],
+"gpio_8h.html":[0,0,0],
+"gpio_8hh.html":[0,0,1],
+"interrupts_8h.html":[0,0,2],
+"interrupts_8hh.html":[0,0,3],
+"pm_8h.html":[0,0,4],
+"pm_8hh.html":[0,0,5],
+"rtc_8h.html":[0,0,6],
+"rtc_8hh.html":[0,0,7],
+"spi_8h.html":[0,0,8],
+"spi_8hh.html":[0,0,9],
+"globals.html":[0,1,0],
+"globals_func.html":[0,1,1],
+"globals_enum.html":[0,1,2],
+"globals_defs.html":[0,1,3],
+"examples.html":[1],
+"rtc_delay_8c-example.html":[1,0],
+"rtc_interrupt_8c-example.html":[1,1],
+"spi_8c-example.html":[1,2],
+"toggle_led_8c-example.html":[1,3]
+};
