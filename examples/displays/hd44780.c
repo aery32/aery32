@@ -36,7 +36,7 @@
 #define HD44780_DDRAM_ADDR 0x80
 #define HD44780_CGRAM_ADDR 0x40
 
-#define HD44780_SPI_MODE 3
+#define HD44780_SPI_MODE SPI_MODE3
 #define HD44780_BUSYBIT_MASK 0x80
 
 
@@ -57,7 +57,7 @@ bool display_isbusy(void);
 void display_instruct(uint16_t);
 void display_wrbyte(uint8_t);
 void display_putc(char);
-uint8_t display_puts(char*);
+uint8_t display_puts(const char*);
 
 
 // ----------------------------------------------------------------------
@@ -131,7 +131,7 @@ display_putc(char c)
 }
 
 uint8_t
-display_puts(char *buf)
+display_puts(const char *buf)
 {
 	uint8_t i;
 	uint8_t len = strlen(buf);
