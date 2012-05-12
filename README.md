@@ -33,18 +33,20 @@ Put your C source files under `src/` directory and define those in [sources vari
 To compile the project just call
 
     make
-    
-and `make re` when you want to recompile all.
+
+When you want to recompile all use
+
+    make re
 
 To program or upload the compiled and linked binary to your printed circuit board command
 
     make program
     
-If you also like to start the board immediately, chain with the start target
+If you also like to start the board immediately, chain the program target with the start target
 
     make program start
     
-Or less verbosely: `make programs`. The latter is also quicker with batchisp (in Windows).
+Or less verbosely `make programs`. The latter is also quicker with batchisp (in Windows).
 
 ## License
 
