@@ -16,7 +16,26 @@ You don't have to install Aery32 as you would do with regular software. Just dow
 
 ## Quick start
 
-TODO
+To start a new project clone the Aery32 framework into desired directory (or use download link above)
+
+    git clone git://github.com/aery32/aery32.git myproject
+    cd myproject
+    
+To compile the project just call
+
+    make
+    
+and `make re` when you want to recompile all.
+
+To program or upload the compiled and linked binary to your printed circuit board command
+
+    make program
+    
+If you also like to start the board immediately, chain with the start target
+
+    make program start
+    
+Or less verbosely: `make programs`. The latter is also quicker with batchisp (in Windows).
 
 ## License
 
