@@ -23,12 +23,12 @@ Batchisp (for Windows) comes with the [FLIP](http://www.atmel.com/tools/FLIP.asp
 
 ## Quick start
 
-To start a new project clone the Aery32 framework into the desired directory (or use download link above)
+To start a new project, git clone the Aery32 framework into the desired directory (or use the download link above)
 
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
     
-Put your C source files under `src/` directory and define those in $(sources) variable in Makefile. Header files you can put under `include/` or `src/`. You can start by editing `src/main.c`. If you prefer C++ over C, change the $(CC) variable in Makefile to avr32-g++.
+Put your C source files under `src/` directory and define those in [sources variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L55). Header files you can put under `include/` or `src/`. You can start by editing `src/main.c`. If you prefer C++ over C, change the [CC variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L66) to avr32-g++.
 
 To compile the project just call
 
