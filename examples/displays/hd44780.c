@@ -36,7 +36,6 @@
 #define HD44780_DDRAM_ADDR 0x80
 #define HD44780_CGRAM_ADDR 0x40
 
-#define HD44780_SPI_MODE SPI_MODE3
 #define HD44780_BUSYBIT_MASK 0x80
 
 
@@ -48,6 +47,7 @@
 
 #define DISPLAY_SPI (&AVR32_SPI0)
 #define DISPLAY_SPI_NPCS 0
+#define DISPLAY_SPI_MODE SPI_MODE3
 
 
 // ----------------------------------------------------------------------
@@ -71,7 +71,7 @@ main(void)
 	aery_gpio_init_pins(porta, SPI0_GPIO_MASK, GPIO_FUNCTION_A);
 
 	aery_spi_init_master(DISPLAY_SPI);
-	aery_spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, HD44780_SPI_MODE, 10);
+	aery_spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
 	aery_spi_enable(DISPLAY_SPI);
 
 	// Screen initialization sequency
