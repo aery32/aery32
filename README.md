@@ -28,7 +28,7 @@ To start a new project, git clone the Aery32 framework into the desired director
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
     
-Put your C source files under `src/` directory and define those in [sources variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L55). Header files you can put under `include/` or `src/`. You can start by editing `src/main.c`. If you prefer C++ over C, change the [CC variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L66) to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the '-std' option in [CFLAGS variable](https://github.com/aery32/aery32/blob/master/Makefile#L68).
+Put your C source files under `src/` directory and define those in [sources variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L55). Header files you can put under `include/` or `src/`. Start by editing `src/main.c`. Board initialization sequency can be found from `board.c` and the other defined settings from `board.h`. If you prefer C++ over C, change the [CC variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L66) to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the '-std' option in [CFLAGS variable](https://github.com/aery32/aery32/blob/master/Makefile#L68).
 
 To compile the project just call
 
