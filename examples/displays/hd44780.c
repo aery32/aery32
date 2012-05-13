@@ -53,11 +53,15 @@
 // ----------------------------------------------------------------------
 // API to operate with the display
 // ----------------------------------------------------------------------
+#define MAX_DISPBUF 21
+char dispbuf[MAX_DISPBUF] = {'\0'};
+
 bool display_isbusy(void);
 void display_instruct(uint16_t);
 void display_wrbyte(uint8_t);
 void display_putc(char);
 uint8_t display_puts(const char*);
+int display_printf(const char*, ... );
 
 
 // ----------------------------------------------------------------------
@@ -88,6 +92,12 @@ main(void)
 
 	// Greet Aery32 community
 	display_puts("Hello Aery32 devs!");
+
+	// Jump to the next line
+	display_instruct(0x40|HD44780_DDRAM_ADDR);
+
+	// Print arbitrary result of analog-digital conversion
+	display_printf("ADC1=%.2f", 0.32);
 
 	for(;;) {
 		/* Put your application code here */
@@ -138,4 +148,19 @@ display_puts(const char *buf)
 	for (i = 0; i < len; i++)
 		display_putc(buf[i]);
 	return i+1;
+}
+
+int
+display_printf(const char *format, ... )
+{
+	int n;
+	va_list args;
+
+	va_start(args, format);
+	n = vsnprintf(dispbuf, MAX_DISPBUF, format, args);
+	va_end(args);
+
+	if (n > 0)
+		display_puts(dispbuf);
+	return n;
 }
