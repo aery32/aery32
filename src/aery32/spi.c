@@ -75,7 +75,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 			((mode & 2) << AVR32_SPI_CSR0_NCPHA_OFFSET) |
 			((bits-8) << AVR32_SPI_CSR0_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR0_CSAAT_OFFSET) |
-		 	(128 << AVR32_SPI_CSR0_SCBR_OFFSET) |
+		 	(255 << AVR32_SPI_CSR0_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR0_DLYBCT_OFFSET);
 		break;
 	case 1:
@@ -84,7 +84,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 			((mode & 2) << AVR32_SPI_CSR1_NCPHA_OFFSET) |
 			((bits-8) << AVR32_SPI_CSR1_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR1_CSAAT_OFFSET) |
-		 	(128 << AVR32_SPI_CSR1_SCBR_OFFSET) |
+		 	(255 << AVR32_SPI_CSR1_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR1_DLYBCT_OFFSET);
 		break;
 	case 2:
@@ -93,7 +93,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 			((mode & 2) << AVR32_SPI_CSR2_NCPHA_OFFSET) |
 			((bits-8) << AVR32_SPI_CSR2_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR2_CSAAT_OFFSET) |
-		 	(128 << AVR32_SPI_CSR2_SCBR_OFFSET) |
+		 	(255 << AVR32_SPI_CSR2_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR2_DLYBCT_OFFSET);
 		break;
 	case 3:
@@ -102,7 +102,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 			((mode & 2) << AVR32_SPI_CSR3_NCPHA_OFFSET) |
 			((bits-8) << AVR32_SPI_CSR3_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR3_CSAAT_OFFSET) |
-		 	(128 << AVR32_SPI_CSR3_SCBR_OFFSET) |
+		 	(255 << AVR32_SPI_CSR3_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR3_DLYBCT_OFFSET);
 		break;
 	}

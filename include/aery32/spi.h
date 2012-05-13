@@ -82,12 +82,12 @@ void aery_spi_init_master(volatile avr32_spi_t*);
  * Processor Chip Select (NPCS, same as slave select)
  *
  * \par Making SPI SCK faster
- * Chip select baudrate is hard coded to MCK/128. To make it faster
- * you can bitbang the SCRB bit in CSR register. But be aware of the errata
+ * Chip select baudrate is hard coded to MCK/255. To make it faster
+ * you can bitbang the SCRB bit in CSRX register. But be aware of the errata
  * of SPI bad serial clock generation, see datasheet page 794.
  * \code
- * aery_spi_setup_chipselect(AVR32_SPI0.csr0, SPI_MODE1, 16);
- * AVR32_SPI0.csr0.scbr = 32; // baudrate is MCK/32
+ * aery_spi_setup_chipselect(&AVR32_SPI0, 0, SPI_MODE1, 16);
+ * AVR32_SPI0.CSR0.scbr = 32; // baudrate is now MCK/32
  * \endcode
  *
  * \param pspi Pointer to the SPI peripheral
