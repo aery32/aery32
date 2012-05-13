@@ -74,7 +74,7 @@ main(void)
 	aery_spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
 	aery_spi_enable(DISPLAY_SPI);
 
-	// Screen initialization sequency
+	// Display initialization sequence
 	for (uint32_t i = 0; i < 1000000; i++); // wait > 1ms
 	display_instruct(HD44780_DL8BIT|HD44780_FONTBL_WE1);
 	display_instruct(HD44780_DISPLAY_OFF);
