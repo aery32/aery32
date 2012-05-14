@@ -65,35 +65,35 @@ enum Spi_mode { SPI_MODE0, SPI_MODE1, SPI_MODE2, SPI_MODE3 };
 /**
  * Init SPI as a master
  *
- * \par Init CS multiplexer
+ * \param pspi Pointer to the SPI peripheral which to init
+ *
+ * \par CS multiplexer
  * If you are using multiplexed chip selects, enable cs multiplexing
  * by bitbanging PCSDEC bit in SPI MR register after initialization:
  * \code
  * aery_spi_init_master(&AVR32_SPI0);
  * AVR32_SPI0.MR.pcsdec = 1;
  * \endcode
- * 
- * \param pspi Pointer to the SPI peripheral which to init
  */
 void aery_spi_init_master(volatile avr32_spi_t*);
 
 /**
  * Setup SPI mode and the shift register width of the Numeric
- * Processor Chip Select (NPCS, same as slave select)
+ * Processor Chip Select (NPCS, same as slave select). Every chip select
+ * line can have different mode and size of shift register.
+ *
+ * \param pspi Pointer to the SPI peripheral
+ * \param npcs Chip Select: 0-3
+ * \param mode SPI mode
+ * \param bits Width of SPI shift register: 8-16 bits
  *
  * \par Making SPI SCK faster
  * Chip select baudrate is hard coded to MCK/255. To make it faster
- * you can bitbang the SCRB bit in CSRX register. But be aware of the errata
- * of SPI bad serial clock generation, see datasheet page 794.
+ * you can bitbang the SCRB bit in CSRX register.
  * \code
- * aery_spi_setup_chipselect(&AVR32_SPI0, 0, SPI_MODE1, 16);
+ * aery_spi_setup_npcs(&AVR32_SPI0, 0, SPI_MODE1, 16);
  * AVR32_SPI0.CSR0.scbr = 32; // baudrate is now MCK/32
  * \endcode
- *
- * \param pspi Pointer to the SPI peripheral
- * \param npcs Chip Select
- * \param mode SPI mode
- * \param bits Width of SPI shift register: 8-16 bits
  */
 void aery_spi_setup_npcs(volatile avr32_spi_t*, uint8_t, enum Spi_mode, uint8_t);
 
@@ -103,11 +103,19 @@ void aery_spi_setup_npcs(volatile avr32_spi_t*, uint8_t, enum Spi_mode, uint8_t)
  * \param pspi   Pointer to the SPI peripheral which to use.
  * \param data   Binary word to be send.
  * \param npcs   Chip select line number. Can also be number of cs multiplexer.
- *               Ignore, if you like to use some other gpio pin through
- *               bitbanging.
+ *               Use dummy cs number, if you like to use some other gpio pin
+ *               through bitbanging.
  * \param islast Is this the last transmit? If no, set 0 to leave chip select
  *               low.
- * \return Received data
+ * \return Received data bits
+ *
+ * \par SPI read
+ * When you only want to read from external device through SPI, ignore the
+ * sent data and use dummy bits instead, for example 0x00.
+ * \code
+ * uint16_t rd; // read data
+ * rd = aery_spi_transmit(&AVR32_SPI0, 0, 0, true);
+ * \endcode
  */
 uint16_t aery_spi_transmit(volatile avr32_spi_t*, uint16_t, uint8_t, bool);
 

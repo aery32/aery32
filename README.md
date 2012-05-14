@@ -48,6 +48,10 @@ If you also like to start the board immediately, chain the program target with t
     
 Or less verbosely `make programs`. The latter is also quicker with batchisp (in Windows).
 
+If you have Doxygen installed you can make local api documentation by just running Doxygen at the project root
+
+    doxygen
+
 ## License
 
 - Aery32 software framework is licensed under the new BSD license
