@@ -284,8 +284,8 @@ Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>Setup SPI mode and the shift register width of the Numeric Processor Chip Select (NPCS, same as slave select)</p>
-<dl class="user"><dt><b>Making SPI SCK faster</b></dt><dd>Chip select baudrate is hard coded to MCK/128. To make it faster you can bitbang the SCRB bit in CSR register. But be aware of the errata of SPI bad serial clock generation, see datasheet page 794. <div class="fragment"><pre class="fragment"> aery_spi_setup_chipselect(AVR32_SPI0.csr0, SPI_MODE1, 16);
- AVR32_SPI0.csr0.scbr = 32; <span class="comment">// baudrate is MCK/32</span>
+<dl class="user"><dt><b>Making SPI SCK faster</b></dt><dd>Chip select baudrate is hard coded to MCK/255. To make it faster you can bitbang the SCRB bit in CSRX register. But be aware of the errata of SPI bad serial clock generation, see datasheet page 794. <div class="fragment"><pre class="fragment"> aery_spi_setup_chipselect(&amp;AVR32_SPI0, 0, SPI_MODE1, 16);
+ AVR32_SPI0.CSR0.scbr = 32; <span class="comment">// baudrate is now MCK/32</span>
 </pre></div></dd></dl>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
@@ -371,7 +371,7 @@ Functions</h2></td></tr>
     <ul>
       <li class="navelem"><a class="el" href="spi_8h.html">spi.h</a>      </li>
 
-    <li class="footer">Generated on Sat May 12 2012 17:47:53 for Aery32 Software Framework by
+    <li class="footer">Generated on Mon May 14 2012 22:37:25 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
