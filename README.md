@@ -14,7 +14,7 @@ You don't have to install Aery32 as you would do with regular software. Just dow
 ## Requirements
 
 - Atmel AVR Toolchain
-- Batchisp (for Windows) or DFU-programmer (for OS X & Linux)
+- Batchisp (for Windows) or DFU-programmer (for Mac OS X & Linux)
 
 For Windows download and install [Atmel AVR Toolchain for Windows](http://www.atmel.com/tools/ATMELAVRTOOLCHAIN3_3_2FORWINDOWS.aspx). For Mac OS X & Linux use [AVR32 Toolchain Builder](https://github.com/jsnyder/avr32-toolchain). Batchisp comes with the [FLIP](http://www.atmel.com/tools/FLIP.aspx) installer. OS X and Linux users can install DFU-programmer with the AVR32 Toolchain Builder.
  
