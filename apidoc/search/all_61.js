@@ -28,7 +28,7 @@ var searchData=
   ['aery_5frtc_5fset_5fcontrol',['aery_rtc_set_control',['../rtc_8h.html#a1ae13df2078e920a1b8e26501f6272ee',1,'rtc.h']]],
   ['aery_5frtc_5fset_5ftop',['aery_rtc_set_top',['../rtc_8h.html#ad97b0d9f4e85b99f86f7afc8954ceb02',1,'rtc.h']]],
   ['aery_5frtc_5fset_5fvalue',['aery_rtc_set_value',['../rtc_8h.html#aaf8d1a4d4436a93feaf99cd2267bedf2',1,'rtc.h']]],
-  ['aery_5frtc_5fwait',['aery_rtc_wait',['../rtc_8h.html#a5fb268d236429aca33482f3ae819f1bf',1,'rtc.hh']]],
+  ['aery_5frtc_5fwait',['aery_rtc_wait',['../rtc_8h.html#a5fb268d236429aca33482f3ae819f1bf',1,'rtc.h']]],
   ['aery_5fspi_5fdisable',['aery_spi_disable',['../spi_8h.html#a1fdb59c62633cb2d2923bea0b92152d5',1,'spi.h']]],
   ['aery_5fspi_5fenable',['aery_spi_enable',['../spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e',1,'spi.h']]],
   ['aery_5fspi_5finit_5fmaster',['aery_spi_init_master',['../spi_8h.html#aee342ca7eb28d7dba7d2205d7e29cba1',1,'spi.h']]],
