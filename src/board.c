@@ -23,7 +23,7 @@ void init_board(void)
 
 	aery_pm_wait_osc_to_stabilize(0 /* oscillator number */);
 
-	/* Initialize f_vco0 of PLL0 to be 138 MHz. */
+	/* Initialize f_vco0 of PLL0 to be 132 MHz. */
 	aery_pm_init_pllvco(
 		pll0,               /* pointer to pll address */
 		PM_PLL_SOURCE_OSC0, /* source clock */
