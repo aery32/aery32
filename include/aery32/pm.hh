@@ -93,7 +93,7 @@ pm_enable_gclk(enum Pm_gclk clknum)
 inline void
 pm_disable_gclk(enum Pm_gclk clknum)
 {
-	aery_pm_disable_gclk(clknum)
+	aery_pm_disable_gclk(clknum);
 }
 
 inline void
