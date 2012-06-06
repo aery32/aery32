@@ -146,7 +146,7 @@ $(libdir):
 OS = $(shell uname)
 
 # Select the programmer according to OS
-ifeq ($OS, Linux)
+ifeq ($(OS), Linux)
 PROGRAMMER=dfu
 else
 PROGRAMMER=batchisp
