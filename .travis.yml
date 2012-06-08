@@ -1,0 +1,14 @@
+# There wasn't C so I chose something cool
+language: haskell
+before_install:
+  - git clone git://github.com/aery32/avr32-toolchain-binaries.git $HOME/avr32-tools
+install:
+  - export $HOME/avr32-tools/bin:$PATH
+before_script:
+  - avr32-gcc --version
+
+script:
+  - make
+
+notifications:
+  email: false
