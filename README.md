@@ -7,6 +7,8 @@
 
 Aery32 is a starting point for new AVR32-based projects. It provides a complete project structure and library enabling rapid prototyping and development. Aery32 aims to be professionally fun making it ideal framework for Hobbyist, R&D Engineers and Academics.
 
+[![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
+
 ## Installation
 
 You don't have to install Aery32 as you would do with regular software. Just download the framework, unzip and start working.
