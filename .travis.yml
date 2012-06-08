@@ -1,5 +1,4 @@
-# There wasn't C so I chose something cool
-language: haskell
+language: haskell # there wasn't C so I chose something cool
 before_install:
   - git clone git://github.com/aery32/avr32-toolchain-binaries.git $HOME/avr32-tools
 install:
