@@ -4,6 +4,8 @@
 #include "aery32/interrupts.h"
 #include "board.h"
 
+#define LED AVR32_PIN_PC04
+
 void isrhandler_group1(void)
 {
 	aery_gpio_toggle_pin(LED);
