@@ -52,13 +52,6 @@ CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
        -fdata-sections -ffunction-sections
 CFLAGS+=$(CFLAG_OPTS)
 
-LDFLAGS=-mpart=$(MPART) \
-        -Tldscripts/avr32elf_$(MPART).x
-# Linker relaxing - if gcc is used as a frontend for the linker, this option
-# is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
-#LDFLAGS += -mrelax
-LDFLAGS+=$(LDFLAG_OPTS)
-
 ASFLAGS=-mpart=$(MPART)
 ASFLAGS+=$(ASFLAG_OPTS)
 
