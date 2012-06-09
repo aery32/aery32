@@ -36,7 +36,7 @@
 
 #include <inttypes.h>
 #include <avr32/io.h>
-#include "aery32/gpio.h"
+#include "gpio.h"
 
 #ifdef AERY_SHORTCUTS
 	volatile avr32_gpio_port_t *porta = &AVR32_GPIO.port[0];

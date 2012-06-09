@@ -37,7 +37,7 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <avr32/io.h>
-#include "aery32/spi.h"
+#include "spi.h"
 
 #ifdef AERY_SHORTCUTS
 	volatile avr32_spi_t *spi0 = &AVR32_SPI0;

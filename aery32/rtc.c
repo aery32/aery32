@@ -33,52 +33,85 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include <inttypes.h>
+ 
 #include <avr32/io.h>
-#include "aery32/interrupts.h"
+#include <inttypes.h>
+#include "rtc.h"
 
-// These two globals come from exception.S
-extern const unsigned int _ipr[20];
-extern const unsigned int _evba;
+const uint32_t RTC_CTRL_INIT_DEFAULT = 0b00000000000000010000000000000001;
 
-// ISR handler table; pointers to interrupt service routine functions.
-// One function for every intc group, see datasheet p. 41.
-void (*_isr_table[20])(void) = {};
-
-void
-aery_intc_init(void)
+int
+aery_rtc_init(uint32_t val, uint32_t topval, uint8_t psel, enum Rtc_source src)
 {
-	__builtin_mtsr(AVR32_EVBA, (int32_t) &_evba);
-	for (int i = 0; i < 20; i++) {
-		AVR32_INTC.ipr[i] = _ipr[i];
+	uint32_t ctrl = RTC_CTRL_INIT_DEFAULT |
+			((psel & 0x0f) << AVR32_RTC_PSEL_OFFSET);
+
+	/* If osc32 is 1 select OSC32 else use internal RC clock */
+	if (src == 1) {
+		ctrl |= 1 << AVR32_RTC_CTRL_CLK32_OFFSET;
 	}
+	if (!aery_rtc_set_value(val)) {
+		return -1;
+	}
+	if (!aery_rtc_set_top(topval)) {
+		return -1;
+	}
+	return aery_rtc_set_control(ctrl);
 }
 
 void
-aery_intc_register_isrhandler(void (*handler)(void),
-		uint32_t group, uint8_t priority)
+aery_rtc_enable(bool enint)
 {
-	_isr_table[group] = handler;
-	AVR32_INTC.ipr[group] |= (priority << AVR32_INTC_INTLEVEL_OFFSET);
+	if (enint == true) {
+		AVR32_RTC.ier = 1;
+	}
+	AVR32_RTC.CTRL.en = 1;
+}
+
+int
+aery_rtc_set_control(uint32_t ctrl)
+{
+	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
+		return -1;
+	}
+	AVR32_RTC.ctrl = ctrl;
+	return 0;
+}
+
+int
+aery_rtc_set_value(uint32_t val)
+{
+	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
+		return 0;
+	}
+	AVR32_RTC.val = val;
+	return 1;
+}
+
+int
+aery_rtc_set_top(uint32_t topval)
+{
+	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
+		return 0;
+	}
+	AVR32_RTC.top = topval;
+	return 1;
+}
+
+int
+aery_rtc_wait(uint32_t mck_cycles)
+{
+	for (; mck_cycles > 0; mck_cycles--) {
+		if (!(AVR32_RTC.ctrl & AVR32_RTC_BUSY_MASK)) {
+			return 1;
+		}
+	}
+	return 0;
 }
 
 void
-aery_intc_enable_globally(void)
+aery_rtc_delay_cycle(uint32_t aery_rtc_cycles)
 {
-	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) & ~(1 << 16));
+	uint32_t target = AVR32_RTC.val + aery_rtc_cycles;
+	while (target > AVR32_RTC.val);
 }
-
-void
-aery_intc_disable_globally(void)
-{
-	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) | (1 << 16));
-}
-
-// This is proxy to _isr_table[]. The call happens from exception.S.
-__attribute__((__interrupt__)) void
-_isrhandler_proxy(uint32_t group)
-{
-	_isr_table[group]();
-}
-

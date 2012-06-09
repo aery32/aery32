@@ -1,4 +1,9 @@
 /**
+ * \file aery32/interrupts.hh
+ * \brief Interrupt Controller (INTC) with aery namespace
+ * \note C++ header file
+ *
+ * \verbatim
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
@@ -32,86 +37,40 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * \endverbatim
  */
- 
-#include <avr32/io.h>
-#include <inttypes.h>
-#include "aery32/rtc.h"
 
-const uint32_t RTC_CTRL_INIT_DEFAULT = 0b00000000000000010000000000000001;
+#ifndef __AERY32_INTERRUPTS_HH
+#define __AERY32_INTERRUPTS_HH
 
-int
-aery_rtc_init(uint32_t val, uint32_t topval, uint8_t psel, enum Rtc_source src)
+#include "interrupts.h"
+
+namespace aery {
+
+inline void
+intc_init(void)
 {
-	uint32_t ctrl = RTC_CTRL_INIT_DEFAULT |
-			((psel & 0x0f) << AVR32_RTC_PSEL_OFFSET);
-
-	/* If osc32 is 1 select OSC32 else use internal RC clock */
-	if (src == 1) {
-		ctrl |= 1 << AVR32_RTC_CTRL_CLK32_OFFSET;
-	}
-	if (!aery_rtc_set_value(val)) {
-		return -1;
-	}
-	if (!aery_rtc_set_top(topval)) {
-		return -1;
-	}
-	return aery_rtc_set_control(ctrl);
+	aery_intc_init();
 }
 
-void
-aery_rtc_enable(bool enint)
+inline void
+intc_register_isrhandler(void (*)(void) handler, uint32_t group,
+                         uint8_t priority)
 {
-	if (enint == true) {
-		AVR32_RTC.ier = 1;
-	}
-	AVR32_RTC.CTRL.en = 1;
+	aery_intc_register_isrhandler(handler, group, priority);
 }
 
-int
-aery_rtc_set_control(uint32_t ctrl)
+inline void
+intc_enable_globally(void)
 {
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
-		return -1;
-	}
-	AVR32_RTC.ctrl = ctrl;
-	return 0;
+	aery_intc_enable_globally();
 }
 
-int
-aery_rtc_set_value(uint32_t val)
+inline void
+intc_disable_globally(void)
 {
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
-		return 0;
-	}
-	AVR32_RTC.val = val;
-	return 1;
+	aery_intc_disable_globally();
 }
 
-int
-aery_rtc_set_top(uint32_t topval)
-{
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
-		return 0;
-	}
-	AVR32_RTC.top = topval;
-	return 1;
 }
-
-int
-aery_rtc_wait(uint32_t mck_cycles)
-{
-	for (; mck_cycles > 0; mck_cycles--) {
-		if (!(AVR32_RTC.ctrl & AVR32_RTC_BUSY_MASK)) {
-			return 1;
-		}
-	}
-	return 0;
-}
-
-void
-aery_rtc_delay_cycle(uint32_t aery_rtc_cycles)
-{
-	uint32_t target = AVR32_RTC.val + aery_rtc_cycles;
-	while (target > AVR32_RTC.val);
-}
+#endif

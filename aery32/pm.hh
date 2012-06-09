@@ -1,6 +1,6 @@
 /**
- * \file aery32/gpio.hh
- * \brief General Purpose Input/Output (GPIO) with aery namespace
+ * \file aery32/pm.hh
+ * \brief Power Manager (PM) with aery namespace
  * \note C++ header file
  *
  * \verbatim
@@ -39,53 +39,67 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \endverbatim
  */
+#ifndef __AERY32_PM_HH
+#define __AERY32_PM_HH
 
-#ifndef __AERY32_GPIO_HH
-#define __AERY32_GPIO_HH
-
-#include "aery32/gpio.h"
+#include "pm.h"
 
 namespace aery {
 
-inline void gpio_init_pins(volatile avr32_gpio_port_t *pport,
-                           uint32_t pinmask, int options)
+inline int
+pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
+             enum Pm_osc_startup startup)
 {
-	aery_gpio_init_pins(pport, pinmask, options);
+	return aery_pm_start_osc(oscnum, mode, startup);
 }
 
-inline void gpio_init_pin(uint8_t pinnum, int options)
+inline int
+pm_init_pllvco(volatile avr32_pm_pll_t* ppll, enum Pm_pll_source src,
+               uint8_t mul, uint8_t div, bool hifreq)
 {
-	aery_gpio_init_pin(pinnum, options);
+	return aery_pm_init_pllvco(ppll, src, mul, div, hifreq);
 }
 
-inline void gpio_set_pin_high(uint8_t pinnum)
+inline void
+pm_enable_pll(volatile avr32_pm_pll_t* ppll, bool divby2)
 {
-	aery_gpio_set_pin_high(pinnum);
+	aery_pm_enable_pll(ppll, divby2);
 }
 
-inline void gpio_set_pin_low(uint8_t pinnum)
+inline int
+pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc, uint8_t div)
 {
-	aery_gpio_set_pin_low(pinnum);
+	return aery_pm_init_gclk(clknum, clksrc, div);
 }
 
-inline void gpio_toggle_pin(uint8_t pinnum)
+inline void
+pm_wait_osc_to_stabilize(uint8_t oscnum)
 {
-	aery_gpio_toggle_pin(pinnum);
+	aery_pm_wait_osc_to_stabilize(oscnum);
 }
 
-inline bool gpio_read_pin(uint8_t pinnum)
+inline void
+pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 {
-	return aery_gpio_read_pin(pinnum);
+	aery_pm_wait_pll_to_lock(ppll);
 }
 
-inline void gpio_enable_localbus(void)
+inline void
+pm_enable_gclk(enum Pm_gclk clknum)
 {
-	aery_gpio_enable_localbus();
+	aery_pm_enable_gclk(clknum);
 }
 
-inline void gpio_disable_localbus(void)
+inline void
+pm_disable_gclk(enum Pm_gclk clknum)
 {
-	aery_gpio_disable_localbus();
+	aery_pm_disable_gclk(clknum);
+}
+
+inline void
+pm_select_mck(enum Pm_mck_source mcksrc)
+{
+	aery_pm_select_mck(mcksrc);
 }
 
 }

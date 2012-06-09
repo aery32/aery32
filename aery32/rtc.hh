@@ -1,6 +1,6 @@
 /**
- * \file aery32/pm.hh
- * \brief Power Manager (PM) with aery namespace
+ * \file aery32/rtc.hh
+ * \brief Real Time Counter (RTC) with aery namespace
  * \note C++ header file
  *
  * \verbatim
@@ -39,67 +39,61 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \endverbatim
  */
-#ifndef __AERY32_PM_HH
-#define __AERY32_PM_HH
 
-#include "aery32/pm.h"
+#ifndef __AERY32_RTC_HH
+#define __AERY32_RTC_HH
+
+#include "rtc.h"
 
 namespace aery {
 
 inline int
-pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
-             enum Pm_osc_startup startup)
+rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
+         enum Rtc_source source)
 {
-	return aery_pm_start_osc(oscnum, mode, startup);
+	return aery_rtc_init(val, top, prescaler, source);
 }
 
 inline int
-pm_init_pllvco(volatile avr32_pm_pll_t* ppll, enum Pm_pll_source src,
-               uint8_t mul, uint8_t div, bool hifreq)
+rtc_set_control(uint32_t ctrl)
 {
-	return aery_pm_init_pllvco(ppll, src, mul, div, hifreq);
-}
-
-inline void
-pm_enable_pll(volatile avr32_pm_pll_t* ppll, bool divby2)
-{
-	aery_pm_enable_pll(ppll, divby2);
+	return aery_rtc_set_control(ctrl);
 }
 
 inline int
-pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc, uint8_t div)
+rtc_set_value(uint32_t val)
 {
-	return aery_pm_init_gclk(clknum, clksrc, div);
+	return aery_rtc_set_value(val);
+}
+
+inline int
+rtc_set_top(uint32_t topval)
+{
+	return aery_rtc_set_top(topval);
 }
 
 inline void
-pm_wait_osc_to_stabilize(uint8_t oscnum)
+rtc_enable(bool enint)
 {
-	aery_pm_wait_osc_to_stabilize(oscnum);
+	aery_rtc_enable(enint);
+}
+
+inline int
+aery_rtc_wait(uint32_t mck_cycles)
+{
+	return aery_rtc_wait(uint32_t mck_cycles);
 }
 
 inline void
-pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
+rtc_delay_cycle(uint32_t rtc_cycles)
 {
-	aery_pm_wait_pll_to_lock(ppll);
+	aery_rtc_delay_cycle(uint32_t rtc_cycles)
 }
 
 inline void
-pm_enable_gclk(enum Pm_gclk clknum)
+rtc_clear_interrupt(void)
 {
-	aery_pm_enable_gclk(clknum);
-}
-
-inline void
-pm_disable_gclk(enum Pm_gclk clknum)
-{
-	aery_pm_disable_gclk(clknum);
-}
-
-inline void
-pm_select_mck(enum Pm_mck_source mcksrc)
-{
-	aery_pm_select_mck(mcksrc);
+	aery_rtc_clear_interrupt();
 }
 
 }

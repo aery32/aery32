@@ -1,6 +1,6 @@
 /**
- * \file aery32/rtc.hh
- * \brief Real Time Counter (RTC) with aery namespace
+ * \file aery32/gpio.hh
+ * \brief General Purpose Input/Output (GPIO) with aery namespace
  * \note C++ header file
  *
  * \verbatim
@@ -40,60 +40,52 @@
  * \endverbatim
  */
 
-#ifndef __AERY32_RTC_HH
-#define __AERY32_RTC_HH
+#ifndef __AERY32_GPIO_HH
+#define __AERY32_GPIO_HH
 
-#include "aery32/rtc.h"
+#include "gpio.h"
 
 namespace aery {
 
-inline int
-rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
-         enum Rtc_source source)
+inline void gpio_init_pins(volatile avr32_gpio_port_t *pport,
+                           uint32_t pinmask, int options)
 {
-	return aery_rtc_init(val, top, prescaler, source);
+	aery_gpio_init_pins(pport, pinmask, options);
 }
 
-inline int
-rtc_set_control(uint32_t ctrl)
+inline void gpio_init_pin(uint8_t pinnum, int options)
 {
-	return aery_rtc_set_control(ctrl);
+	aery_gpio_init_pin(pinnum, options);
 }
 
-inline int
-rtc_set_value(uint32_t val)
+inline void gpio_set_pin_high(uint8_t pinnum)
 {
-	return aery_rtc_set_value(val);
+	aery_gpio_set_pin_high(pinnum);
 }
 
-inline int
-rtc_set_top(uint32_t topval)
+inline void gpio_set_pin_low(uint8_t pinnum)
 {
-	return aery_rtc_set_top(topval);
+	aery_gpio_set_pin_low(pinnum);
 }
 
-inline void
-rtc_enable(bool enint)
+inline void gpio_toggle_pin(uint8_t pinnum)
 {
-	aery_rtc_enable(enint);
+	aery_gpio_toggle_pin(pinnum);
 }
 
-inline int
-aery_rtc_wait(uint32_t mck_cycles)
+inline bool gpio_read_pin(uint8_t pinnum)
 {
-	return aery_rtc_wait(uint32_t mck_cycles);
+	return aery_gpio_read_pin(pinnum);
 }
 
-inline void
-rtc_delay_cycle(uint32_t rtc_cycles)
+inline void gpio_enable_localbus(void)
 {
-	aery_rtc_delay_cycle(uint32_t rtc_cycles)
+	aery_gpio_enable_localbus();
 }
 
-inline void
-rtc_clear_interrupt(void)
+inline void gpio_disable_localbus(void)
 {
-	aery_rtc_clear_interrupt();
+	aery_gpio_disable_localbus();
 }
 
 }

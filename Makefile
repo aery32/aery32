@@ -5,14 +5,6 @@
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
 #
-# Usage of this Makefile:
-# 
-#   - Put your C source files under src/ directory and define those in
-#     sources variable.
-#   - Remember to change mpart if necessary.
-#   - That's it.
-#
-#
 # Copyright (c) 2012, Muiku Oy
 # All rights reserved.
 #
@@ -42,21 +34,15 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-vpath %.c src
-vpath %.S src
-vpath %.h src include
-vpath %.a lib
 
-projectname=myaery32
-version=0.1
-mpart=uc3a1128
+PROJECT=myaery32
+VERSION=0.1
+MPART=uc3a1128
 
-includes=include
-sources=main.c board.c # Define your source files here
-sources_aery32=exception.S gpio.c interrupts.c pm.c rtc.c spi.c
+SOURCES=main.c board.c # Define your source files here
 
-objdir=obj
-libdir=lib
+INCLUDES=aery32
+OBJDIR=obj
 
 
 # ----------------------------------------------------------------------
@@ -66,15 +52,15 @@ libdir=lib
 CC=avr32-gcc
 CSTD=gnu99
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(mpart) \
-       -fdata-sections -ffunction-sections $(addprefix -I,$(includes))
+CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
+       -fdata-sections -ffunction-sections $(addprefix -I,$(INCLUDES))
 # Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
 CFLAGS+=-DAERY_SHORTCUTS
 # Provides Atmel ASF compatibility
 #CFLAGS+=-DUSER_BOARD
 
-LDFLAGS=-mpart=$(mpart) \
-        -Tldscripts/avr32elf_$(mpart).x
+LDFLAGS=-mpart=$(MPART) \
+        -Taery32/ldscripts/avr32elf_$(MPART).x
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
@@ -86,58 +72,46 @@ LDFLAGS=-mpart=$(mpart) \
 # ----------------------------------------------------------------------
 
 # Resolve object files from source files
-objects=$(sources:.c=.o)
-objects:=$(objects:.S=.o)
-objects_aery32=$(sources_aery32:.c=.o)
-objects_aery32:=$(objects_aery32:.S=.o)
+OBJECTS=$(SOURCES:.c=.o)
+OBJECTS:=$(OBJECTS:.S=.o)
 
-# Direct all object files into the directory given above, $(objdir)
-objects:=$(addprefix $(objdir)/,$(objects))
-objects_aery32:=$(addprefix $(objdir)/aery32/,$(objects_aery32))
-
-# Define the Aery32 library file
-libaery32=libaery32_$(mpart).a
-libaery32:=$(addprefix $(libdir)/,$(libaery32))
+# Direct all object files into the directory given above, $(OBJDIR)
+OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
 
 # ----------------------------------------------------------------------
 # Build targets
 # ----------------------------------------------------------------------
 
-all: $(projectname).hex
+all: $(PROJECT).hex
 	@echo Program size:
 	@make -s size
 
-$(objdir)/%.o: %.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) $<   -c -o $@
 
-$(objdir)/%.o: %.S
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+$(OBJDIR)/%.o: %.S
+	$(CC) $(CFLAGS) $(CPPFLAGS) $<   -c -o $@
 
-$(projectname).hex: $(projectname).elf
+$(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
-$(projectname).elf: $(objects) $(libaery32)
-	$(CC) $(LDFLAGS) -o $@ $^
+$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
+	$(CC) $(LDFLAGS) $^   -o $@
 
-$(projectname).lst: $(projectname).elf
+$(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
 
-$(libaery32): $(objects_aery32) | $(libdir)
-	avr32-ar rv $@ $^
-	avr32-ranlib $@
+aery32/libaery32_$(MPART).a:
+	$(MAKE) -C aery32 CC=$(CC) CSTD=$(CSTD) CFLAG_OPTS="-DAERY_SHORTCUTS"
 
 # Object file dependencies
-$(objdir)/board.o: board.h
-$(objects): | $(objdir)
-$(objects_aery32): | $(objdir)
+$(OBJDIR)/board.o: board.h
+$(OBJECTS): | $(OBJDIR)
 
 # Create directories
-$(objdir):
-	-mkdir $@
-	-cd $@ && mkdir aery32
-$(libdir):
-	-mkdir $@
+$(OBJDIR):
+	-mkdir $(OBJDIR)
 
 
 # ----------------------------------------------------------------------
@@ -167,19 +141,19 @@ dump-userdata: $(PROGRAMMER)-dump-userdata
 .PHONY: batchisp-program batchisp-start batchisp-program-start \
 		batchisp-dump-userdata batchisp-update-userdata
 
-batchisp-program: $(projectname).hex
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+batchisp-program: $(PROJECT).hex
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory flash blankcheck loadbuffer $< program verify
 
 batchisp-start:
-	batchisp -device at32$(mpart) -hardware usb -operation start reset 0
+	batchisp -device at32$(MPART) -hardware usb -operation start reset 0
 
-batchisp-program-start: $(projectname).hex
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+batchisp-program-start: $(PROJECT).hex
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory flash blankcheck loadbuffer $< program verify start reset 0
 
 batchisp-dump-userdata:
-	batchisp -device at32$(mpart) -hardware usb -operation memory user \
+	batchisp -device at32$(MPART) -hardware usb -operation memory user \
 	read savebuffer user.data hex386
 	cat user.data
 
@@ -187,13 +161,13 @@ batchisp-dump-userdata:
 # which is 0x45 in hex. Thus "fillbuffer 0x45". The 0x94 is CRC for
 # the whole userdata which is 0x929E45.
 batchisp-update-userdata:
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
-	batchisp -device at32$(mpart) -hardware usb -operation erase f \
+	batchisp -device at32$(MPART) -hardware usb -operation erase f \
 	memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
 
 
@@ -202,33 +176,35 @@ batchisp-update-userdata:
 # ----------------------------------------------------------------------
 .PHONY: dfu-program dfu-start dfu-program-start dfu-dump-userdata
 
-dfu-program: $(projectname).hex
-	dfu-programmer at32$(mpart) erase
-	dfu-programmer at32$(mpart) flash $<
+dfu-program: $(PROJECT).hex
+	dfu-programmer at32$(MPART) erase
+	dfu-programmer at32$(MPART) flash $<
 
 dfu-start:
-	dfu-programmer at32$(mpart) start
+	dfu-programmer at32$(MPART) start
 
 dfu-program-start: dfu-program dfu-start
 
 dfu-dump-userdata:
-	dfu-programmer at32$(mpart) dump-user
+	dfu-programmer at32$(MPART) dump-user
 
 
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size clean re debug qa apidoc refguide strip dist
+.PHONY: list size clean re debug qa dist
 
-list: $(projectname).lst
+list: $(PROJECT).lst
 
-size: $(projectname).elf $(projectname).hex
+size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(projectname),.elf .hex .lst) user.data
-	-rm -f $(libaery32)
-	-rm -rf $(objdir)
+	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
+	-rm -rf $(OBJDIR)
+
+cleanall: clean
+	-$(MAKE) -C aery32 clean
 
 re: clean all
 
@@ -239,5 +215,5 @@ qa: clean all
 qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
 
 dist: clean
-	bsdtar -C ../ -czvf $(projectname)_v$(version).tar.gz \
-			$(shell basename $(shell pwd))
+	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \
+	$(shell basename $(shell pwd))

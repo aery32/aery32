@@ -1,6 +1,6 @@
 /**
- * \file aery32/interrupts.hh
- * \brief Interrupt Controller (INTC) with aery namespace
+ * \file aery32/spi.hh
+ * \brief Serial Peripheral Interface (SPI) with aery namespace
  * \note C++ header file
  *
  * \verbatim
@@ -40,37 +40,45 @@
  * \endverbatim
  */
 
-#ifndef __AERY32_INTERRUPTS_HH
-#define __AERY32_INTERRUPTS_HH
+#ifndef __AERY32_SPI_HH
+#define __AERY32_SPI_HH
 
-#include "aery32/interrupts.h"
+#include "spi.h"
 
 namespace aery {
 
-inline void
-intc_init(void)
+inline void spi_init_master(volatile avr32_spi_t *pspi)
 {
-	aery_intc_init();
+	aery_spi_init_master(pspi);
 }
 
-inline void
-intc_register_isrhandler(void (*)(void) handler, uint32_t group,
-                         uint8_t priority)
+inline void spi_setup_chipselect(unsigned long csr, enum Spi_mode mode,
+                                 uint8_t bits)
 {
-	aery_intc_register_isrhandler(handler, group, priority);
+	aery_spi_setup_chipselect(csr, mode, bits);
 }
 
-inline void
-intc_enable_globally(void)
+inline uint16_t spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
+                             uint8_t csnum, bool islast)
 {
-	aery_intc_enable_globally();
+	return aery_spi_transmit(pspi, data, csnum, islast);
 }
 
-inline void
-intc_disable_globally(void)
+inline int spi_txready(volatile avr32_spi_t *pspi)
 {
-	aery_intc_disable_globally();
+	return aery_spi_txready(pspi);
+}
+
+inline void spi_enable(volatile avr32_spi_t *pspi)
+{
+	aery_spi_enable(pspi);
+}
+
+inline void spi_disable(volatile avr32_spi_t *pspi)
+{
+	aery_spi_disable(pspi);
 }
 
 }
+
 #endif

@@ -1,9 +1,4 @@
 /**
- * \file aery32/spi.hh
- * \brief Serial Peripheral Interface (SPI) with aery namespace
- * \note C++ header file
- *
- * \verbatim
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
@@ -37,48 +32,53 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * \endverbatim
  */
 
-#ifndef __AERY32_SPI_HH
-#define __AERY32_SPI_HH
+#include <inttypes.h>
+#include <avr32/io.h>
+#include "interrupts.h"
 
-#include "aery32/spi.h"
+// These two globals come from exception.S
+extern const unsigned int _ipr[20];
+extern const unsigned int _evba;
 
-namespace aery {
+// ISR handler table; pointers to interrupt service routine functions.
+// One function for every intc group, see datasheet p. 41.
+void (*_isr_table[20])(void) = {};
 
-inline void spi_init_master(volatile avr32_spi_t *pspi)
+void
+aery_intc_init(void)
 {
-	aery_spi_init_master(pspi);
+	__builtin_mtsr(AVR32_EVBA, (int32_t) &_evba);
+	for (int i = 0; i < 20; i++) {
+		AVR32_INTC.ipr[i] = _ipr[i];
+	}
 }
 
-inline void spi_setup_chipselect(unsigned long csr, enum Spi_mode mode,
-                                 uint8_t bits)
+void
+aery_intc_register_isrhandler(void (*handler)(void),
+		uint32_t group, uint8_t priority)
 {
-	aery_spi_setup_chipselect(csr, mode, bits);
+	_isr_table[group] = handler;
+	AVR32_INTC.ipr[group] |= (priority << AVR32_INTC_INTLEVEL_OFFSET);
 }
 
-inline uint16_t spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
-                             uint8_t csnum, bool islast)
+void
+aery_intc_enable_globally(void)
 {
-	return aery_spi_transmit(pspi, data, csnum, islast);
+	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) & ~(1 << 16));
 }
 
-inline int spi_txready(volatile avr32_spi_t *pspi)
+void
+aery_intc_disable_globally(void)
 {
-	return aery_spi_txready(pspi);
+	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) | (1 << 16));
 }
 
-inline void spi_enable(volatile avr32_spi_t *pspi)
+// This is proxy to _isr_table[]. The call happens from exception.S.
+__attribute__((__interrupt__)) void
+_isrhandler_proxy(uint32_t group)
 {
-	aery_spi_enable(pspi);
+	_isr_table[group]();
 }
 
-inline void spi_disable(volatile avr32_spi_t *pspi)
-{
-	aery_spi_disable(pspi);
-}
-
-}
-
-#endif

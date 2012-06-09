@@ -37,7 +37,7 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <avr32/io.h>
-#include "aery32/pm.h"
+#include "pm.h"
 
 #ifdef AERY_SHORTCUTS
 	volatile avr32_pm_t *pm = &AVR32_PM;

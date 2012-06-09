@@ -8,11 +8,12 @@ before_script:
 
 script:
   - make
-  - cp examples/rtc_delay.c src/main.c && make re
-  - cp examples/rtc_interrupt.c src/main.c && make re
-  - cp examples/spi.c src/main.c && make re
-  - cp examples/toggle_led.c src/main.c && make re
-  - cp examples/main.cc src/main.c && make re CC="avr32-g++" CSTD="gnu++98"
+  - cp examples/rtc_delay.c     main.c && make re
+  - cp examples/rtc_interrupt.c main.c && make re
+  - cp examples/spi.c           main.c && make re
+  - cp examples/toggle_led.c    main.c && make re
+  - make cleanall
+  - cp examples/main.cc         main.c && make CC="avr32-g++" CSTD="gnu++98"
 
 notifications:
   email: false
