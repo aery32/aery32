@@ -35,13 +35,20 @@
 #
 
 
+# Project name and version
 PROJECT=myaery32
 VERSION=0.1
+
+# MCU part name you are using
 MPART=uc3a1128
 
-SOURCES=main.c board.c # Define your source files here
+# Project's .c source files, grab all under the project root
+SOURCES=$(wildcard *.c)
 
-INCLUDES=aery32
+# Additional include paths
+INCLUDES=
+
+# Where to put .o object files
 OBJDIR=obj
 
 
