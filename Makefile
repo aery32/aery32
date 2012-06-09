@@ -119,8 +119,8 @@ $(OBJECTS): | $(OBJDIRS)
 
 # Create directories where to place object files
 $(OBJDIRS):
-ifneq (, $(filter $(OS), Windows32))
-	-mkdir $(subst /,\, $(filter-out ./, $@))
+ifneq (, $(filter $(OS), windows32))
+	-mkdir $(subst /,\,$(filter-out ./, $@))
 else
 	-mkdir -p $(filter-out ./, $@)
 endif
@@ -132,7 +132,7 @@ endif
 .PHONY: program start programs dump-userdata update-userdata
 
 # Select the programmer according to OS
-ifneq (, $(filter $(OS), Windows32))
+ifneq (, $(filter $(OS), windows32))
 PROGRAMMER=batchisp
 else
 PROGRAMMER=dfu
