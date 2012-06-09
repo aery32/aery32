@@ -64,14 +64,17 @@ libdir=lib
 # ----------------------------------------------------------------------
 
 CC=avr32-gcc
+CSTD=gnu99
 
-CFLAGS=-std=gnu99 -Wall -O2 -mpart=$(mpart) \
+CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(mpart) \
        -fdata-sections -ffunction-sections $(addprefix -I,$(includes))
+# Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
 CFLAGS+=-DAERY_SHORTCUTS
-#CFLAGS+=-DUSER_BOARD # provides Atmel ASF compatibility
+# Provides Atmel ASF compatibility
+#CFLAGS+=-DUSER_BOARD
 
 LDFLAGS=-mpart=$(mpart) \
-	   	-Tldscripts/avr32elf_$(mpart).x
+        -Tldscripts/avr32elf_$(mpart).x
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)

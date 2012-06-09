@@ -12,6 +12,7 @@ script:
   - cp examples/rtc_interrupt.c src/main.c && make re
   - cp examples/spi.c src/main.c && make re
   - cp examples/toggle_led.c src/main.c && make re
+  - cp examples/main.cc src/main.c && make re CC="avr32-g++" CSTD="gnu++98"
 
 notifications:
   email: false
