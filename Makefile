@@ -103,7 +103,7 @@ $(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 CC=$(CC) CSTD=$(CSTD) CFLAG_OPTS="-DAERY_SHORTCUTS"
+	$(MAKE) -C aery32 CC=$(CC) CSTD=$(CSTD) CFLAG_OPTS="-DAERY_SHORTCUTS" MPART=$(MPART)
 
 # Object file dependencies
 $(OBJDIR)/board.o: board.h
@@ -192,7 +192,7 @@ dfu-dump-userdata:
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size clean re debug qa dist
+.PHONY: list size debug qa dist clean cleanll re reall
 
 list: $(PROJECT).lst
 
@@ -207,6 +207,8 @@ cleanall: clean
 	-$(MAKE) -C aery32 clean
 
 re: clean all
+
+reall: cleanall all
 
 debug: clean all
 debug: CFLAGS += -g3 -DDEBUG
