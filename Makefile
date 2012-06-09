@@ -34,12 +34,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-
 # Project name and version
 PROJECT=myaery32
 VERSION=0.1
 
-# MCU part name you are using
+# MCU part name
 MPART=uc3a1128
 
 # Project's .c source files, grab all under the project root
@@ -50,6 +49,9 @@ INCLUDES=
 
 # Where to put .o object files
 OBJDIR=obj
+
+# Grab the name of the Operating System
+OS=$(shell uname)
 
 
 # ----------------------------------------------------------------------
@@ -75,21 +77,20 @@ LDFLAGS=-mpart=$(MPART) \
 
 
 # ----------------------------------------------------------------------
-# Preparations for the build
+# Build targets
 # ----------------------------------------------------------------------
 
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS:=$(OBJECTS:.S=.o)
 
-# Direct all object files into the directory given above, $(OBJDIR)
+# Append object files with $(OBJDIR)
 OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
+# Resolve the nested object directories that has to be created
+OBJDIRS=$(sort $(dir $(OBJECTS)))
 
-# ----------------------------------------------------------------------
-# Build targets
-# ----------------------------------------------------------------------
-
+.PHONY: all
 all: $(PROJECT).hex
 	@echo Program size:
 	@make -s size
@@ -114,11 +115,15 @@ aery32/libaery32_$(MPART).a:
 
 # Object file dependencies
 $(OBJDIR)/board.o: board.h
-$(OBJECTS): | $(OBJDIR)
+$(OBJECTS): | $(OBJDIRS)
 
-# Create directories
-$(OBJDIR):
-	-mkdir $(OBJDIR)
+# Create directories where to place object files
+$(OBJDIRS):
+ifneq (, $(filter $(OS), Windows32))
+	-mkdir $(subst /,\, $(filter-out ./, $@))
+else
+	-mkdir -p $(filter-out ./, $@)
+endif
 
 
 # ----------------------------------------------------------------------
@@ -126,14 +131,11 @@ $(OBJDIR):
 # ----------------------------------------------------------------------
 .PHONY: program start programs dump-userdata update-userdata
 
-# Grab the name of the Operating System
-OS = $(shell uname)
-
 # Select the programmer according to OS
-ifeq ($(OS), Linux)
-PROGRAMMER=dfu
-else
+ifneq (, $(filter $(OS), Windows32))
 PROGRAMMER=batchisp
+else
+PROGRAMMER=dfu
 endif
 
 program: $(PROGRAMMER)-program
@@ -207,8 +209,8 @@ size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
-	-rm -rf $(OBJDIR)
+	-rm -f *.o $(addprefix $(PROJECT),.elf .hex .lst) user.data
+	-rm -rf $(filter-out ./, $(OBJDIRS))
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
