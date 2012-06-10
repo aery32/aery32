@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "aery32/gpio.h"
-#include "aery32/rtc.h"
+#include <aery32/gpio.h>
+#include <aery32/rtc.h>
 #include "board.h"
 
 int main(void)
