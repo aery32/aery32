@@ -45,7 +45,7 @@ MPART=uc3a1128
 SOURCES=$(wildcard *.c)
 
 # Additional include paths
-INCLUDES=
+INCLUDES=aery32
 
 # Where to put .o object files
 OBJDIR=obj

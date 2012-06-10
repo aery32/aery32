@@ -36,7 +36,7 @@
  
 #include <avr32/io.h>
 #include <inttypes.h>
-#include "rtc.h"
+#include "aery32/rtc.h"
 
 const uint32_t RTC_CTRL_INIT_DEFAULT = 0b00000000000000010000000000000001;
 
