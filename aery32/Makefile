@@ -50,6 +50,8 @@ CSTD=gnu99
 
 CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
        -fdata-sections -ffunction-sections
+# Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
+#CFLAGS+=-DAERY_SHORTCUTS
 CFLAGS+=$(CFLAG_OPTS)
 
 ASFLAGS=-mpart=$(MPART)
