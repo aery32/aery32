@@ -67,12 +67,19 @@ OBJECTS=$(SOURCES:.c=.o)
 OBJECTS:=$(OBJECTS:.S=.o)
 
 all: libaery32_$(MPART).a
+
 libaery32_$(MPART).a: $(OBJECTS)
 	avr32-ar rv $@ $^
 	avr32-ranlib $@
 
+%.o : %.c
+	$(CC) $(CFLAGS) -MMD -MP -MF $(<:%.c=%.d) $<   -c -o $@
+
 %.o : %.S
-	$(CC) $(ASFLAGS) $<   -c -o $@
+	$(CC) $(ASFLAGS) -MMD -MP -MF $(<:%.S=%.d) $<   -c -o $@
+
+# Add dependency lists, .d files
+-include $(OBJECTS:.o=.d)
 
 
 # ----------------------------------------------------------------------
@@ -81,7 +88,7 @@ libaery32_$(MPART).a: $(OBJECTS)
 .PHONY: clean re debug qa
 
 clean:
-	-rm -f *.o *.a
+	-rm -f *.o *.a *.d
 
 re: clean all
 

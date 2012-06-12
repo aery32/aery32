@@ -2,9 +2,5 @@
 *.hex
 *.swp
 *~
-*.o
-*.a
 
 obj
-lib
-apidoc

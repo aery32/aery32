@@ -96,10 +96,10 @@ all: $(PROJECT).hex
 	@make -s size
 
 $(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $<   -c -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(OBJDIR)/%.o: %.S
-	$(CC) $(CFLAGS) $(CPPFLAGS) $<   -c -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
@@ -111,19 +111,19 @@ $(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 CC=$(CC) CSTD=$(CSTD) CFLAG_OPTS="-DAERY_SHORTCUTS" MPART=$(MPART)
-
-# Object file dependencies
-$(OBJDIR)/board.o: board.h
-$(OBJECTS): | $(OBJDIRS)
+	$(MAKE) -C aery32 MPART=$(MPART) CFLAG_OPTS="-DAERY_SHORTCUTS"
 
 # Create directories where to place object files
+$(OBJECTS): | $(OBJDIRS)
 $(OBJDIRS):
 ifneq (, $(filter $(OS), windows32))
 	-mkdir $(subst /,\,$(filter-out ./, $@))
 else
 	-mkdir -p $(filter-out ./, $@)
 endif
+
+# Add dependency lists, .d files
+-include $(OBJECTS:.o=.d)
 
 
 # ----------------------------------------------------------------------
