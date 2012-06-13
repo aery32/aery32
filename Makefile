@@ -50,9 +50,6 @@ INCLUDES=aery32
 # Where to put .o object files
 OBJDIR=obj
 
-# Grab the name of the Operating System
-OS=$(shell uname)
-
 
 # ----------------------------------------------------------------------
 # Standard user variables
@@ -90,16 +87,13 @@ OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 # Resolve the nested object directories that has to be created
 OBJDIRS=$(sort $(dir $(OBJECTS)))
 
+# Grab the name of the Operating System
+OS=$(shell uname)
+
 .PHONY: all
 all: $(PROJECT).hex
 	@echo Program size:
 	@make -s size
-
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
-
-$(OBJDIR)/%.o: %.S
-	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
@@ -107,11 +101,17 @@ $(PROJECT).hex: $(PROJECT).elf
 $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CC) $(LDFLAGS) $^   -o $@
 
-$(PROJECT).lst: $(PROJECT).elf
-	avr32-objdump -h -S $< > $@
-
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART=$(MPART) CFLAG_OPTS="-DAERY_SHORTCUTS"
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+
+$(OBJDIR)/%.o: %.S
+	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+
+$(PROJECT).lst: $(PROJECT).elf
+	avr32-objdump -h -S $< > $@
 
 # Create directories where to place object files
 $(OBJECTS): | $(OBJDIRS)
