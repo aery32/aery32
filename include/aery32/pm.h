@@ -162,12 +162,14 @@ void aery_pm_enable_pll(volatile avr32_pm_pll_t*, bool);
 /**
  * Initializes the chosen generic clock
  *
- * \param clknum Generic clock number: 0-5
+ * \param clknum Generic clock number:
+ * 	PM_GCLK0, PM_GCLK1, PM_GCLK2, PM_GCLK3,
+ * 	PM_GCLK_USBB, PM_GCLK_ABDAC
  * \param clksrc Source of the generic clock
- * \param div Clock source divider, f_gclk = f_src/(2*(div+1))
+ * \param div Clock source divider, f_gclk = f_src/(2*div)
  * \return Returns 0 on success and -1 on error
  */
-int aery_pm_init_gclk(enum Pm_gclk, enum Pm_gclk_source, uint8_t);
+int aery_pm_init_gclk(enum Pm_gclk, enum Pm_gclk_source, uint16_t);
 
 /**
  * Waits oscillator to stabilize

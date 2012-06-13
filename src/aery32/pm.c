@@ -131,9 +131,11 @@ aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 
 int
 aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
-                  uint8_t clkdiv)
+                  uint16_t clkdiv)
 {
 	volatile avr32_pm_gcctrl_t *gclock = &(AVR32_PM.GCCTRL[clknum]);
+
+	if (clkdiv > 256) return -1;
 
 	// Disable general clock before init to prevent glitches on the clock
 	// during the possible reinitialization. We have to wait before cen
@@ -145,13 +147,13 @@ aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 	gclock->oscsel = (bool) (clksrc & 1);
 	gclock->pllsel = (bool) (clksrc & 2);
 
-	// Set divider for the clock source
+	// Set divider for the clock source, f_gclk = f_src / (2 * clkdiv)
 	if (clkdiv > 0) {
 		gclock->diven = 1;
-		gclock->div = clkdiv;
+		gclock->div = clkdiv - 1;
 	} else {
 		gclock->diven = 0;
 	}
 
-	return 1;
+	return 0;
 }
