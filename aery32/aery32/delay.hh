@@ -1,6 +1,6 @@
 /**
- * \file aery32/gpio.hh
- * \brief General Purpose Input/Output (GPIO) with aery namespace
+ * \file aery32/delay.hh
+ * \brief Delay functions for small delays
  * \note C++ header file
  *
  * \verbatim
