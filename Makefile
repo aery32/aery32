@@ -223,7 +223,7 @@ debug: clean all
 debug: CFLAGS += -g3 -DDEBUG
 
 qa: clean all
-qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
+qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 dist: clean
 	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \
