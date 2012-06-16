@@ -1,7 +1,8 @@
 Aery32 library
 ==============
 
-This folder contains the library of Aery32 Software Framework for AVR32 microcontrollers. Source files are placed directly here under the root directory. Header files (.h and .hh) are located at the ``aery32/`` subdirectory.
+This folder contains the library of Aery32 Software Framework for AVR32 microcontrollers. Source files are placed directly here under the root directory. Header files (.h and .hh) are located at the ``aery32/`` subdirectory.  The linker scripts can found from the ``ldscripts/`` directory.
+
 
 To compile the library just call
 
@@ -11,11 +12,16 @@ The default MCU part that has been used is uc3a1128. To change this, use the env
 
     make MPART="uc3b1256"
 
-When done a ``libaery32_<mpart>.a" archive file has been created, where <mpart> is the defined MCU part name. If you have a standalone project, copy this file under your project root and then you can pass it to the avr32-gcc when compiling your project, like this
+When done an ``libaery32_{mpart}.a`` archive file has been created, where {mpart} is the name of the defined MCU part. If you have a standalone project, where you want to use Aery32 library, copy the created .a archive under your project root. Also copy the ``aery32/`` and ``ldscripts/`` directories. Then you can pass it to the avr32-gcc when compiling your project, like this
 
-    avr32-gcc -std=gnu99 -mpart=uc3b1256 -I. main.c foo.c bar.c libaery32_uc3b1256.a   -o binary.elf
+    avr32-gcc -std=gnu99 -O2 -mpart=uc3b1256 -I. -Wl,-Tldscripts/avr32elf_uc3b1256.x main.c foo.c bar.c libaery32_uc3b1256.a   -o binary.elf
 
-The include ``-I.`` assumes that you copied Aery32 header files, that's the ``aery32/`` directory, under your project root directory too. For the sake of clarity this imaginary project root directory could look like this
+Going through some of the compiler options:
+
+- ``-I.`` permits you to include Aery32 header files, like this ``#include <aery32/gpio.h>``.
+- ``-Wl,-Tldscripts/avr32elf_uc3a1128.x`` pass the selected linker scripts for the linker. Make sure to select the right one.
+
+Still, for the sake of clarity your imaginary project root directory could look like this
 
     your_project/
 	    aery32/
@@ -26,6 +32,7 @@ The include ``-I.`` assumes that you copied Aery32 header files, that's the ``ae
 	    foo.c
 	    foo.h
 	    libaery32_uc3b1256.a
+---
 
 Other make targets are
 
