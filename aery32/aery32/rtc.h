@@ -114,9 +114,9 @@ int aery_rtc_wait(uint32_t);
 /**
  * RTC delay
  *
- * \param rtc_cycles The delay lenght in RTC cycles
+ * \param cycles The delay lenght in RTC cycles
  */
-void aery_rtc_delay_cycle(uint32_t);
+void aery_rtc_delay_cycles(uint32_t);
 
 /**
  * Clear RTC interrupt flag

@@ -110,8 +110,8 @@ aery_rtc_wait(uint32_t mck_cycles)
 }
 
 void
-aery_rtc_delay_cycle(uint32_t aery_rtc_cycles)
+aery_rtc_delay_cycles(uint32_t cycles)
 {
-	uint32_t target = AVR32_RTC.val + aery_rtc_cycles;
+	uint32_t target = AVR32_RTC.val + cycles;
 	while (target > AVR32_RTC.val);
 }

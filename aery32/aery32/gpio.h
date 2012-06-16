@@ -121,7 +121,7 @@ void aery_gpio_init_pins(volatile avr32_gpio_port_t*, uint32_t, int);
 inline void aery_gpio_init_pin(uint8_t pinnum, int options)
 {
 	aery_gpio_init_pins(&AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)],
-		(1 << GPIO_NUM2PIN(pinnum)), options);
+		(1UL << GPIO_NUM2PIN(pinnum)), options);
 }
 
 /**
@@ -132,7 +132,7 @@ inline void aery_gpio_init_pin(uint8_t pinnum, int options)
  */
 inline void aery_gpio_set_pin_high(uint8_t pinnum)
 {
-	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrs = 1 << GPIO_NUM2PIN(pinnum);
+	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrs = 1UL << GPIO_NUM2PIN(pinnum);
 }
 
 /**
@@ -143,7 +143,7 @@ inline void aery_gpio_set_pin_high(uint8_t pinnum)
  */
 inline void aery_gpio_set_pin_low(uint8_t pinnum)
 {
-	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrc = 1 << GPIO_NUM2PIN(pinnum);
+	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrc = 1UL << GPIO_NUM2PIN(pinnum);
 }
 
 /**
@@ -154,7 +154,7 @@ inline void aery_gpio_set_pin_low(uint8_t pinnum)
  */
 inline void aery_gpio_toggle_pin(uint8_t pinnum)
 {
-	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrt = 1 << GPIO_NUM2PIN(pinnum);
+	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrt = 1UL << GPIO_NUM2PIN(pinnum);
 }
 
 /**
@@ -162,12 +162,12 @@ inline void aery_gpio_toggle_pin(uint8_t pinnum)
  *
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
- * \return Pin value high or low
+ * \return Pin value high or low, 1 or 0
  */
-inline int aery_gpio_read_pin(uint8_t pinnum)
+inline bool aery_gpio_read_pin(uint8_t pinnum)
 {
-	return AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
-	       & (1 << GPIO_NUM2PIN(pinnum));
+	return (bool) AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
+	       & (1UL << GPIO_NUM2PIN(pinnum));
 }
 
 /**

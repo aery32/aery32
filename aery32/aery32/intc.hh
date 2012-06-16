@@ -1,5 +1,5 @@
 /**
- * \file aery32/interrupts.hh
+ * \file aery32/intc.hh
  * \brief Interrupt Controller (INTC) with aery namespace
  * \note C++ header file
  *
@@ -40,10 +40,10 @@
  * \endverbatim
  */
 
-#ifndef __AERY32_INTERRUPTS_HH
-#define __AERY32_INTERRUPTS_HH
+#ifndef __AERY32_INTC_HH
+#define __AERY32_INTC_HH
 
-#include "interrupts.h"
+#include "intc.h"
 
 namespace aery {
 

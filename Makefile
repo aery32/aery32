@@ -60,10 +60,6 @@ CSTD=gnu99
 
 CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
        -fdata-sections -ffunction-sections $(addprefix -I,$(INCLUDES))
-# Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
-CFLAGS+=-DAERY_SHORTCUTS
-# Provides Atmel ASF compatibility
-#CFLAGS+=-DUSER_BOARD
 
 LDFLAGS=-mpart=$(MPART) \
         -Taery32/ldscripts/avr32elf_$(MPART).x
@@ -71,6 +67,10 @@ LDFLAGS=-mpart=$(MPART) \
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
 #LDFLAGS += -mrelax
+
+# Additional options
+CFLAG_OPTS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+#CFLAG_OPTS+=-DUSER_BOARD # Provides Atmel ASF compatibility
 
 
 # ----------------------------------------------------------------------
@@ -102,13 +102,13 @@ $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CC) $(LDFLAGS) $^   -o $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 MPART=$(MPART) CFLAG_OPTS="-DAERY_SHORTCUTS"
+	$(MAKE) -C aery32 MPART="$(MPART)" CFLAG_OPTS="-DAERY_SHORTCUTS"
 
 $(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(OBJDIR)/%.o: %.S
-	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
@@ -219,11 +219,11 @@ re: clean all
 
 reall: cleanall all
 
-debug: clean all
+debug: re
 debug: CFLAGS += -g3 -DDEBUG
 
-qa: clean all
-qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: re
+qa: CFLAG_OPTS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 dist: clean
 	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \

@@ -1,5 +1,5 @@
 /**
- * \file aery32/interrupts.h
+ * \file aery32/intc.h
  * \brief Interrupt Controller (INTC)
  *
  * \verbatim
@@ -41,8 +41,8 @@
  * \example rtc_interrupt.c
  */
 
-#ifndef __AERY32_INTERRUPTS_H
-#define __AERY32_INTERRUPTS_H
+#ifndef __AERY32_INTC_H
+#define __AERY32_INTC_H
 
 #ifdef __cplusplus
 extern "C" {

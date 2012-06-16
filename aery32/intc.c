@@ -36,7 +36,7 @@
 
 #include <inttypes.h>
 #include <avr32/io.h>
-#include "aery32/interrupts.h"
+#include "aery32/intc.h"
 
 // These two globals come from exception.S
 extern const unsigned int _ipr[20];

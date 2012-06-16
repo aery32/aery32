@@ -85,9 +85,9 @@ aery_rtc_wait(uint32_t mck_cycles)
 }
 
 inline void
-rtc_delay_cycle(uint32_t rtc_cycles)
+rtc_delay_cycles(uint32_t cycles)
 {
-	aery_rtc_delay_cycle(uint32_t rtc_cycles)
+	aery_rtc_delay_cycles(uint32_t cycles)
 }
 
 inline void
