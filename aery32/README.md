@@ -1,3 +1,49 @@
+Aery32 library
+==============
+
+This folder contains the library of Aery32 Software Framework for AVR32 microcontrollers. Source files are placed directly here under the root directory. Header files (.h and .hh) are located at the ``aery32/`` subdirectory.
+
+To compile the library just call
+
+    make
+
+The default MCU part that has been used is uc3a1128. To change this, use the environment variable after the make command
+
+    make MPART="uc3b1256"
+
+When done a ``libaery32_<mpart>.a" archive file has been created, where <mpart> is the defined MCU part name. If you have a standalone project, copy this file under your project root and then you can pass it to the avr32-gcc when compiling your project, like this
+
+    avr32-gcc -std=gnu99 -mpart=uc3b1256 -I. main.c foo.c bar.c libaery32_uc3b1256.a   -o binary.elf
+
+The include ``-I.`` assumes that you copied Aery32 header files, that's the ``aery32/`` directory, under your project root directory too. For the sake of clarity this imaginary project root directory could look like this
+
+    your_project/
+	    aery32/
+	        delay.h
+	        ...
+	    bar.c
+	    bar.h
+	    foo.c
+	    foo.h
+	    libaery32_uc3b1256.a
+
+Other make targets are
+
+    make clean
+
+to remove the compiled .o, .d and .a files from this root directory.
+
+    make re
+
+recompiles the library
+
+    make qa
+
+recompiles the library with additional warning options.
+
+LICENSE
+-------
+
 Aery32 Software Framework and its library is licensed under the new BSD license:
 
 > Copyright (c) 2012, Muiku Oy
