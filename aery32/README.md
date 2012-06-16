@@ -11,16 +11,9 @@ The default MCU part that has been used is uc3a1128. To change this, use the env
 
     make MPART="uc3b1256"
 
-When done an ``libaery32_{mpart}.a`` archive file has been created, where {mpart} is the name of the defined MCU part. If you have a standalone project, where you want to use Aery32 library, copy the created .a archive under your project root. Also copy the ``aery32/`` and ``ldscripts/`` directories. Then you can compile your project with Aery32 library, like this
+When done, an ``libaery32_{mpart}.a`` archive file has been created, where {mpart} is the name of the defined MCU part. If you have a standalone project, where you want to use Aery32 library, copy the created .a archive under your project root. Also copy the ``aery32/`` and ``ldscripts/`` directories.
 
-    avr32-gcc -std=gnu99 -O2 -mpart=uc3b1256 -I. -Wl,-Tldscripts/avr32elf_uc3b1256.x main.c foo.c bar.c libaery32_uc3b1256.a   -o binary.elf
-
-Going through some of the compiler options:
-
-- ``-I.`` permits you to include Aery32 header files, like this ``#include <aery32/gpio.h>``.
-- ``-Wl,-Tldscripts/avr32elf_uc3a1128.x`` pass the selected linker scripts for the linker. Make sure to select the right one.
-
-Still, for the sake of clarity your imaginary project root directory could look like this
+For the sake of clarity your imaginary project root directory could look like this
 
     your_project/
 	    aery32/
@@ -32,6 +25,16 @@ Still, for the sake of clarity your imaginary project root directory could look 
 	    foo.c
 	    foo.h
 	    libaery32_uc3b1256.a
+
+Now you can compile your project with Aery32 library
+
+    avr32-gcc -std=gnu99 -O2 -mpart=uc3b1256 -I. -Wl,-Tldscripts/avr32elf_uc3b1256.x foo.c bar.c libaery32_uc3b1256.a   -o binary.elf
+
+Going through some of the compiler options:
+
+- ``-I.`` permits you to use this kind of include statements ``#include <aery32/gpio.h>`` for Aery32 header files.
+- ``-Wl,-Tldscripts/avr32elf_uc3a1128.x`` pass the selected linker scripts for the linker. Make sure to select the right one.
+
 ---
 
 Other make targets are
