@@ -21,6 +21,7 @@ The include ``-I.`` assumes that you copied Aery32 header files, that's the ``ae
 	    aery32/
 	        delay.h
 	        ...
+	    ldscripts/
 	    bar.c
 	    bar.h
 	    foo.c

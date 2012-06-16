@@ -11,7 +11,7 @@ Aery32 is a starting point for new AVR32-based projects. It provides a complete 
 
 ## Installation
 
-You don't have to install Aery32 as you would do with regular software. Just download the framework, unzip and start working.
+You don't have to install Aery32 Software Framework as you would do with regular software. Just download the framework, unzip it and start working on it.
 
 ## Requirements
 
@@ -23,38 +23,85 @@ For Windows download and install [Atmel AVR Toolchain for Windows](http://www.at
 
 ## Quick start
 
-To start a new project, git clone Aery32 into the desired directory (or use the download link above)
+To start Aery32 project [download the framework from GitHub](https://github.com/aery32/aery32/downloads). Or use git clone
 
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
     
-Put your C source files under `src/` directory and define those in [sources variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L55). Header files you can put under `include/` or `src/`. Start by editing `src/main.c`. Board initialization sequence can be found from `board.c` and the other defined settings from `board.h`. If you prefer C++ over C, change the [CC variable in Makefile](https://github.com/aery32/aery32/blob/master/Makefile#L66) to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the '-std' option in [CFLAGS variable](https://github.com/aery32/aery32/blob/master/Makefile#L68).
-
-To compile the project just call
+Start by editing `main.c`. The default board initialization sequence, that starts the external oscillator and sets the master clock to 66 MHz, can be found from `board.c`. Other settings are defined inside the `board.h` header file. To compile the project just call
 
     make
 
-When you want to recompile all use
+When you want to recompile the project call
 
     make re
 
-To program or upload the compiled and linked binary to your printed circuit board command
+To program (or upload) the application via DFU into the printed circuit board command
 
     make program
     
-If you also like to start the board immediately, chain the program target with the start target
+DFU is a USB class that allows board to be programmed through USB connector without external programmer board. Well, now you have to start the board
+
+    make start
+
+If you like to start the board immediately after the programming is done, chain the program target with the start target
 
     make program start
     
 Or less verbosely `make programs`. The latter is also quicker with batchisp (in Windows).
 
-If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed you can make a local api documentation by just running Doxygen at the project root
+---
 
+If you prefer C++ over C, change the `CC` in Makefile to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTD` variable in Makefile. Otherwise you can also use environment variables
+
+    make re CC="avr32-g++" CSTD="gnu++98"
+
+If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed you can make a local version of the API documentation by running Doxygen at the `aery32/` directory
+
+    cd aery32/
     doxygen
     
-Otherwise if felt lazy, navigate to http://devzone.aery32.com/aery32/apidoc/.
+Or if felt lazy, navigate to http://devzone.aery32.com/aery32/apidoc/.
+
+## Release notes
+### v0.1
+
+- Project structure that works on Windows, Linux and Mac.
+  - "make program", selects the batchisp in Windows and dfu-programmer in Linux and Mac.
+- Convenient delay functions for mcu cycles, microseconds and milliseconds.
+- Modules for General peripheral Input/Output (gpio), Interrupt controller (intc),
+  Power manager (pm), Real-time counter (rtc) and Serial peripheral interface (spi).
 
 ## License
 
-- Aery32 software framework is licensed under the new BSD license
-- Example applications placed under examples/ directory are public domain
+Aery32 Software Framework and its library is licensed under the new BSD license:
+
+> Copyright (c) 2012, Muiku Oy
+> All rights reserved.
+>
+> Redistribution and use in source and binary forms, with or without modification,
+> are permitted provided that the following conditions are met:
+>
+>    * Redistributions of source code must retain the above copyright notice,
+>      this list of conditions and the following disclaimer.
+>
+>    * Redistributions in binary form must reproduce the above copyright notice,
+>      this list of conditions and the following disclaimer in the documentation
+>      and/or other materials provided with the distribution.
+>
+>    * Neither the name of Muiku Oy nor the names of its contributors may be
+>      used to endorse or promote products derived from this software without
+>      specific prior written permission.
+>
+> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+> DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+> ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+> (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+> ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Example applications placed under `examples/` directory are public domain.

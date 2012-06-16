@@ -8,7 +8,7 @@ int main(void)
 {
 	/* Put your application initialization sequence here */
 	init_board();
-	aery_gpio_init_pin(LED,	GPIO_OUTPUT);
+	aery_gpio_init_pin(LED, GPIO_OUTPUT);
 
 	/* All done, turn the LED on */
 	aery_gpio_set_pin_high(LED);
