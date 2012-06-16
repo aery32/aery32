@@ -3,7 +3,6 @@ Aery32 library
 
 This folder contains the library of Aery32 Software Framework for AVR32 microcontrollers. Source files are placed directly here under the root directory. Header files (.h and .hh) are located at the ``aery32/`` subdirectory.  The linker scripts can found from the ``ldscripts/`` directory.
 
-
 To compile the library just call
 
     make
@@ -27,6 +26,7 @@ Still, for the sake of clarity your imaginary project root directory could look 
 	    aery32/
 	        delay.h
 	        ...
+	    ldscripts/
 	    bar.c
 	    bar.h
 	    foo.c
