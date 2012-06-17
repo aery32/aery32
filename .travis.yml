@@ -1,19 +1,26 @@
 language: haskell # there wasn't C so I chose something cool
 before_install:
-  - git clone git://github.com/aery32/avr32-toolchain-binaries.git $HOME/avr32-tools
+  - wget http://www.atmel.com/Images/avr-headers.zip
+  - wget http://www.atmel.com/Images/avr32-gnu-toolchain-3.4.0.332-linux.any.x86.tar.gz
 install:
-  - export PATH=$HOME/avr32-tools/bin:$PATH
+  - tar -xzf avr32-gnu-toolchain-3.4.0.332-linux.any.x86.tar.gz
+  - mv avr32-gnu-toolchain-linux_x86 avr32-tools
+  - unzip -qq avr-headers.zip && mv avr-headers/avr32 avr32-tools/avr32/include
+  - export PATH=$PWD/avr32-tools/bin:$PATH
 before_script:
   - avr32-gcc --version
 
 script:
   - make
-  - cp examples/rtc_delay.c     main.c && make re
   - cp examples/rtc_interrupt.c main.c && make re
   - cp examples/spi.c           main.c && make re
   - cp examples/toggle_led.c    main.c && make re
   - make cleanall
   - cp examples/main.cc         main.c && make CC="avr32-g++" CSTD="gnu++98"
+
+branches:
+  only:
+    - master
 
 notifications:
   email: false
