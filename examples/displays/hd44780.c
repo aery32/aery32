@@ -69,6 +69,7 @@ display_isbusy(void)
 void
 display_instruct(uint16_t instruction)
 {
+	aery_delay_ms(1);
 	while (display_isbusy()) {
 		aery_delay_ms(1);
 	}
@@ -78,6 +79,7 @@ display_instruct(uint16_t instruction)
 void
 display_wrbyte(uint8_t byte)
 {
+	aery_delay_ms(1);
 	aery_spi_transmit(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, true);
 }
 
@@ -93,8 +95,9 @@ display_puts(const char *buf)
 	int i, len;
 
 	len = strlen(buf);
-	for (i = 0; i < len; i++)
+	for (i = 0; i < len; i++) {
 		display_putc(buf[i]);
+	}
 	return i;
 }
 
@@ -114,7 +117,7 @@ main(void)
 	aery_spi_enable(DISPLAY_SPI);
 
 	// Display initialization sequence
-	aery_delay_ms(1);
+	aery_delay_ms(2);
 	display_instruct(HD44780_DL8BIT|HD44780_FONTBL_WE1);
 	display_instruct(HD44780_DISPLAY_OFF);
 	display_instruct(HD44780_CLEAR_DISPLAY);
