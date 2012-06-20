@@ -62,15 +62,16 @@ display_isbusy(void)
 	uint16_t rd; /* read data */
 
 	aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, false);
-	rd = aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, true) >> 2;
-	return (HD44780_BUSYBIT_MASK & rd) != 0;
+	rd = aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, true);
+	return (HD44780_BUSYBIT_MASK & (rd >> 2)) != 0;
 }
 
 void
 display_instruct(uint16_t instruction)
 {
-	aery_delay_ms(1);
-	while (display_isbusy()) {
+	if (instruction == HD44780_CLEAR_DISPLAY) {
+		aery_delay_ms(3);
+	} else {
 		aery_delay_ms(1);
 	}
 	aery_spi_transmit(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, true);
