@@ -58,19 +58,18 @@ OBJDIR=obj
 CC=avr32-gcc
 CSTD=gnu99
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
-       -fdata-sections -ffunction-sections $(addprefix -I,$(INCLUDES))
+CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) $(addprefix -I,$(INCLUDES))
+#CFLAGS+=-fdata-sections -ffunction-sections
+CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+#CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
 
-LDFLAGS=-mpart=$(MPART) -Wl,--gc-sections \
-        -Taery32/ldscripts/avr32elf_$(MPART).x
+LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
+LDFLAGS+=-Wl,--gc-sections
+#LDFLAGS+=--rodata-writable --direct-data
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
 #LDFLAGS += -mrelax
-
-# Additional options
-CFLAG_OPTS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
-#CFLAG_OPTS+=-DUSER_BOARD # Provides Atmel ASF compatibility
 
 
 # ----------------------------------------------------------------------
@@ -89,7 +88,7 @@ OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
 # Resolve the nested object directories that has to be created
 OBJDIRS=$(sort $(dir $(OBJECTS)))
-OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter root dir, ./, out
+OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter root dir out, that's "./"
 
 .PHONY: all
 all: $(PROJECT).hex
@@ -118,7 +117,7 @@ $(PROJECT).lst: $(PROJECT).elf
 $(OBJECTS): | $(OBJDIRS)
 $(OBJDIRS):
 ifneq (, $(filter $(OS), windows32))
-	@-mkdir $(subst /,\,$@)
+	-mkdir $(subst /,\,$@)
 else
 	-mkdir -p $@
 endif

@@ -48,10 +48,9 @@ SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
 CC=avr32-gcc
 CSTD=gnu99
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
-       -fdata-sections -ffunction-sections
-# Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
-#CFLAGS+=-DAERY_SHORTCUTS
+CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART)
+#CFLAGS+=-fdata-sections -ffunction-sections
+#CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 CFLAGS+=$(CFLAG_OPTS)
 
 ASFLAGS=-mpart=$(MPART)
