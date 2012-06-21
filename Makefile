@@ -61,7 +61,7 @@ CSTD=gnu99
 CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
        -fdata-sections -ffunction-sections $(addprefix -I,$(INCLUDES))
 
-LDFLAGS=-mpart=$(MPART) \
+LDFLAGS=-mpart=$(MPART) -Wl,--gc-sections \
         -Taery32/ldscripts/avr32elf_$(MPART).x
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
@@ -77,6 +77,9 @@ CFLAG_OPTS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 # Build targets
 # ----------------------------------------------------------------------
 
+# Grab the name of the Operating System
+OS=$(shell uname)
+
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.c=.o)
 OBJECTS:=$(OBJECTS:.S=.o)
@@ -86,9 +89,7 @@ OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
 # Resolve the nested object directories that has to be created
 OBJDIRS=$(sort $(dir $(OBJECTS)))
-
-# Grab the name of the Operating System
-OS=$(shell uname)
+OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter root dir, ./, out
 
 .PHONY: all
 all: $(PROJECT).hex
@@ -117,9 +118,9 @@ $(PROJECT).lst: $(PROJECT).elf
 $(OBJECTS): | $(OBJDIRS)
 $(OBJDIRS):
 ifneq (, $(filter $(OS), windows32))
-	-mkdir $(subst /,\,$(filter-out ./, $@))
+	@-mkdir $(subst /,\,$@)
 else
-	-mkdir -p $(filter-out ./, $@)
+	-mkdir -p $@
 endif
 
 # Add dependency lists, .d files
@@ -209,7 +210,7 @@ size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f *.o $(addprefix $(PROJECT),.elf .hex .lst) user.data
+	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
 	-rm -rf $(filter-out ./, $(OBJDIRS))
 
 cleanall: clean
