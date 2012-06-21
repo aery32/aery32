@@ -57,14 +57,16 @@ OBJDIR=obj
 
 CC=avr32-gcc
 CSTD=gnu99
+OPTIMIZATION=3
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) $(addprefix -I,$(INCLUDES))
-#CFLAGS+=-fdata-sections -ffunction-sections
+CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
+CFLAGS+=-fdata-sections -ffunction-sections
 CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 #CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
+CFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
-LDFLAGS+=-Wl,--gc-sections
+LDFLAGS+=-Wl,--gc-sections # Discards unused sections
 #LDFLAGS+=--rodata-writable --direct-data
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
@@ -88,7 +90,7 @@ OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
 # Resolve the nested object directories that has to be created
 OBJDIRS=$(sort $(dir $(OBJECTS)))
-OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter root dir out, that's "./"
+OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter the root dir out, that's "./"
 
 .PHONY: all
 all: $(PROJECT).hex
@@ -102,7 +104,7 @@ $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CC) $(LDFLAGS) $^   -o $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 MPART="$(MPART)" CFLAG_OPTS="-DAERY_SHORTCUTS"
+	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
 
 $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
@@ -210,7 +212,7 @@ size: $(PROJECT).elf $(PROJECT).hex
 
 clean:
 	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
-	-rm -rf $(filter-out ./, $(OBJDIRS))
+	-rm -rf $(OBJDIRS)
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
@@ -220,10 +222,10 @@ re: clean all
 reall: cleanall all
 
 debug: re
-debug: CFLAGS += -g3 -DDEBUG
+debug: CFLAGS+=-g3 -DDEBUG
 
 qa: re
-qa: CFLAG_OPTS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 dist: clean
 	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \

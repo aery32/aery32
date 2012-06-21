@@ -60,7 +60,7 @@ static inline void
 aery_delay_cycles(uint32_t cycles)
 {
 	__builtin_mtsr(AVR32_COUNT, 0);
-	while (__builtin_mfsr(AVR32_COUNT) < cycles);
+	while ((uint32_t) __builtin_mfsr(AVR32_COUNT) < cycles);
 }
 
 #ifdef F_CPU

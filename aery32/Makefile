@@ -47,10 +47,11 @@ SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
 
 CC=avr32-gcc
 CSTD=gnu99
+OPTIMIZATION=3
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART)
-#CFLAGS+=-fdata-sections -ffunction-sections
-#CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
+CFLAGS+=-fdata-sections -ffunction-sections
+CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 CFLAGS+=$(CFLAG_OPTS)
 
 ASFLAGS=-mpart=$(MPART)
@@ -84,7 +85,7 @@ libaery32_$(MPART).a: $(OBJECTS)
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: clean re debug qa
+.PHONY: clean re debug qa size
 
 clean:
 	-rm -f *.o *.a *.d
@@ -92,7 +93,10 @@ clean:
 re: clean all
 
 debug: clean all
-debug: CFLAGS += -g3 -DDEBUG
+debug: CFLAGS+=-g3 -DDEBUG
 
-qa: clean all
-qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
+qa: re size
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+
+size: libaery32_$(MPART).a
+	avr32-size -B $^
