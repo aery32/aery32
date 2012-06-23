@@ -45,11 +45,10 @@ int uint2str(unsigned int number, char *buf)
 	
 	if (number == 0) {
 		buf[i++] = '0';
-	} else {
-		while (number > 0) {
-			buf[i++] = "0123456789"[number % 10];
-			number = number / 10;
-		}
+	}
+	while (number > 0) {
+		buf[i++] = "0123456789"[number % 10];
+		number = number / 10;
 	}
 	buf[i--] = '\0';
 

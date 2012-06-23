@@ -69,7 +69,7 @@ aery_delay_cycles(uint32_t cycles)
  * \note F_CPU has to be defined before hand to make this function accessible
  * \par Example
  * \code
- * #define F_CPU 12000000
+ * #define F_CPU 12000000UL
  * #include <aery32/delay.h>
  * \endcode
  *
@@ -78,7 +78,7 @@ aery_delay_cycles(uint32_t cycles)
 inline void
 aery_delay_us(uint16_t us)
 {
-	aery_delay_cycles((uint32_t) (F_CPU / 1000000) * us);
+	aery_delay_cycles((uint32_t) ((F_CPU / 1000000) * us));
 }
 
 
@@ -87,7 +87,7 @@ aery_delay_us(uint16_t us)
  * \note F_CPU has to be defined before hand to make this function accessible
  * \par Example
  * \code
- * #define F_CPU 12000000
+ * #define F_CPU 12000000UL
  * #include <aery32/delay.h>
  * \endcode
  *
@@ -96,7 +96,7 @@ aery_delay_us(uint16_t us)
 inline void
 aery_delay_ms(uint16_t ms)
 {
-	aery_delay_cycles((uint32_t) (F_CPU / 1000) * ms);
+	aery_delay_cycles((uint32_t) ((F_CPU / 1000) * ms));
 }
 #endif
 
