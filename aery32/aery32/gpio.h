@@ -118,11 +118,7 @@ void aery_gpio_init_pins(volatile avr32_gpio_port_t*, uint32_t, int);
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  * \param options Option flags
  */
-inline void aery_gpio_init_pin(uint8_t pinnum, int options)
-{
-	aery_gpio_init_pins(&AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)],
-		(1UL << GPIO_NUM2PIN(pinnum)), options);
-}
+void aery_gpio_init_pin(uint8_t pinnum, int options);
 
 /**
  * Sets pin high

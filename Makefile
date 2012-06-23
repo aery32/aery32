@@ -57,7 +57,7 @@ OBJDIR=obj
 
 CC=avr32-gcc
 CSTD=gnu99
-OPTIMIZATION=3
+OPTIMIZATION=2
 
 CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
 CFLAGS+=-fdata-sections -ffunction-sections

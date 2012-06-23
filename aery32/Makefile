@@ -38,7 +38,7 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
+SOURCES=delay.c exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
 
 
 # ----------------------------------------------------------------------
@@ -47,7 +47,7 @@ SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
 
 CC=avr32-gcc
 CSTD=gnu99
-OPTIMIZATION=3
+OPTIMIZATION=2
 
 CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
 CFLAGS+=-fdata-sections -ffunction-sections

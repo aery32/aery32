@@ -115,3 +115,8 @@ aery_rtc_delay_cycles(uint32_t cycles)
 	uint32_t target = AVR32_RTC.val + cycles;
 	while (target > AVR32_RTC.val);
 }
+
+void aery_rtc_clear_interrupt(void)
+{
+	AVR32_RTC.icr = 1;
+}

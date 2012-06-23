@@ -139,3 +139,15 @@ aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data, uint8_t npcs,
 	while ((pspi->sr & AVR32_SPI_SR_RDRF_MASK) == 0);
 	return pspi->RDR.rd;
 }
+
+void
+aery_spi_enable(volatile avr32_spi_t *pspi)
+{
+	pspi->CR.spien = 1;
+}
+
+void
+aery_spi_disable(volatile avr32_spi_t *pspi)
+{
+	pspi->CR.spien = 0;
+}

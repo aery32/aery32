@@ -176,68 +176,35 @@ int aery_pm_init_gclk(enum Pm_gclk, enum Pm_gclk_source, uint16_t);
  *
  * \param oscnum Oscillator number: 0, 1 or 32
  */
-inline void aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
-{
-	switch (oscnum) {
-	case 0:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC0RDY_MASK));
-		break;
-	case 1:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC1RDY_MASK));
-		break;
-	case 32:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC32RDY_MASK));
-		break;
-	}
-}
+void aery_pm_wait_osc_to_stabilize(uint8_t);
 
 /**
  * Waits pll to lock
  *
  * \param ppll Pointer to PLL register
  */
-inline void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
-{
-	if (ppll == &AVR32_PM.PLL[0]) {
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK0_MASK));
-	}
-	else if (ppll == &AVR32_PM.PLL[1]) {
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK1_MASK));
-	}
-}
+void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t*);
 
 /**
  * Enables the chosen generic clock
  *
  * \param clknum Clock number which to enable
  */
-inline void aery_pm_enable_gclk(enum Pm_gclk clknum)
-{
-	AVR32_PM.GCCTRL[clknum].cen = 1;
-}
+void aery_pm_enable_gclk(enum Pm_gclk);
 
 /**
  * Disables the chosen generic clock
  *
  * \param clknum Clock number which to disable
  */
-inline void aery_pm_disable_gclk(enum Pm_gclk clknum)
-{
-	AVR32_PM.GCCTRL[clknum].cen = 0;
-
-	// We have to wait before cen reads zero.
-	while (AVR32_PM.GCCTRL[clknum].cen);
-}
+void aery_pm_disable_gclk(enum Pm_gclk);
 
 /**
  * Selects master clock source
  *
  * \param mcksrc Clock source
  */
-inline void aery_pm_select_mck(enum Pm_mck_source mcksrc)
-{
-	AVR32_PM.MCCTRL.mcsel = mcksrc;
-}
+void aery_pm_select_mck(enum Pm_mck_source);
 
 #ifdef __cplusplus
 }

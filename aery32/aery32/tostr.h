@@ -1,8 +1,4 @@
 /**
- * \file aery32/delay.h
- * \brief Delay functions for small delays
- *
- * \verbatim
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
@@ -36,72 +32,20 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * \endverbatim
- *
- * \example toggle_led.c
  */
 
-#ifndef __AERY32_DELAY_H
-#define __AERY32_DELAY_H
+/* KNOWN ISSUES
+ * - Accuracy, e.g. dbl2str(3.13, 3); // gives "3.129"
+ */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef __AERY32_TOSTR_H
+#define __AERY32_TOSTR_H
 
 #include <inttypes.h>
-#include <avr32/io.h>
+#include <math.h>
 
-/**
- * Creates a delay of the desired number of CPU cycles
- *
- * \param cycles CPU cycles
- */
-inline void
-aery_delay_cycles(uint32_t cycles)
-{
-	__builtin_mtsr(AVR32_COUNT, 0);
-	while ((uint32_t) __builtin_mfsr(AVR32_COUNT) < cycles);
-}
-
-#ifdef F_CPU
-/**
- * Delays the program the desired amount of microseconds
- * \note F_CPU has to be defined before hand to make this function accessible
- * \par Example
- * \code
- * #define F_CPU 12000000
- * #include <aery32/delay.h>
- * \endcode
- *
- * \param us microseconds
- */
-inline void
-aery_delay_us(uint16_t us)
-{
-	aery_delay_cycles((uint32_t) (F_CPU / 1000000) * us);
-}
-
-
-/**
- * Delays the program the desired amount of milliseconds
- * \note F_CPU has to be defined before hand to make this function accessible
- * \par Example
- * \code
- * #define F_CPU 12000000
- * #include <aery32/delay.h>
- * \endcode
- *
- * \param ms milliseconds
- */
-inline void
-aery_delay_ms(uint16_t ms)
-{
-	aery_delay_cycles((uint32_t) (F_CPU / 1000) * ms);
-}
-#endif
-
-#ifdef __cplusplus
-}
-#endif
+int uint2str(unsigned int number, char *buf);
+int int2str(int number, char *buf);
+int dbl2str(double number, uint8_t precision, char *buf);
 
 #endif

@@ -140,3 +140,17 @@ aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 		pport->gferc = pinmask;
 	}
 }
+
+void
+aery_gpio_init_pin(uint8_t pinnum, int options)
+{
+	aery_gpio_init_pins(&AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)],
+		(1UL << GPIO_NUM2PIN(pinnum)), options);
+}
+
+extern inline void aery_gpio_set_pin_high(uint8_t pinnum);
+extern inline void aery_gpio_set_pin_low(uint8_t pinnum);
+extern inline void aery_gpio_toggle_pin(uint8_t pinnum);
+extern inline bool aery_gpio_read_pin(uint8_t pinnum);
+extern inline void aery_gpio_enable_localbus(void);
+extern inline void aery_gpio_disable_localbus(void);

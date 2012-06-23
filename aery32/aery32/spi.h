@@ -124,20 +124,14 @@ uint16_t aery_spi_transmit(volatile avr32_spi_t*, uint16_t, uint8_t, bool);
  *
  * \param pspi Pointer to the SPI peripheral which to enable
  */
-inline void aery_spi_enable(volatile avr32_spi_t *pspi)
-{
-	pspi->CR.spien = 1;
-}
+void aery_spi_enable(volatile avr32_spi_t*);
 
 /**
  * Disable the SPI peripheral
  *
  * \param pspi Pointer to the SPI peripheral which to disable
  */
-inline void aery_spi_disable(volatile avr32_spi_t *pspi)
-{
-	pspi->CR.spien = 0;
-}
+void aery_spi_disable(volatile avr32_spi_t *pspi);
 
 #ifdef __cplusplus
 }
