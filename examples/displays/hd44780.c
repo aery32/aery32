@@ -1,8 +1,4 @@
 #include <stdbool.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdarg.h>
-
 #include <aery32/gpio.h>
 #include <aery32/spi.h>
 #include "board.h"
@@ -97,13 +93,31 @@ display_putc(char c)
 int
 display_puts(const char *buf)
 {
-	int i, len;
-
-	len = strlen(buf);
-	for (i = 0; i < len; i++) {
-		display_putc(buf[i]);
+	int i = 0;
+	for (; *(buf+i); i++) {
+		display_putc(*(buf+i));
 	}
 	return i;
+}
+
+int
+display_nputs(const char *buf, int n)
+{
+	int i = 0;
+	for (; *(buf+i) && i < n; i++) {
+		display_putc(*(buf+i));
+	}
+	return i;
+}
+
+void
+display_goto(uint8_t x, uint8_t y)
+{
+	uint16_t position = HD44780_DDRAM_ADDR + x;
+	if (y == 1) {
+		position |= 0x40;
+	}
+	display_instruct(position);
 }
 
 
