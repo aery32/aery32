@@ -63,24 +63,28 @@ display_isbusy(void)
 
 	aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, false);
 	rd = aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, true);
-	return (HD44780_BUSYBIT_MASK & (rd >> 2)) != 0;
+	return ((HD44780_BUSYBIT_MASK << 2) & rd) != 0;
+}
+
+void
+display_wait(void)
+{
+	while (display_isbusy()) {
+		aery_delay_us(600);
+	}
 }
 
 void
 display_instruct(uint16_t instruction)
 {
-	if (instruction == HD44780_CLEAR_DISPLAY) {
-		aery_delay_ms(3);
-	} else {
-		aery_delay_ms(1);
-	}
+	display_wait();
 	aery_spi_transmit(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, true);
 }
 
 void
 display_wrbyte(uint8_t byte)
 {
-	aery_delay_ms(1);
+	display_wait();
 	aery_spi_transmit(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, true);
 }
 
