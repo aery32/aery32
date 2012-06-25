@@ -70,7 +70,10 @@ LDFLAGS+=-Wl,--gc-sections # Discards unused sections
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
-#LDFLAGS += -mrelax
+#LDFLAGS+=-mrelax
+
+# Add Math library
+#LDFLAGS+=-lm
 
 
 # ----------------------------------------------------------------------
@@ -100,7 +103,7 @@ $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CC) $(LDFLAGS) $^ -lm   -o $@
+	$(CC) $(LDFLAGS) $^   -o $@
 
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
