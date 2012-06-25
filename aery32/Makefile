@@ -38,7 +38,7 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=delay.c exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
+SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
 
 
 # ----------------------------------------------------------------------
@@ -46,11 +46,10 @@ SOURCES=delay.c exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
 # ----------------------------------------------------------------------
 
 CC=avr32-gcc
-CSTD=gnu99
-OPTIMIZATION=2
+CSTANDARD=gnu99
+OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
-CFLAGS+=-fdata-sections -ffunction-sections
+CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
 CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 CFLAGS+=$(CFLAG_OPTS)
 
@@ -91,9 +90,6 @@ clean:
 	-rm -f *.o *.a *.d
 
 re: clean all
-
-debug: clean all
-debug: CFLAGS+=-g3 -DDEBUG
 
 qa: re size
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline

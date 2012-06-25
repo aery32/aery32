@@ -56,7 +56,7 @@ extern "C" {
  *
  * \param cycles CPU cycles
  */
-inline void
+static inline void
 aery_delay_cycles(uint32_t cycles)
 {
 	__builtin_mtsr(AVR32_COUNT, 0);
@@ -75,7 +75,7 @@ aery_delay_cycles(uint32_t cycles)
  *
  * \param us microseconds
  */
-inline void
+static inline void
 aery_delay_us(uint16_t us)
 {
 	aery_delay_cycles((uint32_t) ((F_CPU / 1000000) * us));
@@ -93,7 +93,7 @@ aery_delay_us(uint16_t us)
  *
  * \param ms milliseconds
  */
-inline void
+static inline void
 aery_delay_ms(uint16_t ms)
 {
 	aery_delay_cycles((uint32_t) ((F_CPU / 1000) * ms));

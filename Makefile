@@ -56,11 +56,10 @@ OBJDIR=obj
 # ----------------------------------------------------------------------
 
 CC=avr32-gcc
-CSTD=gnu99
-OPTIMIZATION=2
+CSTANDARD=gnu99
+OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-mpart=$(MPART) -std=$(CSTD) -O$(OPTIMIZATION) -Wall
-CFLAGS+=-fdata-sections -ffunction-sections
+CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
 CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
 #CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
 CFLAGS+=$(addprefix -I,$(INCLUDES))
@@ -101,7 +100,7 @@ $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CC) $(LDFLAGS) $^   -o $@
+	$(CC) $(LDFLAGS) $^ -lm   -o $@
 
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
@@ -221,8 +220,8 @@ re: clean all
 
 reall: cleanall all
 
-debug: re
-debug: CFLAGS+=-g3 -DDEBUG
+debug: reall
+debug: OPTIMIZATION=-O0 -g3 -DDEBUG
 
 qa: re
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
