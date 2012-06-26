@@ -95,7 +95,7 @@ OBJDIRS=$(sort $(dir $(OBJECTS)))
 OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter the root dir out, that's "./"
 
 .PHONY: all
-all: $(PROJECT).hex
+all: $(PROJECT).hex $(PROJECT).lst
 	@echo Program size:
 	@make -s size
 

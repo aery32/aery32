@@ -39,12 +39,6 @@ void init_board(void)
 	/* Set main clock source to PLL0 (66 MHz) */
 	aery_pm_select_mck(PM_MCK_SOURCE_PLL0);
 
-	/* Prescale CPU and Peripheral Bus (PBA and PBB) clocks to run at 33 MHz */
-	aery_pm_setup_clkdomain(
-		1,               /* prescaler: f_domain = f_mck / (2^prescaler) */
-		PM_CLKDOMAIN_ALL /* clock domain selection */
-	);
-
 	/* Initialize and enable PLL1; 96 MHz is good for example USB when
 	 * divided by two during the general clock intialization. */
 	aery_pm_init_pllvco(pll1, PM_PLL_SOURCE_OSC0, 16, 1, true); // 192 MHz
