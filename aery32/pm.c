@@ -218,7 +218,7 @@ aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain sel)
 		cksel &= ~(AVR32_PM_CKSEL_CPUSEL_MASK|AVR32_PM_CKSEL_CPUDIV_MASK);
 		if (prescaler != 0) {
 			cksel |=
-				(prescaler-1 << AVR32_PM_CKSEL_CPUSEL_OFFSET) |
+				((prescaler - 1) << AVR32_PM_CKSEL_CPUSEL_OFFSET) |
 				AVR32_PM_CKSEL_CPUDIV_MASK;
 		}
 	}
@@ -226,7 +226,7 @@ aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain sel)
 		cksel &= ~(AVR32_PM_CKSEL_PBASEL_MASK|AVR32_PM_CKSEL_PBADIV_MASK);
 		if (prescaler != 0) {
 			cksel |=
-				(prescaler-1 << AVR32_PM_CKSEL_PBASEL_OFFSET) |
+				((prescaler - 1) << AVR32_PM_CKSEL_PBASEL_OFFSET) |
 				AVR32_PM_CKSEL_PBADIV_MASK;
 		}
 	}
@@ -234,7 +234,7 @@ aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain sel)
 		cksel &= ~(AVR32_PM_CKSEL_PBBSEL_MASK|AVR32_PM_CKSEL_PBBDIV_MASK);
 		if (prescaler != 0) {
 			cksel |=
-				(prescaler-1 << AVR32_PM_CKSEL_PBBSEL_OFFSET) |
+				((prescaler - 1) << AVR32_PM_CKSEL_PBBSEL_OFFSET) |
 				AVR32_PM_CKSEL_PBBDIV_MASK;
 		}
 	}
