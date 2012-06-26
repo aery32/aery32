@@ -126,7 +126,7 @@ void aery_gpio_init_pin(uint8_t pinnum, int options);
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_set_pin_high(uint8_t pinnum)
+static inline void aery_gpio_set_pin_high(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrs = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -137,7 +137,7 @@ inline void aery_gpio_set_pin_high(uint8_t pinnum)
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_set_pin_low(uint8_t pinnum)
+static inline void aery_gpio_set_pin_low(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrc = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -148,7 +148,7 @@ inline void aery_gpio_set_pin_low(uint8_t pinnum)
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_toggle_pin(uint8_t pinnum)
+static inline void aery_gpio_toggle_pin(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrt = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -160,7 +160,7 @@ inline void aery_gpio_toggle_pin(uint8_t pinnum)
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  * \return Pin value high or low, 1 or 0
  */
-inline bool aery_gpio_read_pin(uint8_t pinnum)
+static inline bool aery_gpio_read_pin(uint8_t pinnum)
 {
 	return (bool) AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
 	       & (1UL << GPIO_NUM2PIN(pinnum));
@@ -181,7 +181,7 @@ inline bool aery_gpio_read_pin(uint8_t pinnum)
  * \attention CPU clock has to match with PBB clock to make local bus
  *            functional
  */
-inline void aery_gpio_enable_localbus(void)
+static inline void aery_gpio_enable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) | AVR32_CPUCR_LOCEN_MASK);
@@ -192,7 +192,7 @@ inline void aery_gpio_enable_localbus(void)
  *
  * \see gpio_enable_localbus()
  */ 
-inline void aery_gpio_disable_localbus(void)
+static inline void aery_gpio_disable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) & ~AVR32_CPUCR_LOCEN_MASK);
