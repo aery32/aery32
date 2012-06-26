@@ -110,6 +110,13 @@ enum Pm_osc_startup {
 	PM_OSC32_STARTUP_4s6
 };
 
+enum Pm_ckldomain {
+	PM_CLKDOMAIN_CPU = 01,
+	PM_CLKDOMAIN_PBA = 02,
+	PM_CLKDOMAIN_PBB = 04,
+	PM_CLKDOMAIN_ALL = 07
+};
+
 /**
  * Starts the chosen oscillator
  *
@@ -205,6 +212,18 @@ void aery_pm_disable_gclk(enum Pm_gclk);
  * \param mcksrc Clock source
  */
 void aery_pm_select_mck(enum Pm_mck_source);
+
+/**
+ * Set up clock domain frequency
+ *
+ * \param prescaler Prescaler value, domain clock frequency will
+ * be f_mck / (2^prescaler). 0 disables the prescaler making domain clock
+ * equalt to the main clock, f_mck.
+ * \param clkdomain Clock domain selection: PM_CLKDOMAIN_CPU,
+ * PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB
+ * \return Returns 0 on success and -1 on error
+ */
+int aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
 
 #ifdef __cplusplus
 }

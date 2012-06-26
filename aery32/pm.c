@@ -205,3 +205,50 @@ aery_pm_select_mck(enum Pm_mck_source mcksrc)
 {
 	AVR32_PM.MCCTRL.mcsel = mcksrc;
 }
+
+int
+aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain sel)
+{
+	uint32_t cksel = AVR32_PM.cksel;
+
+	if (prescaler != 0 && prescaler > 8) {
+		prescaler = 7;
+	} else {
+		prescaler -= 1;
+	}
+
+	// CPU
+	if (sel & PM_CLKDOMAIN_CPU) {
+		cksel &= ~(AVR32_PM_CKSEL_CPUSEL_MASK|AVR32_PM_CKSEL_CPUDIV_MASK);
+		if (prescaler != 0) {
+			cksel |=
+				(prescaler << AVR32_PM_CKSEL_CPUSEL_OFFSET) |
+				AVR32_PM_CKSEL_CPUDIV_MASK;
+		}
+	}
+
+	// PBA
+	if (sel & PM_CLKDOMAIN_PBA) {
+		cksel &= ~(AVR32_PM_CKSEL_PBASEL_MASK|AVR32_PM_CKSEL_PBADIV_MASK);
+		if (prescaler != 0) {
+			cksel |=
+				(prescaler << AVR32_PM_CKSEL_PBASEL_OFFSET) |
+				AVR32_PM_CKSEL_PBADIV_MASK;
+		}
+	}
+
+	// PBB
+	if (sel & PM_CLKDOMAIN_PBB) {
+		cksel &= ~(AVR32_PM_CKSEL_PBBSEL_MASK|AVR32_PM_CKSEL_PBBDIV_MASK);
+		if (prescaler != 0) {
+			cksel |=
+				(prescaler << AVR32_PM_CKSEL_PBBSEL_OFFSET) |
+				AVR32_PM_CKSEL_PBBDIV_MASK;
+		}
+	}
+
+	// The register must not be re-written until CKRDY goes high.
+	while (!(AVR32_PM.isr & AVR32_PM_ISR_CKRDY_MASK));
+	AVR32_PM.cksel = cksel;
+	return 0;
+}
