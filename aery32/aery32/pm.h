@@ -250,7 +250,7 @@ int aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
  *
  * \return Master clock frequency in hertz
  */
-uint32_t aery_pm_get_mck(void)
+uint32_t aery_pm_get_mck(void);
 
 #ifdef __cplusplus
 }
