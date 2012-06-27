@@ -246,12 +246,12 @@ aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain domain)
 	/* Check that PBA and PBB clocks are smaller than CPU clock */
 	if (cksel & AVR32_PM_CKSEL_CPUDIV_MASK) {
 		if ((cksel & AVR32_PM_CKSEL_PBADIV_MASK) == 0 ||
-			(cksel & AVR32_PM_CKSEL_PBBDIV_MASK) == 0)
+		    (cksel & AVR32_PM_CKSEL_PBBDIV_MASK) == 0)
 		{
 			return -1;
 		}
 		if (CKSEL_DIVIDER(cksel, CPU) > CKSEL_DIVIDER(cksel, PBA) ||
-			CKSEL_DIVIDER(cksel, CPU) > CKSEL_DIVIDER(cksel, PBB))
+		    CKSEL_DIVIDER(cksel, CPU) > CKSEL_DIVIDER(cksel, PBB))
 		{
 			return -1;
 		}
