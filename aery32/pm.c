@@ -207,40 +207,91 @@ aery_pm_select_mck(enum Pm_mck_source mcksrc)
 }
 
 int
-aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain sel)
+aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain domain)
 {
 	uint32_t cksel = AVR32_PM.cksel;
 
+	#define CKSEL_RESET_MASK(SEL) \
+		(~(AVR32_PM_CKSEL_##SEL##SEL_MASK | AVR32_PM_CKSEL_##SEL##DIV_MASK))
+
+	#define CKSEL_PRESCALER_MASK(VAR, SEL) \
+		(((VAR - 1) << AVR32_PM_CKSEL_##SEL##SEL_OFFSET) | AVR32_PM_CKSEL_##SEL##DIV_MASK)
+
+	#define CKSEL_DIVIDER(VAR, SEL) \
+		((VAR & AVR32_PM_CKSEL_##SEL##SEL_MASK) >> AVR32_PM_CKSEL_##SEL##SEL_OFFSET)
+
 	if (prescaler != 0 && prescaler > 8) {
-		prescaler = 8;
-	} 
-	if (sel & PM_CLKDOMAIN_CPU) {
-		cksel &= ~(AVR32_PM_CKSEL_CPUSEL_MASK|AVR32_PM_CKSEL_CPUDIV_MASK);
+		return -1;
+	}
+	if (domain & PM_CLKDOMAIN_CPU) {
+		cksel &= CKSEL_RESET_MASK(CPU);
 		if (prescaler != 0) {
-			cksel |=
-				((prescaler - 1) << AVR32_PM_CKSEL_CPUSEL_OFFSET) |
-				AVR32_PM_CKSEL_CPUDIV_MASK;
+			cksel |= CKSEL_PRESCALER_MASK(prescaler, CPU);
+			cksel |= CKSEL_PRESCALER_MASK(prescaler, HSB);
 		}
 	}
-	if (sel & PM_CLKDOMAIN_PBA) {
-		cksel &= ~(AVR32_PM_CKSEL_PBASEL_MASK|AVR32_PM_CKSEL_PBADIV_MASK);
+	if (domain & PM_CLKDOMAIN_PBA) {
+		cksel &= CKSEL_RESET_MASK(PBA);
 		if (prescaler != 0) {
-			cksel |=
-				((prescaler - 1) << AVR32_PM_CKSEL_PBASEL_OFFSET) |
-				AVR32_PM_CKSEL_PBADIV_MASK;
+			cksel |= CKSEL_PRESCALER_MASK(prescaler, PBA);
 		}
 	}
-	if (sel & PM_CLKDOMAIN_PBB) {
-		cksel &= ~(AVR32_PM_CKSEL_PBBSEL_MASK|AVR32_PM_CKSEL_PBBDIV_MASK);
+	if (domain & PM_CLKDOMAIN_PBB) {
+		cksel &= CKSEL_RESET_MASK(PBB);
 		if (prescaler != 0) {
-			cksel |=
-				((prescaler - 1) << AVR32_PM_CKSEL_PBBSEL_OFFSET) |
-				AVR32_PM_CKSEL_PBBDIV_MASK;
+			cksel |= CKSEL_PRESCALER_MASK(prescaler, PBB);
+		}
+	}
+
+	/* Check that PBA and PBB clocks are smaller than CPU clock */
+	if (cksel & AVR32_PM_CKSEL_CPUDIV_MASK) {
+		if ((cksel & AVR32_PM_CKSEL_PBADIV_MASK) == 0 ||
+			(cksel & AVR32_PM_CKSEL_PBBDIV_MASK) == 0)
+		{
+			return -1;
+		}
+		if (CKSEL_DIVIDER(cksel, CPU) > CKSEL_DIVIDER(cksel, PBA) ||
+			CKSEL_DIVIDER(cksel, CPU) > CKSEL_DIVIDER(cksel, PBB))
+		{
+			return -1;
 		}
 	}
 
 	/* The register must not be re-written until CKRDY goes high. */
 	while (!(AVR32_PM.isr & AVR32_PM_ISR_CKRDY_MASK));
 	AVR32_PM.cksel = cksel;
+
 	return 0;
+}
+
+uint32_t
+aery_pm_get_mck(void)
+{
+	uint32_t mck = 0;
+
+	switch (AVR32_PM.MCCTRL.mcsel) {
+	case 0:
+		mck = F_SLOWCLK;
+		break;
+	case 1:
+		mck = F_OSC0;
+		break;
+	case 2:
+		if (AVR32_PM.PLL[0].pllosc == 0) {
+			mck = F_OSC0;
+		} else {
+			mck = F_OSC1;
+		}
+		if (AVR32_PM.PLL[0].plldiv > 0) {
+			mck *= (AVR32_PM.PLL[0].pllmul + 1) / AVR32_PM.PLL[0].plldiv;
+		} else {
+			mck *= 2 * (AVR32_PM.PLL[0].pllmul + 1);
+		}
+		if (AVR32_PM.PLL[0].pllopt & 2) {
+			mck /= 2;
+		}
+		break;
+	}
+
+	return mck;
 }
