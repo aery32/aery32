@@ -245,8 +245,8 @@ int aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
  * Returns the master (or main) clock frequency
  *
  * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
- * the master clock with F_OSC0 = 12MHz. If other is used make sure to difine this
- * before including the <aery32/pm.h>.
+ * the master clock with F_OSC0 = 12MHz. If other is used, make sure to define
+ * this before including the <aery32/pm.h>.
  *
  * \return Master clock frequency in hertz
  */
