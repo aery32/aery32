@@ -47,34 +47,38 @@
 
 namespace aery {
 
-inline void spi_init_master(volatile avr32_spi_t *pspi)
+static inline void
+spi_init_master(volatile avr32_spi_t *pspi)
 {
 	aery_spi_init_master(pspi);
 }
 
-inline void spi_setup_chipselect(unsigned long csr, enum Spi_mode mode,
-                                 uint8_t bits)
+static inline void
+spi_setup_chipselect(unsigned long csr, enum Spi_mode mode, uint8_t bits)
 {
 	aery_spi_setup_chipselect(csr, mode, bits);
 }
 
-inline uint16_t spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
-                             uint8_t csnum, bool islast)
+static inline uint16_t
+spi_transmit(volatile avr32_spi_t *pspi, uint16_t data, uint8_t csnum, bool islast)
 {
 	return aery_spi_transmit(pspi, data, csnum, islast);
 }
 
-inline int spi_txready(volatile avr32_spi_t *pspi)
+static inline int
+spi_txready(volatile avr32_spi_t *pspi)
 {
 	return aery_spi_txready(pspi);
 }
 
-inline void spi_enable(volatile avr32_spi_t *pspi)
+static inline void
+spi_enable(volatile avr32_spi_t *pspi)
 {
 	aery_spi_enable(pspi);
 }
 
-inline void spi_disable(volatile avr32_spi_t *pspi)
+static inline void
+spi_disable(volatile avr32_spi_t *pspi)
 {
 	aery_spi_disable(pspi);
 }

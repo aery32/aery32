@@ -47,26 +47,26 @@
 
 namespace aery {
 
-inline void
+static inline void
 intc_init(void)
 {
 	aery_intc_init();
 }
 
-inline void
+static inline void
 intc_register_isrhandler(void (*)(void) handler, uint32_t group,
                          uint8_t priority)
 {
 	aery_intc_register_isrhandler(handler, group, priority);
 }
 
-inline void
+static inline void
 intc_enable_globally(void)
 {
 	aery_intc_enable_globally();
 }
 
-inline void
+static inline void
 intc_disable_globally(void)
 {
 	aery_intc_disable_globally();

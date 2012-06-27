@@ -46,60 +46,71 @@
 
 namespace aery {
 
-inline int
+static inline int
 pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
              enum Pm_osc_startup startup)
 {
 	return aery_pm_start_osc(oscnum, mode, startup);
 }
 
-inline int
+static inline int
 pm_init_pllvco(volatile avr32_pm_pll_t* ppll, enum Pm_pll_source src,
                uint8_t mul, uint8_t div, bool hifreq)
 {
 	return aery_pm_init_pllvco(ppll, src, mul, div, hifreq);
 }
 
-inline void
+static inline void
 pm_enable_pll(volatile avr32_pm_pll_t* ppll, bool divby2)
 {
 	aery_pm_enable_pll(ppll, divby2);
 }
 
-inline int
+static inline int
 pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc, uint8_t div)
 {
 	return aery_pm_init_gclk(clknum, clksrc, div);
 }
 
-inline void
+static inline void
 pm_wait_osc_to_stabilize(uint8_t oscnum)
 {
 	aery_pm_wait_osc_to_stabilize(oscnum);
 }
 
-inline void
+static inline void
 pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 {
 	aery_pm_wait_pll_to_lock(ppll);
 }
 
-inline void
+static inline void
 pm_enable_gclk(enum Pm_gclk clknum)
 {
 	aery_pm_enable_gclk(clknum);
 }
 
-inline void
+static inline void
 pm_disable_gclk(enum Pm_gclk clknum)
 {
 	aery_pm_disable_gclk(clknum);
 }
 
-inline void
+static inline void
 pm_select_mck(enum Pm_mck_source mcksrc)
 {
 	aery_pm_select_mck(mcksrc);
+}
+
+static inline int
+pm_setup_clkdomain(uint8_t, enum Pm_ckldomain)
+{
+	return aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
+}
+
+static inline uint32_t
+pm_get_mck(void) {
+	return aery_pm_get_mck(void);
 }
 
 }

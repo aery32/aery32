@@ -47,17 +47,20 @@
 
 namespace aery {
 
-static inline void delay_cycles(uint32_t cycles)
+static inline void
+delay_cycles(uint32_t cycles)
 {
 	aery_delay_cycles(cycles);
 }
 
-static inline void delay_us(uint16_t us)
+static inline void
+delay_us(uint16_t us)
 {
 	aery_delay_us(us);
 }
 
-static inline void delay_ms(uint16_t ms)
+static inline void
+delay_ms(uint16_t ms)
 {
 	aery_delay_ms(ms);
 }

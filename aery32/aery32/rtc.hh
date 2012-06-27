@@ -47,50 +47,50 @@
 
 namespace aery {
 
-inline int
+static inline int
 rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
          enum Rtc_source source)
 {
 	return aery_rtc_init(val, top, prescaler, source);
 }
 
-inline int
+static inline int
 rtc_set_control(uint32_t ctrl)
 {
 	return aery_rtc_set_control(ctrl);
 }
 
-inline int
+static inline int
 rtc_set_value(uint32_t val)
 {
 	return aery_rtc_set_value(val);
 }
 
-inline int
+static inline int
 rtc_set_top(uint32_t topval)
 {
 	return aery_rtc_set_top(topval);
 }
 
-inline void
+static inline void
 rtc_enable(bool enint)
 {
 	aery_rtc_enable(enint);
 }
 
-inline int
+static inline int
 aery_rtc_wait(uint32_t mck_cycles)
 {
 	return aery_rtc_wait(uint32_t mck_cycles);
 }
 
-inline void
+static inline void
 rtc_delay_cycles(uint32_t cycles)
 {
 	aery_rtc_delay_cycles(uint32_t cycles)
 }
 
-inline void
+static inline void
 rtc_clear_interrupt(void)
 {
 	aery_rtc_clear_interrupt();

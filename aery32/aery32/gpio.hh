@@ -47,43 +47,50 @@
 
 namespace aery {
 
-inline void gpio_init_pins(volatile avr32_gpio_port_t *pport,
-                           uint32_t pinmask, int options)
+static inline void
+gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask, int options)
 {
 	aery_gpio_init_pins(pport, pinmask, options);
 }
 
-inline void gpio_init_pin(uint8_t pinnum, int options)
+static inline void
+gpio_init_pin(uint8_t pinnum, int options)
 {
 	aery_gpio_init_pin(pinnum, options);
 }
 
-inline void gpio_set_pin_high(uint8_t pinnum)
+static inline void
+gpio_set_pin_high(uint8_t pinnum)
 {
 	aery_gpio_set_pin_high(pinnum);
 }
 
-inline void gpio_set_pin_low(uint8_t pinnum)
+static inline void
+gpio_set_pin_low(uint8_t pinnum)
 {
 	aery_gpio_set_pin_low(pinnum);
 }
 
-inline void gpio_toggle_pin(uint8_t pinnum)
+static inline void
+gpio_toggle_pin(uint8_t pinnum)
 {
 	aery_gpio_toggle_pin(pinnum);
 }
 
-inline bool gpio_read_pin(uint8_t pinnum)
+static inline bool
+gpio_read_pin(uint8_t pinnum)
 {
 	return aery_gpio_read_pin(pinnum);
 }
 
-inline void gpio_enable_localbus(void)
+static inline void
+gpio_enable_localbus(void)
 {
 	aery_gpio_enable_localbus();
 }
 
-inline void gpio_disable_localbus(void)
+static inline void
+gpio_disable_localbus(void)
 {
 	aery_gpio_disable_localbus();
 }
