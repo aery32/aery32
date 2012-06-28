@@ -102,15 +102,20 @@ pm_select_mck(enum Pm_mck_source mcksrc)
 	aery_pm_select_mck(mcksrc);
 }
 
+static inline uint32_t
+pm_get_mck(void) {
+	return aery_pm_get_mck();
+}
+
 static inline int
-pm_setup_clkdomain(uint8_t, enum Pm_ckldomain)
+pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain domain)
 {
-	return aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
+	return aery_pm_setup_clkdomain(prescaler, domain);
 }
 
 static inline uint32_t
-pm_get_mck(void) {
-	return aery_pm_get_mck(void);
+pm_get_clkdomain_freq(void) {
+	return aery_pm_get_clkdomain_freq();
 }
 
 }
