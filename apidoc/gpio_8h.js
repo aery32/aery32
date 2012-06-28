@@ -19,12 +19,12 @@ var gpio_8h =
     [ "GPIO_PULLUP", "gpio_8h.html#ae689bc8f5c42d6df7bd54a8dd372e072", null ],
     [ "__builtin_mfsr", "gpio_8h.html#a59e23e81579f118984683299ed447898", null ],
     [ "__builtin_mtsr", "gpio_8h.html#a20333519c660b4806f8f03d54625d1f7", null ],
-    [ "aery_gpio_disable_localbus", "gpio_8h.html#a6823b3a2f48469eb70a197535a03288e", null ],
-    [ "aery_gpio_enable_localbus", "gpio_8h.html#afb97bc05d1751e9d73520dc2f065981f", null ],
+    [ "aery_gpio_disable_localbus", "gpio_8h.html#a8e12a3ea14371543ab8640acbd50a0da", null ],
+    [ "aery_gpio_enable_localbus", "gpio_8h.html#addeab2acac5f775d7465e97fc0f24761", null ],
     [ "aery_gpio_init_pin", "gpio_8h.html#a445298de475a3ca04060bff3c55966d7", null ],
-    [ "aery_gpio_init_pins", "gpio_8h.html#a1665b2a43f4ace79744d55345ac4d416", null ],
-    [ "aery_gpio_read_pin", "gpio_8h.html#a146c8cb7e732d057688c1f7e5ab079e3", null ],
-    [ "aery_gpio_set_pin_high", "gpio_8h.html#aa4fabe6e585234544404dc94e7da0661", null ],
-    [ "aery_gpio_set_pin_low", "gpio_8h.html#ac31ab11800423cbf8df74be0c486c78e", null ],
-    [ "aery_gpio_toggle_pin", "gpio_8h.html#a3deca91003ca9fd4eb173e9c69a1a62a", null ]
+    [ "aery_gpio_init_pins", "gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107", null ],
+    [ "aery_gpio_read_pin", "gpio_8h.html#ab193c6550340d73906e278d74db441f2", null ],
+    [ "aery_gpio_set_pin_high", "gpio_8h.html#a6ca4f08827b5b099de3a77fd36bbce3b", null ],
+    [ "aery_gpio_set_pin_low", "gpio_8h.html#a87d91b5d800c98b573cbdce851b70fef", null ],
+    [ "aery_gpio_toggle_pin", "gpio_8h.html#ac359075164afb09a88aecb5183c3418c", null ]
 ];
