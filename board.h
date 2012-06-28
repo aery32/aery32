@@ -6,6 +6,8 @@ extern "C" {
 #endif
 
 #define F_OSC0 12000000UL
+#define F_OSC1 0UL
+
 #define F_CPU 66000000UL
 
 #define HSBMASK_DEFAULT 0xFFFFFFFF

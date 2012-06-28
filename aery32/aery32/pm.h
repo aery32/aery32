@@ -57,21 +57,15 @@ extern "C" {
 #endif
 
 #ifndef F_OSC0
-#	warning !!! F_OSC0 NOT DEFINED: 12000000UL has been used by default.
 #	define F_OSC0 12000000UL
 #endif
 
 #ifndef F_OSC1
-#	warning !!! F_OSC1 NOT DEFINED: 0UL has been used by default.
 #	define F_OSC1 0UL
 #endif
 
-#ifndef F_RCOSC
-#	define F_RCOSC 115000UL
-#endif
-
 #ifndef F_SLOWCLK
-#	define F_SLOWCLK F_RCOSC
+#	define F_SLOWCLK 115000UL
 #endif
 
 enum Pm_gclk {

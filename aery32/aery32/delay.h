@@ -51,6 +51,10 @@ extern "C" {
 #include <inttypes.h>
 #include <avr32/io.h>
 
+#ifndef F_CPU
+#	error F_CPU NOT DEFINED: Cannot declare delay functions.
+#endif
+
 /**
  * Creates a delay of the desired number of CPU cycles
  *
@@ -63,9 +67,9 @@ aery_delay_cycles(uint32_t cycles)
 	while ((uint32_t) __builtin_mfsr(AVR32_COUNT) < cycles);
 }
 
-#ifdef F_CPU
 /**
  * Delays the program the desired amount of microseconds
+ *
  * \note F_CPU has to be defined before hand to make this function accessible
  * \par Example
  * \code
@@ -84,6 +88,7 @@ aery_delay_us(uint16_t us)
 
 /**
  * Delays the program the desired amount of milliseconds
+ *
  * \note F_CPU has to be defined before hand to make this function accessible
  * \par Example
  * \code
@@ -98,7 +103,6 @@ aery_delay_ms(uint16_t ms)
 {
 	aery_delay_cycles((uint32_t) ((F_CPU / 1000) * ms));
 }
-#endif
 
 #ifdef __cplusplus
 }

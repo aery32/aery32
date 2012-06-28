@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include <aery32/pm.h>
-#include <aery32/gpio.h>
 #include "board.h"
+#include <aery32/gpio.h>
+#include <aery32/pm.h>
 
 void init_board(void)
 {
