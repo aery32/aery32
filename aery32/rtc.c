@@ -50,10 +50,10 @@ aery_rtc_init(uint32_t val, uint32_t topval, uint8_t psel, enum Rtc_source src)
 	if (src == 1) {
 		ctrl |= 1 << AVR32_RTC_CTRL_CLK32_OFFSET;
 	}
-	if (!aery_rtc_set_value(val)) {
+	if (aery_rtc_set_value(val) == -1) {
 		return -1;
 	}
-	if (!aery_rtc_set_top(topval)) {
+	if (aery_rtc_set_top(topval) == -1) {
 		return -1;
 	}
 	return aery_rtc_set_control(ctrl);
@@ -71,7 +71,7 @@ aery_rtc_enable(bool enint)
 int
 aery_rtc_set_control(uint32_t ctrl)
 {
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
+	if (aery_rtc_isbusy(RTC_WAIT_LOOPMAX)) {
 		return -1;
 	}
 	AVR32_RTC.ctrl = ctrl;
@@ -81,32 +81,32 @@ aery_rtc_set_control(uint32_t ctrl)
 int
 aery_rtc_set_value(uint32_t val)
 {
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
-		return 0;
+	if (aery_rtc_isbusy(RTC_WAIT_LOOPMAX)) {
+		return -1;
 	}
 	AVR32_RTC.val = val;
-	return 1;
+	return 0;
 }
 
 int
 aery_rtc_set_top(uint32_t topval)
 {
-	if (!aery_rtc_wait(RTC_WAIT_MAX)) {
-		return 0;
+	if (aery_rtc_isbusy(RTC_WAIT_LOOPMAX)) {
+		return -1;
 	}
 	AVR32_RTC.top = topval;
-	return 1;
+	return 0;
 }
 
-int
-aery_rtc_wait(uint32_t mck_cycles)
+bool
+aery_rtc_isbusy(uint32_t loopcycles)
 {
-	for (; mck_cycles > 0; mck_cycles--) {
+	while (loopcycles--) {
 		if (!(AVR32_RTC.ctrl & AVR32_RTC_BUSY_MASK)) {
-			return 1;
+			return false;
 		}
 	}
-	return 0;
+	return true;
 }
 
 void

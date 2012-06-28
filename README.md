@@ -52,9 +52,9 @@ Or less verbosely `make programs`. The latter is also quicker with batchisp (in 
 
 ---
 
-If you prefer C++ over C, change the `CC` in Makefile to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTD` variable in Makefile. Otherwise you can also use environment variables
+If you prefer C++ over C, change the `CC` in Makefile to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTANDARD` variable in Makefile. Otherwise you can also use environment variables
 
-    make re CC="avr32-g++" CSTD="gnu++98"
+    make re CC="avr32-g++" CSTANDARD="gnu++98"
 
 If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed you can make a local version of the API documentation by running Doxygen at the `aery32/` directory
 
