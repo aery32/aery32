@@ -56,16 +56,18 @@ extern "C" {
 	extern volatile avr32_pm_pll_t *pll1;
 #endif
 
-#ifndef F_RCOSC
-#	define F_RCOSC   115000UL
-#endif
-
 #ifndef F_OSC0
-#	define F_OSC0    12000000UL
+#	warning !!! F_OSC0 NOT DEFINED: 12000000UL has been used by default.
+#	define F_OSC0 12000000UL
 #endif
 
 #ifndef F_OSC1
-#	define F_OSC1    0UL
+#	warning !!! F_OSC1 NOT DEFINED: 0UL has been used by default.
+#	define F_OSC1 0UL
+#endif
+
+#ifndef F_RCOSC
+#	define F_RCOSC 115000UL
 #endif
 
 #ifndef F_SLOWCLK
@@ -230,6 +232,17 @@ void aery_pm_disable_gclk(enum Pm_gclk);
 void aery_pm_select_mck(enum Pm_mck_source);
 
 /**
+ * Get the master (or main) clock frequency
+ *
+ * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
+ * the master clock with F_OSC0 = 12MHz. If other is used, make sure to define
+ * this before including the <aery32/pm.h>.
+ *
+ * \return Master clock frequency in hertz
+ */
+uint32_t aery_pm_get_mck(void);
+
+/**
  * Set up clock domain frequency
  *
  * \param prescaler Prescaler value, domain clock frequency will
@@ -242,15 +255,13 @@ void aery_pm_select_mck(enum Pm_mck_source);
 int aery_pm_setup_clkdomain(uint8_t, enum Pm_ckldomain);
 
 /**
- * Returns the master (or main) clock frequency
+ * Get the clock domain frequency
  *
- * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
- * the master clock with F_OSC0 = 12MHz. If other is used, make sure to define
- * this before including the <aery32/pm.h>.
- *
- * \return Master clock frequency in hertz
+ * \param clkdomain Clock domain selection: PM_CLKDOMAIN_CPU,
+ * PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB
+ * \return Returns clock domain frequency in hertz
  */
-uint32_t aery_pm_get_mck(void);
+uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain);
 
 #ifdef __cplusplus
 }
