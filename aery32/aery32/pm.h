@@ -61,7 +61,7 @@ extern "C" {
 #endif
 
 #ifndef F_OSC1
-#	define F_OSC1 0UL
+#	define F_OSC1 16000000UL
 #endif
 
 #ifndef F_SLOWCLK
