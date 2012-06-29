@@ -70,7 +70,7 @@ Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
   - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB).
   - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain.
   - `aery_pm_get_mck()` returns the master (or main) clock frequency.
-- Experimental "to string" functions, which can be used to convert integer and double values to strings.
+- Experimental "to string" functions, which can be used to convert integer and double type values to strings.
 - Added <aery32/all.h> header file to include the whole library at once.
 - Makefile tunings.
 

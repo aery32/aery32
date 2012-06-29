@@ -209,9 +209,9 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc);
  * Get the master (or main) clock frequency
  *
  * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
- * the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If others are used,
- * make sure to put a new value in CFLAGS manually or via Makefile, like
- * CFLAGS+=-DF_OSC0=8000000UL.
+ * the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If other oscillator
+ * frequencies are used, make sure to put the new value in CFLAGS manually or
+ * via Makefile, like CFLAGS+=-DF_OSC0=8000000UL.
  *
  * \return Master clock frequency in hertz
  */
