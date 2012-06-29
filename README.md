@@ -64,7 +64,7 @@ If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may 
 Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 ## Release notes
-### v0.11
+### v0.1.1
 
 - PM module has been expanded with few functions
   - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB).
