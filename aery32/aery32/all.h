@@ -14,43 +14,15 @@
     we can send you a copy.
 */
 
-/*!
-\file aery32/intc.hh
-\brief Interrupt Controller (INTC) with aery namespace
-\note C++ header file
-*/
+#ifndef __AERY32_ALL_H
+#define __AERY32_ALL_H
 
-#ifndef __AERY32_INTC_HH
-#define __AERY32_INTC_HH
+#include "aery32/delay.h"
+#include "aery32/gpio.h"
+#include "aery32/intc.h"
+#include "aery32/pm.h"
+#include "aery32/rtc.h"
+#include "aery32/spi.h"
+#include "aery32/tostr.h"
 
-#include "intc.h"
-
-namespace aery {
-
-static inline void
-intc_init(void)
-{
-	aery_intc_init();
-}
-
-static inline void
-intc_register_isrhandler(void (*)(void) handler, uint32_t group,
-                         uint8_t priority)
-{
-	aery_intc_register_isrhandler(handler, group, priority);
-}
-
-static inline void
-intc_enable_globally(void)
-{
-	aery_intc_enable_globally();
-}
-
-static inline void
-intc_disable_globally(void)
-{
-	aery_intc_disable_globally();
-}
-
-}
 #endif

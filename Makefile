@@ -56,26 +56,32 @@ OBJDIR=obj
 # ----------------------------------------------------------------------
 
 CC=avr32-gcc
-CSTD=gnu99
+CSTANDARD=gnu99
+OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
-       -fdata-sections -ffunction-sections $(addprefix -I,$(INCLUDES))
+CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
+CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+#CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
+CFLAGS+=$(addprefix -I,$(INCLUDES))
 
-LDFLAGS=-mpart=$(MPART) \
-        -Taery32/ldscripts/avr32elf_$(MPART).x
+LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
+LDFLAGS+=-Wl,--gc-sections # Discards unused sections
+#LDFLAGS+=--rodata-writable --direct-data
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
-#LDFLAGS += -mrelax
+#LDFLAGS+=-mrelax
 
-# Additional options
-CFLAG_OPTS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
-#CFLAG_OPTS+=-DUSER_BOARD # Provides Atmel ASF compatibility
+# Add Math library
+#LDFLAGS+=-lm
 
 
 # ----------------------------------------------------------------------
 # Build targets
 # ----------------------------------------------------------------------
+
+# Grab the name of the Operating System
+OS=$(shell uname)
 
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.c=.o)
@@ -86,12 +92,10 @@ OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
 
 # Resolve the nested object directories that has to be created
 OBJDIRS=$(sort $(dir $(OBJECTS)))
-
-# Grab the name of the Operating System
-OS=$(shell uname)
+OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter the root dir out, that's "./"
 
 .PHONY: all
-all: $(PROJECT).hex
+all: $(PROJECT).hex $(PROJECT).lst
 	@echo Program size:
 	@make -s size
 
@@ -102,7 +106,7 @@ $(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CC) $(LDFLAGS) $^   -o $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 MPART="$(MPART)" CFLAG_OPTS="-DAERY_SHORTCUTS"
+	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
 
 $(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
@@ -117,9 +121,9 @@ $(PROJECT).lst: $(PROJECT).elf
 $(OBJECTS): | $(OBJDIRS)
 $(OBJDIRS):
 ifneq (, $(filter $(OS), windows32))
-	-mkdir $(subst /,\,$(filter-out ./, $@))
+	-mkdir $(subst /,\,$@)
 else
-	-mkdir -p $(filter-out ./, $@)
+	-mkdir -p $@
 endif
 
 # Add dependency lists, .d files
@@ -209,8 +213,8 @@ size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f *.o $(addprefix $(PROJECT),.elf .hex .lst) user.data
-	-rm -rf $(filter-out ./, $(OBJDIRS))
+	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
+	-rm -rf $(OBJDIRS)
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
@@ -219,11 +223,11 @@ re: clean all
 
 reall: cleanall all
 
-debug: re
-debug: CFLAGS += -g3 -DDEBUG
+debug: reall
+debug: OPTIMIZATION=-O0 -g3 -DDEBUG
 
 qa: re
-qa: CFLAG_OPTS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 dist: clean
 	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \

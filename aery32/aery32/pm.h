@@ -1,43 +1,23 @@
-/**
- * \file aery32/pm.h
- * \brief Power Manager (PM)
- *
- * \verbatim
- *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
- * |     | -_|  _| | |_  |  _|  |  
- * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
- *               |___|          |
- * 
- * Copyright (c) 2012, Muiku Oy
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- *    * Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- *
- *    * Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- *
- *    * Neither the name of Muiku Oy nor the names of its contributors may be
- *      used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * \endverbatim
- */
+/*   _____             ___ ___   |
+    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+    |     | -_|  _| | |_  |  _|  |  
+    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+                  |___|          |
+
+    Copyright (c) 2012, Muiku Oy
+    All rights reserved.
+
+    LICENSE: This source file is subject to the new BSD license that is
+    bundled with this package in the file LICENSE.txt. If you did not
+    receive a copy of the license and are unable to obtain it through
+    the world-wide-web, please send an email to contact@muiku.com so
+    we can send you a copy.
+*/
+
+/*!
+\file aery32/pm.h
+\brief Power Manager (PM)
+*/
  
 #ifndef __AERY32_PM_H
 #define __AERY32_PM_H
@@ -54,6 +34,18 @@ extern "C" {
 	extern volatile avr32_pm_t *pm;
 	extern volatile avr32_pm_pll_t *pll0;
 	extern volatile avr32_pm_pll_t *pll1;
+#endif
+
+#ifndef F_OSC0
+#	define F_OSC0 12000000UL
+#endif
+
+#ifndef F_OSC1
+#	define F_OSC1 16000000UL
+#endif
+
+#ifndef F_SLOWCLK
+#	define F_SLOWCLK 115000UL
 #endif
 
 enum Pm_gclk {
@@ -110,6 +102,13 @@ enum Pm_osc_startup {
 	PM_OSC32_STARTUP_4s6
 };
 
+enum Pm_ckldomain {
+	PM_CLKDOMAIN_CPU = 01,
+	PM_CLKDOMAIN_PBA = 02,
+	PM_CLKDOMAIN_PBB = 04,
+	PM_CLKDOMAIN_ALL = 07
+};
+
 /**
  * Starts the chosen oscillator
  *
@@ -127,7 +126,7 @@ enum Pm_osc_startup {
  * \param startup Oscillator startup time
  * \return Returns 0 on success and -1 on error
  */
-int aery_pm_start_osc(uint8_t, enum Pm_osc_mode, enum Pm_osc_startup);
+int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode, enum Pm_osc_startup startup);
 
 /**
  * Initializes the frequency of PLL's voltage controlled oscillator (VCO)
@@ -143,10 +142,10 @@ int aery_pm_start_osc(uint8_t, enum Pm_osc_mode, enum Pm_osc_startup);
  * \param mul Source frequency is multiplier by this value
  * \param div Source frequency is divided by this value. If zero the 
  *            multiplier is doubled
- * \pram hifreq Enable high frequency mode
+ * \param hifreq Enable high frequency mode
  */
-int aery_pm_init_pllvco(volatile avr32_pm_pll_t*, enum Pm_pll_source, uint8_t,
-                        uint8_t, bool);
+int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src, uint8_t mul,
+                        uint8_t div, bool hifreq);
 
 /**
  * Enables phase locked loop (PLL)
@@ -157,7 +156,7 @@ int aery_pm_init_pllvco(volatile avr32_pm_pll_t*, enum Pm_pll_source, uint8_t,
  * \param ppll Poiter to pll register
  * \param divby2 Divide the vco frequency by two
  */
-void aery_pm_enable_pll(volatile avr32_pm_pll_t*, bool);
+void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
 
 /**
  * Initializes the chosen generic clock
@@ -169,75 +168,77 @@ void aery_pm_enable_pll(volatile avr32_pm_pll_t*, bool);
  * \param div Clock source divider, f_gclk = f_src/(2*div)
  * \return Returns 0 on success and -1 on error
  */
-int aery_pm_init_gclk(enum Pm_gclk, enum Pm_gclk_source, uint16_t);
+int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc, uint16_t div);
 
 /**
  * Waits oscillator to stabilize
  *
  * \param oscnum Oscillator number: 0, 1 or 32
  */
-inline void aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
-{
-	switch (oscnum) {
-	case 0:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC0RDY_MASK));
-		break;
-	case 1:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC1RDY_MASK));
-		break;
-	case 32:
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_OSC32RDY_MASK));
-		break;
-	}
-}
+void aery_pm_wait_osc_to_stabilize(uint8_t oscnum);
 
 /**
  * Waits pll to lock
  *
  * \param ppll Pointer to PLL register
  */
-inline void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
-{
-	if (ppll == &AVR32_PM.PLL[0]) {
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK0_MASK));
-	}
-	else if (ppll == &AVR32_PM.PLL[1]) {
-		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK1_MASK));
-	}
-}
+void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll);
 
 /**
  * Enables the chosen generic clock
  *
  * \param clknum Clock number which to enable
  */
-inline void aery_pm_enable_gclk(enum Pm_gclk clknum)
-{
-	AVR32_PM.GCCTRL[clknum].cen = 1;
-}
+void aery_pm_enable_gclk(enum Pm_gclk clknum);
 
 /**
  * Disables the chosen generic clock
  *
  * \param clknum Clock number which to disable
  */
-inline void aery_pm_disable_gclk(enum Pm_gclk clknum)
-{
-	AVR32_PM.GCCTRL[clknum].cen = 0;
-
-	// We have to wait before cen reads zero.
-	while (AVR32_PM.GCCTRL[clknum].cen);
-}
+void aery_pm_disable_gclk(enum Pm_gclk clknum);
 
 /**
  * Selects master clock source
  *
  * \param mcksrc Clock source
  */
-inline void aery_pm_select_mck(enum Pm_mck_source mcksrc)
-{
-	AVR32_PM.MCCTRL.mcsel = mcksrc;
-}
+void aery_pm_select_mck(enum Pm_mck_source mcksrc);
+
+/**
+ * Get the master (or main) clock frequency
+ *
+ * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
+ * the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If other oscillator
+ * frequencies are used, make sure to put the new value in CFLAGS manually or
+ * via Makefile, like CFLAGS+=-DF_OSC0=8000000UL.
+ *
+ * \return Master clock frequency in hertz
+ */
+uint32_t aery_pm_get_mck(void);
+
+/**
+ * Set up clock domain frequency
+ *
+ * \param prescaler Prescaler value, domain clock frequency will
+ * be f_mck / (2^prescaler). 0 disables the prescaler making domain clock
+ * equalt to the main clock, f_mck.
+ * \param clkdomain Clock domain selection: PM_CLKDOMAIN_CPU,
+ * PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB
+ * \return Returns 0 on success and -1 on error
+ */
+int aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain clkdomain);
+
+/**
+ * Get the clock domain frequency
+ *
+ * \note Calls aery_pm_get_mck()
+ *
+ * \param clkdomain Clock domain selection: PM_CLKDOMAIN_CPU,
+ * PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB
+ * \return Clock domain frequency in hertz
+ */
+uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain clkdomain);
 
 #ifdef __cplusplus
 }

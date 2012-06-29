@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#include <aery32/gpio.hh>
 #include "board.h"
+#include <aery32/gpio.hh>
 
 #define LED AVR32_PIN_PC04
 

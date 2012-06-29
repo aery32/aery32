@@ -15,42 +15,18 @@
 */
 
 /*!
-\file aery32/intc.hh
-\brief Interrupt Controller (INTC) with aery namespace
-\note C++ header file
+\file aery32/tostr.h
+\brief "Something to string" functions
 */
 
-#ifndef __AERY32_INTC_HH
-#define __AERY32_INTC_HH
+#ifndef __AERY32_TOSTR_H
+#define __AERY32_TOSTR_H
 
-#include "intc.h"
+#include <inttypes.h>
+#include <math.h>
 
-namespace aery {
+int uint2str(unsigned int number, char *buf);
+int int2str(int number, char *buf);
+int dbl2str(double number, uint8_t precision, char *buf);
 
-static inline void
-intc_init(void)
-{
-	aery_intc_init();
-}
-
-static inline void
-intc_register_isrhandler(void (*)(void) handler, uint32_t group,
-                         uint8_t priority)
-{
-	aery_intc_register_isrhandler(handler, group, priority);
-}
-
-static inline void
-intc_enable_globally(void)
-{
-	aery_intc_enable_globally();
-}
-
-static inline void
-intc_disable_globally(void)
-{
-	aery_intc_disable_globally();
-}
-
-}
 #endif

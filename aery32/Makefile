@@ -38,7 +38,7 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
+SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
 
 
 # ----------------------------------------------------------------------
@@ -46,12 +46,12 @@ SOURCES=exception.S gpio.c intc.c pm.c rtc.c spi.c
 # ----------------------------------------------------------------------
 
 CC=avr32-gcc
-CSTD=gnu99
+CSTANDARD=gnu99
+OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-std=$(CSTD) -Wall -O2 -mpart=$(MPART) \
-       -fdata-sections -ffunction-sections
-# Enables global shortcuts, e.g. porta is a pointer to AVR32_GPIO.port[0]
-#CFLAGS+=-DAERY_SHORTCUTS
+CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
+CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+#CFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
 CFLAGS+=$(CFLAG_OPTS)
 
 ASFLAGS=-mpart=$(MPART)
@@ -85,15 +85,15 @@ libaery32_$(MPART).a: $(OBJECTS)
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: clean re debug qa
+.PHONY: clean re debug qa size
 
 clean:
 	-rm -f *.o *.a *.d
 
 re: clean all
 
-debug: clean all
-debug: CFLAGS += -g3 -DDEBUG
+qa: re size
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
-qa: clean all
-qa: CFLAGS += -pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
+size: libaery32_$(MPART).a
+	avr32-size -B $^

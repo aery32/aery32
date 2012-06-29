@@ -16,7 +16,11 @@ script:
   - cp examples/spi.c           main.c && make re
   - cp examples/toggle_led.c    main.c && make re
   - make cleanall
-  - cp examples/main.cc         main.c && make CC="avr32-g++" CSTD="gnu++98"
+  - cp examples/main.cc         main.c && make CC="avr32-g++" CSTANDARD="gnu++98"
+
+branches:
+  only:
+    - master
 
 branches:
   only:

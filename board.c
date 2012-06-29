@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include <aery32/pm.h>
-#include <aery32/gpio.h>
 #include "board.h"
+#include <aery32/gpio.h>
+#include <aery32/pm.h>
 
 void init_board(void)
 {
@@ -31,12 +31,12 @@ void init_board(void)
 		false               /* high frequency */
 	);
 
-	/* Enable PLL0 with divide by two block to set f_pll0 to f_vco0 / 2
-	 * or 66 MHz. */
+	/* Enable PLL0 with divide by two block to set f_pll0 to f_vco0 / 2,
+	 * that's 66 MHz. */
 	aery_pm_enable_pll(pll0, true);
 	aery_pm_wait_pll_to_lock(pll0);
 
-	/* Set main clock source to PLL0 == 66 MHz */
+	/* Set main clock source to PLL0 (66 MHz) */
 	aery_pm_select_mck(PM_MCK_SOURCE_PLL0);
 
 	/* Initialize and enable PLL1; 96 MHz is good for example USB when

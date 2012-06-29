@@ -1,45 +1,24 @@
-/**
- * \file aery32/gpio.h
- * \brief General Purpose Input/Output (GPIO)
- *
- * \verbatim
- *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
- * |     | -_|  _| | |_  |  _|  |  
- * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
- *               |___|          |
- * 
- * Copyright (c) 2012, Muiku Oy
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- *    * Redistributions of source code must retain the above copyright notice,
- *      this list of conditions and the following disclaimer.
- *
- *    * Redistributions in binary form must reproduce the above copyright notice,
- *      this list of conditions and the following disclaimer in the documentation
- *      and/or other materials provided with the distribution.
- *
- *    * Neither the name of Muiku Oy nor the names of its contributors may be
- *      used to endorse or promote products derived from this software without
- *      specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * \endverbatim
- *
- * \example toggle_led.c
- */
+/*   _____             ___ ___   |
+    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+    |     | -_|  _| | |_  |  _|  |  
+    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+                  |___|          |
+
+    Copyright (c) 2012, Muiku Oy
+    All rights reserved.
+
+    LICENSE: This source file is subject to the new BSD license that is
+    bundled with this package in the file LICENSE.txt. If you did not
+    receive a copy of the license and are unable to obtain it through
+    the world-wide-web, please send an email to contact@muiku.com so
+    we can send you a copy.
+*/
+
+/*!
+\file aery32/gpio.h
+\brief General Purpose Input/Output (GPIO)
+\example main.c
+*/
 
 #ifndef __AERY32_GPIO_H
 #define __AERY32_GPIO_H
@@ -110,7 +89,7 @@ extern void __builtin_mtsr(int reg, int val);
  * \param pinmask Pins to initialize, e.g. pin mask 0x7 covers pins 0, 1 and 2
  * \param options Option flags
  */
-void aery_gpio_init_pins(volatile avr32_gpio_port_t*, uint32_t, int);
+void aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask, int options);
 
 /**
  * Initializes one pin which is given as a GPIO number
@@ -118,11 +97,7 @@ void aery_gpio_init_pins(volatile avr32_gpio_port_t*, uint32_t, int);
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  * \param options Option flags
  */
-inline void aery_gpio_init_pin(uint8_t pinnum, int options)
-{
-	aery_gpio_init_pins(&AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)],
-		(1UL << GPIO_NUM2PIN(pinnum)), options);
-}
+void aery_gpio_init_pin(uint8_t pinnum, int options);
 
 /**
  * Sets pin high
@@ -130,7 +105,7 @@ inline void aery_gpio_init_pin(uint8_t pinnum, int options)
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_set_pin_high(uint8_t pinnum)
+static inline void aery_gpio_set_pin_high(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrs = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -141,7 +116,7 @@ inline void aery_gpio_set_pin_high(uint8_t pinnum)
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_set_pin_low(uint8_t pinnum)
+static inline void aery_gpio_set_pin_low(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrc = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -152,7 +127,7 @@ inline void aery_gpio_set_pin_low(uint8_t pinnum)
  * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
-inline void aery_gpio_toggle_pin(uint8_t pinnum)
+static inline void aery_gpio_toggle_pin(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrt = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -164,7 +139,7 @@ inline void aery_gpio_toggle_pin(uint8_t pinnum)
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  * \return Pin value high or low, 1 or 0
  */
-inline bool aery_gpio_read_pin(uint8_t pinnum)
+static inline bool aery_gpio_read_pin(uint8_t pinnum)
 {
 	return (bool) AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
 	       & (1UL << GPIO_NUM2PIN(pinnum));
@@ -185,7 +160,7 @@ inline bool aery_gpio_read_pin(uint8_t pinnum)
  * \attention CPU clock has to match with PBB clock to make local bus
  *            functional
  */
-inline void aery_gpio_enable_localbus(void)
+static inline void aery_gpio_enable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) | AVR32_CPUCR_LOCEN_MASK);
@@ -196,7 +171,7 @@ inline void aery_gpio_enable_localbus(void)
  *
  * \see gpio_enable_localbus()
  */ 
-inline void aery_gpio_disable_localbus(void)
+static inline void aery_gpio_disable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) & ~AVR32_CPUCR_LOCEN_MASK);

@@ -1,7 +1,7 @@
 #include <stdbool.h>
+#include "board.h"
 #include <aery32/gpio.h>
 #include <aery32/spi.h>
-#include "board.h"
 
 #define LED AVR32_PIN_PC04
 #define SPI0_GPIO_MASK ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
