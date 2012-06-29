@@ -209,8 +209,9 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc);
  * Get the master (or main) clock frequency
  *
  * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates
- * the master clock with F_OSC0 = 12MHz. If other is used, make sure to define
- * this before including the <aery32/pm.h>.
+ * the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If others are used,
+ * make sure to put a new value in CFLAGS manually or via Makefile, like
+ * CFLAGS+=-DF_OSC0=8000000UL.
  *
  * \return Master clock frequency in hertz
  */
@@ -231,9 +232,11 @@ int aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain clkdomain);
 /**
  * Get the clock domain frequency
  *
+ * \note Calls aery_pm_get_mck()
+ *
  * \param clkdomain Clock domain selection: PM_CLKDOMAIN_CPU,
  * PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB
- * \return Returns clock domain frequency in hertz
+ * \return Clock domain frequency in hertz
  */
 uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain clkdomain);
 

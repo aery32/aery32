@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include "board.h"
-#include <aery32/delay.h>
 #include <aery32/gpio.h>
+#include <aery32/delay.h>
 
 #define LED AVR32_PIN_PC04
 

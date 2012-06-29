@@ -39,7 +39,7 @@ extern "C" {
 #include <avr32/io.h>
 
 #ifndef F_CPU
-#	error F_CPU NOT DEFINED: Delay functions cannot be declared without the known of what's the CPU frequency.
+#	error "F_CPU NOT DEFINED: Delay functions cannot be declared without knowledge of the CPU frequency."
 #endif
 
 /**

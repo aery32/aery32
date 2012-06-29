@@ -51,6 +51,7 @@ OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
 CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
 CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
+#CFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
 CFLAGS+=$(CFLAG_OPTS)
 
 ASFLAGS=-mpart=$(MPART)

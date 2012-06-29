@@ -1,7 +1,7 @@
 #include <stdbool.h>
+#include "board.h"
 #include <aery32/gpio.h>
 #include <aery32/spi.h>
-#include "board.h"
 #include <aery32/delay.h>
 
 // ----------------------------------------------------------------------

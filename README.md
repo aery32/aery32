@@ -23,7 +23,7 @@ For Windows download and install [Atmel AVR Toolchain for Windows](http://www.at
 
 ## Quick start
 
-To start Aery32 project [download the framework from GitHub](https://github.com/aery32/aery32/downloads). Or use git clone
+To start Aery32 project [download the framework from GitHub](https://github.com/aery32/aery32/tags). Or use git clone
 
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
@@ -36,15 +36,15 @@ When you want to recompile the project call
 
     make re
 
-To program (or upload) the application via DFU into the printed circuit board command
+To program (or upload) the application to the board, connect the USB cable and command
 
     make program
     
-DFU is a USB class that allows board to be programmed through USB connector without external programmer board. Well, now you have to start the board
+DFU is a USB class that allows board to be programmed through USB bus without external programmer board. After programming the board, you have to start it
 
     make start
 
-If you like to start the board immediately after the programming is done, chain the program target with the start target
+If you like to start the board immediately after the programming, chain the program target with the start target, like this
 
     make program start
     
@@ -52,18 +52,28 @@ Or less verbosely `make programs`. The latter is also quicker with batchisp (in 
 
 ---
 
-If you prefer C++ over C, change the `CC` in Makefile to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTANDARD` variable in Makefile. Otherwise you can also use environment variables
+If you prefer C++ over C, change the `CC` in the `Makefile` to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTANDARD` variable. You can also use environment variables with the make like this
 
     make re CC="avr32-g++" CSTANDARD="gnu++98"
 
-If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed you can make a local version of the API documentation by running Doxygen at the `aery32/` directory
+If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may like to make a local version of the API documentation. This can be done by running Doxygen at the `aery32/` directory
 
     cd aery32/
     doxygen
     
-Or if felt lazy, navigate to http://devzone.aery32.com/aery32/apidoc/.
+Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 ## Release notes
+### v0.11
+
+- PM module has been expanded with few functions
+  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB).
+  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain.
+  - `aery_pm_get_mck()` returns the master (or main) clock frequency.
+- Experimental "to string" functions, which can be used to convert integer and double values to strings.
+- Added <aery32/all.h> header file to include the whole library at once.
+- Makefile tunings.
+
 ### v0.1
 
 - Project structure that works on Windows, Linux and Mac.
