@@ -12,11 +12,13 @@ before_script:
 
 script:
   - make
-  - cp examples/rtc_interrupt.c main.c && make re
-  - cp examples/spi.c           main.c && make re
-  - cp examples/toggle_led.c    main.c && make re
+  - cp examples/adc.c              main.c && make re
+  - cp examples/rtc_interrupt.c    main.c && make re
+  - cp examples/spi.c              main.c && make re
+  - cp examples/toggle_led.c       main.c && make re
+  - cp examples/displays/hd44780.c main.c && make re
   - make cleanall
-  - cp examples/main.cc         main.c && make CC="avr32-g++" CSTANDARD="gnu++98"
+  - cp examples/main.cc main.c && make CC="avr32-g++" CSTANDARD="gnu++98"
 
 branches:
   only:
