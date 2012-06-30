@@ -8,7 +8,6 @@
 
 int main(void)
 {
-	int i;
 	uint16_t result;
 
 	init_board();
@@ -18,8 +17,8 @@ int main(void)
 	aery_adc_init(
 		8,    /* prescaler, adclk = pba_clk / (2 * (prescal+1)) */
 		true, /* hires, 10-bit (false would be 8-bit) */
-		0     /* startup time */
-		0,    /* sample and hold time */
+		0,    /* startup time */
+		0     /* sample and hold time */
 	);
 
 	/* Enable adc channel 3 */

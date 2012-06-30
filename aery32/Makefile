@@ -38,7 +38,7 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=adc.c exception.S gpio.c intc.c pm.c rtc.c spi.c tostr.c
+SOURCES=adc.c gpio.c intc.c pm.c rtc.c spi.c tostr.c exception.S
 
 
 # ----------------------------------------------------------------------

@@ -69,7 +69,7 @@ int
 aery_adc_cnv_isrdy(uint8_t chamask)
 {
 	/* Make sure that the channels are also enabled */
-	if (AVR32_ADC.cher & chamask != chamask) {
+	if ((AVR32_ADC.cher & chamask) != chamask) {
 		return -1;
 	}
 	return (AVR32_ADC.sr & chamask) == chamask;
