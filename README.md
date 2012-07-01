@@ -115,3 +115,8 @@ Aery32 Software Framework and its library is licensed under the new BSD license:
 > SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Example applications placed under `examples/` directory are public domain.
+
+## Supportive readings
+
+- [AVR32000 : Introduction to AVR32 header files](http://www.atmel.com/Images/doc32005.pdf)
+- [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
