@@ -21,7 +21,7 @@
 #include "aery32/pm.h"
 
 int
-aery_adc_init(uint8_t prescal, bool hires, uint8_t startup, uint8_t shtime)
+aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 {
 	uint32_t adclk;
 
@@ -76,7 +76,7 @@ aery_adc_cnv_isrdy(uint8_t chamask)
 }
 
 uint16_t
-aery_adc_get_cnv_result(uint8_t chanum)
+aery_adc_get_cnv(uint8_t chanum)
 {
 	return *(&(AVR32_ADC.cdr0) + chanum);
 }

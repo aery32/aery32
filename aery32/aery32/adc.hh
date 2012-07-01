@@ -28,9 +28,9 @@
 namespace aery {
 
 static inline int
-adc_init(uint8_t prescal, bool hires, uint8_t startup, uint8_t shtime)
+adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 {
-	return aery_adc_init(prescal, hires, startup, shtime);
+	return aery_adc_init(prescal, hires, shtime, startup);
 }
 
 static inline void
@@ -45,8 +45,8 @@ adc_cnv_isrdy(uint8_t chamask) {
 }
 
 static inline uint16_t
-adc_get_cnv_result(uint8_t chanum) {
-	return aery_adc_get_cnv_result(chanum);
+adc_get_cnv(uint8_t chanum) {
+	return aery_adc_get_cnv(chanum);
 }
 
 static inline void

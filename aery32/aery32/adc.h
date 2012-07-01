@@ -48,12 +48,12 @@ extern "C" {
  * \param prescal Prescaler that has used to divide PBA clock for proper ADC
  *                clock, adclk = pba_clk / (2 * (prescal+1))
  * \param hires Use 10-bit resolution, define false if 8-bit is preferred
- * \param startup ADC startup time, time = (startup + 1) * 8 / adclk
  * \param shtime ADC sample and hold time, time = (shtim + 1) / adclk
+ * \param startup ADC startup time, time = (startup + 1) * 8 / adclk
  * \return 0 on success, -1 if the maximum ADC frequency has been exceeded
  */
-int aery_adc_init(uint8_t prescal, bool hires, uint8_t startup,
-                  uint8_t shtime);
+int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime,
+                  uint8_t startup);
 
 /**
  * Starts the conversion
@@ -72,7 +72,7 @@ int aery_adc_cnv_isrdy(uint8_t chamask);
  *
  * \param chanum Returns the result of the given channel
  */
-uint16_t aery_adc_get_cnv_result(uint8_t chanum);
+uint16_t aery_adc_get_cnv(uint8_t chanum);
 
 /**
  * Enables Analog-to-Digital converter
