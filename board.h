@@ -5,6 +5,12 @@
 extern "C" {
 #endif
 
+#include <inttypes.h>
+
+// ----------------------------------------------------------------------
+// Board specific settings
+// ----------------------------------------------------------------------
+
 #define ADC_VREF 3.0
 #define ADC_BITS 10
 
@@ -16,11 +22,16 @@ extern "C" {
 #define PBAMASK_DEFAULT 0xFFFFFFFF
 #define PBBMASK_DEFAULT 0xFFFFFFFF
 
+
+// ----------------------------------------------------------------------
+// Board functions
+// ----------------------------------------------------------------------
+
 void init_board(void);
 
-static inline double cnv2volt(uint16_t cnv)
+static inline double cnv2volt(uint32_t cnv)
 {
-	return cnv * (ADC_VREF / (1U << ADC_BITS));
+	return cnv * (ADC_VREF / (1UL << ADC_BITS));
 }
 
 #ifdef __cplusplus
