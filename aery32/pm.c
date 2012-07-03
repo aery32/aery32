@@ -1,18 +1,20 @@
-/*   _____             ___ ___   |
-    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
-    |     | -_|  _| | |_  |  _|  |  
-    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
-                  |___|          |
-
-    Copyright (c) 2012, Muiku Oy
-    All rights reserved.
-
-    LICENSE: This source file is subject to the new BSD license that is
-    bundled with this package in the file LICENSE.txt. If you did not
-    receive a copy of the license and are unable to obtain it through
-    the world-wide-web, please send an email to contact@muiku.com so
-    we can send you a copy.
-*/
+/*
+ *  _____             ___ ___   |
+ * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |     | -_|  _| | |_  |  _|  |  
+ * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+ *               |___|          |
+ *
+ * Copyright (c) 2012, Muiku Oy
+ * All rights reserved.
+ *
+ * LICENSE
+ *
+ * New BSD License, see the LICENSE.txt bundled with this package. If you did
+ * not receive a copy of the license and are unable to obtain it through the
+ * world-wide-web, please send an email to contact@muiku.com so we can send
+ * you a copy.
+ */
 
 #include <stdbool.h>
 #include <inttypes.h>
@@ -31,46 +33,45 @@
 #define CKSEL_PRESCALER_MASK(VAR, SEL) \
 	(((VAR - 1) << AVR32_PM_CKSEL_##SEL##SEL_OFFSET) | AVR32_PM_CKSEL_##SEL##DIV_MASK)
 
-#define CKSEL_HAS_DIVIDER(VAR, SEL) \
+#define CKSEL_HASDIV(VAR, SEL) \
 	((VAR & AVR32_PM_CKSEL_##SEL##DIV_MASK) != 0)
 
-#define CKSEL_GET_DIVIDER(VAR, SEL) \
+#define CKSEL_GETDIV(VAR, SEL) \
 	((VAR & AVR32_PM_CKSEL_##SEL##SEL_MASK) >> AVR32_PM_CKSEL_##SEL##SEL_OFFSET)
 
-int
-aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
-                  enum Pm_osc_startup startup)
+int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
+		enum Pm_osc_startup startup)
 {
 	switch (oscnum) {
 	case 0:
-		if (AVR32_PM.MCCTRL.osc0en == 1) {
+		if (AVR32_PM.MCCTRL.osc0en == 1)
 			return -1;
-		}
-		if (mode == PM_OSC_MODE_OSC32) {
+
+		if (mode == PM_OSC_MODE_OSC32)
 			return -1;
-		}
+
 		AVR32_PM.OSCCTRL0.mode = mode;
 		AVR32_PM.OSCCTRL0.startup = startup;
 		AVR32_PM.MCCTRL.osc0en = 1;
 		break;
 	case 1:
-		if (AVR32_PM.MCCTRL.osc1en == 1) {
+		if (AVR32_PM.MCCTRL.osc1en == 1)
 			return -1;
-		}
+
 		if (mode == PM_OSC_MODE_OSC32) {
 			return -1;
-		}
+
 		AVR32_PM.OSCCTRL1.mode = mode;
 		AVR32_PM.OSCCTRL1.startup = startup;
 		AVR32_PM.MCCTRL.osc1en = 1;
 		break;
 	case 32:
-		if (AVR32_PM.OSCCTRL32.osc32en == 1) {
+		if (AVR32_PM.OSCCTRL32.osc32en == 1)
 			return -1;
-		}
-		if (mode != PM_OSC_MODE_OSC32 || mode != PM_OSC_MODE_EXTERNAL) {
+
+		if (mode != PM_OSC_MODE_OSC32 || mode != PM_OSC_MODE_EXTERNAL)
 			return -1;
-		}
+
 		AVR32_PM.OSCCTRL32.mode = mode;
 		AVR32_PM.OSCCTRL32.startup = startup;
 		AVR32_PM.OSCCTRL32.osc32en = 1;
@@ -82,17 +83,12 @@ aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 	return 0;
 }
 
-int
-aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
-                    uint8_t mul, uint8_t div, bool hifreq)
+int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
+		uint8_t mul, uint8_t div, bool hifreq)
 {
-	if (mul < 3 || mul > 16) {
-		/* PLLMUL term in the equation of f_vco has to be at least 2. However,
-		 * but the mul parameter here takes account the plus one term which
-		 * is included in f_vco equation (PLLMUL + 1). Thus the user given
-		 * mul value has to be at last 3 here */
+	/* mul < 3, is not a typo */
+	if (mul < 3 || mul > 16)
 		return -1;
-	}
 
 	ppll->plltest = 0;
 	ppll->plliotesten = 0;
@@ -105,8 +101,7 @@ aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 	return 0;
 }
 
-void
-aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
+void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 {
 	switch (divby2) {
 	case true:
@@ -120,37 +115,36 @@ aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 	ppll->pllen = 1;
 }
 
-int
-aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
-                  uint16_t clkdiv)
+int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
+		uint16_t clkdiv)
 {
 	volatile avr32_pm_gcctrl_t *gclock = &(AVR32_PM.GCCTRL[clknum]);
 
-	if (clkdiv > 256) return -1;
+	if (clkdiv > 256)
+		return -1;
 
-	/* Disable general clock before init to prevent glitches on the clock
+	/*
+	 * Disable general clock before init to prevent glitches on the clock
 	 * during the possible reinitialization. We have to wait before cen
-	 * reads zero. */
+	 * reads zero.
+	 */
 	gclock->cen = 0;
 	while (gclock->cen);
 
-	// Select clock source
+	/* Select clock source */
 	gclock->oscsel = (bool) (clksrc & 1);
 	gclock->pllsel = (bool) (clksrc & 2);
 
-	/* Set divider for the clock source, f_gclk = f_src / (2 * clkdiv) */
 	if (clkdiv > 0) {
 		gclock->diven = 1;
 		gclock->div = clkdiv - 1;
 	} else {
 		gclock->diven = 0;
 	}
-
 	return 0;
 }
 
-void
-aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
+void aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
 {
 	switch (oscnum) {
 	case 0:
@@ -165,8 +159,7 @@ aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
 	}
 }
 
-void
-aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
+void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 {
 	if (ppll == &AVR32_PM.PLL[0]) {
 		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK0_MASK));
@@ -176,14 +169,12 @@ aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 	}
 }
 
-void
-aery_pm_enable_gclk(enum Pm_gclk clknum)
+void aery_pm_enable_gclk(enum Pm_gclk clknum)
 {
 	AVR32_PM.GCCTRL[clknum].cen = 1;
 }
 
-void
-aery_pm_disable_gclk(enum Pm_gclk clknum)
+void aery_pm_disable_gclk(enum Pm_gclk clknum)
 {
 	AVR32_PM.GCCTRL[clknum].cen = 0;
 
@@ -191,16 +182,15 @@ aery_pm_disable_gclk(enum Pm_gclk clknum)
 	while (AVR32_PM.GCCTRL[clknum].cen);
 }
 
-void
-aery_pm_select_mck(enum Pm_mck_source mcksrc)
+void aery_pm_select_mck(enum Pm_mck_source mcksrc)
 {
 	AVR32_PM.MCCTRL.mcsel = mcksrc;
 }
 
-uint32_t
-aery_pm_get_mck(void)
+uint32_t aery_pm_get_mck(void)
 {
 	uint32_t mck = 0;
+	volatile avr32_pll_t *pll0 = &AVR32_PM.PLL[0];
 
 	switch (AVR32_PM.MCCTRL.mcsel) {
 	case 0:
@@ -210,63 +200,61 @@ aery_pm_get_mck(void)
 		mck = F_OSC0;
 		break;
 	case 2:
-		if (AVR32_PM.PLL[0].pllosc == 0) {
+		if (pll0->pllosc == 0)
 			mck = F_OSC0;
-		} else {
+		else
 			mck = F_OSC1;
-		}
-		if (AVR32_PM.PLL[0].plldiv > 0) {
-			mck *= (AVR32_PM.PLL[0].pllmul + 1) / AVR32_PM.PLL[0].plldiv;
-		} else {
-			mck *= 2 * (AVR32_PM.PLL[0].pllmul + 1);
-		}
-		if (AVR32_PM.PLL[0].pllopt & 2) {
+
+		if (pll0->plldiv > 0) {
+			mck *= (pll0->pllmul + 1) / pll0->plldiv;
+		else
+			mck *= 2 * (pll0->pllmul + 1);
+
+		if (pll0->pllopt & 2)
 			mck /= 2;
-		}
 		break;
 	}
 
 	return mck;
 }
 
-int
-aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain domain)
+int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 {
 	uint32_t cksel = AVR32_PM.cksel;
 
-	if (prescaler != 0 && prescaler > 8) {
+	if (prescal != 0 && prescal > 8)
 		return -1;
-	}
+
 	if (domain & PM_CLKDOMAIN_CPU) {
 		cksel &= CKSEL_RESET_MASK(CPU);
-		if (prescaler != 0) {
-			cksel |= CKSEL_PRESCALER_MASK(prescaler, CPU);
-			cksel |= CKSEL_PRESCALER_MASK(prescaler, HSB);
-		}
-	}
-	if (domain & PM_CLKDOMAIN_PBA) {
-		cksel &= CKSEL_RESET_MASK(PBA);
-		if (prescaler != 0) {
-			cksel |= CKSEL_PRESCALER_MASK(prescaler, PBA);
-		}
-	}
-	if (domain & PM_CLKDOMAIN_PBB) {
-		cksel &= CKSEL_RESET_MASK(PBB);
-		if (prescaler != 0) {
-			cksel |= CKSEL_PRESCALER_MASK(prescaler, PBB);
+		if (prescal != 0) {
+			cksel |= CKSEL_PRESCALER_MASK(prescal, CPU);
+			cksel |= CKSEL_PRESCALER_MASK(prescal, HSB);
 		}
 	}
 
+	if (domain & PM_CLKDOMAIN_PBA) {
+		cksel &= CKSEL_RESET_MASK(PBA);
+		if (prescal != 0)
+			cksel |= CKSEL_PRESCALER_MASK(prescal, PBA);
+	}
+
+	if (domain & PM_CLKDOMAIN_PBB) {
+		cksel &= CKSEL_RESET_MASK(PBB);
+		if (prescal != 0)
+			cksel |= CKSEL_PRESCALER_MASK(prescal, PBB);
+	}
+
 	/* Check that PBA and PBB clocks are equal or smaller than CPU clock */
-	if (CKSEL_HAS_DIVIDER(cksel, CPU)) {
-		if (!CKSEL_HAS_DIVIDER(cksel, PBA) || !CKSEL_HAS_DIVIDER(cksel, PBB)) {
+	if (CKSEL_HASDIV(cksel, CPU)) {
+		if (!CKSEL_HASDIV(cksel, PBA) || !CKSEL_HASDIV(cksel, PBB))
 			return -1;
-		}
-		if (CKSEL_GET_DIVIDER(cksel, CPU) > CKSEL_GET_DIVIDER(cksel, PBA) ||
-		    CKSEL_GET_DIVIDER(cksel, CPU) > CKSEL_GET_DIVIDER(cksel, PBB))
-		{
+
+		if (CKSEL_GETDIV(cksel, CPU) > CKSEL_GETDIV(cksel, PBA))
 			return -1;
-		}
+
+		if (CKSEL_GETDIV(cksel, CPU) > CKSEL_GETDIV(cksel, PBB))
+			return -1;
 	}
 
 	/* The register must not be re-written until CKRDY goes high. */
@@ -276,29 +264,28 @@ aery_pm_setup_clkdomain(uint8_t prescaler, enum Pm_ckldomain domain)
 	return 0;
 }
 
-uint32_t
-aery_pm_get_clkdomain_freq(enum Pm_ckldomain domain)
+uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain domain)
 {
-	uint32_t f = aery_pm_get_mck();
+	uint32_t f;
+	f = aery_pm_get_mck();
 
 	switch (domain) {
 	case PM_CLKDOMAIN_CPU:
-		if (CKSEL_HAS_DIVIDER(AVR32_PM.cksel, CPU)) {
-			f = f >> (CKSEL_GET_DIVIDER(AVR32_PM.cksel, CPU) + 1);
-		}
+		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))
+			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, CPU) + 1);
 		break;
 	case PM_CLKDOMAIN_PBA:
-		if (CKSEL_HAS_DIVIDER(AVR32_PM.cksel, PBA)) {
-			f = f >> (CKSEL_GET_DIVIDER(AVR32_PM.cksel, PBA) + 1);
-		}
+		if (CKSEL_HASDIV(AVR32_PM.cksel, PBA))
+			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, PBA) + 1);
 		break;
 	case PM_CLKDOMAIN_PBB:
-		if (CKSEL_HAS_DIVIDER(AVR32_PM.cksel, PBB)) {
-			f = f >> (CKSEL_GET_DIVIDER(AVR32_PM.cksel, PBB) + 1);
-		}
+		if (CKSEL_HASDIV(AVR32_PM.cksel, PBB))
+			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, PBB) + 1);
 		break;
 	case PM_CLKDOMAIN_ALL:
-		return 0;
+		f = 0;
+		break;
 	}
+
 	return f;
 }

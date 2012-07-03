@@ -1,18 +1,20 @@
-/*   _____             ___ ___   |
-    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
-    |     | -_|  _| | |_  |  _|  |  
-    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
-                  |___|          |
-
-    Copyright (c) 2012, Muiku Oy
-    All rights reserved.
-
-    LICENSE: This source file is subject to the new BSD license that is
-    bundled with this package in the file LICENSE.txt. If you did not
-    receive a copy of the license and are unable to obtain it through
-    the world-wide-web, please send an email to contact@muiku.com so
-    we can send you a copy.
-*/
+/*
+ *  _____             ___ ___   |
+ * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |     | -_|  _| | |_  |  _|  |  
+ * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+ *               |___|          |
+ *
+ * Copyright (c) 2012, Muiku Oy
+ * All rights reserved.
+ *
+ * LICENSE
+ *
+ * New BSD License, see the LICENSE.txt bundled with this package. If you did
+ * not receive a copy of the license and are unable to obtain it through the
+ * world-wide-web, please send an email to contact@muiku.com so we can send
+ * you a copy.
+ */
 
 /*!
 \file aery32/adc.h
@@ -42,15 +44,14 @@ extern "C" {
 
 /**
  * Initializes Analog-to-digital converter
- *
- * \note Calls aery_pm_get_clkdomainfreq(PM_CLKDOMAIN_PBA)
- *
  * \param prescal Prescaler that has used to divide PBA clock for proper ADC
  *                clock, adclk = pba_clk / (2 * (prescal+1))
- * \param hires Use 10-bit resolution, define false if 8-bit is preferred
- * \param shtime ADC sample and hold time, time = (shtim + 1) / adclk
+ * \param hires   Use 10-bit resolution, define false if 8-bit is preferred
+ * \param shtime  ADC sample and hold time, time = (shtim + 1) / adclk
  * \param startup ADC startup time, time = (startup + 1) * 8 / adclk
  * \return 0 on success, -1 if the maximum ADC frequency has been exceeded
+ *
+ * \note Calls aery_pm_get_clkdomainfreq(PM_CLKDOMAIN_PBA)
  */
 int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime,
                   uint8_t startup);
@@ -62,21 +63,18 @@ void aery_adc_start_cnv(void);
 
 /**
  * Check if the conversion is ready
- *
  * \return 1 if ready, 0 if not, -1 if conversion wasn't even started
  */
 int aery_adc_cnv_isrdy(uint8_t chamask);
 
 /**
  * Get the conversion result
- *
  * \param chanum Returns the result of the given channel
  */
 uint16_t aery_adc_get_cnv(uint8_t chanum);
 
 /**
  * Enables Analog-to-Digital converter
- *
  * \param chamask Channel mask for which channels should be enabled
  */
 void aery_adc_enable(uint8_t chamask);

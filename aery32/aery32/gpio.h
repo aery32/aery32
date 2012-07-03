@@ -1,18 +1,20 @@
-/*   _____             ___ ___   |
-    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
-    |     | -_|  _| | |_  |  _|  |  
-    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
-                  |___|          |
-
-    Copyright (c) 2012, Muiku Oy
-    All rights reserved.
-
-    LICENSE: This source file is subject to the new BSD license that is
-    bundled with this package in the file LICENSE.txt. If you did not
-    receive a copy of the license and are unable to obtain it through
-    the world-wide-web, please send an email to contact@muiku.com so
-    we can send you a copy.
-*/
+/*
+ *  _____             ___ ___   |
+ * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |     | -_|  _| | |_  |  _|  |  
+ * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+ *               |___|          |
+ *
+ * Copyright (c) 2012, Muiku Oy
+ * All rights reserved.
+ *
+ * LICENSE
+ *
+ * New BSD License, see the LICENSE.txt bundled with this package. If you did
+ * not receive a copy of the license and are unable to obtain it through the
+ * world-wide-web, please send an email to contact@muiku.com so we can send
+ * you a copy.
+ */
 
 /*!
 \file aery32/gpio.h
@@ -46,23 +48,20 @@ extern void __builtin_mtsr(int reg, int val);
 
 /**
  * Converts GPIO number to the corresponding PORT, see datasheet p. 175
- *
- * \param gpio GPIO number: AVR32_GPIO_PIN00 | AVR32_GPIO_PIN01 |
- *                          AVR32_GPIO_PIN02 | AVR32_GPIO_PIN03 | etc.
+ * \param gpio GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc.
  */
 #define GPIO_NUM2PORT(gpio) (gpio >> 5)
 
 /**
  * Converts GPIO number to the corresponding pin number of the port number,
  * which is M_GPIO_NUM2PORT(gpio_number), see datasheet p. 175.
+ * \param gpio GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc.
  *
- * \par Example
+ * \par Example:
  * \code
  * port = GPIO_NUM2PORT(34); // port = 1, or PORTB
  * pin = GPIO_NUM2PIN(34);   // pin  = 2, or PB02
  * \endcode
- * \param gpio GPIO number: AVR32_GPIO_PIN00 | AVR32_GPIO_PIN01 |
- *                          AVR32_GPIO_PIN02 | AVR32_GPIO_PIN03 | etc.
  */
 #define GPIO_NUM2PIN(gpio) (gpio % 32)
 
@@ -84,26 +83,25 @@ extern void __builtin_mtsr(int reg, int val);
 
 /**
  * Initializes several pins at once
- *
- * \param pport Pointer to the GPIO port
+ * \param pport   Pointer to the GPIO port
  * \param pinmask Pins to initialize, e.g. pin mask 0x7 covers pins 0, 1 and 2
  * \param options Option flags
  */
-void aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask, int options);
+void aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
+		int options);
 
 /**
  * Initializes one pin which is given as a GPIO number
- *
- * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
+ * \param pinnum  GPIO number, e.g. AVR32_PIN_PA05
  * \param options Option flags
  */
 void aery_gpio_init_pin(uint8_t pinnum, int options);
 
 /**
  * Sets pin high
+ * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  *
  * \note Does not work for local bus
- * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
 static inline void aery_gpio_set_pin_high(uint8_t pinnum)
 {
@@ -112,9 +110,9 @@ static inline void aery_gpio_set_pin_high(uint8_t pinnum)
 
 /**
  * Sets pin low
+ * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  *
  * \note Does not work for local bus
- * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
 static inline void aery_gpio_set_pin_low(uint8_t pinnum)
 {
@@ -123,9 +121,9 @@ static inline void aery_gpio_set_pin_low(uint8_t pinnum)
 
 /**
  * Toggles pin 
+ * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  *
  * \note Does not work for local bus
- * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  */
 static inline void aery_gpio_toggle_pin(uint8_t pinnum)
 {
@@ -134,10 +132,10 @@ static inline void aery_gpio_toggle_pin(uint8_t pinnum)
 
 /**
  * Reads pin value
- *
- * \note Does not work for local bus
  * \param pinnum GPIO number, e.g. AVR32_PIN_PA05
  * \return Pin value high or low, 1 or 0
+ *
+ * \note Does not work for local bus
  */
 static inline bool aery_gpio_read_pin(uint8_t pinnum)
 {
