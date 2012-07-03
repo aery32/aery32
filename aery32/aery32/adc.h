@@ -63,6 +63,7 @@ void aery_adc_start_cnv(void);
 
 /**
  * Check if the conversion is ready
+ * \param chamask Channel mask, e.g. (1<<2)|(1<<3) checks channels 2 and 3
  * \return 1 if ready, 0 if not, -1 if conversion wasn't even started
  */
 int aery_adc_cnv_isrdy(uint8_t chamask);
