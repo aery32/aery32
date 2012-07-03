@@ -64,15 +64,21 @@ If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may 
 Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 ## Release notes
+### Changelog for the next release (master branch)
+
+- New module, analog-to-digital conversion (adc)
+- Change coding style to Linux kernel style
+- Fix gh-3
+
 ### v0.1.1
 
 - PM module has been expanded with few functions
-  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB).
-  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain.
-  - `aery_pm_get_mck()` returns the master (or main) clock frequency.
-- Experimental "to string" functions, which can be used to convert integer and double type values to strings.
-- Added <aery32/all.h> header file to include the whole library at once.
-- Makefile tunings.
+  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB)
+  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain
+  - `aery_pm_get_mck()` returns the master (or main) clock frequency
+- Experimental "to string" functions, which can be used to convert integer and double type values to strings
+- Added <aery32/all.h> header file to include the whole library at once
+- Makefile tunings
 
 ### v0.1
 
