@@ -20,7 +20,7 @@
 #include <avr32/io.h>
 #include "aery32/intc.h"
 
-// These two globals come from exception.S
+/* These two globals come from exception.S */
 extern const unsigned int _ipr[20];
 extern const unsigned int _evba;
 
@@ -55,7 +55,7 @@ void aery_intc_disable_globally(void)
 	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) | (1 << 16));
 }
 
-// This is proxy to _isr_table[]. The call happens from exception.S.
+/* This is proxy to _isr_table[]. The call happens from exception.S. */
 __attribute__((__interrupt__)) void _isrhandler_proxy(uint32_t group)
 {
 	_isr_table[group]();

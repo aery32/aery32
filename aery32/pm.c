@@ -58,7 +58,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		if (AVR32_PM.MCCTRL.osc1en == 1)
 			return -1;
 
-		if (mode == PM_OSC_MODE_OSC32) {
+		if (mode == PM_OSC_MODE_OSC32)
 			return -1;
 
 		AVR32_PM.OSCCTRL1.mode = mode;
@@ -163,8 +163,7 @@ void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 {
 	if (ppll == &AVR32_PM.PLL[0]) {
 		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK0_MASK));
-	}
-	else if (ppll == &AVR32_PM.PLL[1]) {
+	} else if (ppll == &AVR32_PM.PLL[1]) {
 		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK1_MASK));
 	}
 }
@@ -190,7 +189,7 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc)
 uint32_t aery_pm_get_mck(void)
 {
 	uint32_t mck = 0;
-	volatile avr32_pll_t *pll0 = &AVR32_PM.PLL[0];
+	volatile avr32_pm_pll_t *pll0 = &AVR32_PM.PLL[0];
 
 	switch (AVR32_PM.MCCTRL.mcsel) {
 	case 0:
@@ -205,7 +204,7 @@ uint32_t aery_pm_get_mck(void)
 		else
 			mck = F_OSC1;
 
-		if (pll0->plldiv > 0) {
+		if (pll0->plldiv > 0)
 			mck *= (pll0->pllmul + 1) / pll0->plldiv;
 		else
 			mck *= 2 * (pll0->pllmul + 1);
