@@ -119,17 +119,16 @@ int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 		uint16_t clkdiv)
 {
 	volatile avr32_pm_gcctrl_t *gclock = &(AVR32_PM.GCCTRL[clknum]);
+	was_enabled = (bool) gclock->cen;
 
 	if (clkdiv > 256)
 		return -1;
 
 	/*
 	 * Disable general clock before init to prevent glitches on the clock
-	 * during the possible reinitialization. We have to wait before cen
-	 * reads zero.
+	 * during the possible reinitialization.
 	 */
-	gclock->cen = 0;
-	while (gclock->cen);
+	aery_pm_disable_gclk(clknum);
 
 	/* Select clock source */
 	gclock->oscsel = (bool) (clksrc & 1);
@@ -141,6 +140,9 @@ int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 	} else {
 		gclock->diven = 0;
 	}
+	if (was_enabled)
+		aery_pm_enable_gclk(clknum);
+
 	return 0;
 }
 
@@ -266,8 +268,8 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain domain)
 {
 	uint32_t f;
-	f = aery_pm_get_mck();
 
+	f = aery_pm_get_mck();
 	switch (domain) {
 	case PM_CLKDOMAIN_CPU:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))
