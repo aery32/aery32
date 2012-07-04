@@ -188,7 +188,7 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc)
 	AVR32_PM.MCCTRL.mcsel = mcksrc;
 }
 
-uint32_t aery_pm_get_mck(void)
+uint32_t aery_pm_get_fmck(void)
 {
 	uint32_t mck = 0;
 	volatile avr32_pm_pll_t *pll0 = &AVR32_PM.PLL[0];
@@ -265,11 +265,11 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 	return 0;
 }
 
-uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain domain)
+uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain domain)
 {
 	uint32_t f;
 
-	f = aery_pm_get_mck();
+	f = aery_pm_get_fmck();
 	switch (domain) {
 	case PM_CLKDOMAIN_CPU:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))

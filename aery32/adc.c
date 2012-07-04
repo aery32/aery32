@@ -29,7 +29,7 @@ int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 	if (prescal > 63)
 		return -1;
 
-	adclk = aery_pm_get_clkdomain_freq(PM_CLKDOMAIN_PBA) / (2 * (prescal + 1));
+	adclk = aery_pm_get_fclkdomain(PM_CLKDOMAIN_PBA) / (2 * (prescal + 1));
 
 	switch (hires) {
 	case true:

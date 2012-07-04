@@ -230,7 +230,7 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc);
  *       oscillator frequencies are used, make sure to put the new value in
  *       CFLAGS manually or via Makefile, like CFLAGS+=-DF_OSC0=8000000UL.
  */
-uint32_t aery_pm_get_mck(void);
+uint32_t aery_pm_get_fmck(void);
 
 /**
  * Set up clock domain frequency
@@ -251,7 +251,7 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain clkdomain);
  *
  * \note Calls aery_pm_get_mck()
  */
-uint32_t aery_pm_get_clkdomain_freq(enum Pm_ckldomain clkdomain);
+uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain clkdomain);
 
 #ifdef __cplusplus
 }

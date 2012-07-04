@@ -68,6 +68,9 @@ Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 - New module, analog-to-digital conversion (adc)
 - Change coding style to Linux kernel style
+- BC breaks
+  - `aery_pm_get_mck()` renamed to `aery_pm_get_fmck()`
+  - `aery_pm_get_clkdomain_freq()` renamed to `aery_pm_get_fclkdomain()`
 - Fix gh-3
 
 ### v0.1.1
