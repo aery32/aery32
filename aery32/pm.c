@@ -119,7 +119,7 @@ int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 		uint16_t clkdiv)
 {
 	volatile avr32_pm_gcctrl_t *gclock = &(AVR32_PM.GCCTRL[clknum]);
-	was_enabled = (bool) gclock->cen;
+	bool was_enabled = (bool) gclock->cen;
 
 	if (clkdiv > 256)
 		return -1;
