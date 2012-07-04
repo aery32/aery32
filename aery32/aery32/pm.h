@@ -249,7 +249,7 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain clkdomain);
  * \param clkdomain Clock domain selection
  * \return Clock domain frequency in hertz
  *
- * \note Calls aery_pm_get_mck()
+ * \note Calls aery_pm_get_fmck()
  */
 uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain clkdomain);
 
