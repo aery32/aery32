@@ -47,7 +47,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		if (AVR32_PM.MCCTRL.osc0en == 1)
 			return -1;
 
-		if (mode == PM_OSC_MODE_OSC32)
+		if (mode == OSC_MODE_OSC32)
 			return -1;
 
 		AVR32_PM.OSCCTRL0.mode = mode;
@@ -58,7 +58,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		if (AVR32_PM.MCCTRL.osc1en == 1)
 			return -1;
 
-		if (mode == PM_OSC_MODE_OSC32)
+		if (mode == OSC_MODE_OSC32)
 			return -1;
 
 		AVR32_PM.OSCCTRL1.mode = mode;
@@ -69,7 +69,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		if (AVR32_PM.OSCCTRL32.osc32en == 1)
 			return -1;
 
-		if (mode != PM_OSC_MODE_OSC32 || mode != PM_OSC_MODE_EXTERNAL)
+		if (mode != OSC_MODE_OSC32 || mode != OSC_MODE_EXTERNAL)
 			return -1;
 
 		AVR32_PM.OSCCTRL32.mode = mode;
@@ -226,7 +226,7 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 	if (prescal != 0 && prescal > 8)
 		return -1;
 
-	if (domain & PM_CLKDOMAIN_CPU) {
+	if (domain & CLKDOMAIN_CPU) {
 		cksel &= CKSEL_RESET_MASK(CPU);
 		if (prescal != 0) {
 			cksel |= CKSEL_PRESCALER_MASK(prescal, CPU);
@@ -234,13 +234,13 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 		}
 	}
 
-	if (domain & PM_CLKDOMAIN_PBA) {
+	if (domain & CLKDOMAIN_PBA) {
 		cksel &= CKSEL_RESET_MASK(PBA);
 		if (prescal != 0)
 			cksel |= CKSEL_PRESCALER_MASK(prescal, PBA);
 	}
 
-	if (domain & PM_CLKDOMAIN_PBB) {
+	if (domain & CLKDOMAIN_PBB) {
 		cksel &= CKSEL_RESET_MASK(PBB);
 		if (prescal != 0)
 			cksel |= CKSEL_PRESCALER_MASK(prescal, PBB);
@@ -271,19 +271,19 @@ uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain domain)
 
 	f = aery_pm_get_fmck();
 	switch (domain) {
-	case PM_CLKDOMAIN_CPU:
+	case CLKDOMAIN_CPU:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))
 			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, CPU) + 1);
 		break;
-	case PM_CLKDOMAIN_PBA:
+	case CLKDOMAIN_PBA:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, PBA))
 			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, PBA) + 1);
 		break;
-	case PM_CLKDOMAIN_PBB:
+	case CLKDOMAIN_PBB:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, PBB))
 			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, PBB) + 1);
 		break;
-	case PM_CLKDOMAIN_ALL:
+	case CLKDOMAIN_ALL:
 		f = 0;
 		break;
 	}

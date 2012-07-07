@@ -33,12 +33,15 @@ extern "C" {
 #include <inttypes.h>
 #include <avr32/io.h>
 
+/**
+ * RTC source
+ */
 enum Rtc_source {
 	RTC_SOURCE_RC,
 	RTC_SOURCE_OSC32
 };
 
-#define RTC_WAIT_LOOPMAX 300 // Experimentally set by using 66MHz MCK
+#define RTC_WAIT_LOOPMAX 300 /* Experimentally set by using 66MHz MCK */
 
 /**
  * Initializes RTC

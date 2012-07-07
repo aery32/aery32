@@ -40,7 +40,7 @@ extern "C" {
 #endif
 
 /**
- * Spi mode
+ * SPI mode
  */
 enum Spi_mode { SPI_MODE0, SPI_MODE1, SPI_MODE2, SPI_MODE3 };
 
