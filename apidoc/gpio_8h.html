@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -167,16 +167,16 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts GPIO number to the corresponding pin number of the port number, which is M_GPIO_NUM2PORT(gpio_number), see datasheet p. 175.</p>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">   port = <a class="code" href="gpio_8h.html#a5d3ed0e828ef37a6c5906d891ed580df">GPIO_NUM2PORT</a>(34); <span class="comment">// port = 1, or PORTB</span></div>
-<div class="line">   pin = <a class="code" href="gpio_8h.html#ada0d3daa5bb3c7a9974699950314a2bd">GPIO_NUM2PIN</a>(34);   <span class="comment">// pin  = 2, or PB02</span></div>
-</div><!-- fragment --> </dd></dl>
+<p>Converts GPIO number to the corresponding pin number of the port number, which is M_GPIO_NUM2PORT(gpio_number), see datasheet p. 175. </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gpio</td><td>GPIO number: AVR32_GPIO_PIN00 | AVR32_GPIO_PIN01 | AVR32_GPIO_PIN02 | AVR32_GPIO_PIN03 | etc. </td></tr>
+    <tr><td class="paramname">gpio</td><td>GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example:</dt><dd><div class="fragment"><div class="line">   port = <a class="code" href="gpio_8h.html#a5d3ed0e828ef37a6c5906d891ed580df">GPIO_NUM2PORT</a>(34); <span class="comment">// port = 1, or PORTB</span></div>
+<div class="line">   pin = <a class="code" href="gpio_8h.html#ada0d3daa5bb3c7a9974699950314a2bd">GPIO_NUM2PIN</a>(34);   <span class="comment">// pin  = 2, or PB02</span></div>
+</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
@@ -193,10 +193,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Converts GPIO number to the corresponding PORT, see datasheet p. 175</p>
+<p>Converts GPIO number to the corresponding PORT, see datasheet p. 175 </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gpio</td><td>GPIO number: AVR32_GPIO_PIN00 | AVR32_GPIO_PIN01 | AVR32_GPIO_PIN02 | AVR32_GPIO_PIN03 | etc. </td></tr>
+    <tr><td class="paramname">gpio</td><td>GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc. </td></tr>
   </table>
   </dd>
 </dl>
@@ -280,7 +280,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes one pin which is given as a GPIO number</p>
+<p>Initializes one pin which is given as a GPIO number </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05 </td></tr>
@@ -288,7 +288,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a2">displays/hd44780.c</a>, <a class="el" href="main_8c-example.html#a0">main.c</a>, <a class="el" href="rtc_interrupt_8c-example.html#a2">rtc_interrupt.c</a>, <a class="el" href="spi_8c-example.html#a0">spi.c</a>, and <a class="el" href="toggle_led_8c-example.html#a0">toggle_led.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adc_8c-example.html#a0">adc.c</a>, <a class="el" href="displays_2hd44780_8c-example.html#a2">displays/hd44780.c</a>, <a class="el" href="main_8c-example.html#a0">main.c</a>, <a class="el" href="rtc_interrupt_8c-example.html#a2">rtc_interrupt.c</a>, <a class="el" href="spi_8c-example.html#a0">spi.c</a>, and <a class="el" href="toggle_led_8c-example.html#a0">toggle_led.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -321,7 +321,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes several pins at once</p>
+<p>Initializes several pins at once </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pport</td><td>Pointer to the GPIO port </td></tr>
@@ -330,7 +330,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a3">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a1">spi.c</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adc_8c-example.html#a1">adc.c</a>, <a class="el" href="displays_2hd44780_8c-example.html#a3">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a1">spi.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -355,15 +355,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Reads pin value</p>
-<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
+<p>Reads pin value </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Pin value high or low, 1 or 0 </dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>Pin value high or low, 1 or 0</dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
 
 </div>
 </div>
@@ -388,15 +388,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets pin high</p>
-<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
+<p>Sets pin high </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05 </td></tr>
+    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05</td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a8">displays/hd44780.c</a>, and <a class="el" href="main_8c-example.html#a1">main.c</a>.</dd>
+<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="adc_8c-example.html#a4">adc.c</a>, <a class="el" href="displays_2hd44780_8c-example.html#a8">displays/hd44780.c</a>, and <a class="el" href="main_8c-example.html#a1">main.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -421,14 +421,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Sets pin low</p>
-<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
+<p>Sets pin low </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05 </td></tr>
+    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
 
 </div>
 </div>
@@ -453,14 +453,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Toggles pin</p>
-<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
+<p>Toggles pin </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05 </td></tr>
+    <tr><td class="paramname">pinnum</td><td>GPIO number, e.g. AVR32_PIN_PA05</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note:</dt><dd>Does not work for local bus </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="rtc_interrupt_8c-example.html#a0">rtc_interrupt.c</a>, and <a class="el" href="toggle_led_8c-example.html#a1">toggle_led.c</a>.</dd>
 </dl>
 </div>
@@ -471,7 +471,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="gpio_8h.html">gpio.h</a></li>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

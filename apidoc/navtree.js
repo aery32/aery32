@@ -16,7 +16,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"delay_8h.html",
+"adc_8c-example.html",
 ];
 
 var navTreeSubIndices = new Array();

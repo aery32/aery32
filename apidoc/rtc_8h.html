@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -105,11 +105,11 @@ $(document).ready(function(){initNavTree('rtc_8h.html','');});
 <tr class="heading"><td colspan="2"><h2><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a95f1f66d4d5e3c6234399f18f494a3c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a95f1f66d4d5e3c6234399f18f494a3c6"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>RTC_WAIT_LOOPMAX</b>&#160;&#160;&#160;300</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RTC_WAIT_LOOPMAX</b>&#160;&#160;&#160;300 /* Experimentally set by using 66MHz MCK */</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a18274e68a06e12b6535e60672bfd09ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Rtc_source</b> { <br/>
+<tr class="memitem:a18274e68a06e12b6535e60672bfd09ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a18274e68a06e12b6535e60672bfd09ef">Rtc_source</a> { <br/>
 &#160;&#160;<b>RTC_SOURCE_RC</b>, 
 <br/>
 &#160;&#160;<b>RTC_SOURCE_OSC32</b>
@@ -118,7 +118,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a520d4c639c387dccb395ae178f65bb33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a520d4c639c387dccb395ae178f65bb33">aery_rtc_init</a> (uint32_t val, uint32_t top, uint8_t prescaler, enum Rtc_source source)</td></tr>
+<tr class="memitem:a520d4c639c387dccb395ae178f65bb33"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a520d4c639c387dccb395ae178f65bb33">aery_rtc_init</a> (uint32_t val, uint32_t top, uint8_t prescaler, enum <a class="el" href="rtc_8h.html#a18274e68a06e12b6535e60672bfd09ef">Rtc_source</a> source)</td></tr>
 <tr class="memitem:aa14cb21352348ea4bcf7fb78d7de03b2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#aa14cb21352348ea4bcf7fb78d7de03b2">aery_rtc_set_control</a> (uint32_t ctrl)</td></tr>
 <tr class="memitem:a3a004384d354bd6319592b0caf59606a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a3a004384d354bd6319592b0caf59606a">aery_rtc_set_value</a> (uint32_t val)</td></tr>
 <tr class="memitem:a7f887302e9fd8a04607a81b0486bd2fa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a7f887302e9fd8a04607a81b0486bd2fa">aery_rtc_set_top</a> (uint32_t topval)</td></tr>
@@ -129,7 +129,21 @@ Functions</h2></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Real Time Counter (RTC) </p>
-</div><hr/><h2>Function Documentation</h2>
+</div><hr/><h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="a18274e68a06e12b6535e60672bfd09ef"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="rtc_8h.html#a18274e68a06e12b6535e60672bfd09ef">Rtc_source</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>RTC source </p>
+
+</div>
+</div>
+<hr/><h2>Function Documentation</h2>
 <a class="anchor" id="a53366fe704760771cd78e4c04d993cb1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +175,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>RTC delay</p>
+<p>RTC delay </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">cycles</td><td>The delay lenght in RTC cycles. </td></tr>
@@ -184,7 +198,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Enable RTC</p>
+<p>Enable RTC </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">enint</td><td>Enable interrupts. Set true if want to rise an interrupt always when the counter reach top value. Otherwise set false to use polling. </td></tr>
@@ -220,7 +234,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Rtc_source&#160;</td>
+          <td class="paramtype">enum <a class="el" href="rtc_8h.html#a18274e68a06e12b6535e60672bfd09ef">Rtc_source</a>&#160;</td>
           <td class="paramname"><em>source</em>&#160;</td>
         </tr>
         <tr>
@@ -230,7 +244,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes RTC</p>
+<p>Initializes RTC </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">val</td><td>Value where to start counting </td></tr>
@@ -258,7 +272,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Indicates if RTC registers are ready to written</p>
+<p>Indicates if RTC registers are ready to written </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">loopcycles</td><td>How many loop cycles to wait. Provides timeout if nothing happens. </td></tr>
@@ -282,8 +296,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set RTC control register</p>
-<dl class="section note"><dt>Note:</dt><dd>You should be fine with rtc_init() in most cases </dd></dl>
+<p>Set RTC control register </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">ctrl</td><td>Controller register settings </td></tr>
@@ -291,6 +304,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error </dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>You should be fine with rtc_init() in most cases </dd></dl>
 
 </div>
 </div>
@@ -307,7 +321,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set RTC top value</p>
+<p>Set RTC top value </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">topval</td><td>Top value where to count </td></tr>
@@ -331,7 +345,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set RTC value</p>
+<p>Set RTC value </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">val</td><td>Value where to start counting </td></tr>
@@ -348,7 +362,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="rtc_8h.html">rtc.h</a></li>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

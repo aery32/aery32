@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -126,14 +126,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Proxy to _isr_table[] containing the registered ISR function pointers</p>
-<dl class="section attention"><dt>Attention:</dt><dd>The call of this function happens from exception.S and user should not call this function from C source code. </dd></dl>
+<p>Proxy to _isr_table[] containing the registered ISR function pointers </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">group</td><td>Interrupt group number, see datasheet p. 41. Reflects to the _isr_table[] index. </td></tr>
+    <tr><td class="paramname">group</td><td>Interrupt group number, see datasheet p. 41. Reflects to the _isr_table[] index.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section attention"><dt>Attention:</dt><dd>The call of this function happens from exception.S and user should not call this function from C source code. </dd></dl>
 
 </div>
 </div>
@@ -221,17 +221,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Register interrupt service routine function</p>
-<p>The registered function is called when ever the interrupt of the group which for the function was registered occur.</p>
-<dl class="section note"><dt>Note:</dt><dd>Remember to init and enable interrupts after the function registration. You can also have several handlers for the same interrupt group and switch the handler from one to another by calling this function multiple times. To change the priority level just reregister the same handler with the different priority. </dd></dl>
+<p>Register interrupt service routine function </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">handler</td><td>Pointer to the ISR function </td></tr>
     <tr><td class="paramname">group</td><td>Which group the registered ISR function will handle, see datasheet p. 41. </td></tr>
-    <tr><td class="paramname">priority</td><td>Interrupt priority level of this group, see INTLEVEL from datasheet p. 103. </td></tr>
+    <tr><td class="paramname">priority</td><td>Interrupt priority level of this group, see INTLEVEL from datasheet p. 103.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note:</dt><dd>Remember to init and enable interrupts after the function registration. You can also have several handlers for the same interrupt group and switch the handler from one to another by calling this function multiple times. To change the priority level just reregister the same handler with the different priority.</dd></dl>
+<p>The registered function is called when ever the interrupt of the group which for the function was registered occur. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="rtc_interrupt_8c-example.html#a5">rtc_interrupt.c</a>.</dd>
 </dl>
 </div>
@@ -242,7 +242,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="intc_8h.html">intc.h</a></li>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

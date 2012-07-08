@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -113,119 +113,211 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ae7db437e619fa690afa3593ae4e7b2db"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_gclk</b> { <br/>
-&#160;&#160;<b>PM_GCLK0</b>, 
+<tr class="memitem:ae7db437e619fa690afa3593ae4e7b2db"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> { <br/>
+&#160;&#160;<b>GCLK0</b>, 
 <br/>
-&#160;&#160;<b>PM_GCLK1</b>, 
+&#160;&#160;<b>GCLK1</b>, 
 <br/>
-&#160;&#160;<b>PM_GCLK2</b>, 
+&#160;&#160;<b>GCLK2</b>, 
 <br/>
-&#160;&#160;<b>PM_GCLK3</b>, 
+&#160;&#160;<b>GCLK3</b>, 
 <br/>
-&#160;&#160;<b>PM_GCLK_USBB</b>, 
+&#160;&#160;<b>GCLK_USBB</b>, 
 <br/>
-&#160;&#160;<b>PM_GCLK_ABDAC</b>
-<br/>
- }</td></tr>
-<tr class="memitem:ab21e91d065cce554ac06260a68bbf7ec"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_gclk_source</b> { <br/>
-&#160;&#160;<b>PM_GCLK_SOURCE_OSC0</b> =  0b00, 
-<br/>
-&#160;&#160;<b>PM_GCLK_SOURCE_OSC1</b> =  0b01, 
-<br/>
-&#160;&#160;<b>PM_GCLK_SOURCE_PLL0</b> =  0b10, 
-<br/>
-&#160;&#160;<b>PM_GCLK_SOURCE_PLL1</b> =  0b11
+&#160;&#160;<b>GCLK_ABDAC</b>
 <br/>
  }</td></tr>
-<tr class="memitem:ac742bb3df4d24ad93d2463a88b8acae7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_pll_source</b> { <br/>
-&#160;&#160;<b>PM_PLL_SOURCE_OSC0</b>, 
+<tr class="memitem:ab21e91d065cce554ac06260a68bbf7ec"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a> { <br/>
+&#160;&#160;<b>GCLK_SOURCE_OSC0</b> =  0b00, 
 <br/>
-&#160;&#160;<b>PM_PLL_SOURCE_OSC1</b>
+&#160;&#160;<b>GCLK_SOURCE_OSC1</b> =  0b01, 
 <br/>
- }</td></tr>
-<tr class="memitem:aa42f02952502321a3dd236222273cf29"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_mck_source</b> { <br/>
-&#160;&#160;<b>PM_MCK_SOURCE_RC</b>, 
+&#160;&#160;<b>GCLK_SOURCE_PLL0</b> =  0b10, 
 <br/>
-&#160;&#160;<b>PM_MCK_SOURCE_OSC0</b>, 
-<br/>
-&#160;&#160;<b>PM_MCK_SOURCE_PLL0</b>
+&#160;&#160;<b>GCLK_SOURCE_PLL1</b> =  0b11
 <br/>
  }</td></tr>
-<tr class="memitem:a4c877bcaddb1e74cd03030082bc6794b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_osc_mode</b> { <br/>
-&#160;&#160;<b>PM_OSC_MODE_EXTERNAL</b>, 
+<tr class="memitem:ac742bb3df4d24ad93d2463a88b8acae7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a> { <br/>
+&#160;&#160;<b>PLL_SOURCE_OSC0</b>, 
 <br/>
-&#160;&#160;<b>PM_OSC_MODE_OSC32</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_MODE_GAIN0</b> =  4, 
-<br/>
-&#160;&#160;<b>PM_OSC_MODE_GAIN1</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_MODE_GAIN2</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_MODE_GAIN3</b>
+&#160;&#160;<b>PLL_SOURCE_OSC1</b>
 <br/>
  }</td></tr>
-<tr class="memitem:a2ae052da63d179f5ba2cdee05c82a445"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_osc_startup</b> { <br/>
-&#160;&#160;<b>PM_OSC_STARTUP_0</b>, 
+<tr class="memitem:aa42f02952502321a3dd236222273cf29"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a> { <br/>
+&#160;&#160;<b>MCK_SOURCE_RC</b>, 
 <br/>
-&#160;&#160;<b>PM_OSC_STARTUP_560us</b>, 
+&#160;&#160;<b>MCK_SOURCE_OSC0</b>, 
 <br/>
-&#160;&#160;<b>PM_OSC_STARTUP_1m1s</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_STARTUP_18ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_STARTUP_36ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_STARTUP_71ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC_STARTUP_142ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_0</b> =  0, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_1m1s</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_72m3s</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_134ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_570ms</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_1s1</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_2s3</b>, 
-<br/>
-&#160;&#160;<b>PM_OSC32_STARTUP_4s6</b>
+&#160;&#160;<b>MCK_SOURCE_PLL0</b>
 <br/>
  }</td></tr>
-<tr class="memitem:aa11e080cf9fc4fd9a43e61b6a2d1db35"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>Pm_ckldomain</b> { <br/>
-&#160;&#160;<b>PM_CLKDOMAIN_CPU</b> =  01, 
+<tr class="memitem:a4c877bcaddb1e74cd03030082bc6794b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a> { <br/>
+&#160;&#160;<b>OSC_MODE_EXTERNAL</b>, 
 <br/>
-&#160;&#160;<b>PM_CLKDOMAIN_PBA</b> =  02, 
+&#160;&#160;<b>OSC_MODE_OSC32</b>, 
 <br/>
-&#160;&#160;<b>PM_CLKDOMAIN_PBB</b> =  04, 
+&#160;&#160;<b>OSC_MODE_GAIN0</b> =  4, 
 <br/>
-&#160;&#160;<b>PM_CLKDOMAIN_ALL</b> =  07
+&#160;&#160;<b>OSC_MODE_GAIN1</b>, 
+<br/>
+&#160;&#160;<b>OSC_MODE_GAIN2</b>, 
+<br/>
+&#160;&#160;<b>OSC_MODE_GAIN3</b>
+<br/>
+ }</td></tr>
+<tr class="memitem:a2ae052da63d179f5ba2cdee05c82a445"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a> { <br/>
+&#160;&#160;<b>OSC_STARTUP_0</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_560us</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_1m1s</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_18ms</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_36ms</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_71ms</b>, 
+<br/>
+&#160;&#160;<b>OSC_STARTUP_142ms</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_0</b> =  0, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_1m1s</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_72m3s</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_134ms</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_570ms</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_1s1</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_2s3</b>, 
+<br/>
+&#160;&#160;<b>OSC32_STARTUP_4s6</b>
+<br/>
+ }</td></tr>
+<tr class="memitem:aa11e080cf9fc4fd9a43e61b6a2d1db35"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> { <br/>
+&#160;&#160;<b>CLKDOMAIN_CPU</b> =  01, 
+<br/>
+&#160;&#160;<b>CLKDOMAIN_PBA</b> =  02, 
+<br/>
+&#160;&#160;<b>CLKDOMAIN_PBB</b> =  04, 
+<br/>
+&#160;&#160;<b>CLKDOMAIN_ALL</b> =  07
 <br/>
  }</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab254cbdb43f039a1050bb79039856924"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">aery_pm_start_osc</a> (uint8_t oscnum, enum Pm_osc_mode mode, enum Pm_osc_startup startup)</td></tr>
-<tr class="memitem:a285325ebaa9446c0ae8cbc5492f6f48b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">aery_pm_init_pllvco</a> (volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src, uint8_t mul, uint8_t div, bool hifreq)</td></tr>
+<tr class="memitem:ab254cbdb43f039a1050bb79039856924"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">aery_pm_start_osc</a> (uint8_t oscnum, enum <a class="el" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a> mode, enum <a class="el" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a> startup)</td></tr>
+<tr class="memitem:a285325ebaa9446c0ae8cbc5492f6f48b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">aery_pm_init_pllvco</a> (volatile avr32_pm_pll_t *ppll, enum <a class="el" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a> src, uint8_t mul, uint8_t div, bool hifreq)</td></tr>
 <tr class="memitem:aeb219f66efefe6aa531c41d7ad8581cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#aeb219f66efefe6aa531c41d7ad8581cf">aery_pm_enable_pll</a> (volatile avr32_pm_pll_t *ppll, bool divby2)</td></tr>
-<tr class="memitem:a21e184aa60b44c673412dedf5fb2cafa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a21e184aa60b44c673412dedf5fb2cafa">aery_pm_init_gclk</a> (enum Pm_gclk clknum, enum Pm_gclk_source clksrc, uint16_t div)</td></tr>
+<tr class="memitem:a21e184aa60b44c673412dedf5fb2cafa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a21e184aa60b44c673412dedf5fb2cafa">aery_pm_init_gclk</a> (enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum, enum <a class="el" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a> clksrc, uint16_t div)</td></tr>
 <tr class="memitem:aa039bd19b0c7a372b08e2ba1367ae744"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#aa039bd19b0c7a372b08e2ba1367ae744">aery_pm_wait_osc_to_stabilize</a> (uint8_t oscnum)</td></tr>
 <tr class="memitem:ad89084fb00a71c361e7a93ecea90c015"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ad89084fb00a71c361e7a93ecea90c015">aery_pm_wait_pll_to_lock</a> (volatile avr32_pm_pll_t *ppll)</td></tr>
-<tr class="memitem:a86941dca4e5e66913fc3b9b8f89df0cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a86941dca4e5e66913fc3b9b8f89df0cb">aery_pm_enable_gclk</a> (enum Pm_gclk clknum)</td></tr>
-<tr class="memitem:a2de6863c2c543a27134ceaa145dc5fbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a2de6863c2c543a27134ceaa145dc5fbf">aery_pm_disable_gclk</a> (enum Pm_gclk clknum)</td></tr>
-<tr class="memitem:a79df1f4db7e434f0f061c04036ccaf69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a79df1f4db7e434f0f061c04036ccaf69">aery_pm_select_mck</a> (enum Pm_mck_source mcksrc)</td></tr>
-<tr class="memitem:a48df8831185bd2f96b5865b89e26b9b7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a48df8831185bd2f96b5865b89e26b9b7">aery_pm_get_mck</a> (void)</td></tr>
-<tr class="memitem:a913469a903ecbd84ccc552f3aa6d0ddf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a913469a903ecbd84ccc552f3aa6d0ddf">aery_pm_setup_clkdomain</a> (uint8_t prescaler, enum Pm_ckldomain clkdomain)</td></tr>
-<tr class="memitem:a2e716184ee8e10d28b4200b2669c5d8e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a2e716184ee8e10d28b4200b2669c5d8e">aery_pm_get_clkdomain_freq</a> (enum Pm_ckldomain clkdomain)</td></tr>
+<tr class="memitem:a86941dca4e5e66913fc3b9b8f89df0cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a86941dca4e5e66913fc3b9b8f89df0cb">aery_pm_enable_gclk</a> (enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum)</td></tr>
+<tr class="memitem:a2de6863c2c543a27134ceaa145dc5fbf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a2de6863c2c543a27134ceaa145dc5fbf">aery_pm_disable_gclk</a> (enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum)</td></tr>
+<tr class="memitem:a79df1f4db7e434f0f061c04036ccaf69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a79df1f4db7e434f0f061c04036ccaf69">aery_pm_select_mck</a> (enum <a class="el" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a> mcksrc)</td></tr>
+<tr class="memitem:a4af5a0bbfa9ce13d0d6ac84fda197d5e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#a4af5a0bbfa9ce13d0d6ac84fda197d5e">aery_pm_get_fmck</a> (void)</td></tr>
+<tr class="memitem:aa3019c881b0942cd5cbcdee5e5e63b41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#aa3019c881b0942cd5cbcdee5e5e63b41">aery_pm_setup_clkdomain</a> (uint8_t prescal, enum <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> clkdomain)</td></tr>
+<tr class="memitem:ae0ebd10f5dec2fba92e151c542acd982"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pm_8h.html#ae0ebd10f5dec2fba92e151c542acd982">aery_pm_get_fclkdomain</a> (enum <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> clkdomain)</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Power Manager (PM) </p>
-</div><hr/><h2>Function Documentation</h2>
+</div><hr/><h2>Enumeration Type Documentation</h2>
+<a class="anchor" id="aa11e080cf9fc4fd9a43e61b6a2d1db35"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Clock domain number </p>
+
+</div>
+</div>
+<a class="anchor" id="ae7db437e619fa690afa3593ae4e7b2db"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>General clock number </p>
+
+</div>
+</div>
+<a class="anchor" id="ab21e91d065cce554ac06260a68bbf7ec"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>General clock source </p>
+
+</div>
+</div>
+<a class="anchor" id="aa42f02952502321a3dd236222273cf29"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Master (or main) clock source </p>
+
+</div>
+</div>
+<a class="anchor" id="a4c877bcaddb1e74cd03030082bc6794b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Oscillator mode </p>
+
+</div>
+</div>
+<a class="anchor" id="a2ae052da63d179f5ba2cdee05c82a445"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Oscillator startup time </p>
+
+</div>
+</div>
+<a class="anchor" id="ac742bb3df4d24ad93d2463a88b8acae7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>PLL source </p>
+
+</div>
+</div>
+<hr/><h2>Function Documentation</h2>
 <a class="anchor" id="a2de6863c2c543a27134ceaa145dc5fbf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -233,13 +325,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void aery_pm_disable_gclk </td>
           <td>(</td>
-          <td class="paramtype">enum Pm_gclk&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a>&#160;</td>
           <td class="paramname"><em>clknum</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Disables the chosen generic clock</p>
+<p>Disables the given generic clock </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">clknum</td><td>Clock number which to disable </td></tr>
@@ -256,13 +348,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void aery_pm_enable_gclk </td>
           <td>(</td>
-          <td class="paramtype">enum Pm_gclk&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a>&#160;</td>
           <td class="paramname"><em>clknum</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Enables the chosen generic clock</p>
+<p>Enables the chosen generic clock </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">clknum</td><td>Clock number which to enable </td></tr>
@@ -295,48 +387,49 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Enables phase locked loop (PLL)</p>
-<dl class="section note"><dt>Note:</dt><dd>Before enabling PLL you have to initialize PLL vco frequency by calling <a class="el" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">aery_pm_init_pllvco()</a></dd></dl>
+<p>Enables phase locked loop (PLL) </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">ppll</td><td>Poiter to pll register </td></tr>
-    <tr><td class="paramname">divby2</td><td>Divide the vco frequency by two </td></tr>
+    <tr><td class="paramname">divby2</td><td>Divide the vco frequency by two</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note:</dt><dd>Before enabling PLL, you have to initialize PLL's VCO via <a class="el" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">aery_pm_init_pllvco()</a>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a2e716184ee8e10d28b4200b2669c5d8e"></a>
+<a class="anchor" id="ae0ebd10f5dec2fba92e151c542acd982"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t aery_pm_get_clkdomain_freq </td>
+          <td class="memname">uint32_t aery_pm_get_fclkdomain </td>
           <td>(</td>
-          <td class="paramtype">enum Pm_ckldomain&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a>&#160;</td>
           <td class="paramname"><em>clkdomain</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the clock domain frequency</p>
+<p>Get the clock domain frequency </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clkdomain</td><td>Clock domain selection: PM_CLKDOMAIN_CPU, PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB </td></tr>
+    <tr><td class="paramname">clkdomain</td><td>Clock domain selection </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Returns clock domain frequency in hertz </dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>Clock domain frequency in hertz</dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>Calls <a class="el" href="pm_8h.html#a4af5a0bbfa9ce13d0d6ac84fda197d5e">aery_pm_get_fmck()</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a48df8831185bd2f96b5865b89e26b9b7"></a>
+<a class="anchor" id="a4af5a0bbfa9ce13d0d6ac84fda197d5e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t aery_pm_get_mck </td>
+          <td class="memname">uint32_t aery_pm_get_fmck </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -344,9 +437,9 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get the master (or main) clock frequency</p>
-<dl class="section note"><dt>Note:</dt><dd>Depends on the defined F_OSC0 and F_OSC1 values. By default calculates the master clock with F_OSC0 = 12MHz. If other is used, make sure to define this before including the &lt;<a class="el" href="pm_8h.html" title="Power Manager (PM)">aery32/pm.h</a>&gt;.</dd></dl>
-<dl class="section return"><dt>Returns:</dt><dd>Master clock frequency in hertz </dd></dl>
+<p>Get the master (or main) clock frequency </p>
+<dl class="section return"><dt>Returns:</dt><dd>Master clock frequency in hertz</dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>Depends on the defined F_OSC0 and F_OSC1 values. By default calculates the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If other oscillator frequencies are used, make sure to put the new value in CFLAGS manually or via Makefile, like CFLAGS+=-DF_OSC0=8000000UL. </dd></dl>
 
 </div>
 </div>
@@ -357,13 +450,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int aery_pm_init_gclk </td>
           <td>(</td>
-          <td class="paramtype">enum Pm_gclk&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a>&#160;</td>
           <td class="paramname"><em>clknum</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Pm_gclk_source&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a>&#160;</td>
           <td class="paramname"><em>clksrc</em>, </td>
         </tr>
         <tr>
@@ -379,16 +472,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the chosen generic clock</p>
+<p>Initializes the chosen generic clock </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clknum</td><td>Generic clock number: PM_GCLK0, PM_GCLK1, PM_GCLK2, PM_GCLK3, PM_GCLK_USBB, PM_GCLK_ABDAC </td></tr>
-    <tr><td class="paramname">clksrc</td><td>Source of the generic clock </td></tr>
-    <tr><td class="paramname">div</td><td>Clock source divider, f_gclk = f_src/(2*div) </td></tr>
+    <tr><td class="paramname">clknum</td><td>Generic clock number </td></tr>
+    <tr><td class="paramname">clksrc</td><td>The source that will be used for this generic clock </td></tr>
+    <tr><td class="paramname">div</td><td>Source clock divider </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error </dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error</dd></dl>
+<dl class="section user"><dt>Equation:</dt><dd><ul>
+<li>f_gclk = f_src / (2 * div) </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
@@ -405,7 +502,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Pm_pll_source&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a>&#160;</td>
           <td class="paramname"><em>src</em>, </td>
         </tr>
         <tr>
@@ -433,19 +530,23 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the frequency of PLL's voltage controlled oscillator (VCO)</p>
-<p>f_vco = f_src * mul / div, if div &gt; 0 f_vco = 2 * f_src * mul, if div == 0</p>
-<dl class="section note"><dt>Note:</dt><dd>VCO frequency has to be in range of 80 MHz - 180 MHz or if hifreq mode is enabled in the range of 160 MHz - 240 MHz.</dd></dl>
+<p>Initializes the voltage controlled oscillator (VCO) the given PLL </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ppll</td><td>Pointer to pll register </td></tr>
+    <tr><td class="paramname">ppll</td><td>Pointer to the PLL register </td></tr>
     <tr><td class="paramname">src</td><td>Source oscillator </td></tr>
-    <tr><td class="paramname">mul</td><td>Source frequency is multiplier by this value </td></tr>
-    <tr><td class="paramname">div</td><td>Source frequency is divided by this value. If zero the multiplier is doubled </td></tr>
-    <tr><td class="paramname">hifreq</td><td>Enable high frequency mode </td></tr>
+    <tr><td class="paramname">mul</td><td>The source frequency is multiplier by this value </td></tr>
+    <tr><td class="paramname">div</td><td>The source frequency is divided by this value </td></tr>
+    <tr><td class="paramname">hifreq</td><td>If true enables the high frequency mode</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Equations:</dt><dd><ul>
+<li>If div &gt; 0, then f_vco = f_src * mul / div</li>
+<li>If div = 0, then f_vco = 2 * f_src * mul</li>
+</ul>
+</dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>VCO frequency has to be in range of 80 MHz - 180 MHz or if hifreq mode is enabled in the range of 160 MHz - 240 MHz. </dd></dl>
 
 </div>
 </div>
@@ -456,13 +557,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void aery_pm_select_mck </td>
           <td>(</td>
-          <td class="paramtype">enum Pm_mck_source&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a>&#160;</td>
           <td class="paramname"><em>mcksrc</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Selects master clock source</p>
+<p>Selects master clock source </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">mcksrc</td><td>Clock source </td></tr>
@@ -472,7 +573,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a913469a903ecbd84ccc552f3aa6d0ddf"></a>
+<a class="anchor" id="aa3019c881b0942cd5cbcdee5e5e63b41"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -480,12 +581,12 @@ Functions</h2></td></tr>
           <td class="memname">int aery_pm_setup_clkdomain </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>prescaler</em>, </td>
+          <td class="paramname"><em>prescal</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Pm_ckldomain&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a>&#160;</td>
           <td class="paramname"><em>clkdomain</em>&#160;</td>
         </tr>
         <tr>
@@ -495,15 +596,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set up clock domain frequency</p>
+<p>Set up clock domain frequency </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">prescaler</td><td>Prescaler value, domain clock frequency will be f_mck / (2^prescaler). 0 disables the prescaler making domain clock equalt to the main clock, f_mck. </td></tr>
-    <tr><td class="paramname">clkdomain</td><td>Clock domain selection: PM_CLKDOMAIN_CPU, PM_CLKDOMAIN_PBA, PM_CLKDOMAIN_PBB </td></tr>
+    <tr><td class="paramname">prescal</td><td>Prescaler value </td></tr>
+    <tr><td class="paramname">clkdomain</td><td>Clock domain selection </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error </dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error</dd></dl>
+<dl class="section user"><dt>Equations:</dt><dd><ul>
+<li>If prescal &gt; 0, f_clkdomn = f_mck / (2^prescaler)</li>
+<li>If prescal = 0, f_clkdomn = f_mck </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>
@@ -520,13 +626,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Pm_osc_mode&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a>&#160;</td>
           <td class="paramname"><em>mode</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum Pm_osc_startup&#160;</td>
+          <td class="paramtype">enum <a class="el" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a>&#160;</td>
           <td class="paramname"><em>startup</em>&#160;</td>
         </tr>
         <tr>
@@ -536,21 +642,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Starts the chosen oscillator</p>
-<dl class="section note"><dt>Note:</dt><dd>After start you shall wait OSC to stabilize</dd></dl>
-<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">   <span class="comment">// Start 12MHz crystal connected in XIN0/XOUT0</span></div>
-<div class="line">   <a class="code" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">aery_pm_start_osc</a>(0, PM_OSC_MODE_GAIN3, PM_OSC_STARTUP_36ms);</div>
-<div class="line">   <a class="code" href="pm_8h.html#aa039bd19b0c7a372b08e2ba1367ae744">aery_pm_wait_osc_to_stabilize</a>(0);</div>
-</div><!-- fragment --></dd></dl>
+<p>Starts the given oscillator </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">oscnum</td><td>Oscillator number which to start: 0, 1, 32 </td></tr>
-    <tr><td class="paramname">mode</td><td>Oscillator mode, see datasheet p. 74. </td></tr>
+    <tr><td class="paramname">mode</td><td>Oscillator mode </td></tr>
     <tr><td class="paramname">startup</td><td>Oscillator startup time </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error </dd></dl>
+<dl class="section return"><dt>Returns:</dt><dd>Returns 0 on success and -1 on error</dd></dl>
+<dl class="section note"><dt>Note:</dt><dd>After start you shall wait OSC to stabilize</dd></dl>
+<dl class="section user"><dt>Example:</dt><dd><div class="fragment"><div class="line">   <a class="code" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">aery_pm_start_osc</a>(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);</div>
+<div class="line">   <a class="code" href="pm_8h.html#aa039bd19b0c7a372b08e2ba1367ae744">aery_pm_wait_osc_to_stabilize</a>(0);</div>
+</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
@@ -567,10 +672,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Waits oscillator to stabilize</p>
+<p>Waits oscillator to stabilize </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
-    <tr><td class="paramname">oscnum</td><td>Oscillator number: 0, 1 or 32 </td></tr>
+    <tr><td class="paramname">oscnum</td><td>Oscillator number </td></tr>
   </table>
   </dd>
 </dl>
@@ -590,7 +695,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Waits pll to lock</p>
+<p>Waits pll to lock </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">ppll</td><td>Pointer to PLL register </td></tr>
@@ -606,7 +711,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="pm_8h.html">pm.h</a></li>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

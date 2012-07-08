@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -95,24 +95,25 @@ $(document).ready(function(){initNavTree('spi_8c-example.html','');});
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="spi_8h.html" title="Serial Peripheral Interface (SPI)">aery32/spi.h</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#define LED AVR32_PIN_PC04</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define SPI0_GPIO_MASK ((1 &lt;&lt; 10) | (1 &lt;&lt; 11) | (1 &lt;&lt; 12) | (1 &lt;&lt; 13))</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define SPI1_GPIO_MASK ((1 &lt;&lt; 15) | (1 &lt;&lt; 16) | (1 &lt;&lt; 17) | (1 &lt;&lt; 19))</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define SPI0_PINMASK ((1 &lt;&lt; 10) | (1 &lt;&lt; 11) | (1 &lt;&lt; 12) | (1 &lt;&lt; 13))</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define SPI1_PINMASK ((1 &lt;&lt; 15) | (1 &lt;&lt; 16) | (1 &lt;&lt; 17) | (1 &lt;&lt; 19))</span></div>
 <div class="line"><span class="preprocessor"></span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
-<div class="line">        <span class="keyword">volatile</span> uint16_t rd0, rd1;             <span class="comment">// Received data 0 and 1</span></div>
+<div class="line">        uint16_t rd0, rd1; <span class="comment">/* received data */</span></div>
 <div class="line"></div>
 <div class="line">        init_board();</div>
 <div class="line">        <a name="a0"></a><a class="code" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">aery_gpio_init_pin</a>(LED, GPIO_OUTPUT|GPIO_HIGH);</div>
 <div class="line"></div>
 <div class="line">        <a name="a1"></a><a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(</div>
 <div class="line">                porta,          <span class="comment">/* pointer to port register address */</span></div>
-<div class="line">                SPI0_GPIO_MASK, <span class="comment">/* pin mask */</span></div>
+<div class="line">                SPI0_PINMASK,   <span class="comment">/* pin mask */</span></div>
 <div class="line">                GPIO_FUNCTION_A <span class="comment">/* options */</span></div>
 <div class="line">        );</div>
-<div class="line">        <a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(porta, SPI1_GPIO_MASK, GPIO_FUNCTION_B);</div>
+<div class="line">        <a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(porta, SPI1_PINMASK, GPIO_FUNCTION_B);</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">/* Init SPI0 as master. The chip select pin 0 of SPI0 is set to work in</span></div>
+<div class="line">        <span class="comment">/*</span></div>
+<div class="line"><span class="comment">         * Init SPI0 as master. The chip select pin 0 of SPI0 is set to work in</span></div>
 <div class="line"><span class="comment">         * spi mode 0 and 16 bits wide shift register. */</span></div>
 <div class="line">        <a name="a2"></a><a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(spi0 <span class="comment">/* pointer to spi register address */</span>);</div>
 <div class="line">        <a name="a3"></a><a class="code" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a>(</div>
@@ -123,7 +124,8 @@ $(document).ready(function(){initNavTree('spi_8c-example.html','');});
 <div class="line">        );</div>
 <div class="line">        <a name="a4"></a><a class="code" href="spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e">aery_spi_enable</a>(spi0);</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">/* Init SPI1 as master. The chip select pin 2 of SPI1 is set to work in</span></div>
+<div class="line">        <span class="comment">/*</span></div>
+<div class="line"><span class="comment">         * Init SPI1 as master. The chip select pin 2 of SPI1 is set to work in</span></div>
 <div class="line"><span class="comment">         * spi mode 1 and 8 bits wide shift register.</span></div>
 <div class="line"><span class="comment">         */</span></div>
 <div class="line">        <a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(spi1);</div>
@@ -131,7 +133,8 @@ $(document).ready(function(){initNavTree('spi_8c-example.html','');});
 <div class="line">        <a class="code" href="spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e">aery_spi_enable</a>(spi1);</div>
 <div class="line"></div>
 <div class="line">        <span class="keywordflow">for</span> (;;) {</div>
-<div class="line">                <span class="comment">/* Single 16 bit spi transmission. The word 0x5155 is transmitted</span></div>
+<div class="line">                <span class="comment">/*</span></div>
+<div class="line"><span class="comment">                 * Single 16 bit spi transmission. The word 0x5155 is transmitted</span></div>
 <div class="line"><span class="comment">                 * by using SPI0 peripheral and chip select pin 0. The return value</span></div>
 <div class="line"><span class="comment">                 * is the received data.</span></div>
 <div class="line"><span class="comment">                 */</span></div>
@@ -142,7 +145,8 @@ $(document).ready(function(){initNavTree('spi_8c-example.html','');});
 <div class="line">                        <span class="keyword">true</span>    <span class="comment">/* is the last transmission */</span></div>
 <div class="line">                );</div>
 <div class="line"></div>
-<div class="line">                <span class="comment">/* Partially transfer 24 bit word in 8 bits wide chunks by using</span></div>
+<div class="line">                <span class="comment">/*</span></div>
+<div class="line"><span class="comment">                 * Partially transfer 24 bit word in 8 bits wide chunks by using</span></div>
 <div class="line"><span class="comment">                 * SPI1 peripheral and chip select pin 2. Note that two of the</span></div>
 <div class="line"><span class="comment">                 * first transmission indicate that they weren&#39;t the last ones to</span></div>
 <div class="line"><span class="comment">                 * keep the chip select pin low.</span></div>
@@ -159,7 +163,7 @@ $(document).ready(function(){initNavTree('spi_8c-example.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

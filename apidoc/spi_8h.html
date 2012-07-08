@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">1</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
    <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
   </td>
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Spi mode </p>
+<p>SPI mode </p>
 
 </div>
 </div>
@@ -152,7 +152,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Disable the SPI peripheral</p>
+<p>Disables the SPI peripheral </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to disable </td></tr>
@@ -175,7 +175,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Enable the SPI peripheral</p>
+<p>Enables the SPI peripheral </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to enable </td></tr>
@@ -199,17 +199,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Init SPI as a master</p>
+<p>Init SPI as a master </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to init</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>CS multiplexer</dt><dd>If you are using multiplexed chip selects, enable cs multiplexing by bitbanging PCSDEC bit in SPI MR register after initialization: <div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(&amp;AVR32_SPI0);</div>
+<dl class="section user"><dt>CS multiplexer</dt><dd>If you are using multiplexed chip selects, enable cs multiplexing by bitbanging PCSDEC bit in SPI MR register after initialization:</dd></dl>
+<div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(&amp;AVR32_SPI0);</div>
 <div class="line">   AVR32_SPI0.MR.pcsdec = 1;</div>
-</div><!-- fragment --> </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a4">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a2">spi.c</a>.</dd>
+</div><!-- fragment --> <dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a4">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a2">spi.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -248,19 +248,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Setup SPI mode and the shift register width of the Numeric Processor Chip Select (NPCS, same as slave select). Every chip select line can have different mode and size of shift register.</p>
-<dl class="section user"><dt>Making SPI SCK faster</dt><dd>Chip select baudrate is hard coded to MCK/255. To make it faster you can bitbang the SCRB bit in CSRX register. <div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a>(&amp;AVR32_SPI0, 0, SPI_MODE1, 16);</div>
-<div class="line">   AVR32_SPI0.CSR0.scbr = 32; <span class="comment">// baudrate is now MCK/32</span></div>
-</div><!-- fragment --></dd></dl>
+<p>Setups the SPI mode and the shift register width of the Numeric Processor Chip Select (NPCS, same as slave/chip select) </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral </td></tr>
     <tr><td class="paramname">npcs</td><td>Chip Select: 0-3 </td></tr>
     <tr><td class="paramname">mode</td><td>SPI mode </td></tr>
-    <tr><td class="paramname">bits</td><td>Width of SPI shift register: 8-16 bits </td></tr>
+    <tr><td class="paramname">bits</td><td>Width of SPI shift register: 8-16 bits</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Making SPI SCK faster</dt><dd>Chip select baudrate is hard coded to MCK/255. To make it faster you can bitbang the SCRB bit in CSRX register.</dd></dl>
+<div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a>(&amp;AVR32_SPI0, 0, SPI_MODE1, 16);</div>
+<div class="line">   AVR32_SPI0.CSR0.scbr = 32; <span class="comment">// baudrate is now MCK/32</span></div>
+</div><!-- fragment --><dl class="section note"><dt>Note:</dt><dd>Every chip select line can have different mode and size of shift register. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a5">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a3">spi.c</a>.</dd>
 </dl>
 </div>
@@ -300,10 +301,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Writes and reads SPI bus</p>
-<dl class="section user"><dt>SPI read</dt><dd>When you only want to read from external device through SPI, ignore the sent data and use dummy bits instead, for example 0x00. <div class="fragment"><div class="line">   uint16_t rd; <span class="comment">// read data</span></div>
-<div class="line">   rd = <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(&amp;AVR32_SPI0, 0, 0, <span class="keyword">true</span>);</div>
-</div><!-- fragment --></dd></dl>
+<p>Writes and reads SPI bus </p>
 <dl class="params"><dt>Parameters:</dt><dd>
   <table class="params">
     <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to use. </td></tr>
@@ -313,8 +311,11 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns:</dt><dd>Received data bits </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a0">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a5">spi.c</a>.</dd>
+<dl class="section return"><dt>Returns:</dt><dd>Received data bits</dd></dl>
+<dl class="section user"><dt>SPI read</dt><dd>When you only want to read from external device through SPI, ignore the sent data and use dummy bits instead, for example 0x00.</dd></dl>
+<div class="fragment"><div class="line">   uint16_t rd; <span class="comment">// read data</span></div>
+<div class="line">   rd = <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(&amp;AVR32_SPI0, 0, 0, <span class="keyword">true</span>);</div>
+</div><!-- fragment --> <dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a0">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a5">spi.c</a>.</dd>
 </dl>
 </div>
 </div>
@@ -324,7 +325,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="spi_8h.html">spi.h</a></li>
-    <li class="footer">Generated on Thu Jun 28 2012 20:05:29 for Aery32 Software Framework by
+    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

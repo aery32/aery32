@@ -1,5 +1,6 @@
 var dir_8c07b1055f60b18256bed32f45dd54ce =
 [
+    [ "adc.h", "adc_8h.html", "adc_8h" ],
     [ "delay.h", "delay_8h.html", "delay_8h" ],
     [ "gpio.h", "gpio_8h.html", "gpio_8h" ],
     [ "intc.h", "intc_8h.html", "intc_8h" ],

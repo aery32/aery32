@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Aery32 Software Framework: Examples</title>
+<title>Aery32 Software Framework: adc.c</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('examples.html','');});
+$(document).ready(function(){initNavTree('adc_8c-example.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -86,24 +86,50 @@ $(document).ready(function(){initNavTree('examples.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Examples</div>  </div>
+<div class="title">adc.c</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all examples:</div><ul>
-<li><a class="el" href="adc_8c-example.html">adc.c</a></li>
-
-<li><a class="el" href="displays_2hd44780_8c-example.html">displays/hd44780.c</a></li>
-
-<li><a class="el" href="main_8c-example.html">main.c</a></li>
-
-<li><a class="el" href="rtc_interrupt_8c-example.html">rtc_interrupt.c</a></li>
-
-<li><a class="el" href="spi_8c-example.html">spi.c</a></li>
-
-<li><a class="el" href="toggle_led_8c-example.html">toggle_led.c</a></li>
-
-</ul>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="gpio_8h.html" title="General Purpose Input/Output (GPIO)">aery32/gpio.h</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="adc_8h.html" title="Analog-to-digital converter (adc)">aery32/adc.h</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#define LED AVR32_PIN_PC04</span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define ADC_PINMASK_ALLCHAN (0xff &lt;&lt; 21)</span></div>
+<div class="line"><span class="preprocessor"></span></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">        <span class="keywordtype">int</span> errno;</div>
+<div class="line">        uint16_t result; <span class="comment">/* conversion result in bits */</span></div>
+<div class="line">        <span class="keywordtype">double</span> volt;     <span class="comment">/* conversion in volts */</span></div>
+<div class="line"></div>
+<div class="line">        init_board();</div>
+<div class="line">        <a name="a0"></a><a class="code" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">aery_gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
+<div class="line">        <a name="a1"></a><a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);</div>
+<div class="line"></div>
+<div class="line">        errno = <a name="a2"></a><a class="code" href="adc_8h.html#a47844ff6d190350793ecd3fd45fe3fea">aery_adc_init</a>(</div>
+<div class="line">                7,    <span class="comment">/* prescal, adclk = pba_clk / (2 * (prescal+1)) */</span></div>
+<div class="line">                <span class="keyword">true</span>, <span class="comment">/* hires, 10-bit (false would be 8-bit) */</span></div>
+<div class="line">                0,    <span class="comment">/* shtim, sample and hold time = (shtim + 1) / adclk */</span></div>
+<div class="line">                0     <span class="comment">/* startup, startup time = (startup + 1) * 8 / adclk */</span></div>
+<div class="line">        );</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">if</span> (errno != -1)</div>
+<div class="line">                <a name="a3"></a><a class="code" href="adc_8h.html#adcb66030e11b0b88b80dab519340f23c">aery_adc_enable</a>(1 &lt;&lt; 3); <span class="comment">/* enables the channel 3 */</span></div>
+<div class="line"></div>
+<div class="line">        <span class="comment">/* Init done, turn the LED on */</span></div>
+<div class="line">        <a name="a4"></a><a class="code" href="gpio_8h.html#a6ca4f08827b5b099de3a77fd36bbce3b">aery_gpio_set_pin_high</a>(LED);</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">for</span>(;;) {</div>
+<div class="line">                <a name="a5"></a><a class="code" href="adc_8h.html#abb802d42f6e14acf053b61a891a32252">aery_adc_start_cnv</a>();</div>
+<div class="line">                <span class="keywordflow">while</span> (!<a name="a6"></a><a class="code" href="adc_8h.html#a585d29b498fd358a3e557f998656284a">aery_adc_cnv_isrdy</a>(1 &lt;&lt; 3));</div>
+<div class="line">                result = <a name="a7"></a><a class="code" href="adc_8h.html#a489eecf95e3ea6be597e7c1c535228a8">aery_adc_get_cnv</a>(3);</div>
+<div class="line">                volt = cnv2volt(result);</div>
+<div class="line">        }</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
