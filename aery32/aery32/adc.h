@@ -38,9 +38,14 @@ extern "C" {
 
 #include <stdbool.h>
 #include <inttypes.h>
+#include <avr32/io.h>
 
 #define ADCLK_HIRES_MAX 5000000UL
 #define ADCLK_LORES_MAX 8000000UL
+
+#ifdef AERY_SHORTCUTS
+	extern volatile avr32_adc_t *adc;
+#endif
 
 /**
  * Initializes Analog-to-digital converter
@@ -51,10 +56,10 @@ extern "C" {
  * \param startup ADC startup time, time = (startup + 1) * 8 / adclk
  * \return 0 on success, -1 if the maximum ADC frequency has been exceeded
  *
- * \note Calls aery_pm_get_clkdomainfreq(PM_CLKDOMAIN_PBA)
+ * \note Calls aery_pm_get_fclkdomain(CLKDOMAIN_PBA)
  */
 int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime,
-                  uint8_t startup);
+		uint8_t startup);
 
 /**
  * Starts the conversion
@@ -75,10 +80,16 @@ int aery_adc_cnv_isrdy(uint8_t chamask);
 uint16_t aery_adc_get_cnv(uint8_t chanum);
 
 /**
- * Enables Analog-to-Digital converter
+ * Enables Analog-to-digital converter channels
  * \param chamask Channel mask for which channels should be enabled
  */
 void aery_adc_enable(uint8_t chamask);
+
+/**
+ * Disables Analog-to-digital converter channels
+ * \param chamask Channel mask for which channels should be disabled
+ */
+void aery_adc_disable(uint8_t chamask);
 
 #ifdef __cplusplus
 }

@@ -22,6 +22,10 @@
 #include "aery32/adc.h"
 #include "aery32/pm.h"
 
+#ifdef AERY_SHORTCUTS
+	volatile avr32_adc_t *adc = &AVR32_ADC;
+#endif
+
 int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 {
 	uint32_t adclk;
@@ -54,7 +58,12 @@ int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 
 void aery_adc_enable(uint8_t chamask)
 {
-	AVR32_ADC.cher = chamask;
+	AVR32_ADC.cher |= chamask;
+}
+
+void aery_adc_disable(uint8_t chamask)
+{
+	AVR32_ADC.cher &= ~chamask;
 }
 
 void aery_adc_start_cnv(void)
