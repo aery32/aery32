@@ -64,7 +64,7 @@ If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may 
 Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 ## Release notes
-### Changelog for the next release (master branch)
+### v0.1.2
 
 - New modules
   - Analog-to-digital conversion (adc)
