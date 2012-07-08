@@ -1,18 +1,20 @@
-/*   _____             ___ ___   |
-    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
-    |     | -_|  _| | |_  |  _|  |  
-    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
-                  |___|          |
-
-    Copyright (c) 2012, Muiku Oy
-    All rights reserved.
-
-    LICENSE: This source file is subject to the new BSD license that is
-    bundled with this package in the file LICENSE.txt. If you did not
-    receive a copy of the license and are unable to obtain it through
-    the world-wide-web, please send an email to contact@muiku.com so
-    we can send you a copy.
-*/
+/*
+ *  _____             ___ ___   |
+ * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |     | -_|  _| | |_  |  _|  |  
+ * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+ *               |___|          |
+ *
+ * Copyright (c) 2012, Muiku Oy
+ * All rights reserved.
+ *
+ * LICENSE
+ *
+ * New BSD License, see the LICENSE.txt bundled with this package. If you did
+ * not receive a copy of the license and are unable to obtain it through the
+ * world-wide-web, please send an email to contact@muiku.com so we can send
+ * you a copy.
+ */
 
 #include <stdbool.h>
 #include <inttypes.h>
@@ -24,8 +26,7 @@
 	volatile avr32_spi_t *spi1 = &AVR32_SPI1;
 #endif
 
-void
-aery_spi_init_master(volatile avr32_spi_t *pspi)
+void aery_spi_init_master(volatile avr32_spi_t *pspi)
 {
 	/* Software reset before intialization */
 	pspi->CR.swrst = 1;
@@ -38,22 +39,22 @@ aery_spi_init_master(volatile avr32_spi_t *pspi)
 		(1 << AVR32_SPI_MR_MSTR_OFFSET);
 }
 
-void
-aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode,
-                    uint8_t bits)
+void aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
+		enum Spi_mode mode, uint8_t bits)
 {
-	if (bits < 8 || bits > 16) {
+	if (bits < 8 || bits > 16)
 		bits = 8;
-	}
 
-	/* This not elegant, but there is no other way to do this without modifying
-	 * avr32 header files. */
+	/*
+	 * This not elegant, but there is no other way to do this without
+	 * modifying the AVR32 header files.
+	 */
 	switch (npcs) {
 	case 0:
 		pspi->csr0 =
 			((mode & 1) << AVR32_SPI_CSR0_CPOL_OFFSET) |
 			((mode & 2) << AVR32_SPI_CSR0_NCPHA_OFFSET) |
-			((bits-8) << AVR32_SPI_CSR0_BITS_OFFSET) |
+			((bits - 8) << AVR32_SPI_CSR0_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR0_CSAAT_OFFSET) |
 		 	(255 << AVR32_SPI_CSR0_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR0_DLYBCT_OFFSET);
@@ -62,7 +63,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 		pspi->csr1 =
 			((mode & 1) << AVR32_SPI_CSR1_CPOL_OFFSET) |
 			((mode & 2) << AVR32_SPI_CSR1_NCPHA_OFFSET) |
-			((bits-8) << AVR32_SPI_CSR1_BITS_OFFSET) |
+			((bits - 8) << AVR32_SPI_CSR1_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR1_CSAAT_OFFSET) |
 		 	(255 << AVR32_SPI_CSR1_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR1_DLYBCT_OFFSET);
@@ -80,7 +81,7 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 		pspi->csr3 =
 			((mode & 1) << AVR32_SPI_CSR3_CPOL_OFFSET) |
 			((mode & 2) << AVR32_SPI_CSR3_NCPHA_OFFSET) |
-			((bits-8) << AVR32_SPI_CSR3_BITS_OFFSET) |
+			((bits - 8) << AVR32_SPI_CSR3_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR3_CSAAT_OFFSET) |
 		 	(255 << AVR32_SPI_CSR3_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR3_DLYBCT_OFFSET);
@@ -88,16 +89,17 @@ aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode
 	}
 }
 
-uint16_t
-aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data, uint8_t npcs,
-                  bool islast)
+uint16_t aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
+		uint8_t npcs, bool islast)
 {
 	/* Wait previous transfer to complete */
 	while ((pspi->sr & AVR32_SPI_SR_TXEMPTY_MASK) == 0);
 
-	/* Setup chip select bits. If PCSDEC = 1 then PCS == npcs, otherwise
-	 * map npcs numer 0, 1, 2 or 3 to corresponding PCS as defined in
-	 * datasheet p. 209 */
+	/*
+	 * Setup chip select bits. If PCSDEC = 1 then PCS == npcs, otherwise
+	 * map npcs nubmer to the corresponding PCS as it is defined in the
+	 * datasheet p. 209 of UC3A1/0
+	 */
 	if ((pspi->mr & AVR32_SPI_MR_PCSDEC_MASK) == 0) {
 		switch (npcs) {
 		case 2:
@@ -120,14 +122,12 @@ aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data, uint8_t npcs,
 	return pspi->RDR.rd;
 }
 
-void
-aery_spi_enable(volatile avr32_spi_t *pspi)
+void aery_spi_enable(volatile avr32_spi_t *pspi)
 {
 	pspi->CR.spien = 1;
 }
 
-void
-aery_spi_disable(volatile avr32_spi_t *pspi)
+void aery_spi_disable(volatile avr32_spi_t *pspi)
 {
 	pspi->CR.spien = 0;
 }

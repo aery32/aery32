@@ -224,7 +224,7 @@ re: clean all
 reall: cleanall all
 
 debug: reall
-debug: OPTIMIZATION=-O0 -g3 -DDEBUG
+debug: OPTIMIZATION=-O0 -g -DDEBUG
 
 qa: re
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline

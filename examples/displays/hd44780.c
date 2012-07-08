@@ -42,7 +42,7 @@
 // Additional board settings
 // ----------------------------------------------------------------------
 #define LED                 AVR32_PIN_PC04
-#define SPI0_GPIO_MASK      ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
+#define SPI0_PINMASK        ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
 
 #define DISPLAY_SPI         spi0
 #define DISPLAY_SPI_NPCS    0   
@@ -52,8 +52,7 @@
 // ----------------------------------------------------------------------
 // Display functions
 // ----------------------------------------------------------------------
-bool
-display_isbusy(void)
+bool display_isbusy(void)
 {
 	uint16_t rd; /* read data */
 
@@ -62,30 +61,26 @@ display_isbusy(void)
 	return ((HD44780_BUSYBIT_MASK << 2) & rd) != 0;
 }
 
-void
-display_wait(void)
+void display_wait(void)
 {
 	while (display_isbusy()) {
 		aery_delay_us(600);
 	}
 }
 
-void
-display_instruct(uint16_t instruction)
+void display_instruct(uint16_t instruction)
 {
 	display_wait();
 	aery_spi_transmit(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, true);
 }
 
-void
-display_wrbyte(uint8_t byte)
+void display_wrbyte(uint8_t byte)
 {
 	display_wait();
 	aery_spi_transmit(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, true);
 }
 
-void
-display_putc(char c)
+void display_putc(char c)
 {
 	display_wrbyte((uint8_t) c);
 }
@@ -100,8 +95,7 @@ display_puts(const char *buf)
 	return i;
 }
 
-int
-display_nputs(const char *buf, int n)
+int display_nputs(const char *buf, int n)
 {
 	int i = 0;
 	for (; *(buf+i) && i < n; i++) {
@@ -110,13 +104,11 @@ display_nputs(const char *buf, int n)
 	return i;
 }
 
-void
-display_goto(uint8_t x, uint8_t y)
+void display_goto(uint8_t x, uint8_t y)
 {
-	uint16_t position = HD44780_DDRAM_ADDR + x;
-	if (y == 1) {
+	uint16_t position = x|HD44780_DDRAM_ADDR;
+	if (y == 1)
 		position |= 0x40;
-	}
 	display_instruct(position);
 }
 
@@ -129,7 +121,7 @@ main(void)
 {
 	init_board();
 	aery_gpio_init_pin(LED, GPIO_OUTPUT);
-	aery_gpio_init_pins(porta, SPI0_GPIO_MASK, GPIO_FUNCTION_A);
+	aery_gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 
 	aery_spi_init_master(DISPLAY_SPI);
 	aery_spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
@@ -142,7 +134,7 @@ main(void)
 	display_instruct(HD44780_CLEAR_DISPLAY);
 	display_instruct(HD44780_RETURN_HOME);
 	display_instruct(HD44780_EMODE_INCREMENT);
-	display_instruct(HD44780_CURSOR_ONBLINK);
+	display_instruct(HD44780_DISPLAY_ON|HD44780_CURSOR_ONBLINK);
 
 	// Init OK
 	aery_gpio_set_pin_high(LED);

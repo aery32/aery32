@@ -1,18 +1,20 @@
-/*   _____             ___ ___   |
-    |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
-    |     | -_|  _| | |_  |  _|  |  
-    |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
-                  |___|          |
-
-    Copyright (c) 2012, Muiku Oy
-    All rights reserved.
-
-    LICENSE: This source file is subject to the new BSD license that is
-    bundled with this package in the file LICENSE.txt. If you did not
-    receive a copy of the license and are unable to obtain it through
-    the world-wide-web, please send an email to contact@muiku.com so
-    we can send you a copy.
-*/
+/*
+ *  _____             ___ ___   |
+ * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |     | -_|  _| | |_  |  _|  |  
+ * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
+ *               |___|          |
+ *
+ * Copyright (c) 2012, Muiku Oy
+ * All rights reserved.
+ *
+ * LICENSE
+ *
+ * New BSD License, see the LICENSE.txt bundled with this package. If you did
+ * not receive a copy of the license and are unable to obtain it through the
+ * world-wide-web, please send an email to contact@muiku.com so we can send
+ * you a copy.
+ */
 
 #include <inttypes.h>
 #include <avr32/io.h>
@@ -30,10 +32,12 @@
 
 void
 aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
-                    int options)
+		int options)
 {
-	/* By default define pin to be controlled by the GPIO with output
-	 * drivers disabled. */
+	/*
+	 * By default define pin to be controlled by the GPIO with output
+	 * drivers disabled.
+	 */
 	pport->gpers = pinmask;
 	pport->oderc = pinmask;
 
@@ -47,7 +51,8 @@ aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 		pport->ovrs = pinmask;
 		break;
 
-	/* Before the pin peripheral function can be assigned, the pin has to
+	/*
+	 * Before the pin peripheral function can be assigned, the pin has to
 	 * be controlled by the GPIO with output drivers disabled, as has been
 	 * done by default. The pin can then be assured to be tri-stated while
 	 * changing the Peripheral Mux Registers.
@@ -75,9 +80,10 @@ aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 	}
 
 	if (options & 0040) {
-		/* Interrupt can be enabled on a pin, regardless of the configuration
-		 * the I/O line, i.e. controlled by the GPIO or assigned to a
-		 * peripheral function. [ds, p.173]
+		/* 
+		 * Interrupt can be enabled on a pin, regardless of the
+		 * configuration the I/O line, i.e. controlled by the GPIO
+		 * or assigned to a peripheral function. [ds, p.173]
 		 */
 		switch (options & 0030) {
 		case 0000:
@@ -99,31 +105,33 @@ aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 	}
 
 	if (options & 0100) {
-		/* Control of the pull-up resistor is possible whether an I/O line
-		 * is controlled by a peripheral or the GPIO. */
+		/*
+		 * Control of the pull-up resistor is possible whether an I/O
+		 * line is controlled by a peripheral or the GPIO.
+		 */
 		pport->puers = pinmask;
 	} else {
 		pport->puerc = pinmask;
 	}
 
 	if (options & 0200) {
-		/* The open drain mode can be selected whether the I/O line is
-		 * controlled by the GPIO or assigned to a peripheral function. */
+		/* 
+		 * The open drain mode can be selected whether the I/O line is
+		 * controlled by the GPIO or assigned to a peripheral function.
+		 */
 		pport->odmers = pinmask;
 	} else {
 		pport->odmerc = pinmask;
 	}
 
-	if (options & 0400) {
+	if (options & 0400)
 		pport->gfers = pinmask;
-	} else {
+	else
 		pport->gferc = pinmask;
-	}
 }
 
-void
-aery_gpio_init_pin(uint8_t pinnum, int options)
+void aery_gpio_init_pin(uint8_t pinnum, int options)
 {
 	aery_gpio_init_pins(&AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)],
-		(1UL << GPIO_NUM2PIN(pinnum)), options);
+			(1UL << GPIO_NUM2PIN(pinnum)), options);
 }

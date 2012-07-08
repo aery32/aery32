@@ -64,15 +64,27 @@ If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may 
 Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 
 ## Release notes
+### v0.1.2
+
+- New modules
+  - Analog-to-digital conversion (adc)
+- Change coding style to Linux kernel style
+- Backward compatibility breaks
+  - `aery_pm_get_mck()` renamed to `aery_pm_get_fmck()`
+  - `aery_pm_get_clkdomain_freq()` renamed to `aery_pm_get_fclkdomain()`
+  - `PM_` prefix removed from Pm enums to reduce the verbosity
+- Fixes
+  - gh-3, general clock reinitialization does not take care of enabling the clock
+
 ### v0.1.1
 
 - PM module has been expanded with few functions
-  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB).
-  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain.
-  - `aery_pm_get_mck()` returns the master (or main) clock frequency.
-- Experimental "to string" functions, which can be used to convert integer and double type values to strings.
-- Added <aery32/all.h> header file to include the whole library at once.
-- Makefile tunings.
+  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB)
+  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain
+  - `aery_pm_get_mck()` returns the master (or main) clock frequency
+- Experimental "to string" functions, which can be used to convert integer and double type values to strings
+- Added <aery32/all.h> header file to include the whole library at once
+- Makefile tunings
 
 ### v0.1
 
@@ -115,3 +127,8 @@ Aery32 Software Framework and its library is licensed under the new BSD license:
 > SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Example applications placed under `examples/` directory are public domain.
+
+## Supportive readings
+
+- [AVR32000 : Introduction to AVR32 header files](http://www.atmel.com/Images/doc32005.pdf)
+- [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
