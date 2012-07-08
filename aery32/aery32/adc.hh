@@ -49,7 +49,11 @@ static inline uint16_t adc_get_cnv(uint8_t chanum) {
 }
 
 static inline void adc_enable(uint8_t chamask) {
-	return adc_enable(uint8_t chamask);
+	return aery_adc_enable(uint8_t chamask);
+}
+
+static inline void adc_disable(uint8_t chamask) {
+	return aery_adc_disable(uint8_t chamask);
 }
 
 }
