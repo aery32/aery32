@@ -4,7 +4,7 @@
 #include <aery32/adc.h>
 
 #define LED AVR32_PIN_PC04
-#define ADC_PINMASK_ALLCHANNELS (0xff << 21)
+#define ADC_PINMASK_ALLCHAN (0xff << 21)
 
 int main(void)
 {
@@ -13,7 +13,7 @@ int main(void)
 
 	init_board();
 	aery_gpio_init_pin(LED, GPIO_OUTPUT);
-	aery_gpio_init_pins(porta, ADC_PINMASK_ALLCHANNELS, GPIO_FUNCTION_A);
+	aery_gpio_init_pins(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);
 
 	aery_adc_init(
 		8,    /* prescal, adclk = pba_clk / (2 * (prescal+1)) */
