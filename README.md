@@ -66,13 +66,15 @@ Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
 ## Release notes
 ### Changelog for the next release (master branch)
 
-- New module, analog-to-digital conversion (adc)
+- New modules
+  - Analog-to-digital conversion (adc)
 - Change coding style to Linux kernel style
-- BC breaks
+- Backward compatibility breaks
   - `aery_pm_get_mck()` renamed to `aery_pm_get_fmck()`
   - `aery_pm_get_clkdomain_freq()` renamed to `aery_pm_get_fclkdomain()`
   - `PM_` prefix removed from Pm enums to reduce the verbosity
-- Fix gh-3
+- Fixes
+  - gh-3, general clock reinitialization does not take care of enabling the clock
 
 ### v0.1.1
 
