@@ -143,7 +143,7 @@ enum Pm_ckldomain {
  *
  * \par Example:
  * \code
- * aery_pm_start_osc(0, PM_OSC_MODE_GAIN3, PM_OSC_STARTUP_36ms);
+ * aery_pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
  * aery_pm_wait_osc_to_stabilize(0);
  * \endcode
  */
