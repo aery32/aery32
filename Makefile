@@ -133,7 +133,7 @@ endif
 # ----------------------------------------------------------------------
 # Chip programming
 # ----------------------------------------------------------------------
-.PHONY: program start programs dump-userdata update-userdata
+.PHONY: program start programs dump-user update-fuses
 
 # Select the programmer according to OS
 ifneq (, $(filter $(OS), windows32))
@@ -144,50 +144,52 @@ endif
 
 program: $(PROGRAMMER)-program
 start: $(PROGRAMMER)-start
-programs: $(PROGRAMMER)-program-start
-dump-userdata: $(PROGRAMMER)-dump-userdata
+programs: $(PROGRAMMER)-programs
+dump-user: $(PROGRAMMER)-dump-user
+dump-fuses: $(PROGRAMMER)-dump-fuses
 
 
 # ----------------------------------------------------------------------
 # Chip programming targets for batchisp/batchisp (Windows)
 # ----------------------------------------------------------------------
-.PHONY: batchisp-program batchisp-start batchisp-program-start \
-		batchisp-dump-userdata batchisp-update-userdata
+.PHONY: batchisp-program batchisp-start batchisp-programs \
+		batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
+
+BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
 batchisp-program: $(PROJECT).hex
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory flash blankcheck loadbuffer $< program verify
+	$(BATCHISP) -operation erase f memory flash blankcheck \
+	loadbuffer $< program verify
 
 batchisp-start:
-	batchisp -device at32$(MPART) -hardware usb -operation start reset 0
+	$(BATCHISP) -operation start reset 0
 
-batchisp-program-start: $(PROJECT).hex
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory flash blankcheck loadbuffer $< program verify start reset 0
-
-batchisp-dump-userdata:
-	batchisp -device at32$(MPART) -hardware usb -operation memory user \
-	read savebuffer user.data hex386
-	cat user.data
+batchisp-programs: $(PROJECT).hex
+	$(BATCHISP) -operation erase f memory flash blankcheck \
+	loadbuffer $< program verify start reset 0
 
 # Programs ISP_IO_COND_PIN to be PC04, which is GPIO pin number 69,
 # which is 0x45 in hex. Thus "fillbuffer 0x45". The 0x94 is CRC for
 # the whole userdata which is 0x929E45.
-batchisp-update-userdata:
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
+batchisp-program-user:
+	$(BATCHISP) -operation memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
+	$(BATCHISP) -operation memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
+	$(BATCHISP) -operation memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
+	$(BATCHISP) -operation memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
+
+batchisp-dump-user:
+	$(BATCHISP) -operation memory user read savebuffer userpage.hex hex386
+	cat userpage.hex
+
+batchisp-dump-fuses:
+	$(BATCHISP) -operation memory configuration read savebuffer fusebits.hex hex386
+	cat fusebits.hex
 
 
 # ----------------------------------------------------------------------
 # Chip programming targets for dfu-programmer (Linux)
 # ----------------------------------------------------------------------
-.PHONY: dfu-program dfu-start dfu-program-start dfu-dump-userdata
+.PHONY: dfu-program dfu-start dfu-program-start dfu-dump-user
 
 dfu-program: $(PROJECT).hex
 	dfu-programmer at32$(MPART) erase
@@ -196,9 +198,9 @@ dfu-program: $(PROJECT).hex
 dfu-start:
 	dfu-programmer at32$(MPART) start
 
-dfu-program-start: dfu-program dfu-start
+dfu-programs: dfu-program dfu-start
 
-dfu-dump-userdata:
+dfu-dump-user:
 	dfu-programmer at32$(MPART) dump-user
 
 
@@ -213,7 +215,7 @@ size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
+	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) userpage.hex fusebits.hex
 	-rm -rf $(OBJDIRS)
 
 cleanall: clean

@@ -45,7 +45,7 @@
 #define SPI0_PINMASK        ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
 
 #define DISPLAY_SPI         spi0
-#define DISPLAY_SPI_NPCS    0   
+#define DISPLAY_SPI_NPCS    0
 #define DISPLAY_SPI_MODE    SPI_MODE3
 
 
@@ -85,8 +85,7 @@ void display_putc(char c)
 	display_wrbyte((uint8_t) c);
 }
 
-int
-display_puts(const char *buf)
+int display_puts(const char *buf)
 {
 	int i = 0;
 	for (; *(buf+i); i++) {
