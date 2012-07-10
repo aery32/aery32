@@ -133,7 +133,7 @@ endif
 # ----------------------------------------------------------------------
 # Chip programming
 # ----------------------------------------------------------------------
-.PHONY: program start programs dump-user update-fuses
+.PHONY: program start programs dump-user dump-fuses
 
 # Select the programmer according to OS
 ifneq (, $(filter $(OS), windows32))
