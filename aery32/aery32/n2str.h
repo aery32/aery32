@@ -17,18 +17,17 @@
  */
 
 /*!
-\file aery32/tostr.h
-\brief "Something to string" functions
+\file aery32/n2str.h
+\brief Set of functions to convert the number to string
 */
 
 #ifndef __AERY32_TOSTR_H
 #define __AERY32_TOSTR_H
 
 #include <inttypes.h>
-#include <math.h>
 
-int uint2str(unsigned int number, char *buf);
-int int2str(int number, char *buf);
-int dbl2str(double number, uint8_t precision, char *buf);
+int ui2str(unsigned int number, char *buf);
+int i2str(int number, char *buf);
+int d2str(double number, uint8_t precision, char *buf);
 
 #endif

@@ -32,7 +32,7 @@ int main(void)
 	for(;;) {
 		aery_adc_start_cnv();
 		while (!aery_adc_cnv_isrdy(1 << 3));
-		result = aery_adc_get_cnv(3);
+		result = aery_adc_read_cnv(3);
 		volt = cnv2volt(result);
 	}
 

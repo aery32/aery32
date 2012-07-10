@@ -33,6 +33,7 @@ int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 	if (prescal > 63)
 		return -1;
 
+	AVR32_ADC.CR.swrst = 1;
 	adclk = aery_pm_get_fclkdomain(CLKDOMAIN_PBA) / (2 * (prescal + 1));
 
 	switch (hires) {
@@ -56,14 +57,20 @@ int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup)
 	return 0;
 }
 
+void aery_adc_setup_trigger(enum Adc_trigger trigger)
+{
+	AVR32_ADC.MR.trgen = 1;
+	AVR32_ADC.MR.trgsel = trigger;
+}
+
 void aery_adc_enable(uint8_t chamask)
 {
-	AVR32_ADC.cher |= chamask;
+	AVR32_ADC.cher = chamask;
 }
 
 void aery_adc_disable(uint8_t chamask)
 {
-	AVR32_ADC.cher &= ~chamask;
+	AVR32_ADC.chdr = chamask;
 }
 
 void aery_adc_start_cnv(void)
@@ -73,14 +80,24 @@ void aery_adc_start_cnv(void)
 
 int aery_adc_cnv_isrdy(uint8_t chamask)
 {
-	/* Make sure that the channels are also enabled */
-	if ((AVR32_ADC.cher & chamask) != chamask)
+	if ((AVR32_ADC.chsr & chamask) != chamask)
 		return -1;
-
 	return (AVR32_ADC.sr & chamask) == chamask;
 }
 
-uint16_t aery_adc_get_cnv(uint8_t chanum)
+int aery_adc_nextcnv_isrdy(void)
+{
+	if (AVR32_ADC.chsr == 0)
+		return -1;
+	return AVR32_ADC.SR.drdy;
+}
+
+uint16_t aery_adc_read_cnv(uint8_t chanum)
 {
 	return *(&(AVR32_ADC.cdr0) + chanum);
+}
+
+uint16_t aery_adc_read_lastcnv(void)
+{
+	return AVR32_ADC.lcdr;
 }

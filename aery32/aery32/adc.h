@@ -48,6 +48,18 @@ extern "C" {
 #endif
 
 /**
+ * Hardware ADC trigger selection
+ */
+enum Adc_trigger {
+	INTERNAL_TRG0,
+	INTERNAL_TRG1,
+	INTERNAL_TRG3,
+	INTERNAL_TRG4,
+	INTERNAL_TRG5,
+	EXTERNAL_TRG
+};
+
+/**
  * Initializes Analog-to-digital converter
  * \param prescal Prescaler that has used to divide PBA clock for proper ADC
  *                clock, adclk = pba_clk / (2 * (prescal+1))
@@ -62,22 +74,48 @@ int aery_adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 		uint8_t startup);
 
 /**
+ * Setups the ADC hardware trigger
+ * \param trigger Hardware trigger selection
+ */
+void aery_adc_setup_trigger(enum Adc_trigger trigger);
+
+/**
  * Starts the conversion
  */
 void aery_adc_start_cnv(void);
 
 /**
- * Check if the conversion is ready
+ * Tells if the conversion for the given channel is ready
  * \param chamask Channel mask, e.g. (1<<2)|(1<<3) checks channels 2 and 3
- * \return 1 if ready, 0 if not, -1 if conversion wasn't even started
+ * \return 1 if ready, 0 if not, and -1 if the chan(s) wasn't even enabled
  */
 int aery_adc_cnv_isrdy(uint8_t chamask);
 
 /**
- * Get the conversion result
- * \param chanum Returns the result of the given channel
+ * Reads the conversion result for the given channel
+ * \param chanum ADC channel number
+ * \return the conversion result in binary form
+ *
+ * Before reading the conversion, check that the conversion is ready
+ * by using aery_adc_cnv_isrdy().
  */
-uint16_t aery_adc_get_cnv(uint8_t chanum);
+uint16_t aery_adc_read_cnv(uint8_t chanum);
+
+/**
+ * Tells if the next conversion is ready, whatever was the channel
+ * \return 1 if ready, 0 if not, and -1 if none of the chans weren't even
+ *         enabled
+ */
+int aery_adc_nextcnv_isrdy(void);
+
+/**
+ * Reads the last conversion result, whatever was the channel
+ * \return the conversion result in binary form
+ *
+ * Before reading the last conversion, check that the conversion is ready
+ * by using aery_adc_nextcnv_isrdy().
+ */
+uint16_t aery_adc_read_lastcnv(void);
 
 /**
  * Enables Analog-to-digital converter channels

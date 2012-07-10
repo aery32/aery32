@@ -26,6 +26,6 @@
 #include "aery32/pm.h"
 #include "aery32/rtc.h"
 #include "aery32/spi.h"
-#include "aery32/tostr.h"
+#include "aery32/n2str.h"
 
 #endif
