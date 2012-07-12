@@ -54,8 +54,8 @@ bool display_isbusy(void)
 {
 	uint16_t rd; /* read data */
 
-	spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, false);
-	rd = spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, false);
+	rd = spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, true);
 	return ((HD44780_BUSYBIT_MASK << 2) & rd) != 0;
 }
 
@@ -69,13 +69,13 @@ void display_wait(void)
 void display_instruct(uint16_t instruction)
 {
 	display_wait();
-	spi_transmit(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, instruction, true);
 }
 
 void display_wrbyte(uint8_t byte)
 {
 	display_wait();
-	spi_transmit(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x200|byte, true);
 }
 
 void display_putc(char c)

@@ -12,7 +12,7 @@ int main(void)
 
 	init_board();
 	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
-	gpio_init_pins(porta, SPI0_PINMASK,	GPIO_FUNCTION_A);
+	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 	gpio_init_pins(porta, SPI1_PINMASK, GPIO_FUNCTION_B);
 
 	/*
