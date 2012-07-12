@@ -3,5 +3,5 @@ Aery32 comes with plenty of example programs, which work out of box. Every examp
 To quickly test an example code, copy it over the current `main.c` and program the board
 
     cd myproject
-    cp examples/toggle_led.c main.c
+    cp examples/toggle_led.cpp main.cpp
     make programs

@@ -1,17 +1,16 @@
-#include <stdbool.h>
 #include "board.h"
-#include <aery32/gpio.h>
+#include <aery32/all.h>
 
-#define LED AVR32_PIN_PC04
+using namespace aery;
 
 int main(void)
 {
 	/* Put your application initialization sequence here */
 	init_board();
-	aery_gpio_init_pin(LED, GPIO_OUTPUT);
+	gpio_init_pin(LED, GPIO_OUTPUT);
 
 	/* All done, turn the LED on */
-	aery_gpio_set_pin_high(LED);
+	gpio_set_pin_high(LED);
 
 	for(;;) {
 		/* Put your application code here */

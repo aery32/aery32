@@ -18,14 +18,15 @@
 
 // !!! EXPERIMENTAL
 
-#include <math.h>
-#include <ieeefp.h>
-#include <inttypes.h>
+extern "C" {
+	#include <math.h>
+	#include <ieeefp.h>
+}
 #include "aery32/n2str.h"
 
-static const char nlookup[10] = {'0','1','2','3','4','5','6','7','8','9'};
+static const char lookup[10] = {'0','1','2','3','4','5','6','7','8','9'};
 
-int ui2str(unsigned int number, char *buf)
+int aery::ui2str(unsigned int number, char *buf)
 {
 	uint8_t i = 0, k = 0;
 	char t;
@@ -34,7 +35,7 @@ int ui2str(unsigned int number, char *buf)
 		buf[i++] = '0';
 
 	while (number > 0) {
-		buf[i++] = nlookup[number % 10];
+		buf[i++] = lookup[number % 10];
 		number = number / 10;
 	}
 	buf[i--] = '\0';
@@ -48,16 +49,16 @@ int ui2str(unsigned int number, char *buf)
 	return k+i+1;
 }
 
-int i2str(int number, char *buf)
+int aery::i2str(int number, char *buf)
 {
 	if (number < 0) {
 		buf[0] = '-';
-		return 1 + ui2str((unsigned int) (-1 * number), &buf[1]);
+		return 1 + aery::ui2str((unsigned int) (-1 * number), &buf[1]);
 	}
-	return ui2str((unsigned int) number, buf);
+	return aery::ui2str((unsigned int) number, buf);
 }
 
-int d2str(double number, uint8_t precision, char *buf)
+int aery::d2str(double number, uint8_t precision, char *buf)
 {
 	int n;
 	double ip, fp; /* integer and fractional parts */
@@ -81,13 +82,13 @@ int d2str(double number, uint8_t precision, char *buf)
 		fp *= -1;
 
 	/* write the integer part with the dot into the buf */
-	n = i2str((int) ip, buf);
+	n = aery::i2str((int) ip, buf);
 	buf[n++] = '.';
 
 	/* write the fractional part into the buf */
 	while (precision--) {
 		fp *= 10;
-		ui2str((unsigned int) fp, buf + n++);
+		aery::ui2str((unsigned int) fp, buf + n++);
 		fp = fp - (unsigned int) fp;
 	}
 	return n;

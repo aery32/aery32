@@ -19,24 +19,35 @@
 /*!
 \file aery32/intc.h
 \brief Interrupt Controller (INTC)
-\example rtc_interrupt.c
+\example rtc_interrupt.cc
 */
 
 #ifndef __AERY32_INTC_H
 #define __AERY32_INTC_H
 
-#ifdef __cplusplus
 extern "C" {
-#endif
+	#include <inttypes.h>
+	#include <avr32/io.h>
+}
 
-#include <inttypes.h>
+extern "C" {
+	/**
+	 * Proxy to _isr_table[] containing the registered ISR function pointers
+	 * \param group Interrupt group number, see datasheet p. 41. Reflects to the
+	 *              _isr_table[] index.
+	 *
+	 * \attention The call of this function happens from exception.S and
+	 *            user should not call this function from C source code.
+	 */
+	#ifndef DOXYGEN
+	__attribute__((__interrupt__))
+	#endif
+	void _isrhandler_proxy(uint32_t group);
+}
 
-/*
- * Some functions defined here use gcc built-in functions. See more info
- * from AVR32006 http://www.atmel.com/dyn/resources/prod_documents/doc32074.pdf
- */
-extern int __builtin_mfsr(int reg);
-extern void __builtin_mtsr(int reg, int val);
+namespace aery {
+
+extern volatile avr32_intc_t *intc;
 
 /**
  * Initializes Interrupt Request Register (IPR) of Interrupt Controller (INTC)
@@ -44,7 +55,7 @@ extern void __builtin_mtsr(int reg, int val);
  * Defines IPR register with the addresses of reserved memory for the
  * registered or to be registered ISR function pointers.
  */
-void aery_intc_init(void);
+void intc_init(void);
 
 /**
  * Register interrupt service routine function
@@ -64,36 +75,20 @@ void aery_intc_init(void);
  * The registered function is called when ever the interrupt of the
  * group which for the function was registered occur.
  */
-void aery_intc_register_isrhandler(void (*)(void), uint32_t group,
+void intc_register_isrhandler(void (*)(void), uint32_t group,
 		uint8_t priority);
 
 /**
  * Enables interrupts globally
- *
  * \attention Be sure that your code is ready to handle interrupts
  */
-void aery_intc_enable_globally(void);
+void intc_enable_globally(void);
 
 /**
  * Disables interrupts globally
  */
-void aery_intc_disable_globally(void);
+void intc_disable_globally(void);
 
-/**
- * Proxy to _isr_table[] containing the registered ISR function pointers
- * \param group Interrupt group number, see datasheet p. 41. Reflects to the
- *              _isr_table[] index.
- *
- * \attention The call of this function happens from exception.S and
- *            user should not call this function from C source code.
- */
-#ifndef DOXYGEN
-__attribute__((__interrupt__))
-#endif
-void _isrhandler_proxy(uint32_t group);
-
-#ifdef __cplusplus
-}
-#endif
+} /* end of namespace aery */
 
 #endif

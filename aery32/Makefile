@@ -38,24 +38,21 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=adc.c gpio.c intc.c pm.c rtc.c spi.c n2str.c exception.S
+SOURCES=adc.cpp gpio.cpp intc.cpp pm.cpp rtc.cpp spi.cpp n2str.cpp exception.S
 
 
 # ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
 
-CC=avr32-gcc
-CSTANDARD=gnu99
+CXX=avr32-g++
+CPPSTANDARD=gnu++98
 OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
-CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
-#CFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
-CFLAGS+=$(CFLAG_OPTS)
+CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
+#CPPFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
 
 ASFLAGS=-mpart=$(MPART)
-ASFLAGS+=$(ASFLAG_OPTS)
 
 
 # ----------------------------------------------------------------------
@@ -63,7 +60,7 @@ ASFLAGS+=$(ASFLAG_OPTS)
 # ----------------------------------------------------------------------
 
 # Resolve object files from source files
-OBJECTS=$(SOURCES:.c=.o)
+OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS:=$(OBJECTS:.S=.o)
 
 all: libaery32_$(MPART).a
@@ -72,11 +69,11 @@ libaery32_$(MPART).a: $(OBJECTS)
 	avr32-ar rv $@ $^
 	avr32-ranlib $@
 
-%.o : %.c
-	$(CC) $(CFLAGS) -MMD -MP -MF $(<:%.c=%.d) $<   -c -o $@
+%.o : %.cpp
+	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 %.o : %.S
-	$(CC) $(ASFLAGS) -MMD -MP -MF $(<:%.S=%.d) $<   -c -o $@
+	$(CXX) $(ASFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 # Add dependency lists, .d files
 -include $(OBJECTS:.o=.d)
@@ -93,7 +90,7 @@ clean:
 re: clean all
 
 qa: re size
-qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 size: libaery32_$(MPART).a
 	avr32-size -B $^

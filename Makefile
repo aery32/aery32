@@ -42,7 +42,7 @@ VERSION=0.1
 MPART=uc3a1128
 
 # Project's .c source files, grab all under the project root
-SOURCES=$(wildcard *.c)
+SOURCES=$(wildcard *.cpp)
 
 # Additional include paths
 INCLUDES=aery32
@@ -55,14 +55,12 @@ OBJDIR=obj
 # Standard user variables
 # ----------------------------------------------------------------------
 
-CC=avr32-gcc
-CSTANDARD=gnu99
+CXX=avr32-g++
+CPPSTANDARD=gnu++98
 OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
 
-CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
-CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
-#CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
-CFLAGS+=$(addprefix -I,$(INCLUDES))
+CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
+CPPFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
 LDFLAGS+=-Wl,--gc-sections # Discards unused sections
@@ -84,8 +82,7 @@ LDFLAGS+=-Wl,--gc-sections # Discards unused sections
 OS=$(shell uname)
 
 # Resolve object files from source files
-OBJECTS=$(SOURCES:.c=.o)
-OBJECTS:=$(OBJECTS:.S=.o)
+OBJECTS=$(SOURCES:.cpp=.o)
 
 # Append object files with $(OBJDIR)
 OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
@@ -99,20 +96,17 @@ all: $(PROJECT).hex $(PROJECT).lst
 	@echo Program size:
 	@make -s size
 
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+
+$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
+	$(CXX) $(LDFLAGS) $^   -o $@
+
 $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
-$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CC) $(LDFLAGS) $^   -o $@
-
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
-
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
-
-$(OBJDIR)/%.o: %.S
-	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
@@ -133,7 +127,7 @@ endif
 # ----------------------------------------------------------------------
 # Chip programming
 # ----------------------------------------------------------------------
-.PHONY: program start programs dump-userdata update-userdata
+.PHONY: program start programs dump-user dump-fuses
 
 # Select the programmer according to OS
 ifneq (, $(filter $(OS), windows32))
@@ -144,50 +138,52 @@ endif
 
 program: $(PROGRAMMER)-program
 start: $(PROGRAMMER)-start
-programs: $(PROGRAMMER)-program-start
-dump-userdata: $(PROGRAMMER)-dump-userdata
+programs: $(PROGRAMMER)-programs
+dump-user: $(PROGRAMMER)-dump-user
+dump-fuses: $(PROGRAMMER)-dump-fuses
 
 
 # ----------------------------------------------------------------------
 # Chip programming targets for batchisp/batchisp (Windows)
 # ----------------------------------------------------------------------
-.PHONY: batchisp-program batchisp-start batchisp-program-start \
-		batchisp-dump-userdata batchisp-update-userdata
+.PHONY: batchisp-program batchisp-start batchisp-programs \
+		batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
+
+BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
 batchisp-program: $(PROJECT).hex
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory flash blankcheck loadbuffer $< program verify
+	$(BATCHISP) -operation erase f memory flash blankcheck \
+	loadbuffer $< program verify
 
 batchisp-start:
-	batchisp -device at32$(MPART) -hardware usb -operation start reset 0
+	$(BATCHISP) -operation start reset 0
 
-batchisp-program-start: $(PROJECT).hex
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory flash blankcheck loadbuffer $< program verify start reset 0
-
-batchisp-dump-userdata:
-	batchisp -device at32$(MPART) -hardware usb -operation memory user \
-	read savebuffer user.data hex386
-	cat user.data
+batchisp-programs: $(PROJECT).hex
+	$(BATCHISP) -operation erase f memory flash blankcheck \
+	loadbuffer $< program verify start reset 0
 
 # Programs ISP_IO_COND_PIN to be PC04, which is GPIO pin number 69,
 # which is 0x45 in hex. Thus "fillbuffer 0x45". The 0x94 is CRC for
 # the whole userdata which is 0x929E45.
-batchisp-update-userdata:
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
-	batchisp -device at32$(MPART) -hardware usb -operation erase f \
-	memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
+batchisp-program-user:
+	$(BATCHISP) -operation memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
+	$(BATCHISP) -operation memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
+	$(BATCHISP) -operation memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
+	$(BATCHISP) -operation memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
+
+batchisp-dump-user:
+	$(BATCHISP) -operation memory user read savebuffer userpage.hex hex386
+	cat userpage.hex
+
+batchisp-dump-fuses:
+	$(BATCHISP) -operation memory configuration read savebuffer fusebits.hex hex386
+	cat fusebits.hex
 
 
 # ----------------------------------------------------------------------
 # Chip programming targets for dfu-programmer (Linux)
 # ----------------------------------------------------------------------
-.PHONY: dfu-program dfu-start dfu-program-start dfu-dump-userdata
+.PHONY: dfu-program dfu-start dfu-program-start dfu-dump-user
 
 dfu-program: $(PROJECT).hex
 	dfu-programmer at32$(MPART) erase
@@ -196,16 +192,16 @@ dfu-program: $(PROJECT).hex
 dfu-start:
 	dfu-programmer at32$(MPART) start
 
-dfu-program-start: dfu-program dfu-start
+dfu-programs: dfu-program dfu-start
 
-dfu-dump-userdata:
+dfu-dump-user:
 	dfu-programmer at32$(MPART) dump-user
 
 
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size debug qa dist clean cleanll re reall
+.PHONY: list size debug qa dist clean cleanall re reall
 
 list: $(PROJECT).lst
 
@@ -213,8 +209,8 @@ size: $(PROJECT).elf $(PROJECT).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) user.data
-	-rm -rf $(OBJDIRS)
+	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) userpage.hex fusebits.hex
+	-rm -rf $(OBJDIR)
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
@@ -227,7 +223,7 @@ debug: reall
 debug: OPTIMIZATION=-O0 -g -DDEBUG
 
 qa: re
-qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 dist: clean
 	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \

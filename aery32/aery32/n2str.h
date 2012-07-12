@@ -21,13 +21,19 @@
 \brief Set of functions to convert the number to string
 */
 
-#ifndef __AERY32_TOSTR_H
-#define __AERY32_TOSTR_H
+#ifndef __AERY32_N2STR_H
+#define __AERY32_N2STR_H
 
-#include <inttypes.h>
+extern "C" {
+	#include <inttypes.h>
+}
+
+namespace aery {
 
 int ui2str(unsigned int number, char *buf);
 int i2str(int number, char *buf);
 int d2str(double number, uint8_t precision, char *buf);
+
+}
 
 #endif

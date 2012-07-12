@@ -16,16 +16,11 @@
  * you a copy.
  */
 
-#include <stdbool.h>
-#include <inttypes.h>
-#include <avr32/io.h>
 #include "aery32/pm.h"
 
-#ifdef AERY_SHORTCUTS
-	volatile avr32_pm_t *pm = &AVR32_PM;
-	volatile avr32_pm_pll_t *pll0 = &AVR32_PM.PLL[0];
-	volatile avr32_pm_pll_t *pll1 = &AVR32_PM.PLL[1];
-#endif
+volatile avr32_pm_t *aery::pm = &AVR32_PM;
+volatile avr32_pm_pll_t *aery::pll0 = &AVR32_PM.PLL[0];
+volatile avr32_pm_pll_t *aery::pll1 = &AVR32_PM.PLL[1];
 
 #define CKSEL_RESET_MASK(SEL) \
 	(~(AVR32_PM_CKSEL_##SEL##SEL_MASK | AVR32_PM_CKSEL_##SEL##DIV_MASK))
@@ -39,7 +34,7 @@
 #define CKSEL_GETDIV(VAR, SEL) \
 	((VAR & AVR32_PM_CKSEL_##SEL##SEL_MASK) >> AVR32_PM_CKSEL_##SEL##SEL_OFFSET)
 
-int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
+int aery::pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		enum Pm_osc_startup startup)
 {
 	switch (oscnum) {
@@ -83,7 +78,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 	return 0;
 }
 
-int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
+int aery::pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 		uint8_t mul, uint8_t div, bool hifreq)
 {
 	/* mul < 3, is not a typo */
@@ -101,7 +96,7 @@ int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 	return 0;
 }
 
-void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
+void aery::pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 {
 	switch (divby2) {
 	case true:
@@ -115,7 +110,7 @@ void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 	ppll->pllen = 1;
 }
 
-int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
+int aery::pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 		uint16_t clkdiv)
 {
 	volatile avr32_pm_gcctrl_t *gclock = &(AVR32_PM.GCCTRL[clknum]);
@@ -128,7 +123,7 @@ int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 	 * Disable general clock before init to prevent glitches on the clock
 	 * during the possible reinitialization.
 	 */
-	aery_pm_disable_gclk(clknum);
+	aery::pm_disable_gclk(clknum);
 
 	/* Select clock source */
 	gclock->oscsel = (bool) (clksrc & 1);
@@ -141,12 +136,12 @@ int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 		gclock->diven = 0;
 	}
 	if (was_enabled)
-		aery_pm_enable_gclk(clknum);
+		aery::pm_enable_gclk(clknum);
 
 	return 0;
 }
 
-void aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
+void aery::pm_wait_osc_to_stabilize(uint8_t oscnum)
 {
 	switch (oscnum) {
 	case 0:
@@ -161,7 +156,7 @@ void aery_pm_wait_osc_to_stabilize(uint8_t oscnum)
 	}
 }
 
-void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
+void aery::pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 {
 	if (ppll == &AVR32_PM.PLL[0]) {
 		while (!(AVR32_PM.isr & AVR32_PM_ISR_LOCK0_MASK));
@@ -170,12 +165,12 @@ void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll)
 	}
 }
 
-void aery_pm_enable_gclk(enum Pm_gclk clknum)
+void aery::pm_enable_gclk(enum Pm_gclk clknum)
 {
 	AVR32_PM.GCCTRL[clknum].cen = 1;
 }
 
-void aery_pm_disable_gclk(enum Pm_gclk clknum)
+void aery::pm_disable_gclk(enum Pm_gclk clknum)
 {
 	AVR32_PM.GCCTRL[clknum].cen = 0;
 
@@ -183,12 +178,12 @@ void aery_pm_disable_gclk(enum Pm_gclk clknum)
 	while (AVR32_PM.GCCTRL[clknum].cen);
 }
 
-void aery_pm_select_mck(enum Pm_mck_source mcksrc)
+void aery::pm_select_mck(enum Pm_mck_source mcksrc)
 {
 	AVR32_PM.MCCTRL.mcsel = mcksrc;
 }
 
-uint32_t aery_pm_get_fmck(void)
+uint32_t aery::pm_get_fmck(void)
 {
 	uint32_t mck = 0;
 	volatile avr32_pm_pll_t *pll0 = &AVR32_PM.PLL[0];
@@ -219,7 +214,7 @@ uint32_t aery_pm_get_fmck(void)
 	return mck;
 }
 
-int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
+int aery::pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 {
 	uint32_t cksel = AVR32_PM.cksel;
 
@@ -265,11 +260,11 @@ int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 	return 0;
 }
 
-uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain domain)
+uint32_t aery::pm_get_fclkdomain(enum Pm_ckldomain domain)
 {
 	uint32_t f;
 
-	f = aery_pm_get_fmck();
+	f = aery::pm_get_fmck();
 	switch (domain) {
 	case CLKDOMAIN_CPU:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))

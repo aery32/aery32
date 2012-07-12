@@ -1,32 +1,33 @@
-#include <stdbool.h>
 #include "board.h"
 #include <aery32/pm.h>
 #include <aery32/gpio.h>
 
+using namespace aery;
+
 void init_board(void)
 {
-	aery_gpio_init_pins(porta, 0xffffffff, GPIO_INPUT);
-	aery_gpio_init_pins(portb, 0xffffffff, GPIO_INPUT);
-	aery_gpio_init_pins(portc, 0x0000003f, GPIO_INPUT);
+	gpio_init_pins(porta, 0xffffffff, GPIO_INPUT);
+	gpio_init_pins(portb, 0xffffffff, GPIO_INPUT);
+	gpio_init_pins(portc, 0x0000003f, GPIO_INPUT);
 
-	aery_pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
-	aery_pm_wait_osc_to_stabilize(0);
+	pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
+	pm_wait_osc_to_stabilize(0);
 
 	/* Initialize f_vco0 to 132 MHz. Then divide this by two to get 66 MHz. */
-	aery_pm_init_pllvco(pll0, PLL_SOURCE_OSC0, 11, 1, false);
-	aery_pm_enable_pll(pll0, true);
-	aery_pm_wait_pll_to_lock(pll0);
+	pm_init_pllvco(pll0, PLL_SOURCE_OSC0, 11, 1, false);
+	pm_enable_pll(pll0, true);
+	pm_wait_pll_to_lock(pll0);
 
 	/*
 	 * Also initialize and enable PLL1; 96 MHz is a good choice as it can be
 	 * used for USB when divided by two when initialized as a general clock.
 	 */
-	aery_pm_init_pllvco(pll1, PLL_SOURCE_OSC0, 16, 1, true);
-	aery_pm_enable_pll(pll1, true);
-	aery_pm_wait_pll_to_lock(pll1);
+	pm_init_pllvco(pll1, PLL_SOURCE_OSC0, 16, 1, true);
+	pm_enable_pll(pll1, true);
+	pm_wait_pll_to_lock(pll1);
 
 	/* Set main clock source to PLL0 (66 MHz) */
-	aery_pm_select_mck(MCK_SOURCE_PLL0);
+	pm_select_mck(MCK_SOURCE_PLL0);
 
 	/* Peripheral clock masking. By default all modules are enabled.
 	 * You might be interested in to disable modules you are not using. */

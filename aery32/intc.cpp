@@ -16,13 +16,13 @@
  * you a copy.
  */
 
-#include <inttypes.h>
-#include <avr32/io.h>
 #include "aery32/intc.h"
 
 /* These two globals come from exception.S */
 extern const unsigned int _ipr[20];
 extern const unsigned int _evba;
+
+volatile avr32_intc_t *aery::intc = &AVR32_INTC;
 
 /*
  * ISR handler table; pointers to interrupt service routine functions.
@@ -30,7 +30,7 @@ extern const unsigned int _evba;
  */
 void (*_isr_table[20])(void) = {};
 
-void aery_intc_init(void)
+void aery::intc_init(void)
 {
 	__builtin_mtsr(AVR32_EVBA, (int32_t) &_evba);
 	for (int i = 0; i < 20; i++) {
@@ -38,19 +38,19 @@ void aery_intc_init(void)
 	}
 }
 
-void aery_intc_register_isrhandler(void (*handler)(void),
+void aery::intc_register_isrhandler(void (*handler)(void),
 		uint32_t group, uint8_t priority)
 {
 	_isr_table[group] = handler;
 	AVR32_INTC.ipr[group] |= (priority << AVR32_INTC_INTLEVEL_OFFSET);
 }
 
-void aery_intc_enable_globally(void)
+void aery::intc_enable_globally(void)
 {
 	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) & ~(1 << 16));
 }
 
-void aery_intc_disable_globally(void)
+void aery::intc_disable_globally(void)
 {
 	__builtin_mtsr(AVR32_SR, __builtin_mfsr(AVR32_SR) | (1 << 16));
 }
