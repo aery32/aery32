@@ -36,7 +36,7 @@ int main(void)
 		 * by using SPI0 peripheral and chip select pin 0. The return value
 		 * is the received data.
 		 */
-		rd0 = spi_transmit(spi0, 0x5155, 0, true);
+		rd0 = spi_transmit(spi0, 0, 0x5155, true);
 
 		/*
 		 * Partially transfer 24 bit word in 8 bits wide chunks by using
@@ -44,9 +44,9 @@ int main(void)
 		 * first transmission indicate that they weren't the last ones to
 		 * keep the chip select pin low.
 		 */
-		rd1 = spi_transmit(spi1, 0x51, 2, false);
-		rd1 |= spi_transmit(spi1, 0x55, 2, false) << 8;
-		rd1 |= spi_transmit(spi1, 0xF3, 2, true) << 16;
+		rd1 = spi_transmit(spi1, 2, 0x51, false);
+		rd1 |= spi_transmit(spi1, 2, 0x55, false) << 8;
+		rd1 |= spi_transmit(spi1, 2, 0xF3, true) << 16;
 	}
 
 	return 0;
