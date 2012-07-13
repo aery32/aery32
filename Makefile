@@ -36,7 +36,6 @@
 
 # Project name and version
 PROJECT=myaery32
-VERSION=0.1
 
 # MCU part name
 MPART=uc3a1128
@@ -201,7 +200,7 @@ dfu-dump-user:
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size debug qa dist clean cleanall re reall
+.PHONY: list size debug qa clean cleanall re reall
 
 list: $(PROJECT).lst
 
@@ -224,7 +223,3 @@ debug: OPTIMIZATION=-O0 -g -DDEBUG
 
 qa: re
 qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
-
-dist: clean
-	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \
-	$(shell basename $(shell pwd))
