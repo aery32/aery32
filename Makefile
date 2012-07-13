@@ -57,6 +57,7 @@ OBJDIR=obj
 CXX=avr32-g++
 CPPSTANDARD=gnu++98
 OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
+OPTIMIZATION+=-fno-exceptions -fno-rtti
 
 CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
 CPPFLAGS+=$(addprefix -I,$(INCLUDES))

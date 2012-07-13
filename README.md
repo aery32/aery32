@@ -70,6 +70,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - `adc_read_lastcnv()` returns the latest conversion. Whatever was the channel.
 - Backward compatiblity breaks
   - `adc_get_cnv()` renamed to `adc_read_cnv()`
+  - `spi_transmit()` parameter order changed to pspi, npcs, data, islast.
 - Fixes
   - gh-5, `pm_setup_clkdomain()` in cpp branch does not work anymore as documented
 
