@@ -1,6 +1,6 @@
 #
 #  _____             ___ ___   |
-# |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+# |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
 # |     | -_|  _| | |_  |  _|  |  
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |

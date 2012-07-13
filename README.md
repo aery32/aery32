@@ -1,6 +1,6 @@
     
       _____             ___ ___   |
-     |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs (AVR32)
+     |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
      |     | -_|  _| | |_  |  _|  |  
      |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
                    |___|          |
@@ -62,11 +62,14 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ## Release notes
 ### Changelog for the next release
 
-- Change to avr32-g++ compiler and hence to C++
-- C++ allowed to add `aery` namespace, no more `aery_` function prefix
-- Improvements in Analog-to-digital conversion module functions, see gh-4
+- Switch to `avr32-g++` and hence to C++
+- Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
+- Improvements in analog-to-digital conversion module functions.
+  - `adc_setup_trigger()` allows to setup ADC hardware trigger
+  - `adc_nextcnv_isrdy()` tells if the next conversion is ready. Whatever was the channel.
+  - `adc_read_lastcnv()` returns the latest conversion. Whatever was the channel.
 - Backward compatiblity breaks
-  - `adc_get_cnv` renamed to `adc_read_cnv`
+  - `adc_get_cnv()` renamed to `adc_read_cnv()`
 - Fixes
   - gh-5, `pm_setup_clkdomain()` in cpp branch does not work anymore as documented
 
