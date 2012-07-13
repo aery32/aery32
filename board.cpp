@@ -29,14 +29,16 @@ void init_board(void)
 	/* Set main clock source to PLL0 (66 MHz) */
 	pm_select_mck(MCK_SOURCE_PLL0);
 
-	/* Peripheral clock masking. By default all modules are enabled.
+	/*
+	 * Peripheral clock masking. By default all modules are enabled.
 	 * You might be interested in to disable modules you are not using. */
 	pm->hsbmask = HSBMASK_DEFAULT;
 	pm->pbamask = PBAMASK_DEFAULT;
 	pm->pbbmask = PBBMASK_DEFAULT;
 
 	while (!(pm->isr & AVR32_PM_ISR_MSKRDY_MASK));
-		/* Clocks are now masked according to (CPU/HSB/PBA/PBB)_MASK
+		/*
+		 * Clocks are now masked according to (CPU/HSB/PBA/PBB)_MASK
 		 * registers. */
 
 }

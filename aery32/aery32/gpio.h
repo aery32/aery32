@@ -19,7 +19,6 @@
 /*!
 \file aery32/gpio.h
 \brief General Purpose Input/Output (GPIO)
-\example main.cc
 */
 
 #ifndef __AERY32_GPIO_H

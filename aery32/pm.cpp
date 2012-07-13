@@ -214,7 +214,7 @@ uint32_t aery::pm_get_fmck(void)
 	return mck;
 }
 
-int aery::pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
+int aery::pm_setup_clkdomain(uint8_t prescal, uint8_t domain)
 {
 	uint32_t cksel = AVR32_PM.cksel;
 
@@ -260,11 +260,10 @@ int aery::pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain domain)
 	return 0;
 }
 
-uint32_t aery::pm_get_fclkdomain(enum Pm_ckldomain domain)
+uint32_t aery::pm_get_fclkdomain(uint8_t domain)
 {
-	uint32_t f;
+	uint32_t f = aery::pm_get_fmck();
 
-	f = aery::pm_get_fmck();
 	switch (domain) {
 	case CLKDOMAIN_CPU:
 		if (CKSEL_HASDIV(AVR32_PM.cksel, CPU))
@@ -278,9 +277,8 @@ uint32_t aery::pm_get_fclkdomain(enum Pm_ckldomain domain)
 		if (CKSEL_HASDIV(AVR32_PM.cksel, PBB))
 			f = f >> (CKSEL_GETDIV(AVR32_PM.cksel, PBB) + 1);
 		break;
-	case CLKDOMAIN_ALL:
-		f = 0;
-		break;
+	default:
+		f = 0; /* error */
 	}
 
 	return f;

@@ -19,7 +19,6 @@
 /*!
 \file aery32/rtc.h
 \brief Real Time Counter (RTC)
-\example rtc_interrupt.cc
 */
 
 #ifndef __AERY32_RTC_H

@@ -16,8 +16,6 @@
  * you a copy.
  */
 
-// !!! EXPERIMENTAL
-
 extern "C" {
 	#include <math.h>
 	#include <ieeefp.h>
@@ -81,7 +79,7 @@ int aery::d2str(double number, uint8_t precision, char *buf)
 	if ((fp = modf(number, &ip)) < 0)
 		fp *= -1;
 
-	/* write the integer part with the dot into the buf */
+	/* write the integer part and the dot into the buf */
 	n = aery::i2str((int) ip, buf);
 	buf[n++] = '.';
 

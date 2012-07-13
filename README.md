@@ -1,13 +1,12 @@
     
       _____             ___ ___   |
-     |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+     |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs (AVR32)
      |     | -_|  _| | |_  |  _|  |  
      |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
                    |___|          |
 
-Aery32 is a starting point for new AVR32-based projects. It provides a project structure and library enabling rapid prototyping and development. *Aery32 aims to be professionally fun* that makes it ideal framework for Hobbyist, R&D Engineers and Academics.
 
-[![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
+Aery32 is a starting point for new AVR32-based projects. It provides a project structure and library enabling rapid prototyping and development. *Aery32 aims to be professionally fun* that makes it ideal framework for Hobbyists, R&D Engineers and Academics.[![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
 
 ## Installation
 
@@ -20,7 +19,6 @@ You don't have to install Aery32 Software Framework as you would do with regular
 
 For Windows download and install [Atmel AVR Toolchain for Windows](http://www.atmel.com/tools/ATMELAVRTOOLCHAIN3_3_2FORWINDOWS.aspx). For Mac OS X & Linux use [AVR32 Toolchain Builder](https://github.com/jsnyder/avr32-toolchain). Batchisp comes with the [FLIP](http://www.atmel.com/tools/FLIP.aspx) installer. OS X and Linux users can install DFU-programmer with the AVR32 Toolchain Builder.
  
-
 ## Quick start
 
 To start Aery32 project [download the framework from GitHub](https://github.com/aery32/aery32/tags). Or use git clone
@@ -28,7 +26,7 @@ To start Aery32 project [download the framework from GitHub](https://github.com/
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
     
-Start by editing `main.c`. The default board initialization sequence, that starts the external oscillator and sets the master clock to 66 MHz, can be found from `board.c`. Other settings are defined inside the `board.h` header file. To compile the project just call
+Start by editing `main.cpp`. The default board initialization sequence, that starts the external oscillators and sets the master (or main) clock to 66 MHz, can be found from `board.c`. Other settings and board/platform related functions are defined inside the `board.h` header file. To compile the project just call
 
     make
 
@@ -50,20 +48,28 @@ If you like to start the board immediately after the programming, chain the prog
     
 Or less verbosely `make programs`. The latter is also quicker with batchisp (in Windows).
 
----
+## Learning the Aery32 Software Framework
 
-If you prefer C++ over C, change the `CC` in the `Makefile` to 'avr32-g++'. In this case you also have to change the specific language standard used by GCC to 'gnu++98'. This is made by modifying the `CSTANDARD` variable. You can also use environment variables with the make like this
+Read the [reference guide](http://aery32.readthedocs.org) and go through the articles from [Aery32 DevZone](http://devzone.aery32.com). There is also [API documentation](http://devzone.aery32.com/aery32/apidoc/) providing a quick reference to the functions.
 
-    make re CC="avr32-g++" CSTANDARD="gnu++98"
+### Optional supportive readings
 
-If you have [Doxygen](http://www.stack.nl/~dimitri/doxygen/) installed, you may like to make a local version of the API documentation. This can be done by running Doxygen at the `aery32/` directory
-
-    cd aery32/
-    doxygen
-    
-Otherwise navigate to http://devzone.aery32.com/aery32/apidoc/.
+- [Learn C The Hard Way](http://c.learncodethehardway.org/)
+- [The Definitive C++ Book Guide and List](http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list)
+- [AVR32000 : Introduction to AVR32 header files](http://www.atmel.com/Images/doc32005.pdf)
+- [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
+### Changelog for the next release
+
+- Change to avr32-g++ compiler and hence to C++
+- C++ allowed to add `aery` namespace, no more `aery_` function prefix
+- Improvements in Analog-to-digital conversion module functions, see gh-4
+- Backward compatiblity breaks
+  - `adc_get_cnv` renamed to `adc_read_cnv`
+- Fixes
+  - gh-5, `pm_setup_clkdomain()` in cpp branch does not work anymore as documented
+
 ### v0.1.2
 
 - New modules
@@ -127,8 +133,3 @@ Aery32 Software Framework and its library is licensed under the new BSD license:
 > SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Example applications placed under `examples/` directory are public domain.
-
-## Supportive readings
-
-- [AVR32000 : Introduction to AVR32 header files](http://www.atmel.com/Images/doc32005.pdf)
-- [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)

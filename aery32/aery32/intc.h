@@ -19,7 +19,6 @@
 /*!
 \file aery32/intc.h
 \brief Interrupt Controller (INTC)
-\example rtc_interrupt.cc
 */
 
 #ifndef __AERY32_INTC_H

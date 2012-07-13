@@ -19,8 +19,6 @@
 /*!
 \file aery32/spi.h
 \brief Serial Peripheral Interface (SPI)
-\example spi.cc
-\example displays/hd44780.cc
 */
 
 #ifndef __AERY32_SPI_H
@@ -114,6 +112,6 @@ void spi_enable(volatile avr32_spi_t *pspi);
  */
 void spi_disable(volatile avr32_spi_t *pspi);
 
-}
+} /* end of namespace */
 
 #endif

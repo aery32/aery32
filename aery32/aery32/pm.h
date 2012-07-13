@@ -41,6 +41,11 @@ extern "C" {
 #define F_SLOWCLK 115000UL
 #endif
 
+#define CLKDOMAIN_CPU 01
+#define CLKDOMAIN_PBA 02
+#define CLKDOMAIN_PBB 04
+#define CLKDOMAIN_ALL 07
+
 namespace aery {
 
 extern volatile avr32_pm_t *pm;
@@ -117,16 +122,6 @@ enum Pm_osc_startup {
 	OSC32_STARTUP_1s1,
 	OSC32_STARTUP_2s3,
 	OSC32_STARTUP_4s6
-};
-
-/**
- * Clock domain number
- */
-enum Pm_ckldomain {
-	CLKDOMAIN_CPU = 01,
-	CLKDOMAIN_PBA = 02,
-	CLKDOMAIN_PBB = 04,
-	CLKDOMAIN_ALL = 07
 };
 
 /**
@@ -239,16 +234,16 @@ uint32_t pm_get_fmck(void);
  * - If prescal > 0, f_clkdomn = f_mck / (2^prescaler)
  * - If prescal = 0, f_clkdomn = f_mck
  */
-int pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain clkdomain);
+int pm_setup_clkdomain(uint8_t prescal, uint8_t clkdomain);
 
 /**
  * Get the clock domain frequency
  * \param clkdomain Clock domain selection
- * \return Clock domain frequency in hertz
+ * \return Clock domain frequency in hertz, 0 on error
  *
  * \note Calls pm_get_fmck()
  */
-uint32_t pm_get_fclkdomain(enum Pm_ckldomain clkdomain);
+uint32_t pm_get_fclkdomain(uint8_t clkdomain);
 
 } /* end of namespace aery */
 

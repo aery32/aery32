@@ -20,13 +20,10 @@
 \file aery32/adc.h
 \brief Analog-to-digital converter (adc)
 
-\note ADC clock frequency has its upper limits and its frequency is related
-to the Periheral Bus A (PBA) clock. Thus care has to be taken to choose the
-proper prescaler for the PBA during the ADC initialization. For UC3A0/A1,
-consult the ADC charasteristics table from the datasheet page 772 for maximum
-ADC clock.
-
-\example adc.cc
+\note ADC clock frequency has its upper limit that is related to the Periheral
+Bus A (PBA) clock. Thus care has to be taken to choose the proper prescaler for
+the PBA during the ADC initialization. For UC3A0/A1, consult the ADC
+charasteristics table from the datasheet page 772 for maximum ADC clock.
 */
 
 #ifndef __AERY32_ADC_H
@@ -45,7 +42,7 @@ namespace aery {
 extern volatile avr32_adc_t *adc;
 
 /**
- * Hardware ADC trigger selection
+ * ADC hardware trigger selection
  */
 enum Adc_trigger {
 	INTERNAL_TRG0,
@@ -71,7 +68,7 @@ int adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup);
 
 /**
  * Setups the ADC hardware trigger
- * \param trigger Hardware trigger selection
+ * \param trigger ADC hardware trigger selection
  */
 void adc_setup_trigger(enum Adc_trigger trigger);
 
@@ -125,5 +122,6 @@ void adc_enable(uint8_t chamask);
  */
 void adc_disable(uint8_t chamask);
 
-}
+} /* end of namespace */
+
 #endif

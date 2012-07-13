@@ -26,8 +26,6 @@
 #define F_CPU 12000000UL
 #include <aery32/delay.h>
 \endcode
-
-\example toggle_led.cc
 */
 
 #ifndef __AERY32_DELAY_H
