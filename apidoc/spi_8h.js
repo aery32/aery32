@@ -1,14 +1,16 @@
 var spi_8h =
 [
-    [ "Spi_mode", "spi_8h.html#a443a0538efb392f63b772de211fe78d6", [
-      [ "SPI_MODE0", "spi_8h.html#a443a0538efb392f63b772de211fe78d6aacf2eef6aadb9f0de11862660cd9ade6", null ],
-      [ "SPI_MODE1", "spi_8h.html#a443a0538efb392f63b772de211fe78d6abd92ab028fcac05cf2ed27b4838d1590", null ],
-      [ "SPI_MODE2", "spi_8h.html#a443a0538efb392f63b772de211fe78d6a2607e91fc0c8ae3334284808d7f94cf5", null ],
-      [ "SPI_MODE3", "spi_8h.html#a443a0538efb392f63b772de211fe78d6ad9636eac0759655110aa77dd6c22da6c", null ]
+    [ "Spi_mode", "spi_8h.html#a0c60796562a2cfbddcf3b23dbac57e42", [
+      [ "SPI_MODE0", "spi_8h.html#a0c60796562a2cfbddcf3b23dbac57e42a20b2de406b82e6e1ab953f9d450b6479", null ],
+      [ "SPI_MODE1", "spi_8h.html#a0c60796562a2cfbddcf3b23dbac57e42a681c5e3ecd90adf3f6c7570a29f91033", null ],
+      [ "SPI_MODE2", "spi_8h.html#a0c60796562a2cfbddcf3b23dbac57e42ab24b0e621bd0cdaa2d39ab20e5ff97df", null ],
+      [ "SPI_MODE3", "spi_8h.html#a0c60796562a2cfbddcf3b23dbac57e42a0cdc3d4b5b4ed0da6f75130f71b28188", null ]
     ] ],
-    [ "aery_spi_disable", "spi_8h.html#a1fdb59c62633cb2d2923bea0b92152d5", null ],
-    [ "aery_spi_enable", "spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e", null ],
-    [ "aery_spi_init_master", "spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120", null ],
-    [ "aery_spi_setup_npcs", "spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea", null ],
-    [ "aery_spi_transmit", "spi_8h.html#a8ebaf8a9577a79f19a683c294c846325", null ]
+    [ "spi_disable", "spi_8h.html#aa185ebb1afbddfce3751242daa5470e2", null ],
+    [ "spi_enable", "spi_8h.html#a0764f9da9be292614e0bbbcc701a6530", null ],
+    [ "spi_init_master", "spi_8h.html#a367f4beea3792958ee60bd4dd3e48326", null ],
+    [ "spi_setup_npcs", "spi_8h.html#acb0fc6e5266c9566b13c0933b801439e", null ],
+    [ "spi_transmit", "spi_8h.html#a5d78937d6ca10ed866067d220f57f183", null ],
+    [ "spi0", "spi_8h.html#a5f9d213dad30e0cb5d954d18cecbb1c8", null ],
+    [ "spi1", "spi_8h.html#a2194ee757db0ab12ade1c2ad6b703381", null ]
 ];

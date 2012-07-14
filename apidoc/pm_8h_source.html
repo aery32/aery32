@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('pm_8h.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('pm_8h.html','');});
 <div class="contents">
 <a href="pm_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *  _____             ___ ___   |</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * |     | -_|  _| | |_  |  _|  |  </span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *               |___|          |</span></div>
@@ -106,256 +106,129 @@ $(document).ready(function(){initNavTree('pm_8h.html','');});
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * world-wide-web, please send an email to contact@muiku.com so we can send</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * you a copy.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">/*!</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">\file aery32/pm.h</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">\brief Power Manager (PM)</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifndef __AERY32_PM_H</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define __AERY32_PM_H</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;inttypes.h&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;avr32/io.h&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifdef AERY_SHORTCUTS</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span>        <span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_t *pm;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_pll_t *pll0;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_pll_t *pll1;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#ifndef F_OSC0</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       define F_OSC0 12000000UL</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#ifndef F_OSC1</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       define F_OSC1 16000000UL</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">        #include &lt;inttypes.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">        #include &lt;avr32/io.h&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef F_OSC0</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define F_OSC0 12000000UL</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#ifndef F_OSC1</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define F_OSC1 16000000UL</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifndef F_SLOWCLK</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define F_SLOWCLK 115000UL</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define CLKDOMAIN_CPU 01</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CLKDOMAIN_PBA 02</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CLKDOMAIN_PBB 04</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CLKDOMAIN_ALL 07</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#ifndef F_SLOWCLK</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#       define F_SLOWCLK 115000UL</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="comment"></span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * General clock number</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">   56</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        GCLK0,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        GCLK1,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        GCLK2,</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        GCLK3,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        GCLK_USBB,</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        GCLK_ABDAC</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;};</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * General clock source</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="code" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">   68</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a> {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        GCLK_SOURCE_OSC0 = 0b00,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        GCLK_SOURCE_OSC1 = 0b01,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        GCLK_SOURCE_PLL0 = 0b10,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        GCLK_SOURCE_PLL1 = 0b11</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment"> * PLL source</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="code" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">   78</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a> {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        PLL_SOURCE_OSC0,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        PLL_SOURCE_OSC1</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;};</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"> * Master (or main) clock source</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="code" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">   86</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a> {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        MCK_SOURCE_RC,</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        MCK_SOURCE_OSC0,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        MCK_SOURCE_PLL0</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment"> * Oscillator mode</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="code" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">   95</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a> {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        OSC_MODE_EXTERNAL,</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        OSC_MODE_OSC32,</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        OSC_MODE_GAIN0 = 4,</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        OSC_MODE_GAIN1,</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        OSC_MODE_GAIN2,</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        OSC_MODE_GAIN3</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;};</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment"> * Oscillator startup time</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="code" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">  107</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a> {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        OSC_STARTUP_0,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        OSC_STARTUP_560us,</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        OSC_STARTUP_1m1s,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        OSC_STARTUP_18ms,</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        OSC_STARTUP_36ms,</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        OSC_STARTUP_71ms,</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        OSC_STARTUP_142ms,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        OSC32_STARTUP_0 = 0,</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        OSC32_STARTUP_1m1s,</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        OSC32_STARTUP_72m3s,</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        OSC32_STARTUP_134ms,</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        OSC32_STARTUP_570ms,</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        OSC32_STARTUP_1s1,</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        OSC32_STARTUP_2s3,</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        OSC32_STARTUP_4s6</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment"> * Clock domain number</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="code" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">  128</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        CLKDOMAIN_CPU = 01,</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        CLKDOMAIN_PBA = 02,</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        CLKDOMAIN_PBB = 04,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        CLKDOMAIN_ALL = 07</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;};</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment"> * Starts the given oscillator</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment"> * \param oscnum  Oscillator number which to start: 0, 1, 32</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment"> * \param mode    Oscillator mode</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"> * \param startup Oscillator startup time</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="comment"> * \return Returns 0 on success and -1 on error</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="comment"> * \note After start you shall wait OSC to stabilize</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"> * \par Example:</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment"> * \code</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="comment"> * aery_pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="comment"> * aery_pm_wait_osc_to_stabilize(0);</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment"> * \endcode</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="keywordtype">int</span> <a class="code" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">aery_pm_start_osc</a>(uint8_t oscnum, <span class="keyword">enum</span> <a class="code" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">Pm_osc_mode</a> mode,</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="keyword">enum</span> <a class="code" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">Pm_osc_startup</a> startup);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment"> * Initializes the voltage controlled oscillator (VCO) the given PLL</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment"> * \param ppll   Pointer to the PLL register</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment"> * \param src    Source oscillator</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment"> * \param mul    The source frequency is multiplier by this value</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment"> * \param div    The source frequency is divided by this value</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment"> * \param hifreq If true enables the high frequency mode</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment"> * \par Equations:</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment"> * - If div &gt; 0, then f_vco = f_src * mul / div</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment"> * - If div = 0, then f_vco = 2 * f_src * mul</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment"> * \note VCO frequency has to be in range of 80 MHz - 180 MHz or if hifreq</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment"> *       mode is enabled in the range of 160 MHz - 240 MHz. </span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="keywordtype">int</span> <a class="code" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">aery_pm_init_pllvco</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll, <span class="keyword">enum</span> <a class="code" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">Pm_pll_source</a> src,</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                uint8_t mul, uint8_t div, <span class="keywordtype">bool</span> hifreq);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment"> * Enables phase locked loop (PLL)</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment"> * \param ppll   Poiter to pll register</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"> * \param divby2 Divide the vco frequency by two</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment"> * \note Before enabling PLL, you have to initialize PLL&#39;s VCO via</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment"> *       aery_pm_init_pllvco().</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#aeb219f66efefe6aa531c41d7ad8581cf">aery_pm_enable_pll</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll, <span class="keywordtype">bool</span> divby2);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment"> * Initializes the chosen generic clock</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment"> * \param clknum Generic clock number</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment"> * \param clksrc The source that will be used for this generic clock</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment"> * \param div    Source clock divider</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment"> * \return Returns 0 on success and -1 on error</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment"> * \par Equation:</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment"> * - f_gclk = f_src / (2 * div)</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keywordtype">int</span> <a class="code" href="pm_8h.html#a21e184aa60b44c673412dedf5fb2cafa">aery_pm_init_gclk</a>(<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum, <span class="keyword">enum</span> <a class="code" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">Pm_gclk_source</a> clksrc,</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                uint16_t div);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment"> * Waits oscillator to stabilize</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment"> * \param oscnum Oscillator number</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#aa039bd19b0c7a372b08e2ba1367ae744">aery_pm_wait_osc_to_stabilize</a>(uint8_t oscnum);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment"> * Waits pll to lock</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment"> * \param ppll Pointer to PLL register</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#ad89084fb00a71c361e7a93ecea90c015">aery_pm_wait_pll_to_lock</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment"> * Enables the chosen generic clock</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment"> * \param clknum Clock number which to enable</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#a86941dca4e5e66913fc3b9b8f89df0cb">aery_pm_enable_gclk</a>(<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"> * Disables the given generic clock</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment"> * \param clknum Clock number which to disable</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#a2de6863c2c543a27134ceaa145dc5fbf">aery_pm_disable_gclk</a>(<span class="keyword">enum</span> <a class="code" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">Pm_gclk</a> clknum);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment"> * Selects master clock source</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment"> * \param mcksrc Clock source</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="keywordtype">void</span> <a class="code" href="pm_8h.html#a79df1f4db7e434f0f061c04036ccaf69">aery_pm_select_mck</a>(<span class="keyword">enum</span> <a class="code" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">Pm_mck_source</a> mcksrc);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment"> * Get the master (or main) clock frequency</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment"> * \return Master clock frequency in hertz</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="comment"> * \note Depends on the defined F_OSC0 and F_OSC1 values. By default calculates</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="comment"> *       the master clock with F_OSC0 = 12MHz and F_OSC1 = 16MHz. If other</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="comment"> *       oscillator frequencies are used, make sure to put the new value in</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="comment"> *       CFLAGS manually or via Makefile, like CFLAGS+=-DF_OSC0=8000000UL.</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;uint32_t <a class="code" href="pm_8h.html#a4af5a0bbfa9ce13d0d6ac84fda197d5e">aery_pm_get_fmck</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment"> * Set up clock domain frequency</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment"> * \param prescal   Prescaler value</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment"> * \param clkdomain Clock domain selection</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment"> * \return Returns 0 on success and -1 on error</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment"> * \par Equations:</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment"> * - If prescal &gt; 0, f_clkdomn = f_mck / (2^prescaler)</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment"> * - If prescal = 0, f_clkdomn = f_mck</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="keywordtype">int</span> <a class="code" href="pm_8h.html#aa3019c881b0942cd5cbcdee5e5e63b41">aery_pm_setup_clkdomain</a>(uint8_t prescal, <span class="keyword">enum</span> <a class="code" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> clkdomain);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">/**</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment"> * Get the clock domain frequency</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment"> * \param clkdomain Clock domain selection</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment"> * \return Clock domain frequency in hertz</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment"> * \note Calls aery_pm_get_fmck()</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;uint32_t <a class="code" href="pm_8h.html#ae0ebd10f5dec2fba92e151c542acd982">aery_pm_get_fclkdomain</a>(<span class="keyword">enum</span> <a class="code" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">Pm_ckldomain</a> clkdomain);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor"></span>}</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">namespace </span>aery {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_t *pm;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_pll_t *pll0;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">extern</span> <span class="keyword">volatile</span> avr32_pm_pll_t *pll1;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7">   58</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7">Pm_gclk</a> {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        GCLK0,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        GCLK1,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        GCLK2,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        GCLK3,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        GCLK_USBB,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        GCLK_ABDAC</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;};</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="code" href="namespaceaery.html#adf1476e785a0a44542972d43f5fc6320">   70</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#adf1476e785a0a44542972d43f5fc6320">Pm_gclk_source</a> {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        GCLK_SOURCE_OSC0 = 0b00,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        GCLK_SOURCE_OSC1 = 0b01,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        GCLK_SOURCE_PLL0 = 0b10,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        GCLK_SOURCE_PLL1 = 0b11</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="code" href="namespaceaery.html#a924ac7fa4431097c3f87c1d4316fc590">   80</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a924ac7fa4431097c3f87c1d4316fc590">Pm_pll_source</a> {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        PLL_SOURCE_OSC0,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        PLL_SOURCE_OSC1</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;};</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="code" href="namespaceaery.html#a896e5ff4c0bea2bd874b80cdfefcb2b9">   88</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a896e5ff4c0bea2bd874b80cdfefcb2b9">Pm_mck_source</a> {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        MCK_SOURCE_RC,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        MCK_SOURCE_OSC0,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        MCK_SOURCE_PLL0</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="code" href="namespaceaery.html#a11241fc89faa9681f7e1859606ad2925">   97</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a11241fc89faa9681f7e1859606ad2925">Pm_osc_mode</a> {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        OSC_MODE_EXTERNAL,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        OSC_MODE_OSC32,</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        OSC_MODE_GAIN0 = 4,</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        OSC_MODE_GAIN1,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        OSC_MODE_GAIN2,</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        OSC_MODE_GAIN3</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;};</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="code" href="namespaceaery.html#a8fa3ec5db9d20917f10446a9e97d5123">  109</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a8fa3ec5db9d20917f10446a9e97d5123">Pm_osc_startup</a> {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        OSC_STARTUP_0,</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        OSC_STARTUP_560us,</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        OSC_STARTUP_1m1s,</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        OSC_STARTUP_18ms,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        OSC_STARTUP_36ms,</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        OSC_STARTUP_71ms,</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        OSC_STARTUP_142ms,</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        OSC32_STARTUP_0 = 0,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        OSC32_STARTUP_1m1s,</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        OSC32_STARTUP_72m3s,</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        OSC32_STARTUP_134ms,</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        OSC32_STARTUP_570ms,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        OSC32_STARTUP_1s1,</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        OSC32_STARTUP_2s3,</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        OSC32_STARTUP_4s6</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespaceaery.html#a11eaa2dd57ec731c5cca46ba66cd04ce">pm_start_osc</a>(uint8_t oscnum, <span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a11241fc89faa9681f7e1859606ad2925">Pm_osc_mode</a> mode,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a8fa3ec5db9d20917f10446a9e97d5123">Pm_osc_startup</a> startup);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespaceaery.html#afaa7b2569c6674c22aeebdd5cbd5a829">pm_init_pllvco</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll, <span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a924ac7fa4431097c3f87c1d4316fc590">Pm_pll_source</a> src,</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                uint8_t mul, uint8_t div, <span class="keywordtype">bool</span> hifreq);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#abd276b58d4a33475315f43237698198c">pm_enable_pll</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll, <span class="keywordtype">bool</span> divby2);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespaceaery.html#aa022b285682ea53dc4656259a9ef8da8">pm_init_gclk</a>(<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7">Pm_gclk</a> clknum, <span class="keyword">enum</span> <a class="code" href="namespaceaery.html#adf1476e785a0a44542972d43f5fc6320">Pm_gclk_source</a> clksrc,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                uint16_t div);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#a6468a2facd2cde7efafbff80cb170c59">pm_wait_osc_to_stabilize</a>(uint8_t oscnum);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8">pm_wait_pll_to_lock</a>(<span class="keyword">volatile</span> avr32_pm_pll_t *ppll);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#a711494ec7b759340732c4c7f380d6f0f">pm_enable_gclk</a>(<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7">Pm_gclk</a> clknum);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#a538874b3e847bb000484cba1933d7e0e">pm_disable_gclk</a>(<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7">Pm_gclk</a> clknum);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceaery.html#a3cb14d5162fb8746ab27b0c1fb937f3e">pm_select_mck</a>(<span class="keyword">enum</span> <a class="code" href="namespaceaery.html#a896e5ff4c0bea2bd874b80cdfefcb2b9">Pm_mck_source</a> mcksrc);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;uint32_t <a class="code" href="namespaceaery.html#a0e64add27e604485b6bdcc0242a8b568">pm_get_fmck</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="keywordtype">int</span> <a class="code" href="namespaceaery.html#a02d06ee9b258d58e98eb723879cfece9">pm_setup_clkdomain</a>(uint8_t prescal, uint8_t clkdomain);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;uint32_t <a class="code" href="namespaceaery.html#a5eadbdf14ff26435864509d5c356aeac">pm_get_fclkdomain</a>(uint8_t clkdomain);</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;} <span class="comment">/* end of namespace aery */</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="pm_8h.html">pm.h</a></li>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

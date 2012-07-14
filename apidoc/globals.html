@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('globals.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -85,158 +85,10 @@ $(document).ready(function(){initNavTree('globals.html','');});
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all documented functions, variables, defines, enums, and typedefs with links to the documentation:</div>
-
-<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
+<div class="textblock">Here is a list of all documented functions, variables, defines, enums, and typedefs with links to the documentation:</div><ul>
 <li>_isrhandler_proxy()
 : <a class="el" href="intc_8h.html#a59de6afd28b9adb8659cc358e80a8946">intc.h</a>
 </li>
-</ul>
-
-
-<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>aery_adc_cnv_isrdy()
-: <a class="el" href="adc_8h.html#a585d29b498fd358a3e557f998656284a">adc.h</a>
-</li>
-<li>aery_adc_disable()
-: <a class="el" href="adc_8h.html#a78d3981dd7afce9b10452352d341f03c">adc.h</a>
-</li>
-<li>aery_adc_enable()
-: <a class="el" href="adc_8h.html#adcb66030e11b0b88b80dab519340f23c">adc.h</a>
-</li>
-<li>aery_adc_get_cnv()
-: <a class="el" href="adc_8h.html#a489eecf95e3ea6be597e7c1c535228a8">adc.h</a>
-</li>
-<li>aery_adc_init()
-: <a class="el" href="adc_8h.html#a47844ff6d190350793ecd3fd45fe3fea">adc.h</a>
-</li>
-<li>aery_adc_start_cnv()
-: <a class="el" href="adc_8h.html#abb802d42f6e14acf053b61a891a32252">adc.h</a>
-</li>
-<li>aery_delay_cycles()
-: <a class="el" href="delay_8h.html#a4509edafc238a144fab25bbdd6f0e677">delay.h</a>
-</li>
-<li>aery_delay_ms()
-: <a class="el" href="delay_8h.html#aa14fab3da6aefd2f342af95af8f67aeb">delay.h</a>
-</li>
-<li>aery_delay_us()
-: <a class="el" href="delay_8h.html#a4bcc27f294344c1b322de8f14c5157ea">delay.h</a>
-</li>
-<li>aery_gpio_disable_localbus()
-: <a class="el" href="gpio_8h.html#a8e12a3ea14371543ab8640acbd50a0da">gpio.h</a>
-</li>
-<li>aery_gpio_enable_localbus()
-: <a class="el" href="gpio_8h.html#addeab2acac5f775d7465e97fc0f24761">gpio.h</a>
-</li>
-<li>aery_gpio_init_pin()
-: <a class="el" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">gpio.h</a>
-</li>
-<li>aery_gpio_init_pins()
-: <a class="el" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">gpio.h</a>
-</li>
-<li>aery_gpio_read_pin()
-: <a class="el" href="gpio_8h.html#ab193c6550340d73906e278d74db441f2">gpio.h</a>
-</li>
-<li>aery_gpio_set_pin_high()
-: <a class="el" href="gpio_8h.html#a6ca4f08827b5b099de3a77fd36bbce3b">gpio.h</a>
-</li>
-<li>aery_gpio_set_pin_low()
-: <a class="el" href="gpio_8h.html#a87d91b5d800c98b573cbdce851b70fef">gpio.h</a>
-</li>
-<li>aery_gpio_toggle_pin()
-: <a class="el" href="gpio_8h.html#ac359075164afb09a88aecb5183c3418c">gpio.h</a>
-</li>
-<li>aery_intc_disable_globally()
-: <a class="el" href="intc_8h.html#a5b993cd6770c622a92ab62ab8a9be839">intc.h</a>
-</li>
-<li>aery_intc_enable_globally()
-: <a class="el" href="intc_8h.html#ab728b72f077596bc29db66b17b4d74d8">intc.h</a>
-</li>
-<li>aery_intc_init()
-: <a class="el" href="intc_8h.html#a5cac4faf90fc0eacf07c8ca48c9aec6c">intc.h</a>
-</li>
-<li>aery_intc_register_isrhandler()
-: <a class="el" href="intc_8h.html#ac435d5f1e341b4e90b5efb8405b450a5">intc.h</a>
-</li>
-<li>aery_pm_disable_gclk()
-: <a class="el" href="pm_8h.html#a2de6863c2c543a27134ceaa145dc5fbf">pm.h</a>
-</li>
-<li>aery_pm_enable_gclk()
-: <a class="el" href="pm_8h.html#a86941dca4e5e66913fc3b9b8f89df0cb">pm.h</a>
-</li>
-<li>aery_pm_enable_pll()
-: <a class="el" href="pm_8h.html#aeb219f66efefe6aa531c41d7ad8581cf">pm.h</a>
-</li>
-<li>aery_pm_get_fclkdomain()
-: <a class="el" href="pm_8h.html#ae0ebd10f5dec2fba92e151c542acd982">pm.h</a>
-</li>
-<li>aery_pm_get_fmck()
-: <a class="el" href="pm_8h.html#a4af5a0bbfa9ce13d0d6ac84fda197d5e">pm.h</a>
-</li>
-<li>aery_pm_init_gclk()
-: <a class="el" href="pm_8h.html#a21e184aa60b44c673412dedf5fb2cafa">pm.h</a>
-</li>
-<li>aery_pm_init_pllvco()
-: <a class="el" href="pm_8h.html#a285325ebaa9446c0ae8cbc5492f6f48b">pm.h</a>
-</li>
-<li>aery_pm_select_mck()
-: <a class="el" href="pm_8h.html#a79df1f4db7e434f0f061c04036ccaf69">pm.h</a>
-</li>
-<li>aery_pm_setup_clkdomain()
-: <a class="el" href="pm_8h.html#aa3019c881b0942cd5cbcdee5e5e63b41">pm.h</a>
-</li>
-<li>aery_pm_start_osc()
-: <a class="el" href="pm_8h.html#ab254cbdb43f039a1050bb79039856924">pm.h</a>
-</li>
-<li>aery_pm_wait_osc_to_stabilize()
-: <a class="el" href="pm_8h.html#aa039bd19b0c7a372b08e2ba1367ae744">pm.h</a>
-</li>
-<li>aery_pm_wait_pll_to_lock()
-: <a class="el" href="pm_8h.html#ad89084fb00a71c361e7a93ecea90c015">pm.h</a>
-</li>
-<li>aery_rtc_clear_interrupt()
-: <a class="el" href="rtc_8h.html#a53366fe704760771cd78e4c04d993cb1">rtc.h</a>
-</li>
-<li>aery_rtc_delay_cycles()
-: <a class="el" href="rtc_8h.html#a05b560f09d13d96de33c2ff8ed398771">rtc.h</a>
-</li>
-<li>aery_rtc_enable()
-: <a class="el" href="rtc_8h.html#ac5acdc35731c9b50e4bb48b4fa1d8143">rtc.h</a>
-</li>
-<li>aery_rtc_init()
-: <a class="el" href="rtc_8h.html#a520d4c639c387dccb395ae178f65bb33">rtc.h</a>
-</li>
-<li>aery_rtc_isbusy()
-: <a class="el" href="rtc_8h.html#a87ed6938ab47d16bac2e8fe668e15823">rtc.h</a>
-</li>
-<li>aery_rtc_set_control()
-: <a class="el" href="rtc_8h.html#aa14cb21352348ea4bcf7fb78d7de03b2">rtc.h</a>
-</li>
-<li>aery_rtc_set_top()
-: <a class="el" href="rtc_8h.html#a7f887302e9fd8a04607a81b0486bd2fa">rtc.h</a>
-</li>
-<li>aery_rtc_set_value()
-: <a class="el" href="rtc_8h.html#a3a004384d354bd6319592b0caf59606a">rtc.h</a>
-</li>
-<li>aery_spi_disable()
-: <a class="el" href="spi_8h.html#a1fdb59c62633cb2d2923bea0b92152d5">spi.h</a>
-</li>
-<li>aery_spi_enable()
-: <a class="el" href="spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e">spi.h</a>
-</li>
-<li>aery_spi_init_master()
-: <a class="el" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">spi.h</a>
-</li>
-<li>aery_spi_setup_npcs()
-: <a class="el" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">spi.h</a>
-</li>
-<li>aery_spi_transmit()
-: <a class="el" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">spi.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>GPIO_NUM2PIN
 : <a class="el" href="gpio_8h.html#ada0d3daa5bb3c7a9974699950314a2bd">gpio.h</a>
 </li>
@@ -244,51 +96,12 @@ $(document).ready(function(){initNavTree('globals.html','');});
 : <a class="el" href="gpio_8h.html#a5d3ed0e828ef37a6c5906d891ed580df">gpio.h</a>
 </li>
 </ul>
-
-
-<h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
-<li>Pm_ckldomain
-: <a class="el" href="pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35">pm.h</a>
-</li>
-<li>Pm_gclk
-: <a class="el" href="pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db">pm.h</a>
-</li>
-<li>Pm_gclk_source
-: <a class="el" href="pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec">pm.h</a>
-</li>
-<li>Pm_mck_source
-: <a class="el" href="pm_8h.html#aa42f02952502321a3dd236222273cf29">pm.h</a>
-</li>
-<li>Pm_osc_mode
-: <a class="el" href="pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b">pm.h</a>
-</li>
-<li>Pm_osc_startup
-: <a class="el" href="pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445">pm.h</a>
-</li>
-<li>Pm_pll_source
-: <a class="el" href="pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7">pm.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
-<li>Rtc_source
-: <a class="el" href="rtc_8h.html#a18274e68a06e12b6535e60672bfd09ef">rtc.h</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
-<li>Spi_mode
-: <a class="el" href="spi_8h.html#a443a0538efb392f63b772de211fe78d6">spi.h</a>
-</li>
-</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

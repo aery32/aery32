@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('examples.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,17 +90,17 @@ $(document).ready(function(){initNavTree('examples.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock">Here is a list of all examples:</div><ul>
-<li><a class="el" href="adc_8c-example.html">adc.c</a></li>
+<li><a class="el" href="adc_8cpp-example.html">adc.cpp</a></li>
 
-<li><a class="el" href="displays_2hd44780_8c-example.html">displays/hd44780.c</a></li>
+<li><a class="el" href="displays_2hd44780_8cpp-example.html">displays/hd44780.cpp</a></li>
 
-<li><a class="el" href="main_8c-example.html">main.c</a></li>
+<li><a class="el" href="main_8cpp-example.html">main.cpp</a></li>
 
-<li><a class="el" href="rtc_interrupt_8c-example.html">rtc_interrupt.c</a></li>
+<li><a class="el" href="rtc_interrupt_8cpp-example.html">rtc_interrupt.cpp</a></li>
 
-<li><a class="el" href="spi_8c-example.html">spi.c</a></li>
+<li><a class="el" href="spi_8cpp-example.html">spi.cpp</a></li>
 
-<li><a class="el" href="toggle_led_8c-example.html">toggle_led.c</a></li>
+<li><a class="el" href="toggle_led_8cpp-example.html">toggle_led.cpp</a></li>
 
 </ul>
 </div><!-- contents -->
@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('examples.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

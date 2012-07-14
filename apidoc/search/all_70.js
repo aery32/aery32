@@ -1,11 +1,22 @@
 var searchData=
 [
   ['pm_2eh',['pm.h',['../pm_8h.html',1,'']]],
-  ['pm_5fckldomain',['Pm_ckldomain',['../pm_8h.html#aa11e080cf9fc4fd9a43e61b6a2d1db35',1,'pm.h']]],
-  ['pm_5fgclk',['Pm_gclk',['../pm_8h.html#ae7db437e619fa690afa3593ae4e7b2db',1,'pm.h']]],
-  ['pm_5fgclk_5fsource',['Pm_gclk_source',['../pm_8h.html#ab21e91d065cce554ac06260a68bbf7ec',1,'pm.h']]],
-  ['pm_5fmck_5fsource',['Pm_mck_source',['../pm_8h.html#aa42f02952502321a3dd236222273cf29',1,'pm.h']]],
-  ['pm_5fosc_5fmode',['Pm_osc_mode',['../pm_8h.html#a4c877bcaddb1e74cd03030082bc6794b',1,'pm.h']]],
-  ['pm_5fosc_5fstartup',['Pm_osc_startup',['../pm_8h.html#a2ae052da63d179f5ba2cdee05c82a445',1,'pm.h']]],
-  ['pm_5fpll_5fsource',['Pm_pll_source',['../pm_8h.html#ac742bb3df4d24ad93d2463a88b8acae7',1,'pm.h']]]
+  ['pm_5fdisable_5fgclk',['pm_disable_gclk',['../namespaceaery.html#a538874b3e847bb000484cba1933d7e0e',1,'aery']]],
+  ['pm_5fenable_5fgclk',['pm_enable_gclk',['../namespaceaery.html#a711494ec7b759340732c4c7f380d6f0f',1,'aery']]],
+  ['pm_5fenable_5fpll',['pm_enable_pll',['../namespaceaery.html#abd276b58d4a33475315f43237698198c',1,'aery']]],
+  ['pm_5fgclk',['Pm_gclk',['../namespaceaery.html#af1c934f2ce03e3dd5bd6cc2ecb8b70a7',1,'aery']]],
+  ['pm_5fgclk_5fsource',['Pm_gclk_source',['../namespaceaery.html#adf1476e785a0a44542972d43f5fc6320',1,'aery']]],
+  ['pm_5fget_5ffclkdomain',['pm_get_fclkdomain',['../namespaceaery.html#a5eadbdf14ff26435864509d5c356aeac',1,'aery']]],
+  ['pm_5fget_5ffmck',['pm_get_fmck',['../namespaceaery.html#a0e64add27e604485b6bdcc0242a8b568',1,'aery']]],
+  ['pm_5finit_5fgclk',['pm_init_gclk',['../namespaceaery.html#aa022b285682ea53dc4656259a9ef8da8',1,'aery']]],
+  ['pm_5finit_5fpllvco',['pm_init_pllvco',['../namespaceaery.html#afaa7b2569c6674c22aeebdd5cbd5a829',1,'aery']]],
+  ['pm_5fmck_5fsource',['Pm_mck_source',['../namespaceaery.html#a896e5ff4c0bea2bd874b80cdfefcb2b9',1,'aery']]],
+  ['pm_5fosc_5fmode',['Pm_osc_mode',['../namespaceaery.html#a11241fc89faa9681f7e1859606ad2925',1,'aery']]],
+  ['pm_5fosc_5fstartup',['Pm_osc_startup',['../namespaceaery.html#a8fa3ec5db9d20917f10446a9e97d5123',1,'aery']]],
+  ['pm_5fpll_5fsource',['Pm_pll_source',['../namespaceaery.html#a924ac7fa4431097c3f87c1d4316fc590',1,'aery']]],
+  ['pm_5fselect_5fmck',['pm_select_mck',['../namespaceaery.html#a3cb14d5162fb8746ab27b0c1fb937f3e',1,'aery']]],
+  ['pm_5fsetup_5fclkdomain',['pm_setup_clkdomain',['../namespaceaery.html#a02d06ee9b258d58e98eb723879cfece9',1,'aery']]],
+  ['pm_5fstart_5fosc',['pm_start_osc',['../namespaceaery.html#a11eaa2dd57ec731c5cca46ba66cd04ce',1,'aery']]],
+  ['pm_5fwait_5fosc_5fto_5fstabilize',['pm_wait_osc_to_stabilize',['../namespaceaery.html#a6468a2facd2cde7efafbff80cb170c59',1,'aery']]],
+  ['pm_5fwait_5fpll_5fto_5flock',['pm_wait_pll_to_lock',['../namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8',1,'aery']]]
 ];

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Aery32 Software Framework: aery32/tostr.h File Reference</title>
+<title>Aery32 Software Framework: toggle_led.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('tostr_8h.html','');});
+$(document).ready(function(){initNavTree('toggle_led_8cpp-example.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('tostr_8h.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -85,38 +85,33 @@ $(document).ready(function(){initNavTree('tostr_8h.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">tostr.h File Reference</div>  </div>
+<div class="title">toggle_led.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>"Something to string" functions  
-<a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br/>
-<code>#include &lt;math.h&gt;</code><br/>
-</div>
-<p><a href="tostr_8h_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a01d676eea3f0b175e7224cfc2762b68e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01d676eea3f0b175e7224cfc2762b68e"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>uint2str</b> (unsigned int number, char *buf)</td></tr>
-<tr class="memitem:a97993a90b8a06116d7ec6a9f7d1b3126"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97993a90b8a06116d7ec6a9f7d1b3126"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>int2str</b> (int number, char *buf)</td></tr>
-<tr class="memitem:ae30fe5728d5e008e2d85ab9b55496bad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae30fe5728d5e008e2d85ab9b55496bad"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>dbl2str</b> (double number, uint8_t precision, char *buf)</td></tr>
-</table>
-<hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
-<div class="textblock"><p>"Something to string" functions </p>
-</div></div><!-- contents -->
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all_8h.html" title="Includes all the headers files at once.">aery32/all.h</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using namespace </span>aery;</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
+<div class="line">{</div>
+<div class="line">        init_board();</div>
+<div class="line">        <a name="a0"></a><a class="code" href="namespaceaery.html#a90a5a5604388c7e477ede76cc65e6730">gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">for</span>(;;) {</div>
+<div class="line">                <a name="a1"></a><a class="code" href="namespaceaery.html#aa0bdafbdf4fab9b18b14b7859cfdc90a">gpio_toggle_pin</a>(LED);</div>
+<div class="line">                <a name="a2"></a><a class="code" href="namespaceaery.html#a5f2dcdfa47dfc93021d1d99d509e0b1c">delay_ms</a>(500);</div>
+<div class="line">        }</div>
+<div class="line"></div>
+<div class="line">        <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="tostr_8h.html">tostr.h</a></li>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

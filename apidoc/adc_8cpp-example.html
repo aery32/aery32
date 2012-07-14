@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Aery32 Software Framework: adc.c</title>
+<title>Aery32 Software Framework: adc.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('adc_8c-example.html','');});
+$(document).ready(function(){initNavTree('adc_8cpp-example.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('adc_8c-example.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,16 +86,15 @@ $(document).ready(function(){initNavTree('adc_8c-example.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">adc.c</div>  </div>
+<div class="title">adc.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="gpio_8h.html" title="General Purpose Input/Output (GPIO)">aery32/gpio.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="adc_8h.html" title="Analog-to-digital converter (adc)">aery32/adc.h</a>&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all_8h.html" title="Includes all the headers files at once.">aery32/all.h</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#define LED AVR32_PIN_PC04</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define ADC_PINMASK_ALLCHAN (0xff &lt;&lt; 21)</span></div>
+<div class="line"><span class="keyword">using namespace </span>aery;</div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#define ADC_PINMASK_ALLCHAN (0xff &lt;&lt; 21)</span></div>
 <div class="line"><span class="preprocessor"></span></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
@@ -104,10 +103,10 @@ $(document).ready(function(){initNavTree('adc_8c-example.html','');});
 <div class="line">        <span class="keywordtype">double</span> volt;     <span class="comment">/* conversion in volts */</span></div>
 <div class="line"></div>
 <div class="line">        init_board();</div>
-<div class="line">        <a name="a0"></a><a class="code" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">aery_gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
-<div class="line">        <a name="a1"></a><a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);</div>
+<div class="line">        <a name="a0"></a><a class="code" href="namespaceaery.html#a90a5a5604388c7e477ede76cc65e6730">gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
+<div class="line">        <a name="a1"></a><a class="code" href="namespaceaery.html#a0ea3643c983116e0da85ab235332465e">gpio_init_pins</a>(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);</div>
 <div class="line"></div>
-<div class="line">        errno = <a name="a2"></a><a class="code" href="adc_8h.html#a47844ff6d190350793ecd3fd45fe3fea">aery_adc_init</a>(</div>
+<div class="line">        errno = <a name="a2"></a><a class="code" href="namespaceaery.html#ae16cd9fba226493f97526a64fda9e3dd">adc_init</a>(</div>
 <div class="line">                7,    <span class="comment">/* prescal, adclk = pba_clk / (2 * (prescal+1)) */</span></div>
 <div class="line">                <span class="keyword">true</span>, <span class="comment">/* hires, 10-bit (false would be 8-bit) */</span></div>
 <div class="line">                0,    <span class="comment">/* shtim, sample and hold time = (shtim + 1) / adclk */</span></div>
@@ -115,15 +114,15 @@ $(document).ready(function(){initNavTree('adc_8c-example.html','');});
 <div class="line">        );</div>
 <div class="line"></div>
 <div class="line">        <span class="keywordflow">if</span> (errno != -1)</div>
-<div class="line">                <a name="a3"></a><a class="code" href="adc_8h.html#adcb66030e11b0b88b80dab519340f23c">aery_adc_enable</a>(1 &lt;&lt; 3); <span class="comment">/* enables the channel 3 */</span></div>
+<div class="line">                <a name="a3"></a><a class="code" href="namespaceaery.html#a89a3ce7345287166c24278592182713b">adc_enable</a>(1 &lt;&lt; 3); <span class="comment">/* enables the channel 3 */</span></div>
 <div class="line"></div>
-<div class="line">        <span class="comment">/* Init done, turn the LED on */</span></div>
-<div class="line">        <a name="a4"></a><a class="code" href="gpio_8h.html#a6ca4f08827b5b099de3a77fd36bbce3b">aery_gpio_set_pin_high</a>(LED);</div>
+<div class="line">        <span class="comment">/* init done, turn the LED on */</span></div>
+<div class="line">        <a name="a4"></a><a class="code" href="namespaceaery.html#aab4334ef4b60eb96106e81ed5e9e9eaa">gpio_set_pin_high</a>(LED);</div>
 <div class="line"></div>
 <div class="line">        <span class="keywordflow">for</span>(;;) {</div>
-<div class="line">                <a name="a5"></a><a class="code" href="adc_8h.html#abb802d42f6e14acf053b61a891a32252">aery_adc_start_cnv</a>();</div>
-<div class="line">                <span class="keywordflow">while</span> (!<a name="a6"></a><a class="code" href="adc_8h.html#a585d29b498fd358a3e557f998656284a">aery_adc_cnv_isrdy</a>(1 &lt;&lt; 3));</div>
-<div class="line">                result = <a name="a7"></a><a class="code" href="adc_8h.html#a489eecf95e3ea6be597e7c1c535228a8">aery_adc_get_cnv</a>(3);</div>
+<div class="line">                <a name="a5"></a><a class="code" href="namespaceaery.html#aaf113d0cfbf6f2a48dd7beed2c7f8300">adc_start_cnv</a>();</div>
+<div class="line">                <span class="keywordflow">while</span> (!<a name="a6"></a><a class="code" href="namespaceaery.html#a5aeb220ed3c4a48145c371f511f25e11">adc_cnv_isrdy</a>(1 &lt;&lt; 3));</div>
+<div class="line">                result = <a name="a7"></a><a class="code" href="namespaceaery.html#a3bd39aed679772d00455e03912718811">adc_read_cnv</a>(3);</div>
 <div class="line">                volt = cnv2volt(result);</div>
 <div class="line">        }</div>
 <div class="line"></div>
@@ -134,7 +133,7 @@ $(document).ready(function(){initNavTree('adc_8c-example.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

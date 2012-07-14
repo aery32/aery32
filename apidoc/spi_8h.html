@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('spi_8h.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,8 +86,10 @@ $(document).ready(function(){initNavTree('spi_8h.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">spi.h File Reference</div>  </div>
 </div><!--header-->
@@ -95,237 +97,47 @@ $(document).ready(function(){initNavTree('spi_8h.html','');});
 
 <p>Serial Peripheral Interface (SPI)  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br/>
-<code>#include &lt;inttypes.h&gt;</code><br/>
+<div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br/>
 <code>#include &lt;avr32/io.h&gt;</code><br/>
 </div>
 <p><a href="spi_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceaery"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html">aery</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a443a0538efb392f63b772de211fe78d6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a443a0538efb392f63b772de211fe78d6">Spi_mode</a> { <br/>
-&#160;&#160;<b>SPI_MODE0</b>, 
-<br/>
-&#160;&#160;<b>SPI_MODE1</b>, 
-<br/>
-&#160;&#160;<b>SPI_MODE2</b>, 
-<br/>
-&#160;&#160;<b>SPI_MODE3</b>
-<br/>
+<tr class="memitem:a0c60796562a2cfbddcf3b23dbac57e42"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a0c60796562a2cfbddcf3b23dbac57e42">aery::Spi_mode</a> { <b>SPI_MODE0</b>, 
+<b>SPI_MODE1</b>, 
+<b>SPI_MODE2</b>, 
+<b>SPI_MODE3</b>
  }</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2cd8dbf26408ce5be23c56759e45f120"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a> (volatile avr32_spi_t *pspi)</td></tr>
-<tr class="memitem:a9f6cc4c7a6f88074512af284c36ae9ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a> (volatile avr32_spi_t *pspi, uint8_t npcs, enum <a class="el" href="spi_8h.html#a443a0538efb392f63b772de211fe78d6">Spi_mode</a> mode, uint8_t bits)</td></tr>
-<tr class="memitem:a8ebaf8a9577a79f19a683c294c846325"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a> (volatile avr32_spi_t *pspi, uint16_t data, uint8_t npcs, bool islast)</td></tr>
-<tr class="memitem:a7802f75c1cff6e832b18aa9bfd5acc9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e">aery_spi_enable</a> (volatile avr32_spi_t *pspi)</td></tr>
-<tr class="memitem:a1fdb59c62633cb2d2923bea0b92152d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="spi_8h.html#a1fdb59c62633cb2d2923bea0b92152d5">aery_spi_disable</a> (volatile avr32_spi_t *pspi)</td></tr>
+<tr class="memitem:a367f4beea3792958ee60bd4dd3e48326"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a367f4beea3792958ee60bd4dd3e48326">aery::spi_init_master</a> (volatile avr32_spi_t *pspi)</td></tr>
+<tr class="memitem:acb0fc6e5266c9566b13c0933b801439e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#acb0fc6e5266c9566b13c0933b801439e">aery::spi_setup_npcs</a> (volatile avr32_spi_t *pspi, uint8_t npcs, enum Spi_mode mode, uint8_t bits)</td></tr>
+<tr class="memitem:a5d78937d6ca10ed866067d220f57f183"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a5d78937d6ca10ed866067d220f57f183">aery::spi_transmit</a> (volatile avr32_spi_t *pspi, uint8_t npcs, uint16_t data, bool islast)</td></tr>
+<tr class="memitem:a0764f9da9be292614e0bbbcc701a6530"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a0764f9da9be292614e0bbbcc701a6530">aery::spi_enable</a> (volatile avr32_spi_t *pspi)</td></tr>
+<tr class="memitem:aa185ebb1afbddfce3751242daa5470e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#aa185ebb1afbddfce3751242daa5470e2">aery::spi_disable</a> (volatile avr32_spi_t *pspi)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5f9d213dad30e0cb5d954d18cecbb1c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5f9d213dad30e0cb5d954d18cecbb1c8"></a>
+volatile avr32_spi_t *&#160;</td><td class="memItemRight" valign="bottom"><b>aery::spi0</b></td></tr>
+<tr class="memitem:a2194ee757db0ab12ade1c2ad6b703381"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2194ee757db0ab12ade1c2ad6b703381"></a>
+volatile avr32_spi_t *&#160;</td><td class="memItemRight" valign="bottom"><b>aery::spi1</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Serial Peripheral Interface (SPI) </p>
-</div><hr/><h2>Enumeration Type Documentation</h2>
-<a class="anchor" id="a443a0538efb392f63b772de211fe78d6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="spi_8h.html#a443a0538efb392f63b772de211fe78d6">Spi_mode</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>SPI mode </p>
-
-</div>
-</div>
-<hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a1fdb59c62633cb2d2923bea0b92152d5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_spi_disable </td>
-          <td>(</td>
-          <td class="paramtype">volatile avr32_spi_t *&#160;</td>
-          <td class="paramname"><em>pspi</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Disables the SPI peripheral </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to disable </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a7802f75c1cff6e832b18aa9bfd5acc9e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_spi_enable </td>
-          <td>(</td>
-          <td class="paramtype">volatile avr32_spi_t *&#160;</td>
-          <td class="paramname"><em>pspi</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Enables the SPI peripheral </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to enable </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a6">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a4">spi.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a2cd8dbf26408ce5be23c56759e45f120"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_spi_init_master </td>
-          <td>(</td>
-          <td class="paramtype">volatile avr32_spi_t *&#160;</td>
-          <td class="paramname"><em>pspi</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Init SPI as a master </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to init</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section user"><dt>CS multiplexer</dt><dd>If you are using multiplexed chip selects, enable cs multiplexing by bitbanging PCSDEC bit in SPI MR register after initialization:</dd></dl>
-<div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(&amp;AVR32_SPI0);</div>
-<div class="line">   AVR32_SPI0.MR.pcsdec = 1;</div>
-</div><!-- fragment --> <dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a4">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a2">spi.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a9f6cc4c7a6f88074512af284c36ae9ea"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_spi_setup_npcs </td>
-          <td>(</td>
-          <td class="paramtype">volatile avr32_spi_t *&#160;</td>
-          <td class="paramname"><em>pspi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>npcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">enum <a class="el" href="spi_8h.html#a443a0538efb392f63b772de211fe78d6">Spi_mode</a>&#160;</td>
-          <td class="paramname"><em>mode</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>bits</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Setups the SPI mode and the shift register width of the Numeric Processor Chip Select (NPCS, same as slave/chip select) </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral </td></tr>
-    <tr><td class="paramname">npcs</td><td>Chip Select: 0-3 </td></tr>
-    <tr><td class="paramname">mode</td><td>SPI mode </td></tr>
-    <tr><td class="paramname">bits</td><td>Width of SPI shift register: 8-16 bits</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section user"><dt>Making SPI SCK faster</dt><dd>Chip select baudrate is hard coded to MCK/255. To make it faster you can bitbang the SCRB bit in CSRX register.</dd></dl>
-<div class="fragment"><div class="line">   <a class="code" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a>(&amp;AVR32_SPI0, 0, SPI_MODE1, 16);</div>
-<div class="line">   AVR32_SPI0.CSR0.scbr = 32; <span class="comment">// baudrate is now MCK/32</span></div>
-</div><!-- fragment --><dl class="section note"><dt>Note:</dt><dd>Every chip select line can have different mode and size of shift register. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a5">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a3">spi.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a8ebaf8a9577a79f19a683c294c846325"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint16_t aery_spi_transmit </td>
-          <td>(</td>
-          <td class="paramtype">volatile avr32_spi_t *&#160;</td>
-          <td class="paramname"><em>pspi</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>npcs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>islast</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Writes and reads SPI bus </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pspi</td><td>Pointer to the SPI peripheral which to use. </td></tr>
-    <tr><td class="paramname">data</td><td>Binary word to be send. </td></tr>
-    <tr><td class="paramname">npcs</td><td>Chip select line number. Can also be number of cs multiplexer. Use dummy cs number, if you like to use some other gpio pin through bitbanging. </td></tr>
-    <tr><td class="paramname">islast</td><td>Is this the last transmit? If no, set 0 to leave chip select low. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns:</dt><dd>Received data bits</dd></dl>
-<dl class="section user"><dt>SPI read</dt><dd>When you only want to read from external device through SPI, ignore the sent data and use dummy bits instead, for example 0x00.</dd></dl>
-<div class="fragment"><div class="line">   uint16_t rd; <span class="comment">// read data</span></div>
-<div class="line">   rd = <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(&amp;AVR32_SPI0, 0, 0, <span class="keyword">true</span>);</div>
-</div><!-- fragment --> <dl><dt><b>Examples: </b></dt><dd><a class="el" href="displays_2hd44780_8c-example.html#a0">displays/hd44780.c</a>, and <a class="el" href="spi_8c-example.html#a5">spi.c</a>.</dd>
-</dl>
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="spi_8h.html">spi.h</a></li>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Aery32 Software Framework: displays/hd44780.c</title>
+<title>Aery32 Software Framework: displays/hd44780.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','');});
+$(document).ready(function(){initNavTree('displays_2hd44780_8cpp-example.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,14 +86,13 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 
 <div class="header">
   <div class="headertitle">
-<div class="title">displays/hd44780.c</div>  </div>
+<div class="title">displays/hd44780.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="gpio_8h.html" title="General Purpose Input/Output (GPIO)">aery32/gpio.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="spi_8h.html" title="Serial Peripheral Interface (SPI)">aery32/spi.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="delay_8h.html" title="Delay functions for small delays.">aery32/delay.h</a>&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all_8h.html" title="Includes all the headers files at once.">aery32/all.h</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using namespace </span>aery;</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// ----------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// HD44780 instruction set</span></div>
@@ -132,11 +131,10 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <div class="line"><span class="comment">// ----------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// Additional board settings</span></div>
 <div class="line"><span class="comment">// ----------------------------------------------------------------------</span></div>
-<div class="line"><span class="preprocessor">#define LED                 AVR32_PIN_PC04</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define SPI0_PINMASK        ((1 &lt;&lt; 10) | (1 &lt;&lt; 11) | (1 &lt;&lt; 12) | (1 &lt;&lt; 13))</span></div>
+<div class="line"><span class="preprocessor">#define SPI0_PINMASK        ((1 &lt;&lt; 10) | (1 &lt;&lt; 11) | (1 &lt;&lt; 12) | (1 &lt;&lt; 13))</span></div>
 <div class="line"><span class="preprocessor"></span></div>
 <div class="line"><span class="preprocessor">#define DISPLAY_SPI         spi0</span></div>
-<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define DISPLAY_SPI_NPCS    0   </span></div>
+<div class="line"><span class="preprocessor"></span><span class="preprocessor">#define DISPLAY_SPI_NPCS    0</span></div>
 <div class="line"><span class="preprocessor"></span><span class="preprocessor">#define DISPLAY_SPI_MODE    SPI_MODE3</span></div>
 <div class="line"><span class="preprocessor"></span></div>
 <div class="line"></div>
@@ -147,28 +145,28 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <div class="line">{</div>
 <div class="line">        uint16_t rd; <span class="comment">/* read data */</span></div>
 <div class="line"></div>
-<div class="line">        <a name="a0"></a><a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, <span class="keyword">false</span>);</div>
-<div class="line">        rd = <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, <span class="keyword">true</span>);</div>
+<div class="line">        <a name="a0"></a><a class="code" href="namespaceaery.html#a5d78937d6ca10ed866067d220f57f183">spi_transmit</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, <span class="keyword">false</span>);</div>
+<div class="line">        rd = <a class="code" href="namespaceaery.html#a5d78937d6ca10ed866067d220f57f183">spi_transmit</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, <span class="keyword">true</span>);</div>
 <div class="line">        <span class="keywordflow">return</span> ((HD44780_BUSYBIT_MASK &lt;&lt; 2) &amp; rd) != 0;</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">void</span> display_wait(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">        <span class="keywordflow">while</span> (display_isbusy()) {</div>
-<div class="line">                <a name="a1"></a><a class="code" href="delay_8h.html#a4bcc27f294344c1b322de8f14c5157ea">aery_delay_us</a>(600);</div>
+<div class="line">                <a name="a1"></a><a class="code" href="namespaceaery.html#adc644375b56420bd27782be98b086ae9">delay_us</a>(600);</div>
 <div class="line">        }</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">void</span> display_instruct(uint16_t instruction)</div>
 <div class="line">{</div>
 <div class="line">        display_wait();</div>
-<div class="line">        <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, <span class="keyword">true</span>);</div>
+<div class="line">        <a class="code" href="namespaceaery.html#a5d78937d6ca10ed866067d220f57f183">spi_transmit</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, instruction, <span class="keyword">true</span>);</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">void</span> display_wrbyte(uint8_t byte)</div>
 <div class="line">{</div>
 <div class="line">        display_wait();</div>
-<div class="line">        <a class="code" href="spi_8h.html#a8ebaf8a9577a79f19a683c294c846325">aery_spi_transmit</a>(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, <span class="keyword">true</span>);</div>
+<div class="line">        <a class="code" href="namespaceaery.html#a5d78937d6ca10ed866067d220f57f183">spi_transmit</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x200|byte, <span class="keyword">true</span>);</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">void</span> display_putc(<span class="keywordtype">char</span> c)</div>
@@ -176,8 +174,7 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <div class="line">        display_wrbyte((uint8_t) c);</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"><span class="keywordtype">int</span></div>
-<div class="line">display_puts(<span class="keyword">const</span> <span class="keywordtype">char</span> *buf)</div>
+<div class="line"><span class="keywordtype">int</span> display_puts(<span class="keyword">const</span> <span class="keywordtype">char</span> *buf)</div>
 <div class="line">{</div>
 <div class="line">        <span class="keywordtype">int</span> i = 0;</div>
 <div class="line">        <span class="keywordflow">for</span> (; *(buf+i); i++) {</div>
@@ -207,19 +204,18 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <div class="line"><span class="comment">// ----------------------------------------------------------------------</span></div>
 <div class="line"><span class="comment">// Main function</span></div>
 <div class="line"><span class="comment">// ----------------------------------------------------------------------</span></div>
-<div class="line"><span class="keywordtype">int</span></div>
-<div class="line">main(<span class="keywordtype">void</span>)</div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
 <div class="line">        init_board();</div>
-<div class="line">        <a name="a2"></a><a class="code" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">aery_gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
-<div class="line">        <a name="a3"></a><a class="code" href="gpio_8h.html#ae6d1301239fc2da4444f30d2cd9bf107">aery_gpio_init_pins</a>(porta, SPI0_PINMASK, GPIO_FUNCTION_A);</div>
+<div class="line">        <a name="a2"></a><a class="code" href="namespaceaery.html#a90a5a5604388c7e477ede76cc65e6730">gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
+<div class="line">        <a name="a3"></a><a class="code" href="namespaceaery.html#a0ea3643c983116e0da85ab235332465e">gpio_init_pins</a>(porta, SPI0_PINMASK, GPIO_FUNCTION_A);</div>
 <div class="line"></div>
-<div class="line">        <a name="a4"></a><a class="code" href="spi_8h.html#a2cd8dbf26408ce5be23c56759e45f120">aery_spi_init_master</a>(DISPLAY_SPI);</div>
-<div class="line">        <a name="a5"></a><a class="code" href="spi_8h.html#a9f6cc4c7a6f88074512af284c36ae9ea">aery_spi_setup_npcs</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);</div>
-<div class="line">        <a name="a6"></a><a class="code" href="spi_8h.html#a7802f75c1cff6e832b18aa9bfd5acc9e">aery_spi_enable</a>(DISPLAY_SPI);</div>
+<div class="line">        <a name="a4"></a><a class="code" href="namespaceaery.html#a367f4beea3792958ee60bd4dd3e48326">spi_init_master</a>(DISPLAY_SPI);</div>
+<div class="line">        <a name="a5"></a><a class="code" href="namespaceaery.html#acb0fc6e5266c9566b13c0933b801439e">spi_setup_npcs</a>(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);</div>
+<div class="line">        <a name="a6"></a><a class="code" href="namespaceaery.html#a0764f9da9be292614e0bbbcc701a6530">spi_enable</a>(DISPLAY_SPI);</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">// Display initialization sequence</span></div>
-<div class="line">        <a name="a7"></a><a class="code" href="delay_8h.html#aa14fab3da6aefd2f342af95af8f67aeb">aery_delay_ms</a>(2);</div>
+<div class="line">        <span class="comment">/* Display initialization sequence */</span></div>
+<div class="line">        <a name="a7"></a><a class="code" href="namespaceaery.html#a5f2dcdfa47dfc93021d1d99d509e0b1c">delay_ms</a>(2);</div>
 <div class="line">        display_instruct(HD44780_DL8BIT|HD44780_FONTBL_WE1);</div>
 <div class="line">        display_instruct(HD44780_DISPLAY_OFF);</div>
 <div class="line">        display_instruct(HD44780_CLEAR_DISPLAY);</div>
@@ -227,10 +223,10 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <div class="line">        display_instruct(HD44780_EMODE_INCREMENT);</div>
 <div class="line">        display_instruct(HD44780_DISPLAY_ON|HD44780_CURSOR_ONBLINK);</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">// Init OK</span></div>
-<div class="line">        <a name="a8"></a><a class="code" href="gpio_8h.html#a6ca4f08827b5b099de3a77fd36bbce3b">aery_gpio_set_pin_high</a>(LED);</div>
+<div class="line">        <span class="comment">/* Init OK */</span></div>
+<div class="line">        <a name="a8"></a><a class="code" href="namespaceaery.html#aab4334ef4b60eb96106e81ed5e9e9eaa">gpio_set_pin_high</a>(LED);</div>
 <div class="line"></div>
-<div class="line">        <span class="comment">// Greet Aery32 community</span></div>
+<div class="line">        <span class="comment">/* Greet Aery32 community */</span></div>
 <div class="line">        display_puts(<span class="stringliteral">&quot;Hello Aery32 devs!&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">        <span class="keywordflow">for</span>(;;) {</div>
@@ -245,7 +241,7 @@ $(document).ready(function(){initNavTree('displays_2hd44780_8c-example.html','')
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

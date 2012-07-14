@@ -1,9 +1,9 @@
 var examples =
 [
-    [ "adc.c", "adc_8c-example.html", null ],
-    [ "displays/hd44780.c", "displays_2hd44780_8c-example.html", null ],
-    [ "main.c", "main_8c-example.html", null ],
-    [ "rtc_interrupt.c", "rtc_interrupt_8c-example.html", null ],
-    [ "spi.c", "spi_8c-example.html", null ],
-    [ "toggle_led.c", "toggle_led_8c-example.html", null ]
+    [ "adc.cpp", "adc_8cpp-example.html", null ],
+    [ "displays/hd44780.cpp", "displays_2hd44780_8cpp-example.html", null ],
+    [ "main.cpp", "main_8cpp-example.html", null ],
+    [ "rtc_interrupt.cpp", "rtc_interrupt_8cpp-example.html", null ],
+    [ "spi.cpp", "spi_8cpp-example.html", null ],
+    [ "toggle_led.cpp", "toggle_led_8cpp-example.html", null ]
 ];

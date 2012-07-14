@@ -1,12 +1,19 @@
 var NAVTREE =
 [
   [ "Aery32 Software Framework", "index.html", [
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Enumerations", "namespacemembers_enum.html", null ]
+      ] ]
+    ] ],
     [ "Files", null, [
       [ "File List", "files.html", "files" ],
       [ "Globals", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Enumerations", "globals_enum.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ],
@@ -16,7 +23,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"adc_8c-example.html",
+"adc_8cpp-example.html",
 ];
 
 var navTreeSubIndices = new Array();

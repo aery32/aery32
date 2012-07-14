@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('intc_8h.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,7 +86,9 @@ $(document).ready(function(){initNavTree('intc_8h.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">intc.h File Reference</div>  </div>
 </div><!--header-->
@@ -95,20 +97,26 @@ $(document).ready(function(){initNavTree('intc_8h.html','');});
 <p>Interrupt Controller (INTC)  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br/>
+<code>#include &lt;avr32/io.h&gt;</code><br/>
 </div>
 <p><a href="intc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceaery"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html">aery</a></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a59e23e81579f118984683299ed447898"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59e23e81579f118984683299ed447898"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mfsr</b> (int reg)</td></tr>
-<tr class="memitem:a20333519c660b4806f8f03d54625d1f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20333519c660b4806f8f03d54625d1f7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (int reg, int val)</td></tr>
-<tr class="memitem:a5cac4faf90fc0eacf07c8ca48c9aec6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="intc_8h.html#a5cac4faf90fc0eacf07c8ca48c9aec6c">aery_intc_init</a> (void)</td></tr>
-<tr class="memitem:ac435d5f1e341b4e90b5efb8405b450a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="intc_8h.html#ac435d5f1e341b4e90b5efb8405b450a5">aery_intc_register_isrhandler</a> (void(*)(void), uint32_t group, uint8_t priority)</td></tr>
-<tr class="memitem:ab728b72f077596bc29db66b17b4d74d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="intc_8h.html#ab728b72f077596bc29db66b17b4d74d8">aery_intc_enable_globally</a> (void)</td></tr>
-<tr class="memitem:a5b993cd6770c622a92ab62ab8a9be839"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="intc_8h.html#a5b993cd6770c622a92ab62ab8a9be839">aery_intc_disable_globally</a> (void)</td></tr>
 <tr class="memitem:a59de6afd28b9adb8659cc358e80a8946"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="intc_8h.html#a59de6afd28b9adb8659cc358e80a8946">_isrhandler_proxy</a> (uint32_t group)</td></tr>
+<tr class="memitem:a6c9fb3d7152707134fedeb174e5e5913"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a6c9fb3d7152707134fedeb174e5e5913">aery::intc_init</a> (void)</td></tr>
+<tr class="memitem:a3821cfa090d963cbd85c1f9640e28033"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a3821cfa090d963cbd85c1f9640e28033">aery::intc_register_isrhandler</a> (void(*)(void), uint32_t group, uint8_t priority)</td></tr>
+<tr class="memitem:a381b49a114b6216069e9e044932fd9a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#a381b49a114b6216069e9e044932fd9a7">aery::intc_enable_globally</a> (void)</td></tr>
+<tr class="memitem:aa5d9a3f73371b1a19c9ad41778288b0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceaery.html#aa5d9a3f73371b1a19c9ad41778288b0e">aery::intc_disable_globally</a> (void)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a553bc513f2b298bf580320218e12872c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a553bc513f2b298bf580320218e12872c"></a>
+volatile avr32_intc_t *&#160;</td><td class="memItemRight" valign="bottom"><b>aery::intc</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Interrupt Controller (INTC) </p>
@@ -137,112 +145,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>__builtin_mtsr</b> (i
 
 </div>
 </div>
-<a class="anchor" id="a5b993cd6770c622a92ab62ab8a9be839"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_intc_disable_globally </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Disables interrupts globally </p>
-
-</div>
-</div>
-<a class="anchor" id="ab728b72f077596bc29db66b17b4d74d8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_intc_enable_globally </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Enables interrupts globally</p>
-<dl class="section attention"><dt>Attention:</dt><dd>Be sure that your code is ready to handle interrupts </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="rtc_interrupt_8c-example.html#a6">rtc_interrupt.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="a5cac4faf90fc0eacf07c8ca48c9aec6c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_intc_init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Initializes Interrupt Request Register (IPR) of Interrupt Controller (INTC)</p>
-<p>Defines IPR register with the addresses of reserved memory for the registered or to be registered ISR function pointers. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="rtc_interrupt_8c-example.html#a4">rtc_interrupt.c</a>.</dd>
-</dl>
-</div>
-</div>
-<a class="anchor" id="ac435d5f1e341b4e90b5efb8405b450a5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void aery_intc_register_isrhandler </td>
-          <td>(</td>
-          <td class="paramtype">void(*)(void)&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>group</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>priority</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Register interrupt service routine function </p>
-<dl class="params"><dt>Parameters:</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">handler</td><td>Pointer to the ISR function </td></tr>
-    <tr><td class="paramname">group</td><td>Which group the registered ISR function will handle, see datasheet p. 41. </td></tr>
-    <tr><td class="paramname">priority</td><td>Interrupt priority level of this group, see INTLEVEL from datasheet p. 103.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section note"><dt>Note:</dt><dd>Remember to init and enable interrupts after the function registration. You can also have several handlers for the same interrupt group and switch the handler from one to another by calling this function multiple times. To change the priority level just reregister the same handler with the different priority.</dd></dl>
-<p>The registered function is called when ever the interrupt of the group which for the function was registered occur. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="rtc_interrupt_8c-example.html#a5">rtc_interrupt.c</a>.</dd>
-</dl>
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_8c07b1055f60b18256bed32f45dd54ce.html">aery32</a></li><li class="navelem"><a class="el" href="intc_8h.html">intc.h</a></li>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

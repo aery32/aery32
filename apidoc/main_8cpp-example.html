@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>Aery32 Software Framework: rtc_interrupt.c</title>
+<title>Aery32 Software Framework: main.cpp</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,9 +28,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">Aery32 Software Framework
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
-   <div id="projectbrief">Teh framework for 32-bit AVRs (AVR32)</div>
+   <div id="projectbrief">C/C++ Framework for 32-bit AVRs (AVR32)</div>
   </td>
    <td>        <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -67,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('rtc_interrupt_8c-example.html','');});
+$(document).ready(function(){initNavTree('main_8cpp-example.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -75,7 +75,7 @@ $(document).ready(function(){initNavTree('rtc_interrupt_8c-example.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Macros</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,46 +86,36 @@ $(document).ready(function(){initNavTree('rtc_interrupt_8c-example.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">rtc_interrupt.c</div>  </div>
+<div class="title">main.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="gpio_8h.html" title="General Purpose Input/Output (GPIO)">aery32/gpio.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="intc_8h.html" title="Interrupt Controller (INTC)">aery32/intc.h</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="rtc_8h.html" title="Real Time Counter (RTC)">aery32/rtc.h</a>&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;board.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all_8h.html" title="Includes all the headers files at once.">aery32/all.h</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#define LED AVR32_PIN_PC04</span></div>
-<div class="line"><span class="preprocessor"></span></div>
-<div class="line"><span class="keywordtype">void</span> isrhandler_rtc(<span class="keywordtype">void</span>)</div>
-<div class="line">{</div>
-<div class="line">    <a name="a0"></a><a class="code" href="gpio_8h.html#ac359075164afb09a88aecb5183c3418c">aery_gpio_toggle_pin</a>(LED);</div>
-<div class="line">    <a name="a1"></a><a class="code" href="rtc_8h.html#a53366fe704760771cd78e4c04d993cb1">aery_rtc_clear_interrupt</a>(); <span class="comment">// Remember to clear RTC interrupt</span></div>
-<div class="line">}</div>
+<div class="line"><span class="keyword">using namespace </span>aery;</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">void</span>)</div>
 <div class="line">{</div>
-<div class="line">    init_board();</div>
-<div class="line">    <a name="a2"></a><a class="code" href="gpio_8h.html#a445298de475a3ca04060bff3c55966d7">aery_gpio_init_pin</a>(LED, GPIO_OUTPUT|GPIO_HIGH);</div>
-<div class="line">    <a name="a3"></a><a class="code" href="rtc_8h.html#a520d4c639c387dccb395ae178f65bb33">aery_rtc_init</a>(0, 60*115000/2, 0, RTC_SOURCE_RC);</div>
+<div class="line">        <span class="comment">/* Put your application initialization sequence here */</span></div>
+<div class="line">        init_board();</div>
+<div class="line">        <a name="a0"></a><a class="code" href="namespaceaery.html#a90a5a5604388c7e477ede76cc65e6730">gpio_init_pin</a>(LED, GPIO_OUTPUT);</div>
 <div class="line"></div>
-<div class="line">    <a name="a4"></a><a class="code" href="intc_8h.html#a5cac4faf90fc0eacf07c8ca48c9aec6c">aery_intc_init</a>();</div>
-<div class="line">    <a name="a5"></a><a class="code" href="intc_8h.html#ac435d5f1e341b4e90b5efb8405b450a5">aery_intc_register_isrhandler</a>(&amp;isrhandler_rtc, 1, 0);</div>
-<div class="line">    <a name="a6"></a><a class="code" href="intc_8h.html#ab728b72f077596bc29db66b17b4d74d8">aery_intc_enable_globally</a>();</div>
+<div class="line">        <span class="comment">/* All done, turn the LED on */</span></div>
+<div class="line">        <a name="a1"></a><a class="code" href="namespaceaery.html#aab4334ef4b60eb96106e81ed5e9e9eaa">gpio_set_pin_high</a>(LED);</div>
 <div class="line"></div>
-<div class="line">    <a name="a7"></a><a class="code" href="rtc_8h.html#ac5acdc35731c9b50e4bb48b4fa1d8143">aery_rtc_enable</a>(<span class="keyword">true</span>);</div>
+<div class="line">        <span class="keywordflow">for</span>(;;) {</div>
+<div class="line">                <span class="comment">/* Put your application code here */</span></div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">for</span>(;;) {</div>
-<div class="line">    }</div>
+<div class="line">        }</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">return</span> 0;</div>
+<div class="line">        <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Jul 8 2012 21:21:51 for Aery32 Software Framework by
+    <li class="footer">Generated on Sat Jul 14 2012 13:14:26 for Aery32 Software Framework by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1.1 </li>
   </ul>

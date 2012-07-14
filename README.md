@@ -3,11 +3,13 @@
 This branch holds the doxygen genereated api documentations of Aery32 Framework
 
     git checkout master
+    cd aery32/
     doxygen
-    mv apidoc ../
+    mv doxies ../../
     git checkout gh-pages
-    cp -r ../apidoc/html/* apidoc
-    git add .
+    git rm -r apidoc/
+    cp -r ../doxies/html/ apidoc
+    git add apidoc/
     git commit -m "update apidocs"
     git push origin gh-pages
     git checkout master
