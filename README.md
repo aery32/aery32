@@ -60,7 +60,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
-### Changelog for the next release
+### v0.2
 
 - Switch to `avr32-g++` and hence to C++
 - Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
