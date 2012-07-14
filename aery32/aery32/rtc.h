@@ -1,6 +1,6 @@
 /*
  *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
@@ -19,19 +19,19 @@
 /*!
 \file aery32/rtc.h
 \brief Real Time Counter (RTC)
-\example rtc_interrupt.c
 */
 
 #ifndef __AERY32_RTC_H
 #define __AERY32_RTC_H
 
-#ifdef __cplusplus
 extern "C" {
-#endif
+	#include <inttypes.h>
+	#include <avr32/io.h>
+}
 
-#include <stdbool.h>
-#include <inttypes.h>
-#include <avr32/io.h>
+namespace aery {
+
+extern volatile avr32_rtc_t *rtc;
 
 /**
  * RTC source
@@ -52,7 +52,7 @@ enum Rtc_source {
  * \param source The source for RTC clock
  * \return Returns 0 on success and -1 on error
  */
-int aery_rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
+int rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
 		enum Rtc_source source);
 
 /**
@@ -61,21 +61,21 @@ int aery_rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
  * \return Returns 0 on success and -1 on error
  * \note You should be fine with rtc_init() in most cases
  */
-int aery_rtc_set_control(uint32_t ctrl);
+int rtc_set_control(uint32_t ctrl);
 
 /**
  * Set RTC value
  * \param val Value where to start counting
  * \return Returns 0 on success and -1 on error
  */
-int aery_rtc_set_value(uint32_t val);
+int rtc_set_value(uint32_t val);
 
 /**
  * Set RTC top value
  * \param topval Top value where to count
  * \return Returns 0 on success and -1 on error
  */
-int aery_rtc_set_top(uint32_t topval);
+int rtc_set_top(uint32_t topval);
 
 /**
  * Enable RTC
@@ -83,7 +83,7 @@ int aery_rtc_set_top(uint32_t topval);
  *              always when the counter reach top value. Otherwise set false
  *              to use polling.
  */
-void aery_rtc_enable(bool enint);
+void rtc_enable(bool enint);
 
 /**
  * Indicates if RTC registers are ready to written
@@ -91,21 +91,19 @@ void aery_rtc_enable(bool enint);
  *                   happens.
  * \return Returns true if busy, false if ready
  */
-bool aery_rtc_isbusy(uint32_t loopcycles);
+bool rtc_isbusy(uint32_t loopcycles);
 
 /**
  * RTC delay
  * \param cycles The delay lenght in RTC cycles.
  */
-void aery_rtc_delay_cycles(uint32_t cycles);
+void rtc_delay_cycles(uint32_t cycles);
 
 /**
  * Clear RTC interrupt flag
  */
-void aery_rtc_clear_interrupt(void);
+void rtc_clear_interrupt(void);
 
-#ifdef __cplusplus
-}
-#endif
+} /* end of namespace aery */
 
 #endif

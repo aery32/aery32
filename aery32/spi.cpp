@@ -1,6 +1,6 @@
 /*
  *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
@@ -16,17 +16,12 @@
  * you a copy.
  */
 
-#include <stdbool.h>
-#include <inttypes.h>
-#include <avr32/io.h>
 #include "aery32/spi.h"
 
-#ifdef AERY_SHORTCUTS
-	volatile avr32_spi_t *spi0 = &AVR32_SPI0;
-	volatile avr32_spi_t *spi1 = &AVR32_SPI1;
-#endif
+volatile avr32_spi_t *aery::spi0 = &AVR32_SPI0;
+volatile avr32_spi_t *aery::spi1 = &AVR32_SPI1;
 
-void aery_spi_init_master(volatile avr32_spi_t *pspi)
+void aery::spi_init_master(volatile avr32_spi_t *pspi)
 {
 	/* Software reset before intialization */
 	pspi->CR.swrst = 1;
@@ -39,7 +34,7 @@ void aery_spi_init_master(volatile avr32_spi_t *pspi)
 		(1 << AVR32_SPI_MR_MSTR_OFFSET);
 }
 
-void aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
+void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 		enum Spi_mode mode, uint8_t bits)
 {
 	if (bits < 8 || bits > 16)
@@ -89,8 +84,8 @@ void aery_spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 	}
 }
 
-uint16_t aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
-		uint8_t npcs, bool islast)
+uint16_t aery::spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
+		uint16_t data, bool islast)
 {
 	/* Wait previous transfer to complete */
 	while ((pspi->sr & AVR32_SPI_SR_TXEMPTY_MASK) == 0);
@@ -122,12 +117,12 @@ uint16_t aery_spi_transmit(volatile avr32_spi_t *pspi, uint16_t data,
 	return pspi->RDR.rd;
 }
 
-void aery_spi_enable(volatile avr32_spi_t *pspi)
+void aery::spi_enable(volatile avr32_spi_t *pspi)
 {
 	pspi->CR.spien = 1;
 }
 
-void aery_spi_disable(volatile avr32_spi_t *pspi)
+void aery::spi_disable(volatile avr32_spi_t *pspi)
 {
 	pspi->CR.spien = 0;
 }

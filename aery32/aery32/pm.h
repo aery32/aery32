@@ -1,6 +1,6 @@
 /*
  *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
@@ -24,31 +24,33 @@
 #ifndef __AERY32_PM_H
 #define __AERY32_PM_H
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
-#include <stdbool.h>
-#include <inttypes.h>
-#include <avr32/io.h>
-
-#ifdef AERY_SHORTCUTS
-	extern volatile avr32_pm_t *pm;
-	extern volatile avr32_pm_pll_t *pll0;
-	extern volatile avr32_pm_pll_t *pll1;
-#endif
+	#include <inttypes.h>
+	#include <avr32/io.h>
+}
 
 #ifndef F_OSC0
-#	define F_OSC0 12000000UL
+#define F_OSC0 12000000UL
 #endif
 
 #ifndef F_OSC1
-#	define F_OSC1 16000000UL
+#define F_OSC1 16000000UL
 #endif
 
 #ifndef F_SLOWCLK
-#	define F_SLOWCLK 115000UL
+#define F_SLOWCLK 115000UL
 #endif
+
+#define CLKDOMAIN_CPU 01
+#define CLKDOMAIN_PBA 02
+#define CLKDOMAIN_PBB 04
+#define CLKDOMAIN_ALL 07
+
+namespace aery {
+
+extern volatile avr32_pm_t *pm;
+extern volatile avr32_pm_pll_t *pll0;
+extern volatile avr32_pm_pll_t *pll1;
 
 /**
  * General clock number
@@ -123,16 +125,6 @@ enum Pm_osc_startup {
 };
 
 /**
- * Clock domain number
- */
-enum Pm_ckldomain {
-	CLKDOMAIN_CPU = 01,
-	CLKDOMAIN_PBA = 02,
-	CLKDOMAIN_PBB = 04,
-	CLKDOMAIN_ALL = 07
-};
-
-/**
  * Starts the given oscillator
  * \param oscnum  Oscillator number which to start: 0, 1, 32
  * \param mode    Oscillator mode
@@ -143,11 +135,11 @@ enum Pm_ckldomain {
  *
  * \par Example:
  * \code
- * aery_pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
- * aery_pm_wait_osc_to_stabilize(0);
+ * pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
+ * pm_wait_osc_to_stabilize(0);
  * \endcode
  */
-int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
+int pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 		enum Pm_osc_startup startup);
 
 /**
@@ -165,7 +157,7 @@ int aery_pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
  * \note VCO frequency has to be in range of 80 MHz - 180 MHz or if hifreq
  *       mode is enabled in the range of 160 MHz - 240 MHz. 
  */
-int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
+int pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 		uint8_t mul, uint8_t div, bool hifreq);
 
 /**
@@ -174,9 +166,9 @@ int aery_pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
  * \param divby2 Divide the vco frequency by two
  *
  * \note Before enabling PLL, you have to initialize PLL's VCO via
- *       aery_pm_init_pllvco().
+ *       pm_init_pllvco().
  */
-void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
+void pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
 
 /**
  * Initializes the chosen generic clock
@@ -188,38 +180,38 @@ void aery_pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
  * \par Equation:
  * - f_gclk = f_src / (2 * div)
  */
-int aery_pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
+int pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
 		uint16_t div);
 
 /**
  * Waits oscillator to stabilize
  * \param oscnum Oscillator number
  */
-void aery_pm_wait_osc_to_stabilize(uint8_t oscnum);
+void pm_wait_osc_to_stabilize(uint8_t oscnum);
 
 /**
  * Waits pll to lock
  * \param ppll Pointer to PLL register
  */
-void aery_pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll);
+void pm_wait_pll_to_lock(volatile avr32_pm_pll_t *ppll);
 
 /**
  * Enables the chosen generic clock
  * \param clknum Clock number which to enable
  */
-void aery_pm_enable_gclk(enum Pm_gclk clknum);
+void pm_enable_gclk(enum Pm_gclk clknum);
 
 /**
  * Disables the given generic clock
  * \param clknum Clock number which to disable
  */
-void aery_pm_disable_gclk(enum Pm_gclk clknum);
+void pm_disable_gclk(enum Pm_gclk clknum);
 
 /**
  * Selects master clock source
  * \param mcksrc Clock source
  */
-void aery_pm_select_mck(enum Pm_mck_source mcksrc);
+void pm_select_mck(enum Pm_mck_source mcksrc);
 
 /**
  * Get the master (or main) clock frequency
@@ -230,7 +222,7 @@ void aery_pm_select_mck(enum Pm_mck_source mcksrc);
  *       oscillator frequencies are used, make sure to put the new value in
  *       CFLAGS manually or via Makefile, like CFLAGS+=-DF_OSC0=8000000UL.
  */
-uint32_t aery_pm_get_fmck(void);
+uint32_t pm_get_fmck(void);
 
 /**
  * Set up clock domain frequency
@@ -242,19 +234,17 @@ uint32_t aery_pm_get_fmck(void);
  * - If prescal > 0, f_clkdomn = f_mck / (2^prescaler)
  * - If prescal = 0, f_clkdomn = f_mck
  */
-int aery_pm_setup_clkdomain(uint8_t prescal, enum Pm_ckldomain clkdomain);
+int pm_setup_clkdomain(uint8_t prescal, uint8_t clkdomain);
 
 /**
  * Get the clock domain frequency
  * \param clkdomain Clock domain selection
- * \return Clock domain frequency in hertz
+ * \return Clock domain frequency in hertz, 0 on error
  *
- * \note Calls aery_pm_get_fmck()
+ * \note Calls pm_get_fmck()
  */
-uint32_t aery_pm_get_fclkdomain(enum Pm_ckldomain clkdomain);
+uint32_t pm_get_fclkdomain(uint8_t clkdomain);
 
-#ifdef __cplusplus
-}
-#endif
+} /* end of namespace aery */
 
 #endif

@@ -1,3 +1,6 @@
 *.o
 *.d
 *.a
+
+doxies/html
+doxies/latex

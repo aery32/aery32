@@ -1,6 +1,6 @@
 /*
  *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
@@ -26,29 +26,27 @@
 #define F_CPU 12000000UL
 #include <aery32/delay.h>
 \endcode
-
-\example toggle_led.c
 */
 
 #ifndef __AERY32_DELAY_H
 #define __AERY32_DELAY_H
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
-#include <inttypes.h>
-#include <avr32/io.h>
+	#include <inttypes.h>
+	#include <avr32/io.h>
+}
 
 #ifndef F_CPU
-#	error "F_CPU NOT DEFINED: Delay functions cannot be declared without knowledge of the CPU frequency."
+#error "F_CPU NOT DEFINED: Delay functions cannot be defined without the knowledge of the CPU frequency."
 #endif
+
+namespace aery {
 
 /**
  * Creates a delay of the desired number of CPU cycles
  * \param cycles CPU cycles
  */
-static inline void aery_delay_cycles(uint32_t cycles)
+static inline void delay_cycles(uint32_t cycles)
 {
 	__builtin_mtsr(AVR32_COUNT, 0);
 	while ((uint32_t) __builtin_mfsr(AVR32_COUNT) < cycles);
@@ -58,9 +56,9 @@ static inline void aery_delay_cycles(uint32_t cycles)
  * Delays the program the desired amount of microseconds
  * \param us microseconds
  */
-static inline void aery_delay_us(uint16_t us)
+static inline void delay_us(uint16_t us)
 {
-	aery_delay_cycles((uint32_t) ((F_CPU / 1000000) * us));
+	delay_cycles((uint32_t) ((F_CPU / 1000000) * us));
 }
 
 
@@ -68,13 +66,11 @@ static inline void aery_delay_us(uint16_t us)
  * Delays the program the desired amount of milliseconds
  * \param ms milliseconds
  */
-static inline void aery_delay_ms(uint16_t ms)
+static inline void delay_ms(uint16_t ms)
 {
-	aery_delay_cycles((uint32_t) ((F_CPU / 1000) * ms));
+	delay_cycles((uint32_t) ((F_CPU / 1000) * ms));
 }
 
-#ifdef __cplusplus
-}
-#endif
+} /* end of namespace */
 
 #endif

@@ -1,6 +1,6 @@
 /*
  *  _____             ___ ___   |
- * |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+ * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
  * |     | -_|  _| | |_  |  _|  |  
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
@@ -19,32 +19,15 @@
 /*!
 \file aery32/gpio.h
 \brief General Purpose Input/Output (GPIO)
-\example main.c
 */
 
 #ifndef __AERY32_GPIO_H
 #define __AERY32_GPIO_H
 
-#ifdef __cplusplus
 extern "C" {
-#endif
-
-#include <stdbool.h>
-#include <inttypes.h>
-#include <avr32/io.h>
-
-extern int __builtin_mfsr(int reg);
-extern void __builtin_mtsr(int reg, int val);
-
-#ifdef AERY_SHORTCUTS
-	extern volatile avr32_gpio_port_t *porta;
-	extern volatile avr32_gpio_port_t *portb;
-	extern volatile avr32_gpio_port_t *portc;
-
-	extern volatile avr32_gpio_local_port_t *lporta;
-	extern volatile avr32_gpio_local_port_t *lportb;
-	extern volatile avr32_gpio_local_port_t *lportc;
-#endif
+	#include <inttypes.h>
+	#include <avr32/io.h>
+}
 
 /**
  * Converts GPIO number to the corresponding PORT, see datasheet p. 175
@@ -81,13 +64,22 @@ extern void __builtin_mtsr(int reg, int val);
 #define GPIO_GLITCH_FILTER    0400
 #define GPIO_HIZ              0203
 
+namespace aery {
+
+extern volatile avr32_gpio_port_t *porta;
+extern volatile avr32_gpio_port_t *portb;
+extern volatile avr32_gpio_port_t *portc;
+extern volatile avr32_gpio_local_port_t *lporta;
+extern volatile avr32_gpio_local_port_t *lportb;
+extern volatile avr32_gpio_local_port_t *lportc;
+
 /**
  * Initializes several pins at once
  * \param pport   Pointer to the GPIO port
  * \param pinmask Pins to initialize, e.g. pin mask 0x7 covers pins 0, 1 and 2
  * \param options Option flags
  */
-void aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
+void gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 		int options);
 
 /**
@@ -95,7 +87,7 @@ void aery_gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
  * \param pinnum  GPIO number, e.g. AVR32_PIN_PA05
  * \param options Option flags
  */
-void aery_gpio_init_pin(uint8_t pinnum, int options);
+void gpio_init_pin(uint8_t pinnum, int options);
 
 /**
  * Sets pin high
@@ -103,7 +95,7 @@ void aery_gpio_init_pin(uint8_t pinnum, int options);
  *
  * \note Does not work for local bus
  */
-static inline void aery_gpio_set_pin_high(uint8_t pinnum)
+static inline void gpio_set_pin_high(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrs = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -114,7 +106,7 @@ static inline void aery_gpio_set_pin_high(uint8_t pinnum)
  *
  * \note Does not work for local bus
  */
-static inline void aery_gpio_set_pin_low(uint8_t pinnum)
+static inline void gpio_set_pin_low(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrc = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -125,7 +117,7 @@ static inline void aery_gpio_set_pin_low(uint8_t pinnum)
  *
  * \note Does not work for local bus
  */
-static inline void aery_gpio_toggle_pin(uint8_t pinnum)
+static inline void gpio_toggle_pin(uint8_t pinnum)
 {
 	AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].ovrt = 1UL << GPIO_NUM2PIN(pinnum);
 }
@@ -137,7 +129,7 @@ static inline void aery_gpio_toggle_pin(uint8_t pinnum)
  *
  * \note Does not work for local bus
  */
-static inline bool aery_gpio_read_pin(uint8_t pinnum)
+static inline bool gpio_read_pin(uint8_t pinnum)
 {
 	return (bool) AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
 	       & (1UL << GPIO_NUM2PIN(pinnum));
@@ -150,7 +142,7 @@ static inline bool aery_gpio_read_pin(uint8_t pinnum)
  * this function. Note that when local bus has been enabled you
  * cannot access GPIO ports through PBB (Peripheral Bus B) anymore, which
  * was the default bus accessing them, and thus functions such as
- * aery_gpio_set_pin_high() or aery_gpio_read_pin() has no effect. From now on
+ * gpio_set_pin_high() or gpio_read_pin() has no effect. From now on
  * you have to use bitbanging and instead of using, for example, porta->ovr
  * you have to use new expression, lporta->ovr. To reroute GPIO back to
  * PBB call function gpio_disable_localbus().
@@ -158,7 +150,7 @@ static inline bool aery_gpio_read_pin(uint8_t pinnum)
  * \attention CPU clock has to match with PBB clock to make local bus
  *            functional
  */
-static inline void aery_gpio_enable_localbus(void)
+static inline void gpio_enable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) | AVR32_CPUCR_LOCEN_MASK);
@@ -169,14 +161,12 @@ static inline void aery_gpio_enable_localbus(void)
  *
  * \see gpio_enable_localbus()
  */ 
-static inline void aery_gpio_disable_localbus(void)
+static inline void gpio_disable_localbus(void)
 {
 	__builtin_mtsr(AVR32_CPUCR,
 		__builtin_mfsr(AVR32_CPUCR) & ~AVR32_CPUCR_LOCEN_MASK);
 }
 
-#ifdef __cplusplus
-}
-#endif
+} /* end of namespace aery */
 
 #endif

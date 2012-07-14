@@ -1,8 +1,5 @@
-#include <stdbool.h>
 #include "board.h"
-#include <aery32/gpio.hh>
-
-#define LED AVR32_PIN_PC04
+#include <aery32/all.h>
 
 using namespace aery;
 

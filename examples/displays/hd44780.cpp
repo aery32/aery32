@@ -1,8 +1,7 @@
-#include <stdbool.h>
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/spi.h>
-#include <aery32/delay.h>
+#include <aery32/all.h>
+
+using namespace aery;
 
 // ----------------------------------------------------------------------
 // HD44780 instruction set
@@ -41,7 +40,6 @@
 // ----------------------------------------------------------------------
 // Additional board settings
 // ----------------------------------------------------------------------
-#define LED                 AVR32_PIN_PC04
 #define SPI0_PINMASK        ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
 
 #define DISPLAY_SPI         spi0
@@ -56,28 +54,28 @@ bool display_isbusy(void)
 {
 	uint16_t rd; /* read data */
 
-	aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, false);
-	rd = aery_spi_transmit(DISPLAY_SPI, 0x100, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, false);
+	rd = spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x100, true);
 	return ((HD44780_BUSYBIT_MASK << 2) & rd) != 0;
 }
 
 void display_wait(void)
 {
 	while (display_isbusy()) {
-		aery_delay_us(600);
+		delay_us(600);
 	}
 }
 
 void display_instruct(uint16_t instruction)
 {
 	display_wait();
-	aery_spi_transmit(DISPLAY_SPI, instruction, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, instruction, true);
 }
 
 void display_wrbyte(uint8_t byte)
 {
 	display_wait();
-	aery_spi_transmit(DISPLAY_SPI, 0x200|byte, DISPLAY_SPI_NPCS, true);
+	spi_transmit(DISPLAY_SPI, DISPLAY_SPI_NPCS, 0x200|byte, true);
 }
 
 void display_putc(char c)
@@ -115,19 +113,18 @@ void display_goto(uint8_t x, uint8_t y)
 // ----------------------------------------------------------------------
 // Main function
 // ----------------------------------------------------------------------
-int
-main(void)
+int main(void)
 {
 	init_board();
-	aery_gpio_init_pin(LED, GPIO_OUTPUT);
-	aery_gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
+	gpio_init_pin(LED, GPIO_OUTPUT);
+	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 
-	aery_spi_init_master(DISPLAY_SPI);
-	aery_spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
-	aery_spi_enable(DISPLAY_SPI);
+	spi_init_master(DISPLAY_SPI);
+	spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
+	spi_enable(DISPLAY_SPI);
 
-	// Display initialization sequence
-	aery_delay_ms(2);
+	/* Display initialization sequence */
+	delay_ms(2);
 	display_instruct(HD44780_DL8BIT|HD44780_FONTBL_WE1);
 	display_instruct(HD44780_DISPLAY_OFF);
 	display_instruct(HD44780_CLEAR_DISPLAY);
@@ -135,10 +132,10 @@ main(void)
 	display_instruct(HD44780_EMODE_INCREMENT);
 	display_instruct(HD44780_DISPLAY_ON|HD44780_CURSOR_ONBLINK);
 
-	// Init OK
-	aery_gpio_set_pin_high(LED);
+	/* Init OK */
+	gpio_set_pin_high(LED);
 
-	// Greet Aery32 community
+	/* Greet Aery32 community */
 	display_puts("Hello Aery32 devs!");
 
 	for(;;) {

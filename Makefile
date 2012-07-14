@@ -1,6 +1,6 @@
 #
 #  _____             ___ ___   |
-# |  _  |___ ___ _ _|_  |_  |  |  Teh framework for 32-bit AVRs
+# |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
 # |     | -_|  _| | |_  |  _|  |  
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
@@ -36,13 +36,12 @@
 
 # Project name and version
 PROJECT=myaery32
-VERSION=0.1
 
 # MCU part name
 MPART=uc3a1128
 
 # Project's .c source files, grab all under the project root
-SOURCES=$(wildcard *.c)
+SOURCES=$(wildcard *.cpp)
 
 # Additional include paths
 INCLUDES=aery32
@@ -55,14 +54,13 @@ OBJDIR=obj
 # Standard user variables
 # ----------------------------------------------------------------------
 
-CC=avr32-gcc
-CSTANDARD=gnu99
+CXX=avr32-g++
+CPPSTANDARD=gnu++98
 OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
+OPTIMIZATION+=-fno-exceptions -fno-rtti
 
-CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(OPTIMIZATION) -Wall
-CFLAGS+=-DAERY_SHORTCUTS # Enables global shortcuts, e.g. porta, portb etc.
-#CFLAGS+=-DUSER_BOARD # Provides Atmel ASF compatibility
-CFLAGS+=$(addprefix -I,$(INCLUDES))
+CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
+CPPFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
 LDFLAGS+=-Wl,--gc-sections # Discards unused sections
@@ -84,8 +82,7 @@ LDFLAGS+=-Wl,--gc-sections # Discards unused sections
 OS=$(shell uname)
 
 # Resolve object files from source files
-OBJECTS=$(SOURCES:.c=.o)
-OBJECTS:=$(OBJECTS:.S=.o)
+OBJECTS=$(SOURCES:.cpp=.o)
 
 # Append object files with $(OBJDIR)
 OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
@@ -99,20 +96,17 @@ all: $(PROJECT).hex $(PROJECT).lst
 	@echo Program size:
 	@make -s size
 
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+
+$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
+	$(CXX) $(LDFLAGS) $^   -o $@
+
 $(PROJECT).hex: $(PROJECT).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
-$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CC) $(LDFLAGS) $^   -o $@
-
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
-
-$(OBJDIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
-
-$(OBJDIR)/%.o: %.S
-	$(CC) $(CFLAGS) $(CFLAG_OPTS) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(PROJECT).lst: $(PROJECT).elf
 	avr32-objdump -h -S $< > $@
@@ -207,7 +201,7 @@ dfu-dump-user:
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size debug qa dist clean cleanll re reall
+.PHONY: list size debug qa clean cleanall re reall
 
 list: $(PROJECT).lst
 
@@ -216,7 +210,7 @@ size: $(PROJECT).elf $(PROJECT).hex
 
 clean:
 	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) userpage.hex fusebits.hex
-	-rm -rf $(OBJDIRS)
+	-rm -rf $(OBJDIR)
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
@@ -229,8 +223,4 @@ debug: reall
 debug: OPTIMIZATION=-O0 -g -DDEBUG
 
 qa: re
-qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
-
-dist: clean
-	bsdtar -C ../ -czvf $(PROJECT)_v$(version).tar.gz \
-	$(shell basename $(shell pwd))
+qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
