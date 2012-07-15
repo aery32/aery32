@@ -26,11 +26,13 @@ To start Aery32 project [download the framework from GitHub](https://github.com/
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
     
-Start by editing `main.cpp`. The default board initialization sequence, that starts the external oscillators and sets the master (or main) clock to 66 MHz, can be found from `board.c`. Other settings and board/platform related functions are defined inside the `board.h` header file. To compile the project just call
+Start by editing `main.cpp`. The default board initialization sequence, that starts the external oscillators and sets the master (or main) clock to 66 MHz, can be found from `board.cpp`. Other settings and board/platform related functions are defined inside the `board.h` header file. It is intended that you work under the root directory most of the time as that is the place where you keep adding your .cpp source files and .h header files.
+
+To compile the project just call
 
     make
 
-When you want to recompile the project call
+All .cpp files under the project root will be compiled and linked with Aery32 Software Framework library. When you want to recompile the project call
 
     make re
 

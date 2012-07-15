@@ -40,7 +40,7 @@ PROJECT=myaery32
 # MCU part name
 MPART=uc3a1128
 
-# Project's .c source files, grab all under the project root
+# Project's .cpp source files, grab all under the project root
 SOURCES=$(wildcard *.cpp)
 
 # Additional include paths
