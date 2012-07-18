@@ -36,6 +36,7 @@
 
 #include "aery32/adc.h"
 #include "aery32/delay.h"
+#include "aery32/flashc.h"
 #include "aery32/gpio.h"
 #include "aery32/intc.h"
 #include "aery32/pm.h"

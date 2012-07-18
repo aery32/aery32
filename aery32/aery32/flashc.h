@@ -29,7 +29,10 @@ extern "C" {
 	#include <avr32/io.h>
 }
 
-#define FLASHC_WS0_MAX_CLKSPEED AVR32_FLASHC_FWS_0_MAX_FREQ
+#define FLASH_WS0_MAX_CLKSPEED (AVR32_FLASHC_FWS_0_MAX_FREQ)
+#define FLASH_SIZE_IN_KILOBYTES (AVR32_FLASHC_FLASH_SIZE / 1024)
+#define FLASH_PAGE_SIZE_IN_BYTES (AVR32_FLASHC_PAGE_SIZE)
+#define FLASH_PAGENUM_MAX ((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
 
 namespace aery {
 
@@ -65,6 +68,13 @@ enum Flash_cmd {
 	FLASH_CMD_QPRUP
 };
 
+enum Flashc_status {
+	READY,
+	BUSY,
+	ELOCK,
+	EPROG
+};
+
 /**
  * Initializes flash controller
  * \param ws    Flash wait state number
@@ -80,12 +90,16 @@ void flashc_init(enum Flash_ws ws, bool ensas);
  */
 void flashc_instruct(uint16_t pagenum, enum Flash_cmd command);
 
+enum Flashc_status flashc_status(void);
+
+int flashc_save_page(uint16_t pagenum, const void *buf);
+
+void *flashc_read_page(uint16_t pagenum, void *buf);
+
 bool flashc_page_isempty(uint16_t pagenum);
 
-static volatile bool flashc_isbusy(void)
-{
-	return AVR32_FLASHC.FSR.frdy == 0;
-}
+bool flashc_page_haslock(uint16_t pagenum);
+
 
 } /* end of namespace */
 
