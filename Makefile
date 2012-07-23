@@ -34,10 +34,10 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# Project name and version
-PROJECT=myaery32
+# Project name
+TARGET=aery32
 
-# MCU part name
+# MPU (Microprocessor Unit) type
 MPART=uc3a1128
 
 # Project's .cpp source files, grab all under the project root
@@ -64,6 +64,7 @@ CPPFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
 LDFLAGS+=-Wl,--gc-sections # Discards unused sections
+LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref 
 #LDFLAGS+=--rodata-writable --direct-data
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
@@ -92,23 +93,23 @@ OBJDIRS=$(sort $(dir $(OBJECTS)))
 OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter the root dir out, that's "./"
 
 .PHONY: all
-all: $(PROJECT).hex $(PROJECT).lst
+all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
 	@make -s size
 
 $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
-$(PROJECT).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
+$(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CXX) $(LDFLAGS) $^   -o $@
 
-$(PROJECT).hex: $(PROJECT).elf
+$(TARGET).hex: $(TARGET).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
 	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
 
-$(PROJECT).lst: $(PROJECT).elf
+$(TARGET).lst: $(TARGET).elf
 	avr32-objdump -h -S $< > $@
 
 # Create directories where to place object files
@@ -151,14 +152,14 @@ dump-fuses: $(PROGRAMMER)-dump-fuses
 
 BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
-batchisp-program: $(PROJECT).hex
+batchisp-program: $(TARGET).hex
 	$(BATCHISP) -operation erase f memory flash blankcheck \
 	loadbuffer $< program verify
 
 batchisp-start:
 	$(BATCHISP) -operation start reset 0
 
-batchisp-programs: $(PROJECT).hex
+batchisp-programs: $(TARGET).hex
 	$(BATCHISP) -operation erase f memory flash blankcheck \
 	loadbuffer $< program verify start reset 0
 
@@ -185,7 +186,7 @@ batchisp-dump-fuses:
 # ----------------------------------------------------------------------
 .PHONY: dfu-program dfu-start dfu-program-start dfu-dump-user
 
-dfu-program: $(PROJECT).hex
+dfu-program: $(TARGET).hex
 	dfu-programmer at32$(MPART) erase
 	dfu-programmer at32$(MPART) flash $<
 
@@ -203,13 +204,13 @@ dfu-dump-user:
 # ----------------------------------------------------------------------
 .PHONY: list size debug qa clean cleanall re reall
 
-list: $(PROJECT).lst
+list: $(TARGET).lst
 
-size: $(PROJECT).elf $(PROJECT).hex
+size: $(TARGET).elf $(TARGET).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(PROJECT),.elf .hex .lst) userpage.hex fusebits.hex
+	-rm -f $(addprefix $(TARGET),.elf .hex .lst .map) userpage.hex fusebits.hex
 	-rm -rf $(OBJDIR)
 
 cleanall: clean
@@ -220,7 +221,7 @@ re: clean all
 reall: cleanall all
 
 debug: reall
-debug: OPTIMIZATION=-O0 -g -DDEBUG
+debug: OPTIMIZATION=-O0 -g3 -DDEBUG
 
 qa: re
 qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline

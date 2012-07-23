@@ -1,0 +1,36 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd": ["make"],
+			"name": "Aery32",
+			"variants": [
+				{ "cmd": ["make", "programs"], "name": "Run" },
+				{ "cmd": ["make", "clean"], "name": "Clean" },
+				{ "cmd": ["make", "re"], "name": "Rebuild" },
+				{ "cmd": ["make", "reall"], "name": "Rebuild all" }
+			]
+		}
+	],
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.elf",
+				"*.hex",
+				"*.d"
+			],
+			"folder_exclude_patterns":
+			[
+				"obj"
+			],
+			"name": "Project root",
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"tab_size": 8
+	}
+}
