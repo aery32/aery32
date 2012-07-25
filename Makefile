@@ -72,7 +72,7 @@ LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref
 #LDFLAGS+=-mrelax
 
 # Add Math library
-#LDFLAGS+=-lm
+LDFLAGS+=-lm
 
 
 # ----------------------------------------------------------------------
