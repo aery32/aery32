@@ -13,7 +13,7 @@ int main(void)
 {
 	init_board();
 	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
-	rtc_init(0, 60*115000/2, 0, RTC_SOURCE_RC);
+	rtc_init(RTC_SOURCE_RC, 0, 0, 60*115000/2);
 
 	intc_init();
 	intc_register_isrhandler(&isrhandler_rtc, 1, 0);

@@ -45,15 +45,15 @@ enum Rtc_source {
 
 /**
  * Initializes RTC
- * \param val Value where to start counting
- * \param top Top value where to count
+ * \param source    The source for RTC clock
  * \param prescaler The RTC clock is divided by the 2^(1+prescaler). Prescaler
  *                  can be 0-15.
- * \param source The source for RTC clock
+ * \param start     Value where to start counting
+ * \param top       Top value where to count
  * \return Returns 0 on success and -1 on error
  */
-int rtc_init(uint32_t val, uint32_t top, uint8_t prescaler,
-		enum Rtc_source source);
+int rtc_init(enum Rtc_source source, uint8_t prescaler, uint32_t start,
+		uint32_t top);
 
 /**
  * Set RTC control register
