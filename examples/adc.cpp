@@ -30,7 +30,7 @@ int main(void)
 
 	for(;;) {
 		adc_start_cnv();
-		while (!adc_cnv_isrdy(1 << 3));
+		while (adc_isbusy(1 << 3));
 		result = adc_read_cnv(3);
 		volt = cnv2volt(result);
 	}

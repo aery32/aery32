@@ -79,10 +79,11 @@ void adc_start_cnv(void);
 
 /**
  * Tells if the conversion for the given channel is ready
- * \param chamask Channel mask, e.g. (1<<2)|(1<<3) checks channels 2 and 3
- * \return 1 if ready, 0 if not, and -1 if the chan(s) wasn't even enabled
+ * \param chamask Channel mask, e.g. ((1<<2)|(1<<3)) checks channels 2 and 3.
+ *                Zero doesn't care the channel.
+ * \return 1 if busy, 0 if not, and -1 if the chan(s) wasn't even enabled
  */
-int adc_cnv_isrdy(uint8_t chamask);
+int adc_isbusy(uint8_t chamask = 0);
 
 /**
  * Reads the conversion result for the given channel
@@ -93,13 +94,6 @@ int adc_cnv_isrdy(uint8_t chamask);
  * by using adc_cnv_isrdy().
  */
 uint16_t adc_read_cnv(uint8_t chanum);
-
-/**
- * Tells if the next conversion is ready, whatever was the channel
- * \return 1 if ready, 0 if not, and -1 if none of the chans weren't even
- *         enabled
- */
-int adc_nextcnv_isrdy(void);
 
 /**
  * Reads the last conversion result, whatever was the channel
