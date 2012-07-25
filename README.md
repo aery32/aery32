@@ -62,6 +62,14 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
+### Changelog for the next release
+
+- Link with libm by default (a good practice)
+- Add project file for Sublime Text 2
+  - On ST2, select `Project/Open Project...` to open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
+- Remove ADC isready() functions. Closes gh-6.
+- Reorganize rtc_init() parameters. Closes gh-7.
+
 ### v0.2
 
 - Switch to `avr32-g++` and hence to C++

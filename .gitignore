@@ -4,5 +4,6 @@
 *.map
 *.swp
 *~
+*.sublime-workspace
 
 obj
