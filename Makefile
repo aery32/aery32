@@ -63,16 +63,13 @@ CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
 CPPFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
-LDFLAGS+=-Wl,--gc-sections # Discards unused sections
-LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref 
+LDFLAGS+=-Wl,--gc-sections
+LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref
 #LDFLAGS+=--rodata-writable --direct-data
 
 # Linker relaxing - if gcc is used as a frontend for the linker, this option
 # is automaticly passed to the linker when using -O2 or -O3 (AVR32006 p. 4)
 #LDFLAGS+=-mrelax
-
-# Add Math library
-LDFLAGS+=-lm
 
 
 # ----------------------------------------------------------------------
@@ -101,7 +98,7 @@ $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CXX) $(LDFLAGS) $^   -o $@
+	$(CXX) $(LDFLAGS) $^ -lm   -o $@
 
 $(TARGET).hex: $(TARGET).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
