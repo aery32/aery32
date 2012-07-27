@@ -64,11 +64,15 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ## Release notes
 ### Changelog for the next release
 
-- Link with libm by default (a good practice)
+- Link with libm (math lib) by default. This is considered as a good practice in AVRFreak forum.
 - Add project file for Sublime Text 2
   - On ST2, select `Project/Open Project...` to open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
-- Remove ADC isready() functions. Closes gh-6.
-- Reorganize rtc_init() parameters. Closes gh-7.
+- Remove ADC `isready()` functions. Closes gh-6.
+- Reorganize `rtc_init()` parameters. Closes gh-7.
+
+### v0.2.1
+
+- Hotfix. Flash wait state set to 1 by default, because by default Aery32 Framework sets CPU clockspeed to 66 MHz.
 
 ### v0.2
 
