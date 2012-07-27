@@ -26,6 +26,9 @@ void init_board(void)
 	pm_enable_pll(pll1, true);
 	pm_wait_pll_to_lock(pll1);
 
+	/* For CPU clock speed over 33 MHz, flash wait state has to be set 1 */
+	AVR32_FLASHC.FCR.fws = 1;
+
 	/* Set main clock source to PLL0 (66 MHz) */
 	pm_select_mck(MCK_SOURCE_PLL0);
 
