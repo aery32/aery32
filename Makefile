@@ -35,7 +35,7 @@
 #
 
 # Project name
-TARGET=lufaery32
+TARGET=aery32
 
 # MPU (Microprocessor Unit) type
 MPART=uc3a1128
@@ -44,7 +44,7 @@ MPART=uc3a1128
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
 
 # Additional include paths
-INCLUDES=aery32 .
+INCLUDES=aery32
 
 # Where to put .o object files
 OBJDIR=obj
