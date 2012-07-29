@@ -21,8 +21,8 @@
 volatile avr32_rtc_t *aery::rtc = &AVR32_RTC;
 const uint32_t RTC_CTRL_INIT_DEFAULT = 0b00000000000000010000000000000001;
 
-int aery::rtc_init(uint32_t val, uint32_t topval, uint8_t psel,
-		enum Rtc_source src)
+int aery::rtc_init(enum Rtc_source src, uint8_t psel, uint32_t start,
+		uint32_t top)
 {
 	using namespace aery;
 	uint32_t ctrl =	RTC_CTRL_INIT_DEFAULT |
@@ -31,10 +31,10 @@ int aery::rtc_init(uint32_t val, uint32_t topval, uint8_t psel,
 	if (src == RTC_SOURCE_OSC32)
 		ctrl |= 1 << AVR32_RTC_CTRL_CLK32_OFFSET;
 
-	if (rtc_set_value(val) == -1)
+	if (rtc_set_value(start) == -1)
 		return -1;
 
-	if (rtc_set_top(topval) == -1)
+	if (rtc_set_top(top) == -1)
 		return -1;
 
 	return rtc_set_control(ctrl);

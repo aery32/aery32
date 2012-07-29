@@ -116,6 +116,8 @@ void display_goto(uint8_t x, uint8_t y)
 // ----------------------------------------------------------------------
 int main(void)
 {
+	int errno;
+	uint16_t page = 128;
 	char buf[512] = {'\0'};
 
 	init_board();
@@ -125,8 +127,6 @@ int main(void)
 	spi_init_master(DISPLAY_SPI);
 	spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
 	spi_enable(DISPLAY_SPI);
-
-	//flashc_init(FLASH_1WS, true); /* F_CPU = 66 MHz, thus 1 wait state */
 
 	/* Display initialization sequence */
 	delay_ms(2);
@@ -140,28 +140,27 @@ int main(void)
 	/* Init OK */
 	gpio_set_pin_high(LED);
 
-	// uint16_t page = 30;
-	// if (flashc_page_isempty(page)) {
-	// 	display_puts("Empty. Write 'bar'");
-	// 	strcpy(buf, "bar");
+	/* If page is empty, write "bar". Else print page content */
+	if (flashc_page_isempty(page)) {
+		display_puts("Empty. Write 'bar'");
+		strcpy(buf, "bar");
+		errno = flashc_save_page(page, buf);
 
-	// 	if (flashc_save_page(page, buf) < 0) {
-	// 		display_goto(0,1);
-
-	// 		switch (aery::errno) {
-	// 		case EFLASH_LOCK:
-	// 			display_puts("ERROR: Page locked");
-	// 			break;
-	// 		case EFLASH_PROG;
-	// 			display_puts("ERROR: Write error");
-	// 			break;
-	// 		}
-	// 	}
-	// } else {
-	// 	display_puts("Page holds: ");
-	// 	flashc_read_page(page, buf);
-	// 	display_puts(buf);
-	// }
+		switch (errno) {
+		case EFLASH_PAGE_LOCKED:
+			display_goto(0,1);
+			display_puts("ERROR: Page locked");
+			break;
+		case EFLASH_PROG_ERR:
+			display_goto(0,1);
+			display_puts("ERROR: Write error");
+			break;
+		}
+	} else {
+		display_puts("Page holds: ");
+		flashc_read_page(page, buf);
+		display_puts(buf);
+	}
 
 	for(;;) {
 		/* Put your application code here */

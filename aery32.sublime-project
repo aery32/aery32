@@ -1,0 +1,95 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"make"
+			],
+			"name": "Aery32",
+			"variants":
+			[
+				{
+					"cmd":
+					[
+						"make",
+						"programs"
+					],
+					"name": "Run"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"clean"
+					],
+					"name": "Clean"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"cleanall"
+					],
+					"name": "Clean all"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"re"
+					],
+					"name": "Rebuild"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"reall"
+					],
+					"name": "Rebuild all"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"debug"
+					],
+					"name": "Debug"
+				},
+				{
+					"cmd":
+					[
+						"make",
+						"qa"
+					],
+					"name": "Quality assurance"
+				}
+			]
+		}
+	],
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"*.elf",
+				"*.hex",
+				"*.d"
+			],
+			"folder_exclude_patterns":
+			[
+				"obj"
+			],
+			"name": "Project root",
+			"path": "/C/Users/Kim/Documents/Workspace/aery32"
+		},
+		{
+			"path": "/C/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/avr32/include/avr32"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 8
+	}
+}

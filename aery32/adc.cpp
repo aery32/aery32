@@ -73,18 +73,15 @@ void aery::adc_start_cnv(void)
 	AVR32_ADC.CR.start = true;
 }
 
-int aery::adc_cnv_isrdy(uint8_t chamask)
+int aery::adc_isbusy(uint8_t chamask)
 {
-	if ((AVR32_ADC.chsr & chamask) != chamask)
+	if (chamask == 0 && AVR32_ADC.chsr == 0)
 		return -1;
+	else if ((AVR32_ADC.chsr & chamask) != chamask)
+		return -1;
+	if (chamask == 0)
+		return AVR32_ADC.SR.drdy == 0;
 	return (AVR32_ADC.sr & chamask) == chamask;
-}
-
-int aery::adc_nextcnv_isrdy(void)
-{
-	if (AVR32_ADC.chsr == 0)
-		return -1;
-	return AVR32_ADC.SR.drdy;
 }
 
 uint16_t aery::adc_read_cnv(uint8_t chanum)

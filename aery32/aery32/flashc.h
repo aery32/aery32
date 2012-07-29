@@ -29,17 +29,30 @@ extern "C" {
 	#include <avr32/io.h>
 }
 
-#define FLASH_WS0_MAX_CLKSPEED (AVR32_FLASHC_FWS_0_MAX_FREQ)
-#define FLASH_SIZE_IN_KILOBYTES (AVR32_FLASHC_FLASH_SIZE / 1024)
+#define FLASH_WS0_MAX_CLKSPEED   (AVR32_FLASHC_FWS_0_MAX_FREQ)
+#define FLASH_SIZE_IN_KILOBYTES  (AVR32_FLASHC_FLASH_SIZE / 1024)
 #define FLASH_PAGE_SIZE_IN_BYTES (AVR32_FLASHC_PAGE_SIZE)
-#define FLASH_PAGENUM_MAX ((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
+#define FLASH_PAGENUM_MAX \
+	((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
+
+/* Flash error codes */
+#define EFLASH_PAGE_LOCKED -1
+#define EFLASH_PROG_ERR    -2
 
 namespace aery {
 
+/**
+ * Pointer to the internal Flash Controller module register
+ */
 extern volatile avr32_flashc_t *flashc;
 
 /**
- * Flash wait state
+ * Last status read
+ */
+extern volatile uint32_t _flashc_lsr;
+
+/**
+ *  wait state
  */
 enum Flash_ws {
 	FLASH_0WS,
@@ -68,13 +81,6 @@ enum Flash_cmd {
 	FLASH_CMD_QPRUP
 };
 
-enum Flashc_status {
-	READY,
-	BUSY,
-	ELOCK,
-	EPROG
-};
-
 /**
  * Initializes flash controller
  * \param ws    Flash wait state number
@@ -83,14 +89,12 @@ enum Flashc_status {
 void flashc_init(enum Flash_ws ws, bool ensas);
 
 /**
- * Instructs the flash page number with the given command
+ * Instructs Flash controller to apply the given command to the page number
  * \param pagenum Flash page number
  * \param command Flash command
  * \return
  */
 void flashc_instruct(uint16_t pagenum, enum Flash_cmd command);
-
-enum Flashc_status flashc_status(void);
 
 int flashc_save_page(uint16_t pagenum, const void *buf);
 
@@ -100,6 +104,7 @@ bool flashc_page_isempty(uint16_t pagenum);
 
 bool flashc_page_haslock(uint16_t pagenum);
 
+bool flashc_isbusy(void);
 
 } /* end of namespace */
 

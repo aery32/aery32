@@ -17,33 +17,19 @@
  */
 
 /*!
-\file aery32/all.h
-\brief Includes all the headers files at once
-\namespace aery Aery
-
-\example main.cpp
-\example adc.cpp
-\example rtc_interrupt.cpp
-\example spi.cpp
-\example toggle_led.cpp
-
-\example displays/hd44780.cpp
+\file aery32/extio.h
+\brief Extended input and output functions for embedded coding
 */
 
+#ifndef __AERY32_EXTIO_H
+#define __AERY32_EXTIO_H
 
-#ifndef __AERY32_ALL_H
-#define __AERY32_ALL_H
+#include <cstdio>
 
-#include "aery32/adc.h"
-#include "aery32/delay.h"
-#include "aery32/flashc.h"
-#include "aery32/gpio.h"
-#include "aery32/intc.h"
-#include "aery32/pm.h"
-#include "aery32/rtc.h"
-#include "aery32/spi.h"
+namespace aery {
 
-#include "aery32/extio.h"
-#include "aery32/n2str.h"
+int puts2(const char *str, int (*_putchar)(int));
+
+} /* end of namespace aery */
 
 #endif

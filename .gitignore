@@ -1,7 +1,10 @@
+*.o
+*.d
 *.elf
 *.hex
 *.lst
+*.map
+
 *.swp
 *~
-
-obj
+*.sublime-workspace
