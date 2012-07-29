@@ -35,16 +35,16 @@
 #
 
 # Project name
-TARGET=aery32
+TARGET=lufaery32
 
 # MPU (Microprocessor Unit) type
 MPART=uc3a1128
 
-# Project's .cpp source files, grab all under the project root
-SOURCES=$(wildcard *.cpp)
+# Project's source files. Grab all under the project root.
+SOURCES=$(wildcard *.cpp) $(wildcard *.c)
 
 # Additional include paths
-INCLUDES=aery32
+INCLUDES=aery32 .
 
 # Where to put .o object files
 OBJDIR=obj
@@ -54,13 +54,20 @@ OBJDIR=obj
 # Standard user variables
 # ----------------------------------------------------------------------
 
+CC=avr32-gcc
 CXX=avr32-g++
-CPPSTANDARD=gnu++98
-OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
-OPTIMIZATION+=-fno-exceptions -fno-rtti
 
-CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
-CPPFLAGS+=$(addprefix -I,$(INCLUDES))
+CSTANDARD=gnu99
+CXXSTANDARD=gnu++98
+
+COPT=-O2 -fdata-sections -ffunction-sections
+CXXOPT=$(COPT) -fno-exceptions -fno-rtti
+
+CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(COPT) -Wall
+CFLAGS+=$(addprefix -I,$(INCLUDES))
+
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
+CXXFLAGS+=$(addprefix -I,$(INCLUDES))
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
 LDFLAGS+=-Wl,--gc-sections
@@ -81,6 +88,7 @@ OS=$(shell uname)
 
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.cpp=.o)
+OBJECTS:=$(OBJECTS:.c=.o)
 
 # Append object files with $(OBJDIR)
 OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
@@ -94,9 +102,6 @@ all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
 	@make -s size
 
-$(OBJDIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
-
 $(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CXX) $(LDFLAGS) $^ -lm   -o $@
 
@@ -104,7 +109,13 @@ $(TARGET).hex: $(TARGET).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(OPTIMIZATION)"
+	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(CXXOPT)"
+
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(TARGET).lst: $(TARGET).elf
 	avr32-objdump -h -S $< > $@
@@ -212,13 +223,14 @@ clean:
 
 cleanall: clean
 	-$(MAKE) -C aery32 clean
-
+	
 re: clean all
 
 reall: cleanall all
 
 debug: reall
-debug: OPTIMIZATION=-O0 -g3 -DDEBUG
+debug: COPT=-O0 -g3 -DDEBUG
 
 qa: re
-qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CXXFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
