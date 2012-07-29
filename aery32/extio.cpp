@@ -27,3 +27,11 @@ int puts2(const char *str, int (*_putchar)(int))
 		if (_putchar(*(str+i) == EOF)) return EOF;
 	return i;
 }
+
+int nputs2(const char *str, size_t n, int (*_putchar)(int))
+{
+	int i = 0;
+	for (; *(str+i) && n > 0; i++, n--)
+		if (_putchar(*(str+i) == EOF)) return EOF;
+	return i;
+}

@@ -30,6 +30,8 @@ namespace aery {
 
 int puts2(const char *str, int (*_putchar)(int));
 
+int nputs2(const char *str, size_t n, int (*_putchar)(int));
+
 } /* end of namespace aery */
 
 #endif
