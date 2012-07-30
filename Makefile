@@ -109,7 +109,7 @@ $(TARGET).hex: $(TARGET).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
-	$(MAKE) -C aery32 MPART="$(MPART)" OPTIMIZATION="$(CXXOPT)"
+	"$(MAKE)" -C aery32 MPART="$(MPART)" OPTIMIZATION="$(CXXOPT)"
 
 $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
@@ -222,14 +222,14 @@ clean:
 	-rm -rf $(OBJDIR)
 
 cleanall: clean
-	-$(MAKE) -C aery32 clean
+	-"$(MAKE)" -C aery32 clean
 	
 re: clean all
 
 reall: cleanall all
 
 debug: reall
-debug: COPT=-O0 -g3 -DDEBUG
+debug: COPT+=-g3 -DDEBUG
 
 qa: re
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
