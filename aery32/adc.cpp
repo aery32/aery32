@@ -76,15 +76,14 @@ void aery::adc_start_cnv(void)
 
 int aery::adc_isbusy(uint8_t chamask)
 {
-	aery::__adc_lsr = AVR32_ADC.sr;
+	using namespace aery;
 
-	if (chamask == 0 && AVR32_ADC.chsr == 0)
-		return -1;
-	if ((AVR32_ADC.chsr & chamask) != chamask)
+	__adc_lsr = AVR32_ADC.sr;
+	if (AVR32_ADC.chsr == 0 || (AVR32_ADC.chsr & chamask) != chamask)
 		return -1;
 	if (chamask == 0)
-		return AVR32_ADC.SR.drdy == 0;
-	return (aery::__adc_lsr & chamask) == chamask;
+		return (__adc_lsr & AVR32_ADC_SR_DRDY_MASK) == 0;
+	return (__adc_lsr & chamask) == chamask;
 }
 
 uint16_t aery::adc_read_cnv(uint8_t chanum)
