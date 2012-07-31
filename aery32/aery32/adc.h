@@ -39,7 +39,16 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to analog-to-digital converter internal module register
+ */
 extern volatile avr32_adc_t *adc;
+
+/**
+ * Last status read
+ */
+extern volatile uint32_t __adc_lsr;
+
 
 /**
  * ADC hardware trigger selection
@@ -115,6 +124,16 @@ void adc_enable(uint8_t chamask);
  * \param chamask Channel mask for which channels should be disabled
  */
 void adc_disable(uint8_t chamask);
+
+/**
+ * Tells if analog-to-digital conversion has overrun
+ * \param chamask Channel mask for which channels to check. Default mask value
+ *                is 0.
+ * \return Returns true if any of the channels defined in the chamask has been
+ *         overrun. If chamask has been left out, the function will return true
+ *         if a general overrun has occured.
+ */
+bool adc_has_overrun(uint8_t chamask = 0);
 
 } /* end of namespace */
 

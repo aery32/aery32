@@ -20,6 +20,7 @@
 #include "aery32/pm.h"
 
 volatile avr32_adc_t *aery::adc = &AVR32_ADC;
+volatile uint32_t aery::__adc_lsr = AVR32_ADC.sr;
 
 int aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 		uint8_t startup)
@@ -75,13 +76,15 @@ void aery::adc_start_cnv(void)
 
 int aery::adc_isbusy(uint8_t chamask)
 {
+	aery::__adc_lsr = AVR32_ADC.sr;
+
 	if (chamask == 0 && AVR32_ADC.chsr == 0)
 		return -1;
-	else if ((AVR32_ADC.chsr & chamask) != chamask)
+	if ((AVR32_ADC.chsr & chamask) != chamask)
 		return -1;
 	if (chamask == 0)
 		return AVR32_ADC.SR.drdy == 0;
-	return (AVR32_ADC.sr & chamask) == chamask;
+	return (aery::__adc_lsr & chamask) == chamask;
 }
 
 uint16_t aery::adc_read_cnv(uint8_t chanum)
@@ -92,4 +95,12 @@ uint16_t aery::adc_read_cnv(uint8_t chanum)
 uint16_t aery::adc_read_lastcnv(void)
 {
 	return AVR32_ADC.lcdr;
+}
+
+bool adc_has_overrun(uint8_t chamask)
+{
+	using namespace aery;
+	if (chamask == 0)
+		return (__adc_lsr & AVR32_ADC_GOVRE_MASK);
+	return (__adc_lsr & (chamask << AVR32_ADC_OVRE0_OFFSET));
 }
