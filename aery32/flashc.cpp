@@ -20,7 +20,7 @@
 #include "aery32/flashc.h"
 
 volatile avr32_flashc_t *aery::flashc = &AVR32_FLASHC;
-volatile uint32_t aery::_flashc_lsr = AVR32_FLASHC.fsr;
+volatile uint32_t aery::__flashc_lsr = AVR32_FLASHC.fsr;
 
 void aery::flashc_init(enum Flash_ws ws, bool ensas)
 {
@@ -69,7 +69,8 @@ void aery::flashc_instruct(uint16_t pagenum, enum Flash_cmd cmd)
 void *aery::flashc_read_page(uint16_t pagenum, void *buf)
 {
 	unsigned char *dest = (unsigned char*) buf;
-	const unsigned char *src = AVR32_FLASH + (pagenum * FLASH_PAGE_SIZE_IN_BYTES);
+	const unsigned char *src = AVR32_FLASH +
+			(pagenum * FLASH_PAGE_SIZE_IN_BYTES);
 
 	while (aery::flashc_isbusy());
 	return memcpy(dest, src, FLASH_PAGE_SIZE_IN_BYTES);
@@ -78,9 +79,9 @@ void *aery::flashc_read_page(uint16_t pagenum, void *buf)
 int aery::flashc_save_page(uint16_t pagenum, const void *buf)
 {
 	using namespace aery;
-
-	unsigned char *dest = AVR32_FLASH + (pagenum * FLASH_PAGE_SIZE_IN_BYTES);
 	const unsigned char *src = (unsigned char*) buf;
+	unsigned char *dest = AVR32_FLASH +
+			(pagenum * FLASH_PAGE_SIZE_IN_BYTES);
 
 	/* Erase page */
 	flashc_instruct(pagenum, FLASH_CMD_EP);
@@ -92,16 +93,16 @@ int aery::flashc_save_page(uint16_t pagenum, const void *buf)
 	for (int n = 0; n < 16; n++) {
 		src += (n * 4);
 		dest += (n * 4);
-		memcpy((uint32_t*) dest, (uint32_t*) src, 1);
+		memcpy((uint32_t*) dest, (uint32_t*) src, 4);
 	}
 
 	/* Write (or save) page with the new data */
 	flashc_instruct(pagenum, FLASH_CMD_WP);
 
 	while (flashc_isbusy());
-	if (_flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
+	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
 		return EFLASH_PAGE_LOCKED;
-	if (_flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
+	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
 		return EFLASH_PROG_ERR;
 	return 0;
 }
@@ -118,12 +119,12 @@ bool aery::flashc_page_haslock(uint16_t pagenum)
 	uint32_t mask = (pagenum / AVR32_FLASHC_PAGES_PR_REGION) + 1;
 	mask = mask << AVR32_FLASHC_FSR_LOCK0_OFFSET;
 
-	aery::_flashc_lsr = AVR32_FLASHC.fsr;
-	return (aery::_flashc_lsr & mask);
+	aery::__flashc_lsr = AVR32_FLASHC.fsr;
+	return (aery::__flashc_lsr & mask);
 }
 
 bool aery::flashc_isbusy(void)
 {
-	aery::_flashc_lsr = AVR32_FLASHC.fsr;
-	return (aery::_flashc_lsr & AVR32_FLASHC_FSR_FRDY_MASK) == 0;
+	aery::__flashc_lsr = AVR32_FLASHC.fsr;
+	return (aery::__flashc_lsr & AVR32_FLASHC_FSR_FRDY_MASK) == 0;
 }

@@ -36,8 +36,8 @@ extern "C" {
 	((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
 
 /* Flash error codes */
-#define EFLASH_PAGE_LOCKED -1
-#define EFLASH_PROG_ERR    -2
+#define EFLASH_PAGE_LOCKED -2
+#define EFLASH_PROG_ERR    -3
 
 namespace aery {
 
@@ -49,7 +49,7 @@ extern volatile avr32_flashc_t *flashc;
 /**
  * Last status read
  */
-extern volatile uint32_t _flashc_lsr;
+extern volatile uint32_t __flashc_lsr;
 
 /**
  *  wait state
