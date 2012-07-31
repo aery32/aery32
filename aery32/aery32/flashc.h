@@ -90,19 +90,33 @@ void flashc_init(enum Flash_ws ws, bool ensas);
 
 /**
  * Instructs Flash controller to apply the given command to the page number
- * \param pagenum Flash page number
- * \param command Flash command
+ * \param page Flash page number
+ * \param cmd  Flash command
  * \return
  */
-void flashc_instruct(uint16_t pagenum, enum Flash_cmd command);
+void flashc_instruct(uint16_t page, enum Flash_cmd cmd);
 
-int flashc_save_page(uint16_t pagenum, const void *buf);
+int flashc_save_page(uint16_t page, const void *buf);
 
-void *flashc_read_page(uint16_t pagenum, void *buf);
+void *flashc_read_page(uint16_t page, void *buf);
 
-bool flashc_page_isempty(uint16_t pagenum);
+/**
+ * Locks the page
+ * \param page Page number whose region should be locked
+ */
+void flashc_lock_page(uint16_t page);
 
-bool flashc_page_haslock(uint16_t pagenum);
+/**
+ * Unlocks the page
+ * \param page Page number whose region should be unlocked
+ */
+void flashc_unlock_page(uint16_t page);
+
+bool flashc_page_isempty(uint16_t page);
+
+bool flashc_page_haslock(uint16_t page);
+
+bool flashc_preg_haslock(uint16_t preg);
 
 bool flashc_isbusy(void);
 
