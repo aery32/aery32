@@ -93,7 +93,7 @@ int aery::flashc_save_page(uint16_t pagenum, const void *buf)
 	for (int n = 0; n < 16; n++) {
 		src += (n * 4);
 		dest += (n * 4);
-		memcpy((uint32_t*) dest, (uint32_t*) src, 4);
+		memcpy((uint32_t*) dest, (uint32_t*) src, 1);
 	}
 
 	/* Write (or save) page with the new data */
