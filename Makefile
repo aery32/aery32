@@ -156,7 +156,7 @@ dump-fuses: $(PROGRAMMER)-dump-fuses
 # Chip programming targets for batchisp/batchisp (Windows)
 # ----------------------------------------------------------------------
 .PHONY: batchisp-program batchisp-start batchisp-programs \
-		batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
+	batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
 
 BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
