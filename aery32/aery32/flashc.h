@@ -34,7 +34,7 @@ extern "C" {
 #define FLASH_WS0_MAX_CLKSPEED   (AVR32_FLASHC_FWS_0_MAX_FREQ)
 #define FLASH_SIZE_IN_KILOBYTES  (AVR32_FLASHC_FLASH_SIZE / 1024)
 #define FLASH_PAGE_SIZE_IN_BYTES (AVR32_FLASHC_PAGE_SIZE)
-#define FLASH_PAGENUM_MAX \
+#define FLASH_LAST_PAGE \
 	((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
 
 /* Flash error codes */
@@ -54,7 +54,7 @@ extern volatile avr32_flashc_t *flashc;
 extern volatile uint32_t __flashc_lsr;
 
 /**
- *  wait state
+ *  Flash wait state
  */
 enum Flash_ws {
 	FLASH_0WS,
