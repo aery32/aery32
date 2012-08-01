@@ -6,6 +6,7 @@ using namespace aery;
 int main(void)
 {
 	int errno;
+	uint16_t page = 255;
 	char buf[512] = {'\0'};
 
 	init_board();
