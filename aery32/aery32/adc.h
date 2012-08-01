@@ -49,7 +49,6 @@ extern volatile avr32_adc_t *adc;
  */
 extern volatile uint32_t __adc_lsr;
 
-
 /**
  * ADC hardware trigger selection
  */
@@ -76,8 +75,8 @@ enum Adc_trigger {
 int adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup);
 
 /**
- * Setups the ADC hardware trigger
- * \param trigger ADC hardware trigger selection
+ * Setups hardware trigger for Analog-to-digital converter
+ * \param trigger Hardware trigger selection.
  */
 void adc_setup_trigger(enum Adc_trigger trigger);
 
@@ -87,53 +86,61 @@ void adc_setup_trigger(enum Adc_trigger trigger);
 void adc_start_cnv(void);
 
 /**
- * Tells if the conversion for the given channel is ready
- * \param chamask Channel mask, e.g. ((1<<2)|(1<<3)) checks channels 2 and 3.
- *                Zero doesn't care the channel.
- * \return 1 if busy, 0 if not, and -1 if the chan(s) wasn't even enabled
- */
-int adc_isbusy(uint8_t chamask = 0);
-
-/**
  * Reads the conversion result for the given channel
- * \param chanum ADC channel number
- * \return the conversion result in binary form
+ * \param chanum Channel number, 0-7.
+ * \return Conversion result in binary form
  *
  * Before reading the conversion, check that the conversion is ready
- * by using adc_cnv_isrdy().
+ * by using adc_isbusy(1 << chanum).
  */
 uint16_t adc_read_cnv(uint8_t chanum);
 
 /**
- * Reads the last conversion result, whatever was the channel
+ * Reads the last conversion result. Whatever was the channel.
  * \return the conversion result in binary form
  *
- * Before reading the last conversion, check that the conversion is ready
- * by using adc_nextcnv_isrdy().
+ * Before reading the last conversion, check that the conversion is
+ * ready by using adc_isbusy() function.
  */
 uint16_t adc_read_lastcnv(void);
 
 /**
- * Enables Analog-to-digital converter channels
+ * Enables Analog-to-digital converter for the channel or channels
  * \param chamask Channel mask for which channels should be enabled
+ * \code
+ * adc_enable(0xff); // Enables all channels
+ * adc_enable(1<<2); // Enables channel two
+ * \endcode
  */
 void adc_enable(uint8_t chamask);
 
 /**
- * Disables Analog-to-digital converter channels
- * \param chamask Channel mask for which channels should be disabled
+ * Disables Analog-to-digital converter for the channel or channels
+ * \param chamask Channel mask for which channels should be disabled.
  */
 void adc_disable(uint8_t chamask);
 
 /**
- * Tells if analog-to-digital conversion has overrun
- * \param chamask Channel mask for which channels to check. Default mask value
- *                is 0.
- * \return Returns true if any of the channels defined in the chamask has been
- *         overrun. If chamask has been left out, the function will return true
- *         if a general overrun has occured.
+ * Tells if the conversion for the given channel is ready
+ * \param chamask Channel mask. Default mask value is 0.
+ * \return 1 if the conversion for the given channel is not ready, 0 if
+ *         if the convesion is ready to read, and -1 if the given channel
+ *         or channels wasn't even enabled. In case where the chamask has
+ *         been omitted or defined 0, the function will discard the channel
+ *         info and return 1 when the next conversion is ready to read.
  */
-bool adc_has_overrun(uint8_t chamask = 0);
+int adc_isbusy(uint8_t chamask = 0);
+
+/**
+ * Tells if the Analog-to-digital conversion has overrun
+ * \param chamask Channel mask for which channels to check. Default mask
+ *                value is 0.
+ * \return True if any of the channels defined in the chamask has been
+ *         overrun. If the chamask has been omitted, the function will
+ *         return true in case of general overrun, being essentially
+ *         same than calling adc_hasoverrun(0xff).
+ */
+bool adc_hasoverrun(uint8_t chamask = 0);
 
 } /* end of namespace */
 

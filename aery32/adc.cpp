@@ -96,7 +96,7 @@ int aery::adc_isbusy(uint8_t chamask)
 	return (__adc_lsr & chamask) == chamask;
 }
 
-bool adc_has_overrun(uint8_t chamask)
+bool adc_hasoverrun(uint8_t chamask)
 {
 	using namespace aery;
 	if (chamask == 0)

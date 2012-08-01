@@ -66,7 +66,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 - Build system enhanced to compile .c sources.
 - Link with the libm (math lib) by default. This has been considered to be a good practice in AVRFreak forum.
-- New ADC function. `adc_has_overrun()` tells if any conversion has been overrun.
+- New ADC function. `adc_hasoverrun()` tells if the conversion has been overrun.
 - Project file added for Sublime Text 2
   - On ST2, select `Project/Open Project...` to open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
 - Backward compatiblity breaks
