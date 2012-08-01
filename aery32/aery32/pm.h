@@ -48,8 +48,19 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to Power manager module register
+ */
 extern volatile avr32_pm_t *pm;
+
+/**
+ * Pointer to PLL register 0
+ */
 extern volatile avr32_pm_pll_t *pll0;
+
+/**
+ * Pointer to PLL register 1
+ */
 extern volatile avr32_pm_pll_t *pll1;
 
 /**

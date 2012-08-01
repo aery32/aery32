@@ -31,7 +31,14 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to the internal Serial peripheral interdace module register 0
+ */
 extern volatile avr32_spi_t *spi0;
+
+/**
+ * Pointer to the internal Serial peripheral interdace module register 1
+ */
 extern volatile avr32_spi_t *spi1;
 
 /**

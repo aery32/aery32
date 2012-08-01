@@ -40,12 +40,12 @@ extern "C" {
 namespace aery {
 
 /**
- * Pointer to analog-to-digital converter internal module register
+ * Pointer to the internal Analog-to-digital converter peripheral module register
  */
 extern volatile avr32_adc_t *adc;
 
 /**
- * Last status read
+ * Last read status for the internal Analog-to-digital converter peripheral module
  */
 extern volatile uint32_t __adc_lsr;
 
@@ -105,8 +105,9 @@ uint16_t adc_read_cnv(uint8_t chanum);
 uint16_t adc_read_lastcnv(void);
 
 /**
- * Enables Analog-to-digital converter for the channel or channels
+ * Enables Analog-to-digital converter for the given channel or channels
  * \param chamask Channel mask for which channels should be enabled
+ *
  * \code
  * adc_enable(0xff); // Enables all channels
  * adc_enable(1<<2); // Enables channel two
@@ -115,7 +116,7 @@ uint16_t adc_read_lastcnv(void);
 void adc_enable(uint8_t chamask);
 
 /**
- * Disables Analog-to-digital converter for the channel or channels
+ * Disables Analog-to-digital converter for the given channel or channels
  * \param chamask Channel mask for which channels should be disabled.
  */
 void adc_disable(uint8_t chamask);
@@ -137,8 +138,8 @@ int adc_isbusy(uint8_t chamask = 0);
  *                value is 0.
  * \return True if any of the channels defined in the chamask has been
  *         overrun. If the chamask has been omitted, the function will
- *         return true in case of general overrun, being essentially
- *         same than calling adc_hasoverrun(0xff).
+ *         return true in case of general overrun, being essentially the
+ *         same than the call of adc_hasoverrun(0xff).
  */
 bool adc_hasoverrun(uint8_t chamask = 0);
 

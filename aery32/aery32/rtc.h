@@ -31,6 +31,9 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to the internal Real-time counter peripheral module register
+ */
 extern volatile avr32_rtc_t *rtc;
 
 /**

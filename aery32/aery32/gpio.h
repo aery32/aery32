@@ -66,11 +66,34 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to GPIO register port A
+ */
 extern volatile avr32_gpio_port_t *porta;
+
+/**
+ * Pointer to GPIO register port B
+ */
 extern volatile avr32_gpio_port_t *portb;
+
+/**
+ * Pointer to GPIO register port C
+ */
 extern volatile avr32_gpio_port_t *portc;
+
+/**
+ * Pointer to local GPIO register port A
+ */
 extern volatile avr32_gpio_local_port_t *lporta;
+
+/**
+ * Pointer to local GPIO register port B
+ */
 extern volatile avr32_gpio_local_port_t *lportb;
+
+/**
+ * Pointer to local GPIO register port C
+ */
 extern volatile avr32_gpio_local_port_t *lportc;
 
 /**
