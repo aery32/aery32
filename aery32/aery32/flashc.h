@@ -19,6 +19,8 @@
 /*!
 \file aery32/flashc.h
 \brief Flash Controller (flashc)
+
+\note Flash page buffer has to be 512 bytes.
 */
 
 #ifndef __AERY32_FLASHC_H
@@ -83,21 +85,36 @@ enum Flash_cmd {
 
 /**
  * Initializes flash controller
- * \param ws    Flash wait state number
+ * \param ws    Flash wait state number.
  * \param ensas Permanently enable sense amplifiers. Consumes more power.
  */
 void flashc_init(enum Flash_ws ws, bool ensas);
 
 /**
- * Instructs Flash controller to apply the given command to the page number
- * \param page Flash page number
- * \param cmd  Flash command
+ * Instructs Flash controller to issue the given command
+ * \param page Flash page number.
+ * \param cmd  Flash command.
  * \return
  */
 void flashc_instruct(uint16_t page, enum Flash_cmd cmd);
 
+/**
+ * Writes (or saves) the data from the given buffer
+ * \param page Flash page number.
+ * \param buf  Pointer to the page buffer that will be written into the flash.
+ */
 int flashc_save_page(uint16_t page, const void *buf);
 
+/**
+ * Reads flash page into the given buffer
+ * \param page Flash page number.
+ * \param buf  Pointer to the page buffer where to read.
+ *
+ * \code
+ * char buf[512];
+ * flashc_read_page(255, buf);
+ * \endcode
+ */
 void *flashc_read_page(uint16_t page, void *buf);
 
 /**
@@ -112,12 +129,29 @@ void flashc_lock_page(uint16_t page);
  */
 void flashc_unlock_page(uint16_t page);
 
+/**
+ * Tells if the page is empty
+ * \param page Page number.
+ */
 bool flashc_page_isempty(uint16_t page);
 
+/**
+ * Tells if the page has been secured with the lock
+ * \param page Page number.
+ *
+ * You cannot write over the locked page.
+ */
 bool flashc_page_haslock(uint16_t page);
 
+/**
+ * Tells if the page region has locked
+ * \param preg Number of page region.
+ */
 bool flashc_preg_haslock(uint16_t preg);
 
+/**
+ * Tells if the Flash controller is busy
+ */
 bool flashc_isbusy(void);
 
 } /* end of namespace */

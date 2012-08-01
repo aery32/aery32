@@ -140,10 +140,10 @@ int main(void)
 	/* Init OK */
 	gpio_set_pin_high(LED);
 
-	/* If page is empty, write "bar". Else print page content */
+	/* If page is empty, write "foo". Else print page content */
 	if (flashc_page_isempty(page)) {
-		display_puts("Empty. Write 'bar'");
-		strcpy(buf, "bar");
+		display_puts("Empty. Write 'foo'");
+		strcpy(buf, "foo");
 		errno = flashc_save_page(page, buf);
 
 		switch (errno) {

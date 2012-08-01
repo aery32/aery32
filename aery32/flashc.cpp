@@ -92,10 +92,12 @@ int aery::flashc_save_page(uint16_t page, const void *src)
 	unsigned char *dest = AVR32_FLASH +
 			(page * FLASH_PAGE_SIZE_IN_BYTES);
 
-	flashc_instruct(page, FLASH_CMD_EP); /* Erase page */
-	flashc_instruct(page, FLASH_CMD_CPB); /* Clear page buffer */
-	memcpy32(dest, src, 128); /* Fill page buffer */
-	flashc_instruct(page, FLASH_CMD_WP); /* Write page */
+	flashc_instruct(page, FLASH_CMD_EP);   /* Erase page */
+	flashc_instruct(page, FLASH_CMD_CPB);  /* Clear page buffer */
+	while (flashc_isbusy());               /* Wait clear to complete */
+
+	memcpy32(dest, src, 128);              /* Fill page buffer */
+	flashc_instruct(page, FLASH_CMD_WP);   /* Write page */
 
 	while (flashc_isbusy());
 	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
