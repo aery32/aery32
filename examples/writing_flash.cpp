@@ -7,7 +7,7 @@ using namespace aery;
 int main(void)
 {
 	int errno;
-	uint16_t page = FLAST_LAST_PAGE;
+	uint16_t page = FLASH_LAST_PAGE;
 	char buf[512] = {'\0'};
 
 	init_board();
