@@ -20,7 +20,7 @@
 
 #include "aery32/extio.h"
 
-int puts2(const char *str, int (*_putchar)(int))
+int aery::puts2(const char *str, int (*_putchar)(int))
 {
 	int i = 0;
 	for (; *(str+i); i++)

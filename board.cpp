@@ -1,6 +1,7 @@
 #include "board.h"
 #include <aery32/pm.h>
 #include <aery32/gpio.h>
+#include <aery32/flashc.h>
 
 using namespace aery;
 
@@ -13,24 +14,16 @@ void init_board(void)
 	pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
 	pm_wait_osc_to_stabilize(0);
 
-	/* Initialize f_vco0 to 132 MHz. Then divide this by two to get 66 MHz. */
-	pm_init_pllvco(pll0, PLL_SOURCE_OSC0, 11, 1, false);
-	pm_enable_pll(pll0, true);
+	pm_init_pllvco(pll0, PLL_SOURCE_OSC0, 11, 1, false); // VCO0 = 132 MHz
+	pm_enable_pll(pll0, true); // PLL0 = 66 MHz
 	pm_wait_pll_to_lock(pll0);
 
-	/*
-	 * Also initialize and enable PLL1; 96 MHz is a good choice as it can be
-	 * used for USB when divided by two when initialized as a general clock.
-	 */
-	pm_init_pllvco(pll1, PLL_SOURCE_OSC0, 16, 1, true);
-	pm_enable_pll(pll1, true);
+	pm_init_pllvco(pll1, PLL_SOURCE_OSC0, 16, 1, true); // VCO1 = 192 MHz
+	pm_enable_pll(pll1, true); // PLL1 = 96 MHz
 	pm_wait_pll_to_lock(pll1);
 
-	/* For CPU clock speed over 33 MHz, flash wait state has to be set 1 */
-	AVR32_FLASHC.FCR.fws = 1;
-
-	/* Set main clock source to PLL0 (66 MHz) */
-	pm_select_mck(MCK_SOURCE_PLL0);
+	flashc_init(FLASH_1WS, true); // One wait state for flash
+	pm_select_mck(MCK_SOURCE_PLL0); // Main clock speed is now 66 MHz
 
 	/*
 	 * Peripheral clock masking. By default all modules are enabled.
@@ -42,6 +35,7 @@ void init_board(void)
 	while (!(pm->isr & AVR32_PM_ISR_MSKRDY_MASK));
 		/*
 		 * Clocks are now masked according to (CPU/HSB/PBA/PBB)_MASK
-		 * registers. */
+		 * registers.
+		 */
 
 }

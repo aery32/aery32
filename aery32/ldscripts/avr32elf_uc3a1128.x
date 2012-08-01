@@ -1,14 +1,10 @@
 /* Default linker script, for normal executables */
-OUTPUT_FORMAT("elf32-avr32", "elf32-avr32",
-	      "elf32-avr32")
+OUTPUT_FORMAT("elf32-avr32", "elf32-avr32", "elf32-avr32")
 OUTPUT_ARCH(avr32:uc)
 ENTRY(_start)
-SEARCH_DIR("/home/tools/hudson/workspace/avr32-gnu-toolchain/avr32-gnu-toolchain-win32_x86/avr32/lib");
-/* Do we need any of these for elf?
-   __DYNAMIC = 0;    */
 MEMORY
 {
-    FLASH (rxai!w) : ORIGIN = 0x80002000, LENGTH = 128K
+    FLASH (rxai!w) : ORIGIN = 0x80002000, LENGTH = 128K-8K
     CPUSRAM (wxa!ri) : ORIGIN = 0x00000004, LENGTH = 0x7FFC
     USERPAGE : ORIGIN = 0x80800000, LENGTH = 512
     FACTORYPAGE : ORIGIN = 0x80800200, LENGTH = 512
