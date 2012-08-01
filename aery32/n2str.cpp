@@ -16,8 +16,8 @@
  * you a copy.
  */
 
+#include <cmath>
 extern "C" {
-	#include <math.h>
 	#include <ieeefp.h>
 }
 #include "aery32/n2str.h"
