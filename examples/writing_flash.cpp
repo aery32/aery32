@@ -4,6 +4,15 @@
 
 using namespace aery;
 
+void lock_flash_programspace(void)
+{
+	int i = FLASH_LAST_PAGE;
+	for (; flashc_page_isempty(i); i--);
+	for (; i >= 0; i--) {
+		flashc_lock_page(i);
+	}
+}
+
 int main(void)
 {
 	int errno;
@@ -12,6 +21,9 @@ int main(void)
 
 	init_board();
 	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
+
+	/* Lock flash region for the uploaded program. Just to be in safe. */
+	lock_flash_programspace();
 
 	/* If page is empty, write "foo". Else read page. */
 	if (flashc_page_isempty(page)) {
