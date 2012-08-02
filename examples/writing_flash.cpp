@@ -20,7 +20,7 @@ int main(void)
 	char buf[512] = {'\0'};
 
 	init_board();
-	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
+	gpio_init_pin(LED, GPIO_OUTPUT);
 
 	/* Lock flash region for the uploaded program. Just to be in safe. */
 	lock_flash_programspace();
@@ -41,6 +41,8 @@ int main(void)
 	} else {
 		flashc_read_page(page, buf);
 	}
+
+	gpio_set_pin_high(LED);
 
 	for(;;) {
 		/* Put your application code here */
