@@ -13,7 +13,7 @@ int main(void)
 	init_board();
 	gpio_init_pin(LED, GPIO_OUTPUT);
 
-	/* If page is empty, write "foo". Else read page. */
+	/* If page is empty, write "foo". Else read the page. */
 	if (flashc_page_isempty(page)) {
 		strcpy(buf, "foo");
 		errno = flashc_save_page(page, buf);
@@ -23,7 +23,7 @@ int main(void)
 			/* Page was locked */
 			break;
 		case EFLASH_PROG_ERR:
-			/* Programming error was accured */
+			/* Programming error was occurred */
 			break;
 		}
 	} else {
