@@ -18,7 +18,7 @@ int main(void)
 	errno = adc_init(
 		7,    /* prescal, adclk = pba_clk / (2 * (prescal+1)) */
 		true, /* hires, 10-bit (false would be 8-bit) */
-		0,    /* shtim, sample and hold time = (shtim + 1) / adclk */
+		0,    /* shtim, sample and hold time = (shtim + 3) / adclk */
 		0     /* startup, startup time = (startup + 1) * 8 / adclk */
 	);
 
