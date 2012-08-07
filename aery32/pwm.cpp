@@ -16,35 +16,5 @@
  * you a copy.
  */
 
-/*!
-\file aery32/all.h
-\brief Includes all the headers files at once
-\namespace aery Aery
-
-\example main.cpp
-\example adc.cpp
-\example rtc_interrupt.cpp
-\example spi.cpp
-\example toggle_led.cpp
-
-\example displays/hd44780.cpp
-*/
-
-
-#ifndef __AERY32_ALL_H
-#define __AERY32_ALL_H
-
-#include "aery32/adc.h"
-#include "aery32/delay.h"
-#include "aery32/flashc.h"
-#include "aery32/gpio.h"
-#include "aery32/intc.h"
-#include "aery32/pm.h"
 #include "aery32/pwm.h"
-#include "aery32/rtc.h"
-#include "aery32/spi.h"
 
-#include "aery32/extio.h"
-#include "aery32/n2str.h"
-
-#endif
