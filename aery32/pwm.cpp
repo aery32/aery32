@@ -98,6 +98,10 @@ int aery::pwm_update_dutycl(uint8_t chanum, double D)
 {
 	volatile avr32_pwm_channel_t *pwm = &AVR32_PWM.channel[chanum];
 
+	if (D > 1.0)
+		return -1;
+	if (D < 0.0)
+		return -1;
 	if (pwm->CMR.cpd == 0)
 		return pwm_update_duration(chanum, (uint32_t) (D * pwm->cprd));
 	else
