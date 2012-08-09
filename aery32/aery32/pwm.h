@@ -31,15 +31,7 @@ extern "C" {
 
 namespace aery {
 
-extern volatile avr32_pwm_t pwm;
-
-extern volatile avr32_pwm_channel_t pwm0;
-extern volatile avr32_pwm_channel_t pwm1;
-extern volatile avr32_pwm_channel_t pwm2;
-extern volatile avr32_pwm_channel_t pwm3;
-extern volatile avr32_pwm_channel_t pwm4;
-extern volatile avr32_pwm_channel_t pwm5;
-extern volatile avr32_pwm_channel_t pwm6;
+extern volatile avr32_pwm_t *pwm;
 
 enum Pwm_alignment {
 	LEFT_ALIGNED,
@@ -67,29 +59,39 @@ enum Pwm_channel_clk {
 	PWM_CLKB
 };
 
-/**
- * Initializes PWM linear divider
- */
-int pwm_init_lineardiv(void);
+enum Pwm_update {
+	PWM_DURATION,
+	PWM_PERIOD
+};
 
 /**
- * Selects channel clock
+ * Initializes PWM Clocks A and B
  */
-int pwm_select_clk(volatile avr32_pwm_channel_t pwm,
-		enum Pwm_channel_clk clk);
+int pwm_init_divab(enum Pwm_channel_clk prea, uint8_t diva,
+		enum Pwm_channel_clk preb = MCK, uint8_t divb = 0);
+
+/**
+ * Init channel
+ */
+int pwm_init_channel(uint8_t chanum, enum Pwm_channel_clk clk,
+		uint32_t duration = 0, uint32_t period = 0x100000);
 
 /**
  * Setup channel mode
  */
-int pwm_setup_mode(volatile avr32_pwm_channel_t pwm,
-		enum Pwm_alignment align, enum Pwm_polarity polar);
+int pwm_setup_chamode(uint8_t chanum, enum Pwm_alignment align,
+		enum Pwm_polarity polar);
 
-int pwm_set_dutycl(volatile avr32_pwm_channel_t pwm,
-		uint32_t dutycl, uint32_t period);
+int pwm_update_channel(uint8_t chanum, enum Pwm_update update,
+		uint32_t newval);
 
-int pwm_enable(uint16_t chamask);
+int pwm_update_dutycl(uint8_t chanum, double D);
 
-int pwm_disable(uint16_t chamask);
+void pwm_enable(uint8_t chamask);
+
+void pwm_disable(uint8_t chamask);
+
+bool pwm_isenabled(uint8_t chanum);
 
 } /* end of namespace aery */
 
