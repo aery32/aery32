@@ -59,11 +59,6 @@ enum Pwm_channel_clk {
 	PWM_CLKB
 };
 
-enum Pwm_update {
-	PWM_DURATION,
-	PWM_PERIOD
-};
-
 /**
  * Initializes PWM Clocks A and B
  */
@@ -82,8 +77,11 @@ int pwm_init_channel(uint8_t chanum, enum Pwm_channel_clk clk,
 int pwm_setup_chamode(uint8_t chanum, enum Pwm_alignment align,
 		enum Pwm_polarity polar);
 
-int pwm_update_channel(uint8_t chanum, enum Pwm_update update,
-		uint32_t newval);
+int pwm_update_duration(uint8_t chanum, uint32_t newval);
+
+int pwm_update_period(uint8_t chanum, uint32_t newval);
+
+void pwm_wait_periods(uint8_t chanum, uint32_t periods);
 
 int pwm_update_dutycl(uint8_t chanum, double D);
 
