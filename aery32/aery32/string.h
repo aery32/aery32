@@ -40,29 +40,29 @@ namespace aery {
 /**
  * Converts unsigned int to string
  * \param number Unsigned integer
- * \param buf    Buffer where to write the string
+ * \param buffer Buffer where to write the string
  * \param n      A pointer to the number of written chars
  * \return A pointer to the resulting null-terminated string
  */
-char *uitoa(unsigned int number, char *buf, size_t *n = NULL);
+char *utoa(unsigned int number, char *buffer, size_t *n = NULL);
 
 /**
  * Converts int to string
  * \param number Integer
- * \param buf    Buffer where to write the string
+ * \param buffer Buffer where to write the string
  * \param n      A pointer to the number of written chars
  * \return A pointer to the resulting null-terminated string
  */
-char *itoa(int number, char *buf, size_t *n = NULL);
+char *itoa(int number, char *buffer, size_t *n = NULL);
 
 /**
  * Converts double to string
  * \param number Double
- * \param buf    Buffer where to write the string
+ * \param buffer Buffer where to write the string
  * \param n      A pointer to the number of written chars
  * \return A pointer to the resulting null-terminated string
  */
-char *dtoa(double number, uint8_t precision, char *buf, size_t *n = NULL);
+char *dtoa(double number, uint8_t precision, char *buffer, size_t *n = NULL);
 
 int nputs(const char *str, size_t n, int (*_putchar)(int));
 

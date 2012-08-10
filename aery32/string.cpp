@@ -25,75 +25,75 @@ extern "C" {
 
 static const char lookup[10] = {'0','1','2','3','4','5','6','7','8','9'};
 
-char *aery::uitoa(unsigned int number, char *str, size_t *n)
+char *aery::utoa(unsigned int number, char *buffer, size_t *n)
 {
 	uint8_t i = 0, k = 0;
 	char t;
 	
 	if (number == 0)
-		str[i++] = '0';
+		buffer[i++] = '0';
 
 	while (number > 0) {
-		str[i++] = lookup[number % 10];
+		buffer[i++] = lookup[number % 10];
 		number = number / 10;
 	}
-	str[i--] = '\0';
+	buffer[i--] = '\0';
 
 	/* swap the numbers since they are in reverse order */
 	while (k < i) {
-		t = str[k];
-		str[k++] = str[i];
-		str[i--] = t;
+		t = buffer[k];
+		buffer[k++] = buffer[i];
+		buffer[i--] = t;
 	}
 	if (n != NULL) *n = k+i+1;
-	return str;
+	return buffer;
 }
 
-char *aery::itoa(int number, char *str, size_t *n)
+char *aery::itoa(int number, char *buffer, size_t *n)
 {
 	if (number < 0) {
-		str[0] = '-';
-		aery::uitoa((unsigned int) (-1 * number), &str[1], n);
+		buffer[0] = '-';
+		aery::utoa((unsigned int) (-1 * number), &buffer[1], n);
 		if (n != NULL) *n++;
-		return str;
+		return buffer;
 	}
-	return aery::uitoa((unsigned int) number, str, n);
+	return aery::utoa((unsigned int) number, buffer, n);
 }
 
-char *aery::dtoa(double number, uint8_t precision, char *str, size_t *n)
+char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 {
 	size_t n2 = 0;
 	double ip, fp; /* integer and fractional parts */
 
 	if (isnan(number)) {
 		if (n != NULL) *n = 3;
-		return strcpy(str, "NaN");
+		return strcpy(buffer, "NaN");
 	}
 	if (isinf(number)) {
 		if (n != NULL) *n = 3;
-		return strcpy(str, "Inf");
+		return strcpy(buffer, "Inf");
 	}
 	if ((fp = modf(number, &ip)) < 0)
 		fp *= -1;
 
-	/* write the integer part and the dot into the str */
-	aery::itoa((int) ip, str, &n2);
-	str[n2++] = '.';
+	/* write the integer part and the dot into the buffer */
+	aery::itoa((int) ip, buffer, &n2);
+	buffer[n2++] = '.';
 
-	/* write the fractional part into the str */
+	/* write the fractional part into the buffer */
 	while (precision--) {
 		fp *= 10;
-		aery::uitoa((unsigned int) fp, str + n2++);
+		aery::utoa((unsigned int) fp, buffer + n2++);
 		fp = fp - (unsigned int) fp;
 	}
 	if (n != NULL) *n = n2;
-	return str;
+	return buffer;
 }
 
-int aery::nputs(const char *str, size_t n, int (*_putchar)(int))
+int aery::nputs(const char *buffer, size_t n, int (*_putchar)(int))
 {
 	int i = 0;
-	for (; *(str+i) && n > 0; i++, n--)
-		if (_putchar(*(str+i) == EOF)) return EOF;
+	for (; *(buffer+i) && n > 0; i++, n--)
+		if (_putchar(*(buffer+i) == EOF)) return EOF;
 	return i;
 }
