@@ -62,7 +62,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
-### Changelog for the next release
+### v0.3.0
 
 - New modules:
   - Flash Controller. How to operate with the chip internal flash, see `examples/writing_flash.cpp`.
@@ -84,7 +84,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 - Hotfix. Flash wait state set to 1 by default, because by default Aery32 Framework sets CPU clockspeed to 66 MHz.
 
-### v0.2
+### v0.2.0
 
 - Switch to `avr32-g++` and hence to C++
 - Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
@@ -120,7 +120,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - Added <aery32/all.h> header file to include the whole library at once
 - Makefile tunings
 
-### v0.1
+### v0.1.0
 
 - Project structure that works on Windows, Linux and Mac.
   - "make program", selects the batchisp in Windows and dfu-programmer in Linux and Mac.
