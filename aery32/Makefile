@@ -38,8 +38,8 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp exception.S pm.cpp rtc.cpp \
-        spi.cpp extio.cpp n2str.cpp
+SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp exception.S pm.cpp pwm.cpp \
+        rtc.cpp spi.cpp extio.cpp n2str.cpp
 
 
 # ----------------------------------------------------------------------
