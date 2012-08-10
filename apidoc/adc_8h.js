@@ -10,14 +10,15 @@ var adc_8h =
       [ "INTERNAL_TRG5", "adc_8h.html#a92c4ee172fee5889402b3e03cfd80effa7cfb6086165a44a159d3c25dd5b4c768", null ],
       [ "EXTERNAL_TRG", "adc_8h.html#a92c4ee172fee5889402b3e03cfd80effacd73d143e7f2ef5e30a31ffe8907cd0c", null ]
     ] ],
-    [ "adc_cnv_isrdy", "adc_8h.html#a5aeb220ed3c4a48145c371f511f25e11", null ],
     [ "adc_disable", "adc_8h.html#aecc49abd80edb2b695b071c59d7bc796", null ],
     [ "adc_enable", "adc_8h.html#a89a3ce7345287166c24278592182713b", null ],
+    [ "adc_hasoverrun", "adc_8h.html#af4855657d318041ac9a46c92514c51cf", null ],
     [ "adc_init", "adc_8h.html#ae16cd9fba226493f97526a64fda9e3dd", null ],
-    [ "adc_nextcnv_isrdy", "adc_8h.html#a7c2b76fe25c9cdac5023266dffac9b08", null ],
+    [ "adc_isbusy", "adc_8h.html#ae2f81e8ae98fee6f092b052e37df3b2c", null ],
     [ "adc_read_cnv", "adc_8h.html#a3bd39aed679772d00455e03912718811", null ],
     [ "adc_read_lastcnv", "adc_8h.html#a758b8dc650852d2b1b248b39ce5e89c0", null ],
     [ "adc_setup_trigger", "adc_8h.html#a16d12df0b159ea60d2547e49d2025b81", null ],
     [ "adc_start_cnv", "adc_8h.html#aaf113d0cfbf6f2a48dd7beed2c7f8300", null ],
+    [ "__adc_lsr", "adc_8h.html#a5ad9aa436257e1e7548d4700561702d1", null ],
     [ "adc", "adc_8h.html#aff9b29e0455d5686731f2f12eb539a39", null ]
 ];

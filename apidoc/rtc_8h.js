@@ -8,7 +8,7 @@ var rtc_8h =
     [ "rtc_clear_interrupt", "rtc_8h.html#a1dd8f0366fbdce193211179dd74d3ec5", null ],
     [ "rtc_delay_cycles", "rtc_8h.html#a31fcab3bdbfdf6e94bcf887fc94e4296", null ],
     [ "rtc_enable", "rtc_8h.html#a6fe3007712235f3202a2c34cf718960e", null ],
-    [ "rtc_init", "rtc_8h.html#aaf853735d2039675d6d252e6a40f34d0", null ],
+    [ "rtc_init", "rtc_8h.html#ac00c0e6734a666b5872a30bd0d09d71f", null ],
     [ "rtc_isbusy", "rtc_8h.html#a55dbfa021ce383813be60e94c2d296dc", null ],
     [ "rtc_set_control", "rtc_8h.html#a3fe2781c4d635b36e3fb60eca2de8f68", null ],
     [ "rtc_set_top", "rtc_8h.html#a994190af0ac49862d8b2cba141ca39f6", null ],

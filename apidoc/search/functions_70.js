@@ -11,5 +11,15 @@ var searchData=
   ['pm_5fsetup_5fclkdomain',['pm_setup_clkdomain',['../namespaceaery.html#a02d06ee9b258d58e98eb723879cfece9',1,'aery']]],
   ['pm_5fstart_5fosc',['pm_start_osc',['../namespaceaery.html#a11eaa2dd57ec731c5cca46ba66cd04ce',1,'aery']]],
   ['pm_5fwait_5fosc_5fto_5fstabilize',['pm_wait_osc_to_stabilize',['../namespaceaery.html#a6468a2facd2cde7efafbff80cb170c59',1,'aery']]],
-  ['pm_5fwait_5fpll_5fto_5flock',['pm_wait_pll_to_lock',['../namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8',1,'aery']]]
+  ['pm_5fwait_5fpll_5fto_5flock',['pm_wait_pll_to_lock',['../namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8',1,'aery']]],
+  ['pwm_5fdisable',['pwm_disable',['../namespaceaery.html#a9b922fddfaa7dbe67598fe7e1e3850a8',1,'aery']]],
+  ['pwm_5fenable',['pwm_enable',['../namespaceaery.html#a361734a6088fa8d57ff4724a38ab49de',1,'aery']]],
+  ['pwm_5finit_5fchannel',['pwm_init_channel',['../namespaceaery.html#a0025e5ddafdab1c94eaf00f61c08d475',1,'aery']]],
+  ['pwm_5finit_5fdivab',['pwm_init_divab',['../namespaceaery.html#a530b350e9e95a7ddd8cd9a668a43d8bc',1,'aery']]],
+  ['pwm_5fisenabled',['pwm_isenabled',['../namespaceaery.html#aa50962bd086a132989c0777b158b59b5',1,'aery']]],
+  ['pwm_5fsetup_5fchamode',['pwm_setup_chamode',['../namespaceaery.html#a9648dadf24fde758445d3acd71d42e62',1,'aery']]],
+  ['pwm_5fupdate_5fduration',['pwm_update_duration',['../namespaceaery.html#a2883c59691b60b06cdbfd3d6cdcb527d',1,'aery']]],
+  ['pwm_5fupdate_5fdutycl',['pwm_update_dutycl',['../namespaceaery.html#aa5b333a7e4c30a6984d1ced7f1d011d7',1,'aery']]],
+  ['pwm_5fupdate_5fperiod',['pwm_update_period',['../namespaceaery.html#af4636f88ec07882bb86534e514a578a5',1,'aery']]],
+  ['pwm_5fwait_5fperiods',['pwm_wait_periods',['../namespaceaery.html#aeba75f54aade6f85da0af76d9f613829',1,'aery']]]
 ];

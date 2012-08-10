@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['pll0',['pll0',['../namespaceaery.html#a3b6a65ae01ff73f9c908ffdca933b2e8',1,'aery']]],
+  ['pll1',['pll1',['../namespaceaery.html#a50a024932509b72cf42ba33c0933928a',1,'aery']]],
+  ['pm',['pm',['../namespaceaery.html#a68fdf8a588614d9226fef18769e18810',1,'aery']]],
   ['pm_2eh',['pm.h',['../pm_8h.html',1,'']]],
   ['pm_5fdisable_5fgclk',['pm_disable_gclk',['../namespaceaery.html#a538874b3e847bb000484cba1933d7e0e',1,'aery']]],
   ['pm_5fenable_5fgclk',['pm_enable_gclk',['../namespaceaery.html#a711494ec7b759340732c4c7f380d6f0f',1,'aery']]],
@@ -18,5 +21,23 @@ var searchData=
   ['pm_5fsetup_5fclkdomain',['pm_setup_clkdomain',['../namespaceaery.html#a02d06ee9b258d58e98eb723879cfece9',1,'aery']]],
   ['pm_5fstart_5fosc',['pm_start_osc',['../namespaceaery.html#a11eaa2dd57ec731c5cca46ba66cd04ce',1,'aery']]],
   ['pm_5fwait_5fosc_5fto_5fstabilize',['pm_wait_osc_to_stabilize',['../namespaceaery.html#a6468a2facd2cde7efafbff80cb170c59',1,'aery']]],
-  ['pm_5fwait_5fpll_5fto_5flock',['pm_wait_pll_to_lock',['../namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8',1,'aery']]]
+  ['pm_5fwait_5fpll_5fto_5flock',['pm_wait_pll_to_lock',['../namespaceaery.html#a55f51b9fdee98555cd532d283a2e1cd8',1,'aery']]],
+  ['porta',['porta',['../namespaceaery.html#abf3a78da1f239d775f74a2435a3cc618',1,'aery']]],
+  ['portb',['portb',['../namespaceaery.html#aec507d448adb5fb53b3b94be7b9af45a',1,'aery']]],
+  ['portc',['portc',['../namespaceaery.html#a0207409d7e49c384fc4e8b16d6b8b933',1,'aery']]],
+  ['pwm',['pwm',['../namespaceaery.html#add6ba9a1ff0a30125f86f3e8e0a6fc16',1,'aery']]],
+  ['pwm_2eh',['pwm.h',['../pwm_8h.html',1,'']]],
+  ['pwm_5falignment',['Pwm_alignment',['../namespaceaery.html#a90b350f354f68b5224c6e1e27fb30cfe',1,'aery']]],
+  ['pwm_5fchannel_5fclk',['Pwm_channel_clk',['../namespaceaery.html#a946b1477a59cdec4778c4fae7dce6100',1,'aery']]],
+  ['pwm_5fdisable',['pwm_disable',['../namespaceaery.html#a9b922fddfaa7dbe67598fe7e1e3850a8',1,'aery']]],
+  ['pwm_5fenable',['pwm_enable',['../namespaceaery.html#a361734a6088fa8d57ff4724a38ab49de',1,'aery']]],
+  ['pwm_5finit_5fchannel',['pwm_init_channel',['../namespaceaery.html#a0025e5ddafdab1c94eaf00f61c08d475',1,'aery']]],
+  ['pwm_5finit_5fdivab',['pwm_init_divab',['../namespaceaery.html#a530b350e9e95a7ddd8cd9a668a43d8bc',1,'aery']]],
+  ['pwm_5fisenabled',['pwm_isenabled',['../namespaceaery.html#aa50962bd086a132989c0777b158b59b5',1,'aery']]],
+  ['pwm_5fpolarity',['Pwm_polarity',['../namespaceaery.html#a89385700abec12a14cbcc082424bb5c3',1,'aery']]],
+  ['pwm_5fsetup_5fchamode',['pwm_setup_chamode',['../namespaceaery.html#a9648dadf24fde758445d3acd71d42e62',1,'aery']]],
+  ['pwm_5fupdate_5fduration',['pwm_update_duration',['../namespaceaery.html#a2883c59691b60b06cdbfd3d6cdcb527d',1,'aery']]],
+  ['pwm_5fupdate_5fdutycl',['pwm_update_dutycl',['../namespaceaery.html#aa5b333a7e4c30a6984d1ced7f1d011d7',1,'aery']]],
+  ['pwm_5fupdate_5fperiod',['pwm_update_period',['../namespaceaery.html#af4636f88ec07882bb86534e514a578a5',1,'aery']]],
+  ['pwm_5fwait_5fperiods',['pwm_wait_periods',['../namespaceaery.html#aeba75f54aade6f85da0af76d9f613829',1,'aery']]]
 ];
