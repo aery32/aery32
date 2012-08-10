@@ -11,6 +11,8 @@ int main(void)
 
 	init_board();
 	gpio_init_pin(LED, GPIO_OUTPUT);
+
+	/* If you change PWM channel, remember to change pin too */
 	gpio_init_pin(AVR32_PIN_PB21, GPIO_FUNCTION_A);
 
 	/* Init and enable PWM channel two */

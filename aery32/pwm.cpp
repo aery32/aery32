@@ -45,12 +45,9 @@ int aery::pwm_init_channel(uint8_t chanum, enum Pwm_channel_clk clk,
 		return -1;
 	if (duration > period)
 		return -1;
-
-	volatile avr32_pwm_channel_t *pwm = &AVR32_PWM.channel[chanum];
-	pwm->CMR.cpre = clk;
-	pwm->cdty = duration;
-	pwm->cprd = period;
-
+	AVR32_PWM.channel[chanum].CMR.cpre = clk;
+	AVR32_PWM.channel[chanum].cdty = duration;
+	AVR32_PWM.channel[chanum].cprd = period;
 	return 0;
 }
 
@@ -60,7 +57,6 @@ int aery::pwm_setup_chamode(uint8_t chanum, enum Pwm_alignment align,
 	/* Mode can be modified only when the channel is disabled. */
 	if (aery::pwm_isenabled(chanum))
 		return -1;
-
 	AVR32_PWM.channel[chanum].CMR.calg = align;
 	AVR32_PWM.channel[chanum].CMR.cpol = polar;
 	return 0;

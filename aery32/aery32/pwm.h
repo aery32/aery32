@@ -128,7 +128,7 @@ int pwm_update_duration(uint8_t chanum, uint32_t newval);
 int pwm_update_period(uint8_t chanum, uint32_t newval);
 
 /**
- * Sets (or updates) channel's duty cycle "as a percentage"
+ * Sets (or updates) channel's duty cycle as a percentage
  * \param chanum Channel number
  * \param D      Duty cycle. Min 0.0. Max 1.0.
  * \return 0 on success. -1 on error.
