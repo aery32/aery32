@@ -41,7 +41,7 @@ extern volatile avr32_pwm_t *pwm;
  */
 enum Pwm_alignment {
 	LEFT_ALIGNED,
-	RIGHT_ALIGNED
+	CENTER_ALIGNED
 };
 
 /**
