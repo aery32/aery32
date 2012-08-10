@@ -90,12 +90,15 @@ int pwm_init_divab(enum Pwm_channel_clk prea, uint8_t diva,
  * Initializes channel in general
  * \param chanum   Channel number
  * \param clk      Channel's clock frequency
- * \param duration Duration that the event (or PWM function) is active
- * \param period   Period of the event (or PWM function)
+ * \param duration Duration that the event (or PWM function) is active.
+ *                 Default value is 0.
+ * \param period   Period of the event (or PWM function). Default value
+ *                 is 0xFFFFF that is the maximum. When period is in its
+ *                 maximum the duty-cycle can be set most accurately.
  * \return 0 on success. -1 on error.
  */
 int pwm_init_channel(uint8_t chanum, enum Pwm_channel_clk clk,
-		uint32_t duration = 0, uint32_t period = 0x100000);
+		uint32_t duration = 0, uint32_t period = 0xFFFFF);
 
 /**
  * Setups channel's mode
