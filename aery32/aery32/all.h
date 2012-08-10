@@ -44,7 +44,6 @@
 #include "aery32/rtc.h"
 #include "aery32/spi.h"
 
-#include "aery32/extio.h"
-#include "aery32/n2str.h"
+#include "aery32/string.h"
 
 #endif

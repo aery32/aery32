@@ -39,7 +39,7 @@ MPART=uc3a1128
 
 # Source files
 SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp exception.S pm.cpp pwm.cpp \
-        rtc.cpp spi.cpp extio.cpp n2str.cpp
+        rtc.cpp spi.cpp string.cpp
 
 
 # ----------------------------------------------------------------------
@@ -47,11 +47,11 @@ SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp exception.S pm.cpp pwm.cpp \
 # ----------------------------------------------------------------------
 
 CXX=avr32-g++
-CPPSTANDARD=gnu++98
-OPTIMIZATION=-O2 -fdata-sections -ffunction-sections
+CXXSTANDARD=gnu++98
+CXXOPT=-O2 -fdata-sections -ffunction-sections -fno-exceptions -fno-rtti
 
-CPPFLAGS=-mpart=$(MPART) -std=$(CPPSTANDARD) $(OPTIMIZATION) -Wall
-#CPPFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
+#CXXFLAGS+=-DF_OSC0=12000000UL -DF_OSC1=16000000UL
 
 ASFLAGS=-mpart=$(MPART)
 
@@ -71,7 +71,7 @@ libaery32_$(MPART).a: $(OBJECTS)
 	avr32-ranlib $@
 
 %.o : %.cpp
-	$(CXX) $(CPPFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
+	$(CXX) $(CXXFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 %.o : %.S
 	$(CXX) $(ASFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
@@ -91,7 +91,7 @@ clean:
 re: clean all
 
 qa: re size
-qa: CPPFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CXXFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
 
 size: libaery32_$(MPART).a
 	avr32-size -B $^

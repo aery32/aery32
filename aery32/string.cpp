@@ -16,78 +16,84 @@
  * you a copy.
  */
 
+#include <cstring>
 #include <cmath>
 extern "C" {
 	#include <ieeefp.h>
 }
-#include "aery32/n2str.h"
+#include "aery32/string.h"
 
 static const char lookup[10] = {'0','1','2','3','4','5','6','7','8','9'};
 
-int aery::ui2str(unsigned int number, char *buf)
+char *aery::uitoa(unsigned int number, char *str, size_t *n)
 {
 	uint8_t i = 0, k = 0;
 	char t;
 	
 	if (number == 0)
-		buf[i++] = '0';
+		str[i++] = '0';
 
 	while (number > 0) {
-		buf[i++] = lookup[number % 10];
+		str[i++] = lookup[number % 10];
 		number = number / 10;
 	}
-	buf[i--] = '\0';
+	str[i--] = '\0';
 
 	/* swap the numbers since they are in reverse order */
 	while (k < i) {
-		t = buf[k];
-		buf[k++] = buf[i];
-		buf[i--] = t;
+		t = str[k];
+		str[k++] = str[i];
+		str[i--] = t;
 	}
-	return k+i+1;
+	if (n != NULL) *n = k+i+1;
+	return str;
 }
 
-int aery::i2str(int number, char *buf)
+char *aery::itoa(int number, char *str, size_t *n)
 {
 	if (number < 0) {
-		buf[0] = '-';
-		return 1 + aery::ui2str((unsigned int) (-1 * number), &buf[1]);
+		str[0] = '-';
+		aery::uitoa((unsigned int) (-1 * number), &str[1], n);
+		if (n != NULL) *n++;
+		return str;
 	}
-	return aery::ui2str((unsigned int) number, buf);
+	return aery::uitoa((unsigned int) number, str, n);
 }
 
-int aery::d2str(double number, uint8_t precision, char *buf)
+char *aery::dtoa(double number, uint8_t precision, char *str, size_t *n)
 {
-	int n;
+	size_t n2 = 0;
 	double ip, fp; /* integer and fractional parts */
 
 	if (isnan(number)) {
-		buf[0] = 'N';
-		buf[1] = 'a';
-		buf[2] = 'N';
-		buf[3] = '\0';
-		return 3;
+		if (n != NULL) *n = 3;
+		return strcpy(str, "NaN");
 	}
 	if (isinf(number)) {
-		buf[0] = 'I';
-		buf[1] = 'n';
-		buf[2] = 'f';
-		buf[3] = '\0';
-		return 3;
+		if (n != NULL) *n = 3;
+		return strcpy(str, "Inf");
 	}
-
 	if ((fp = modf(number, &ip)) < 0)
 		fp *= -1;
 
-	/* write the integer part and the dot into the buf */
-	n = aery::i2str((int) ip, buf);
-	buf[n++] = '.';
+	/* write the integer part and the dot into the str */
+	aery::itoa((int) ip, str, &n2);
+	str[n2++] = '.';
 
-	/* write the fractional part into the buf */
+	/* write the fractional part into the str */
 	while (precision--) {
 		fp *= 10;
-		aery::ui2str((unsigned int) fp, buf + n++);
+		aery::uitoa((unsigned int) fp, str + n2++);
 		fp = fp - (unsigned int) fp;
 	}
-	return n;
+	if (n != NULL) *n = n2;
+	return str;
+}
+
+int aery::nputs(const char *str, size_t n, int (*_putchar)(int))
+{
+	int i = 0;
+	for (; *(str+i) && n > 0; i++, n--)
+		if (_putchar(*(str+i) == EOF)) return EOF;
+	return i;
 }
