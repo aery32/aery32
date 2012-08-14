@@ -210,9 +210,7 @@ dfu-dump-user:
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: list size debug qa clean cleanall re reall
-
-list: $(TARGET).lst
+.PHONY: size debug qa clean cleanall re reall
 
 size: $(TARGET).elf $(TARGET).hex
 	avr32-size -B $^
