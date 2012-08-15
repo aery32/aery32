@@ -27,7 +27,8 @@ void init_board(void)
 
 	/*
 	 * Peripheral clock masking. By default all modules are enabled.
-	 * You might be interested in to disable modules you are not using. */
+	 * You might be interested in to disable modules you are not using.
+	 */
 	pm->hsbmask = HSBMASK_DEFAULT;
 	pm->pbamask = PBAMASK_DEFAULT;
 	pm->pbbmask = PBBMASK_DEFAULT;

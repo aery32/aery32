@@ -81,9 +81,12 @@ int aery::pm_start_osc(uint8_t oscnum, enum Pm_osc_mode mode,
 int aery::pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 		uint8_t mul, uint8_t div, bool hifreq)
 {
-	/* mul < 3, is not a typo */
-	if (mul < 3 || mul > 16)
+	bool was_enabled = (bool) ppll->pllen;
+
+	if (mul < 3 || mul > 16) /* mul < 3, is not a typo */
 		return -1;
+	if (was_enabled)
+		ppll->pllen = 0;
 
 	ppll->plltest = 0;
 	ppll->plliotesten = 0;
@@ -93,21 +96,9 @@ int aery::pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 	ppll->pllopt = (hifreq == true) ? 0b001 : 0b101;
 	ppll->pllosc = src;
 
+	if (was_enabled)
+		ppll->pllen = 1;
 	return 0;
-}
-
-void aery::pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
-{
-	switch (divby2) {
-	case true:
-		ppll->pllopt |= 2;
-		break;
-	case false:
-		ppll->pllopt &= ~2;
-		break;
-	}
-
-	ppll->pllen = 1;
 }
 
 int aery::pm_init_gclk(enum Pm_gclk clknum, enum Pm_gclk_source clksrc,
@@ -282,4 +273,24 @@ uint32_t aery::pm_get_fclkdomain(uint8_t domain)
 	}
 
 	return f;
+}
+
+
+void aery::pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
+{
+	switch (divby2) {
+	case true:
+		ppll->pllopt |= 2;
+		break;
+	case false:
+		ppll->pllopt &= ~2;
+		break;
+	}
+
+	ppll->pllen = 1;
+}
+
+void aery::pm_disable_pll(volatile avr32_pm_pll_t *ppll)
+{
+	ppll->pllen = 0;
 }

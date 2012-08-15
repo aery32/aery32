@@ -172,16 +172,6 @@ int pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 		uint8_t mul, uint8_t div, bool hifreq);
 
 /**
- * Enables phase locked loop (PLL)
- * \param ppll   Poiter to pll register
- * \param divby2 Divide the vco frequency by two
- *
- * \note Before enabling PLL, you have to initialize PLL's VCO via
- *       pm_init_pllvco().
- */
-void pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
-
-/**
  * Initializes the chosen generic clock
  * \param clknum Generic clock number
  * \param clksrc The source that will be used for this generic clock
@@ -255,6 +245,21 @@ int pm_setup_clkdomain(uint8_t prescal, uint8_t clkdomain);
  * \note Calls pm_get_fmck()
  */
 uint32_t pm_get_fclkdomain(uint8_t clkdomain);
+
+/**
+ * Enables phase locked loop (PLL)
+ * \param ppll   Poiter to pll register
+ * \param divby2 Divide the vco frequency by two
+ *
+ * \note Before enabling PLL, you have to initialize PLL's VCO via
+ *       pm_init_pllvco().
+ */
+void pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2);
+
+/**
+ * Disables phase locked loop (PLL)
+ */
+void pm_disable_pll(volatile avr32_pm_pll_t *ppll);
 
 } /* end of namespace aery */
 
