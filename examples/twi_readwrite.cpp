@@ -21,8 +21,10 @@ int main(void)
 	/* Scan for the first device on the twi-bus */
 	for (; twi_slave_address <= 0x7f; twi_slave_address++) {
 		twi_select_slave(twi_slave_address);
-		if (twi_write_byte(0x00) == 0)
+		if (twi_write_byte(0x00) == 0) {
+			twi_slave_found = true;
 			break;
+		}
 	}
 
 	if (twi_slave_found) {
