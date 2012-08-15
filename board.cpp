@@ -10,6 +10,7 @@ void init_board(void)
 	gpio_init_pins(porta, 0xffffffff, GPIO_INPUT);
 	gpio_init_pins(portb, 0xffffffff, GPIO_INPUT);
 	gpio_init_pins(portc, 0x0000003f, GPIO_INPUT);
+	gpio_init_pin(LED, GPIO_OUTPUT);
 
 	pm_start_osc(0, OSC_MODE_GAIN3, OSC_STARTUP_36ms);
 	pm_wait_osc_to_stabilize(0);
