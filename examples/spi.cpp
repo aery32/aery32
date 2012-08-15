@@ -10,14 +10,18 @@ int main(void)
 {
 	uint16_t rd0, rd1; /* received data */
 
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board_init() setups the LED pin and the CPU clock (66 MHz).
+	 */
 	init_board();
-	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
 	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 	gpio_init_pins(porta, SPI1_PINMASK, GPIO_FUNCTION_B);
 
 	/*
 	 * Init SPI0 as master. The chip select pin 0 of SPI0 is set to work in
-	 * spi mode 0 and 16 bits wide shift register. */
+	 * spi mode 0 and 16 bits wide shift register.
+	 */
 	spi_init_master(spi0);
 	spi_setup_npcs(spi0, 0, SPI_MODE0, 16);
 	spi_enable(spi0);
@@ -29,6 +33,9 @@ int main(void)
 	spi_init_master(spi1);
 	spi_setup_npcs(spi1, 2, SPI_MODE1, 8);
 	spi_enable(spi1);
+
+	/* All done. Turn the LED on. */
+	gpio_set_pin_high(LED);
 
 	for (;;) {
 		/*

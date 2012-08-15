@@ -5,8 +5,11 @@ using namespace aery;
 
 int main(void)
 {
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board_init() setups the LED pin and the CPU clock (66 MHz).
+	 */
 	init_board();
-	gpio_init_pin(LED, GPIO_OUTPUT);
 
 	for(;;) {
 		gpio_toggle_pin(LED);
