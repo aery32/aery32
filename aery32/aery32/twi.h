@@ -30,12 +30,19 @@ extern "C" {
 }
 
 /* TWI error codes */
-#define ETWI_WRITE_ERR -2
-#define ETWI_READ_ERR  -3
+#define ETWI_WRITE_NACK -2
+#define ETWI_READ_NACK  -3
 
 namespace aery {
 
+/**
+ * Pointer to the internal TWI module register
+ */
 extern volatile avr32_twi_t *twi;
+
+/**
+ * Last status read
+ */
 extern volatile uint32_t __twi_lsr;
 
 int twi_init_master(bool addressing_7bit = true);

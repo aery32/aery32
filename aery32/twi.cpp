@@ -51,6 +51,11 @@ int aery::twi_init_master(uint16_t sla, bool addressing_7bit)
 	return rv;
 }
 
+int aery::twi_init_slave(uint16_t sla)
+{
+	return 0; /* TODO */
+}
+
 int aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
 {
 	if (ckdiv > 7)
@@ -66,27 +71,32 @@ void aery::twi_select_slave(uint16_t sla)
 	AVR32_TWI.MMR.dadr = sla;
 }
 
+int aery::twi_read_byte(void)
+{
+	AVR32_TWI.MMR.mread = 1; /* Switch to read mode */
+	AVR32_TWI.cr |= 3; /* START and STOP have to been written at once */
+
+	while (aery::twi_isbusy());
+	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+		return ETWI_READ_NACK;
+	return AVR32_TWI.RHR.rxdata;
+}
+
+int aery::twi_read_byte(uint16_t regaddr)
+{
+	return 0; /* TODO */
+}
+
 int aery::twi_write_byte(uint8_t data)
 {
-	while (aery::twi_isbusy());
 	AVR32_TWI.MMR.mread = 0; /* Switch to write mode */
 	AVR32_TWI.THR.txdata = data;
-	
-	// Should wait twi_isbusy() and then read the status from __twi_lsr
-	
-	int wait = 2;
-	/*
-	while(wait == 2){
-		if(AVR32_TWI.SR.nack == 1)
-			wait = 0;
-		else if(AVR32_TWI.SR.txrdy == 1){
-			while(AVR32_TWI.SR.txcomp == 0){;}
-			wait = 1;
-		}
-	}
-	*/
 
-	return wait;
+	while (aery::twi_isbusy());
+	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+		return ETWI_WRITE_NACK;
+	while (AVR32_TWI.SR.txcomp == 0);
+	return 0;
 }
 
 int aery::twi_write_byte(uint8_t data, uint16_t regaddr)
@@ -96,40 +106,11 @@ int aery::twi_write_byte(uint8_t data, uint16_t regaddr)
 	return aery::twi_write_byte(data);
 }
 
-int aery::twi_read_byte(void)
-{
-	while (aery::twi_isbusy());
-	AVR32_TWI.MMR.mread = 1; /* Switch to read mode */
-	
-	int wait = 2;
-	AVR32_TWI.cr |= 3; /* START and STOP have to been written at once */
-
-	// Should wait twi_isbusy() and then read the status from __twi_lsr
-
-	/*
-	while((AVR32_TWI.SR.nack == 0) && (AVR32_TWI.SR.rxrdy == 0))
-	{;}
-	if(AVR32_TWI.SR.nack == 1)
-		wait = 0;
-	else if(AVR32_TWI.SR.rxrdy == 1)
-		wait = AVR32_TWI.RHR.rxdata;
-	else
-		while(1){;}
-	while(AVR32_TWI.SR.txcomp == 0){;}
-	*/
-
-	return wait;
-}
-
-int twi_read_byte(uint8_t sla)
-{
-	AVR32_TWI.MMR.dadr = sla;
-	return aery::twi_read_byte();
-}
-
 bool aery::twi_isbusy(void)
 {
 	aery::__twi_lsr = AVR32_TWI.sr;
-
-	/* Busy to read or write */
+	if (AVR32_TWI.MMR.mread == 1) {
+		return (aery::__twi_lsr & AVR32_TWI_SR_RXRDY_MASK) == 0;
+	}
+	return (aery::__twi_lsr & AVR32_TWI_SR_TXRDY_MASK) == 0;
 }
