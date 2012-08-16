@@ -11,8 +11,11 @@ int main(void)
 	uint16_t result; /* conversion result in bits */
 	double volt;     /* conversion in volts */
 
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board_init() setups the LED pin and the CPU clock (66 MHz).
+	 */
 	init_board();
-	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_init_pins(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);
 
 	errno = adc_init(
@@ -25,7 +28,7 @@ int main(void)
 	if (errno != -1)
 		adc_enable(1 << 3); /* enables the channel 3 */
 
-	/* init done, turn the LED on */
+	/* All done. Turn the LED on. */
 	gpio_set_pin_high(LED);
 
 	for(;;) {
