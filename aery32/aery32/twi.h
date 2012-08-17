@@ -45,9 +45,7 @@ extern volatile avr32_twi_t *twi;
  */
 extern volatile uint32_t __twi_lsr;
 
-int twi_init_master(bool addressing_7bit = true);
-int twi_init_master(uint16_t sla, bool addressing_7bit = true);
-
+void twi_init_master(void);
 int twi_init_slave(uint16_t sla);
 
 int twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv);
