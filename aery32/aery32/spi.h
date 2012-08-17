@@ -105,7 +105,7 @@ void spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
  * \endcode
  */
 uint16_t spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
-		 uint16_t data, bool islast);
+		 uint16_t data, bool islast = true);
 
 /**
  * Enables the SPI peripheral
