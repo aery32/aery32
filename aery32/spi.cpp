@@ -119,7 +119,7 @@ uint16_t aery::spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
 		(data << AVR32_SPI_TDR_TD_OFFSET) |			   
 		(islast << AVR32_SPI_TDR_LASTXFER_OFFSET);
 
-	while (aery::spi_has_data(pspi) == false);
+	while (aery::spi_has_rxdata(pspi) == false);
 	return pspi->RDR.rd;
 }
 
@@ -140,7 +140,7 @@ bool aery::spi_isbusy(volatile avr32_spi_t *pspi)
 	return (aery::__spi_lsr[n] & AVR32_SPI_SR_TXEMPTY_MASK) == 0;
 }
 
-bool aery::spi_has_data(volatile avr32_spi_t *pspi)
+bool aery::spi_has_rxdata(volatile avr32_spi_t *pspi)
 {
 	uint8_t n = pspi2num(pspi);
 	aery::__spi_lsr[n] = pspi->sr;

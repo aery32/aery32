@@ -121,7 +121,7 @@ void spi_disable(volatile avr32_spi_t *pspi);
 
 bool spi_isbusy(volatile avr32_spi_t *pspi);
 
-bool spi_has_data(volatile avr32_spi_t *pspi);
+bool spi_has_rxdata(volatile avr32_spi_t *pspi);
 
 bool spi_has_overrun(volatile avr32_spi_t *pspi);
 
