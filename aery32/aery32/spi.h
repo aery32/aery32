@@ -121,9 +121,11 @@ void spi_disable(volatile avr32_spi_t *pspi);
 
 bool spi_isbusy(volatile avr32_spi_t *pspi);
 
-bool spi_has_rxdata(volatile avr32_spi_t *pspi);
+bool spi_is_enabled(volatile avr32_spi_t *pspi);
 
-bool spi_has_overrun(volatile avr32_spi_t *pspi);
+bool spi_has_rxdata(volatile avr32_spi_t *pspi, bool reread_status = true);
+
+bool spi_has_overrun(volatile avr32_spi_t *pspi, bool reread_status = false);
 
 } /* end of namespace */
 
