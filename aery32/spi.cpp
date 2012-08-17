@@ -140,7 +140,7 @@ bool aery::spi_isbusy(volatile avr32_spi_t *pspi)
 	return (aery::__spi_lsr[n] & AVR32_SPI_SR_TXEMPTY_MASK) == 0;
 }
 
-bool aery::spi_is_enabled(volatile avr32_spi_t *pspi)
+bool aery::spi_has_enabled(volatile avr32_spi_t *pspi)
 {
 	return pspi->CR.spien == 1;
 }
