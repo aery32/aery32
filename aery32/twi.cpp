@@ -27,6 +27,7 @@ void aery::twi_init_master(void)
 {
 	/* Software reset. Just in case. */
 	aery::twi->CR.swrst = 1;
+	while (aery::twi->CR.swrst);
 
 	/* Setup SLK to 400 kHz by default with 50% duty cycle */
 	aery::twi_setup_clkwaveform(0x01, 0x3f, 0x3f);
