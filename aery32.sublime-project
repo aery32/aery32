@@ -4,6 +4,7 @@
 		{
 			"cmd": ["make"],
 			"name": "Aery32",
+			"working_dir": "$project_path",
 			"variants": [
 				{ "cmd": ["make", "programs"], "name": "Run" },
 				{ "cmd": ["make", "clean"], "name": "Clean" },
@@ -28,7 +29,7 @@
 			[
 				"obj"
 			],
-			"name": "Project root",
+			"name": "My Aery32 Project",
 			"path": "."
 		}
 	],
