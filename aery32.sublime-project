@@ -58,6 +58,7 @@
 			"-D__INT_MAX__=2147483647",
 			"-D__SHRT_MAX__=32767"
 		],
+		"sublimeclang_dont_prepend_clang_includes": true,
 		"sublimeclang_show_output_panel": true,
 		"sublimeclang_show_status": true,
 		"sublimeclang_show_visual_error_marks": true
