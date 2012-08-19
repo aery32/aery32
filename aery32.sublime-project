@@ -36,9 +36,20 @@
 	"settings":
 	{
 		"tab_size": 8,
+		// "sublimeclang_analyzer_commandline": [
+		// 	"avr32-g++",
+		// 	"--analyze",
+		// 	"-std=gnu++98",
+		// 	"-mpart=uc3a1128",
+		// 	"-o",
+		// 	"-"
+		// ],
 		"sublimeclang_options": [
+			"-Wall",
 			"-I${this_file_path}/aery32",
 			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/avr32/include",
+			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include",
+			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include-fixed",
 			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include/c++",
 			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include/c++/avr32",
 			"-D__AVR32_UC3A1128__",
@@ -47,8 +58,8 @@
 			"-D__INT_MAX__=2147483647",
 			"-D__SHRT_MAX__=32767"
 		],
-		"sublimeclang_show_output_panel": false,
-		"sublimeclang_show_status": false,
-		"sublimeclang_show_visual_error_marks": false
+		"sublimeclang_show_output_panel": true,
+		"sublimeclang_show_status": true,
+		"sublimeclang_show_visual_error_marks": true
 	}
 }
