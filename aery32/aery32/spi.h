@@ -101,11 +101,11 @@ void spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
  *
  * \code
  * uint16_t rd; // read data
- * rd = spi_transmit(spi0, 0, 0x00, true);
+ * rd = spi_transmit(spi0, 0, 0x00);
  * \endcode
  */
 uint16_t spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
-		 uint16_t data, bool islast);
+		 uint16_t data, bool islast = true);
 
 /**
  * Enables the SPI peripheral
@@ -118,6 +118,14 @@ void spi_enable(volatile avr32_spi_t *pspi);
  * \param pspi Pointer to the SPI peripheral which to disable
  */
 void spi_disable(volatile avr32_spi_t *pspi);
+
+bool spi_isbusy(volatile avr32_spi_t *pspi);
+
+bool spi_has_enabled(volatile avr32_spi_t *pspi);
+
+bool spi_has_rxdata(volatile avr32_spi_t *pspi, bool reread_status = true);
+
+bool spi_has_overrun(volatile avr32_spi_t *pspi, bool reread_status = false);
 
 } /* end of namespace */
 

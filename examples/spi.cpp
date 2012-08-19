@@ -43,7 +43,7 @@ int main(void)
 		 * by using SPI0 peripheral and chip select pin 0. The return value
 		 * is the received data.
 		 */
-		rd0 = spi_transmit(spi0, 0, 0x5155, true);
+		rd0 = spi_transmit(spi0, 0, 0x5155);
 
 		/*
 		 * Partially transfer 24 bit word in 8 bits wide chunks by using

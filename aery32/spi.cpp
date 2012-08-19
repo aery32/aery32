@@ -18,8 +18,18 @@
 
 #include "aery32/spi.h"
 
-volatile avr32_spi_t *aery::spi0 = &AVR32_SPI0;
-volatile avr32_spi_t *aery::spi1 = &AVR32_SPI1;
+namespace aery {
+	volatile avr32_spi_t *spi0 = &AVR32_SPI0;
+	volatile avr32_spi_t *spi1 = &AVR32_SPI1;
+	volatile uint32_t __spi_lsr[2] = { AVR32_SPI0.sr, AVR32_SPI1.sr };
+}
+
+static uint8_t pspi2num(volatile avr32_spi_t *pspi)
+{
+	uint8_t n = 0;
+	for (; pspi != aery::spi0 + n; n++);
+	return n;
+}
 
 void aery::spi_init_master(volatile avr32_spi_t *pspi)
 {
@@ -51,7 +61,7 @@ void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 			((mode & 2) << AVR32_SPI_CSR0_NCPHA_OFFSET) |
 			((bits - 8) << AVR32_SPI_CSR0_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR0_CSAAT_OFFSET) |
-		 	(255 << AVR32_SPI_CSR0_SCBR_OFFSET) |
+			(255 << AVR32_SPI_CSR0_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR0_DLYBCT_OFFSET);
 		break;
 	case 1:
@@ -60,7 +70,7 @@ void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 			((mode & 2) << AVR32_SPI_CSR1_NCPHA_OFFSET) |
 			((bits - 8) << AVR32_SPI_CSR1_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR1_CSAAT_OFFSET) |
-		 	(255 << AVR32_SPI_CSR1_SCBR_OFFSET) |
+			(255 << AVR32_SPI_CSR1_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR1_DLYBCT_OFFSET);
 		break;
 	case 2:
@@ -69,7 +79,7 @@ void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 			((mode & 2) << AVR32_SPI_CSR2_NCPHA_OFFSET) |
 			((bits-8) << AVR32_SPI_CSR2_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR2_CSAAT_OFFSET) |
-		 	(255 << AVR32_SPI_CSR2_SCBR_OFFSET) |
+			(255 << AVR32_SPI_CSR2_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR2_DLYBCT_OFFSET);
 		break;
 	case 3:
@@ -78,7 +88,7 @@ void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 			((mode & 2) << AVR32_SPI_CSR3_NCPHA_OFFSET) |
 			((bits - 8) << AVR32_SPI_CSR3_BITS_OFFSET) |
 			(1 << AVR32_SPI_CSR3_CSAAT_OFFSET) |
-		 	(255 << AVR32_SPI_CSR3_SCBR_OFFSET) |
+			(255 << AVR32_SPI_CSR3_SCBR_OFFSET) |
 			(1 << AVR32_SPI_CSR3_DLYBCT_OFFSET);
 		break;
 	}
@@ -87,9 +97,6 @@ void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
 uint16_t aery::spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
 		uint16_t data, bool islast)
 {
-	/* Wait previous transfer to complete */
-	while ((pspi->sr & AVR32_SPI_SR_TXEMPTY_MASK) == 0);
-
 	/*
 	 * Setup chip select bits. If PCSDEC = 1 then PCS == npcs, otherwise
 	 * map npcs nubmer to the corresponding PCS as it is defined in the
@@ -111,9 +118,8 @@ uint16_t aery::spi_transmit(volatile avr32_spi_t *pspi, uint8_t npcs,
 		(npcs << AVR32_SPI_TDR_PCS_OFFSET) |
 		(data << AVR32_SPI_TDR_TD_OFFSET) |			   
 		(islast << AVR32_SPI_TDR_LASTXFER_OFFSET);
-	
-	/* When accessible return the read data */
-	while ((pspi->sr & AVR32_SPI_SR_RDRF_MASK) == 0);
+
+	while (aery::spi_has_rxdata(pspi, true) == false);
 	return pspi->RDR.rd;
 }
 
@@ -125,4 +131,32 @@ void aery::spi_enable(volatile avr32_spi_t *pspi)
 void aery::spi_disable(volatile avr32_spi_t *pspi)
 {
 	pspi->CR.spien = 0;
+}
+
+bool aery::spi_isbusy(volatile avr32_spi_t *pspi)
+{
+	uint8_t n = pspi2num(pspi);
+	aery::__spi_lsr[n] = pspi->sr;
+	return (aery::__spi_lsr[n] & AVR32_SPI_SR_TXEMPTY_MASK) == 0;
+}
+
+bool aery::spi_has_enabled(volatile avr32_spi_t *pspi)
+{
+	return pspi->CR.spien == 1;
+}
+
+bool aery::spi_has_rxdata(volatile avr32_spi_t *pspi, bool reread_status)
+{
+	uint8_t n = pspi2num(pspi);
+	if (reread_status)
+		aery::__spi_lsr[n] = pspi->sr;
+	return (aery::__spi_lsr[n] & AVR32_SPI_SR_RDRF_MASK) == 1;
+}
+
+bool aery::spi_has_overrun(volatile avr32_spi_t *pspi, bool reread_status)
+{
+	uint8_t n = pspi2num(pspi);
+	if (reread_status)
+		aery::__spi_lsr[n] = pspi->sr;
+	return (aery::__spi_lsr[n] & AVR32_SPI_SR_OVRES_MASK) == 1;
 }
