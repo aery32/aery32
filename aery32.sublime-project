@@ -35,6 +35,20 @@
 	],
 	"settings":
 	{
-		"tab_size": 8
+		"tab_size": 8,
+		"sublimeclang_options": [
+			"-I${this_file_path}/aery32",
+			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/avr32/include",
+			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include/c++",
+			"-IC:/Program Files (x86)/Atmel/AVR Tools/AVR Toolchain/lib/gcc/avr32/4.4.3/include/c++/avr32",
+			"-D__AVR32_UC3A1128__",
+			"-D__GNUC__=4",
+			"-D__SCHAR_MAX__=127",
+			"-D__INT_MAX__=2147483647",
+			"-D__SHRT_MAX__=32767"
+		],
+		"sublimeclang_show_output_panel": false,
+		"sublimeclang_show_status": false,
+		"sublimeclang_show_visual_error_marks": false
 	}
 }
