@@ -36,7 +36,7 @@
 	"settings":
 	{
 		"tab_size": 8,
-		"sublimeclang_enabled": true,
+		"sublimeclang_enabled": false,
 		"sublimeclang_options": [
 			"-Wall",
 			"-I${this_file_path}/aery32",
