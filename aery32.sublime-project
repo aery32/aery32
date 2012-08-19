@@ -36,7 +36,7 @@
 	"settings":
 	{
 		"tab_size": 8,
-		"sublimeclang_enabled": false,
+		"sublimeclang_enabled": true,
 		"sublimeclang_options": [
 			"-Wall",
 			"-I${this_file_path}/aery32",
@@ -52,8 +52,8 @@
 			"-D__SHRT_MAX__=32767"
 		],
 		"sublimeclang_dont_prepend_clang_includes": true,
-		"sublimeclang_show_output_panel": true,
-		"sublimeclang_show_status": true,
+		"sublimeclang_show_output_panel": false,
+		"sublimeclang_show_status": false,
 		"sublimeclang_show_visual_error_marks": true
 	}
 }
