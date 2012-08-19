@@ -87,8 +87,8 @@ void aery::adc_disable(uint8_t chamask)
 int aery::adc_isbusy(uint8_t chamask)
 {
 	using namespace aery;
-
 	__adc_lsr = AVR32_ADC.sr;
+
 	if (AVR32_ADC.chsr == 0 || (AVR32_ADC.chsr & chamask) != chamask)
 		return -1;
 	if (chamask == 0)
@@ -96,10 +96,11 @@ int aery::adc_isbusy(uint8_t chamask)
 	return (__adc_lsr & chamask) == chamask;
 }
 
-bool adc_hasoverrun(uint8_t chamask)
+bool adc_has_overrun(uint8_t chamask, bool reread_status)
 {
-	using namespace aery;
+	if (reread_status)
+		aery::__adc_lsr = AVR32_ADC.sr;
 	if (chamask == 0)
-		return (__adc_lsr & AVR32_ADC_GOVRE_MASK);
-	return (__adc_lsr & (chamask << AVR32_ADC_OVRE0_OFFSET));
+		return (aery::__adc_lsr & AVR32_ADC_GOVRE_MASK);
+	return (aery::__adc_lsr & (chamask << AVR32_ADC_OVRE0_OFFSET));
 }
