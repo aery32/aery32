@@ -19,8 +19,10 @@
 #include "aery32/adc.h"
 #include "aery32/pm.h"
 
-volatile avr32_adc_t *aery::adc = &AVR32_ADC;
-volatile uint32_t aery::__adc_lsr = AVR32_ADC.sr;
+namespace aery {
+	volatile avr32_adc_t *adc = &AVR32_ADC;
+	volatile uint32_t __adc_lsr = AVR32_ADC.sr;
+}
 
 int aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 		uint8_t startup)

@@ -19,8 +19,10 @@
 #include <cstring>
 #include "aery32/flashc.h"
 
-volatile avr32_flashc_t *aery::flashc = &AVR32_FLASHC;
-volatile uint32_t aery::__flashc_lsr = AVR32_FLASHC.fsr;
+namespace aery {
+	volatile avr32_flashc_t *flashc = &AVR32_FLASHC;
+	volatile uint32_t __flashc_lsr = AVR32_FLASHC.fsr;
+}
 
 static void *memcpy32(void *dest, const void *src, size_t count)
 {
