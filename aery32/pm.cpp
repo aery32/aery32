@@ -85,8 +85,7 @@ int aery::pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 
 	if (mul < 3 || mul > 16) /* mul < 3, is not a typo */
 		return -1;
-	if (was_enabled)
-		ppll->pllen = 0;
+	ppll->pllen = 0;
 
 	ppll->plltest = 0;
 	ppll->plliotesten = 0;
