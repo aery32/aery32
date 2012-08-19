@@ -36,14 +36,7 @@
 	"settings":
 	{
 		"tab_size": 8,
-		// "sublimeclang_analyzer_commandline": [
-		// 	"avr32-g++",
-		// 	"--analyze",
-		// 	"-std=gnu++98",
-		// 	"-mpart=uc3a1128",
-		// 	"-o",
-		// 	"-"
-		// ],
+		"sublimeclang_enabled": true,
 		"sublimeclang_options": [
 			"-Wall",
 			"-I${this_file_path}/aery32",
