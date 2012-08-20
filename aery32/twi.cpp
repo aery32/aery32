@@ -35,7 +35,6 @@ void aery::twi_init_master(void)
 
 	/* Disable slave mode and enable as master */
 	aery::twi->CR.svdis = 1;
-	aery::twi->CR.msdis = 0;
 	aery::twi->CR.msen = 1;
 }
 
@@ -46,10 +45,9 @@ void aery::twi_init_slave(uint16_t sla)
 	while (aery::twi->CR.swrst);
 
 	/* Disable master mode and enable as slave with SLA */
-	aery::twi->CR.msdis = 1;
-	aery::twi->CR.svdis = 0;
-	aery::twi->CR.sven = 1;
 	aery::twi->SMR.sadr = sla;
+	aery::twi->CR.msdis = 1;
+	aery::twi->CR.sven = 1;
 }
 
 int aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
@@ -106,7 +104,7 @@ int aery::twi_write_byte(uint8_t data)
 	while (aery::twi_isbusy());
 	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
 		return ETWI_WRITE_NACK;
-	while (aery::twi->SR.txcomp == 0);
+	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
 	return 0;
 }
 
