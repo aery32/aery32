@@ -32,12 +32,8 @@ int main(void)
 	}
 
 	if (twi_slave_found) {
-		/* You may omit the register if not needed */
-		twi_write_byte(
-			0x90 /* data */,
-			0x80 /* register */
-		);
-		read_data = twi_read_byte(0x80 /* register */);
+		twi_write_byte(0x90 /* data */, 0x80 /* internal device address */);
+		read_data = twi_read_byte(0x80 /* internal device address */);
 	}
 
 	for(;;) {

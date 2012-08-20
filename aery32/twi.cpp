@@ -31,9 +31,8 @@ void aery::twi_init_master(void)
 
 	/* Setup SLK to 400 kHz by default with 50% duty cycle */
 	aery::twi_setup_clkwaveform(0x01, 0x3f, 0x3f);
+	aery::twi_clear_internal_address();
 
-
-	
 	/* Disable slave mode and enable as master */
 	aery::twi->CR.svdis = 1;
 	aery::twi->CR.msdis = 0;
