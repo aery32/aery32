@@ -46,20 +46,23 @@ extern volatile avr32_twi_t *twi;
 extern volatile uint32_t __twi_lsr;
 
 void twi_init_master(void);
-int twi_init_slave(uint16_t sla);
+void twi_init_slave(uint16_t sla);
 
 int twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv);
 
 void twi_select_slave(uint16_t sla);
 
-int twi_write_byte(uint8_t data);
-int twi_write_byte(uint8_t data, uint16_t regaddr);
+int twi_use_internal_address(uint32_t iadr, uint8_t n = 1);
+void twi_clear_internal_address(void);
 
 int twi_read_byte(void);
-int twi_read_byte(uint16_t regaddr);
+int twi_read_byte(uint8_t iadr);
 
-int twi_write_nbytes(uint8_t *buffer, uint8_t n);
+int twi_write_byte(uint8_t data);
+int twi_write_byte(uint8_t data, uint8_t iadr);
+
 int twi_read_nbytes(uint8_t *buffer, uint8_t n);
+int twi_write_nbytes(uint8_t *buffer, uint8_t n);
 
 bool twi_isbusy(void);
 

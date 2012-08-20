@@ -25,21 +25,32 @@ namespace aery {
 
 void aery::twi_init_master(void)
 {
-	/* Software reset. Just in case. */
+	/* Software reset. */
 	aery::twi->CR.swrst = 1;
 	while (aery::twi->CR.swrst);
 
 	/* Setup SLK to 400 kHz by default with 50% duty cycle */
 	aery::twi_setup_clkwaveform(0x01, 0x3f, 0x3f);
+
+
 	
 	/* Disable slave mode and enable as master */
-	aery::twi->CR.svdis = 0;
+	aery::twi->CR.svdis = 1;
+	aery::twi->CR.msdis = 0;
 	aery::twi->CR.msen = 1;
 }
 
-int aery::twi_init_slave(uint16_t sla)
+void aery::twi_init_slave(uint16_t sla)
 {
-	return 0; /* TODO */
+	/* Software reset. */
+	aery::twi->CR.swrst = 1;
+	while (aery::twi->CR.swrst);
+
+	/* Disable master mode and enable as slave with SLA */
+	aery::twi->CR.msdis = 1;
+	aery::twi->CR.svdis = 0;
+	aery::twi->CR.sven = 1;
+	aery::twi->SMR.sadr = sla;
 }
 
 int aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
@@ -57,6 +68,20 @@ void aery::twi_select_slave(uint16_t sla)
 	aery::twi->MMR.dadr = sla;
 }
 
+int aery::twi_use_internal_address(uint32_t iadr, uint8_t n)
+{
+	if (iadr > 0xffffff)
+		return -1;
+	aery::twi->IADR.iadr = iadr;
+	aery::twi->MMR.iadrsz = n;
+	return 0;
+}
+
+void aery::twi_clear_internal_address(void)
+{
+	aery::twi_use_internal_address(0, 0);
+}
+
 int aery::twi_read_byte(void)
 {
 	aery::twi->MMR.mread = 1; /* Switch to read mode */
@@ -68,9 +93,10 @@ int aery::twi_read_byte(void)
 	return aery::twi->RHR.rxdata;
 }
 
-int aery::twi_read_byte(uint16_t regaddr)
+int aery::twi_read_byte(uint8_t iadr)
 {
-	return 0; /* TODO */
+	aery::twi_use_internal_address(iadr, 1);
+	return aery::twi_read_byte();
 }
 
 int aery::twi_write_byte(uint8_t data)
@@ -85,10 +111,9 @@ int aery::twi_write_byte(uint8_t data)
 	return 0;
 }
 
-int aery::twi_write_byte(uint8_t data, uint16_t regaddr)
+int aery::twi_write_byte(uint8_t data, uint8_t iadr)
 {
-	aery::twi->MMR.iadrsz = 1;
-	aery::twi->IADR.iadr = regaddr;
+	aery::twi_use_internal_address(iadr, 1);
 	return aery::twi_write_byte(data);
 }
 
