@@ -18,9 +18,11 @@
 
 #include "aery32/pm.h"
 
-volatile avr32_pm_t *aery::pm = &AVR32_PM;
-volatile avr32_pm_pll_t *aery::pll0 = &AVR32_PM.PLL[0];
-volatile avr32_pm_pll_t *aery::pll1 = &AVR32_PM.PLL[1];
+namespace aery {
+	volatile avr32_pm_t *pm = &AVR32_PM;
+	volatile avr32_pm_pll_t *pll0 = &AVR32_PM.PLL[0];
+	volatile avr32_pm_pll_t *pll1 = &AVR32_PM.PLL[1];
+}
 
 #define CKSEL_RESET_MASK(SEL) \
 	(~(AVR32_PM_CKSEL_##SEL##SEL_MASK | AVR32_PM_CKSEL_##SEL##DIV_MASK))
@@ -85,8 +87,7 @@ int aery::pm_init_pllvco(volatile avr32_pm_pll_t *ppll, enum Pm_pll_source src,
 
 	if (mul < 3 || mul > 16) /* mul < 3, is not a typo */
 		return -1;
-	if (was_enabled)
-		ppll->pllen = 0;
+	ppll->pllen = 0;
 
 	ppll->plltest = 0;
 	ppll->plliotesten = 0;

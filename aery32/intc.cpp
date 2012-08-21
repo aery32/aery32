@@ -22,7 +22,9 @@
 extern const unsigned int _ipr[20];
 extern const unsigned int _evba;
 
-volatile avr32_intc_t *aery::intc = &AVR32_INTC;
+namespace aery {
+	volatile avr32_intc_t *intc = &AVR32_INTC;
+}
 
 /*
  * ISR handler table; pointers to interrupt service routine functions.

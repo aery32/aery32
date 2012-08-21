@@ -18,12 +18,14 @@
 
 #include "aery32/gpio.h"
 
-volatile avr32_gpio_port_t *aery::porta = &AVR32_GPIO.port[0];
-volatile avr32_gpio_port_t *aery::portb = &AVR32_GPIO.port[1];
-volatile avr32_gpio_port_t *aery::portc = &AVR32_GPIO.port[2];
-volatile avr32_gpio_local_port_t *aery::lporta = &AVR32_GPIO_LOCAL.port[0];
-volatile avr32_gpio_local_port_t *aery::lportb = &AVR32_GPIO_LOCAL.port[1];
-volatile avr32_gpio_local_port_t *aery::lportc = &AVR32_GPIO_LOCAL.port[2];
+namespace aery {
+	volatile avr32_gpio_port_t *porta = &AVR32_GPIO.port[0];
+	volatile avr32_gpio_port_t *portb = &AVR32_GPIO.port[1];
+	volatile avr32_gpio_port_t *portc = &AVR32_GPIO.port[2];
+	volatile avr32_gpio_local_port_t *lporta = &AVR32_GPIO_LOCAL.port[0];
+	volatile avr32_gpio_local_port_t *lportb = &AVR32_GPIO_LOCAL.port[1];
+	volatile avr32_gpio_local_port_t *lportc = &AVR32_GPIO_LOCAL.port[2];
+}
 
 void aery::gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 		int options)

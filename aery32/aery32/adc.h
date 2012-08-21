@@ -136,12 +136,13 @@ int adc_isbusy(uint8_t chamask = 0);
  * Tells if the Analog-to-digital conversion has overrun
  * \param chamask Channel mask for which channels to check. Default mask
  *                value is 0.
+ * \param reread Rereads the status register. Optional. Default false.
  * \return True if any of the channels defined in the chamask has been
  *         overrun. If the chamask has been omitted, the function will
  *         return true in case of general overrun, being essentially the
  *         same than the call of adc_hasoverrun(0xff).
  */
-bool adc_hasoverrun(uint8_t chamask = 0);
+bool adc_has_overrun(uint8_t chamask = 0, bool reread = false);
 
 } /* end of namespace */
 

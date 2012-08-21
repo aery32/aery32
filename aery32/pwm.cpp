@@ -18,7 +18,9 @@
 
 #include "aery32/pwm.h"
 
-volatile avr32_pwm_t *aery::pwm = &AVR32_PWM;
+namespace aery {
+	volatile avr32_pwm_t *pwm = &AVR32_PWM;
+}
 
 int aery::pwm_init_divab(enum Pwm_channel_clk prea, uint8_t diva,
 		enum Pwm_channel_clk preb, uint8_t divb)
