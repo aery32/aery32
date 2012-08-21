@@ -23,6 +23,10 @@ namespace aery {
 	volatile uint32_t __twi_lsr = AVR32_TWI.sr;
 }
 
+#define TWI_WAS_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
+#define TWI_WASNT_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 1)
+#define TWI_WAIT_TO_COMPLETE() while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK)
+
 void aery::twi_init_master(void)
 {
 	/* Software reset. */
@@ -94,7 +98,7 @@ size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 
 	for (i = 1; i < n - 1; i++) {
 		while (aery::twi_isbusy());
-		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+		if (TWI_WASNT_ACKNOWLEDGED())
 			break;
 		data[i] = aery::twi->RHR.rxdata;
 	}
@@ -103,14 +107,13 @@ size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 	aery::twi->cr |= AVR32_TWI_CR_STOP_MASK;
 
 	/* Read last byte */
-	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) {
+	if (TWI_WAS_ACKNOWLEDGED()) {
 		while (aery::twi_isbusy());
-		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+		if (TWI_WAS_ACKNOWLEDGED())
 			data[i++] = aery::twi->RHR.rxdata;
 	}
 
-	/* Wait read operation to complete */
-	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
+	TWI_WAIT_TO_COMPLETE();
 	return i;
 }
 
@@ -131,11 +134,10 @@ size_t aery::twi_read_byte(uint8_t *data)
 	aery::twi->cr |= AVR32_TWI_CR_START_MASK | AVR32_TWI_CR_STOP_MASK;
 
 	while (aery::twi_isbusy());
-	if ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
+	if (TWI_WAS_ACKNOWLEDGED())
 		data[i++] = aery::twi->RHR.rxdata;
 
-	/* Wait read operation to complete */
-	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
+	TWI_WAIT_TO_COMPLETE();
 	return i;
 }
 
@@ -155,12 +157,11 @@ size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
 	for (; i < n; i++) {
 		aery::twi->THR.txdata = *data;
 		while (aery::twi_isbusy());
-		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+		if (TWI_WASNT_ACKNOWLEDGED())
 			break;
 	}
 	
-	/* Wait write operation to complete */
-	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
+	TWI_WAIT_TO_COMPLETE();
 	return i;
 }
 
