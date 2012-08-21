@@ -32,8 +32,11 @@ int main(void)
 	}
 
 	if (twi_slave_found) {
-		twi_write_byte(0x90 /* data */, 0x80 /* internal device address */);
-		read_data = twi_read_byte(0x80 /* internal device address */);
+		/* Writes 0x90 using 0x80 as internal device address */
+		twi_write_byte(0x90, 0x80);
+
+		/* Reads from the same address (0x80) */
+		twi_read_byte(&read_data);
 	}
 
 	for(;;) {

@@ -79,39 +79,105 @@ void aery::twi_clear_internal_address(void)
 	aery::twi_use_internal_address(0, 0);
 }
 
-int aery::twi_read_byte(void)
+size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 {
-	aery::twi->MMR.mread = 1; /* Switch to read mode */
-	aery::twi->cr |= 3; /* START and STOP have to been written at once */
+	size_t i = 0;
 
-	while (aery::twi_isbusy());
-	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
-		return ETWI_READ_NACK;
-	return aery::twi->RHR.rxdata;
-}
+	if (n == 1)
+		return aery::twi_read_byte(data);
 
-int aery::twi_read_byte(uint8_t iadr)
-{
-	aery::twi_use_internal_address(iadr, 1);
-	return aery::twi_read_byte();
-}
+	/* Switch to read mode */
+	aery::twi->MMR.mread = 1;
+	
+	/* Start multiple byte read operation */
+	aery::twi->cr |= AVR32_TWI_CR_START_MASK;
 
-int aery::twi_write_byte(uint8_t data)
-{
-	aery::twi->MMR.mread = 0; /* Switch to write mode */
-	aery::twi->THR.txdata = data;
+	for (i = 1; i < n - 1; i++) {
+		while (aery::twi_isbusy());
+		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+			break;
+		data[i] = aery::twi->RHR.rxdata;
+	}
 
-	while (aery::twi_isbusy());
-	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
-		return ETWI_WRITE_NACK;
+	/* Send STOP */
+	aery::twi->cr |= AVR32_TWI_CR_STOP_MASK;
+
+	/* Read last byte */
+	if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) {
+		while (aery::twi_isbusy());
+		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+			data[i++] = aery::twi->RHR.rxdata;
+	}
+
+	/* Wait read operation to complete */
 	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
-	return 0;
+	return i;
 }
 
-int aery::twi_write_byte(uint8_t data, uint8_t iadr)
+size_t aery::twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr)
 {
 	aery::twi_use_internal_address(iadr, 1);
-	return aery::twi_write_byte(data);
+	return aery::twi_read_nbytes(data, n);
+}
+
+size_t aery::twi_read_byte(uint8_t *data)
+{
+	size_t i = 0;
+
+	/* Switch to read mode */
+	aery::twi->MMR.mread = 1;
+
+	/* Start one byte read operation */
+	aery::twi->cr |= AVR32_TWI_CR_START_MASK | AVR32_TWI_CR_STOP_MASK;
+
+	while (aery::twi_isbusy());
+	if ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
+		data[i++] = aery::twi->RHR.rxdata;
+
+	/* Wait read operation to complete */
+	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
+	return i;
+}
+
+size_t aery::twi_read_byte(uint8_t *data, uint8_t iadr)
+{
+	aery::twi_use_internal_address(iadr, 1);
+	return aery::twi_read_byte(data);
+}
+
+size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
+{
+	size_t i = 0;
+
+	/* Switch to write mode */
+	aery::twi->MMR.mread = 0;
+	
+	for (; i < n; i++) {
+		aery::twi->THR.txdata = *data;
+		while (aery::twi_isbusy());
+		if (aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK)
+			break;
+	}
+	
+	/* Wait write operation to complete */
+	while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK);
+	return i;
+}
+
+size_t aery::twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr)
+{
+	aery::twi_use_internal_address(iadr, 1);
+	return aery::twi_write_nbytes(data, n);
+}
+
+size_t aery::twi_write_byte(uint8_t data)
+{
+	return aery::twi_write_nbytes(&data, 1);
+}
+
+size_t aery::twi_write_byte(uint8_t data, uint8_t iadr)
+{
+	return aery::twi_write_nbytes(&data, 1, iadr);
 }
 
 bool aery::twi_isbusy(void)
