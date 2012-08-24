@@ -25,7 +25,7 @@ namespace aery {
 
 #define TWI_WAS_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
 #define TWI_WASNT_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 1)
-#define TWI_WAIT_TO_COMPLETE() while ((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK)
+#define TWI_WAIT_TO_COMPLETE() while (((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK) == 0)
 
 void aery::twi_init_master(void)
 {
@@ -96,7 +96,7 @@ size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 	/* Start multiple byte read operation */
 	aery::twi->cr |= AVR32_TWI_CR_START_MASK;
 
-	for (i = 1; i < n - 1; i++) {
+	for (; i < n - 1; i++) {
 		while (aery::twi_isbusy());
 		if (TWI_WASNT_ACKNOWLEDGED())
 			break;

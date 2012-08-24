@@ -30,10 +30,6 @@ extern "C" {
 	#include <avr32/io.h>
 }
 
-/* TWI error codes */
-#define ETWI_WRITE_NACK -2
-#define ETWI_READ_NACK  -3
-
 namespace aery {
 
 /**
@@ -54,12 +50,6 @@ extern volatile uint32_t __twi_lsr;
 void twi_init_master(void);
 
 /**
- * Initializes TWI as slave
- * \param sla Slave address
- */
-void twi_init_slave(uint16_t sla);
-
-/**
  * Setup TWI SLK waveform
  * \param ckdiv Clock divider
  * \param cldiv Clock low divider
@@ -76,12 +66,14 @@ void twi_select_slave(uint16_t sla);
 
 /**
  * Use device (slave's) internal address
- * \param iadr Device internal address
- * \param n    Address length. 1-3 bytes.
+ * \param iadr Device internal address. Means the slave's register.
+ * \param n Address length in bytes: 1, 2 or 3 bytes. Zero clears the
+ *          address and disables its usage.
  * \return 0 on success, -1 on error
  *
- * Once set the address will be used for all of the following read/write
- * opertaions. Call twi_clear_internal_address() to clear.
+ * \note Once set the address will be used for every read/write opertaions
+ * that follows calling this function. To revert this behavior call
+ * aery::twi_clear_internal_address().
  */
 int twi_use_internal_address(uint32_t iadr, uint8_t n);
 
@@ -93,42 +85,72 @@ int twi_use_internal_address(uint32_t iadr, uint8_t n);
 void twi_clear_internal_address(void);
 
 /**
- * Read n pieces of bytes
+ * Reads n number of bytes
  * \param data Pointer to data buffer
- * \param n    Number of bytes to read
+ * \param n Number of bytes to read
  * \return number of read bytes
  */
 size_t twi_read_nbytes(uint8_t *data, size_t n);
+
+/**
+ * Reads n number of bytes using the specific device internal address
+ * \param data Pointer to space where to read the data
+ * \param n Number of bytes to read
+ * \param iadr Device internal address
+ * \return number of read bytes
+ */
 size_t twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr);
 
 /**
- * Read one byte
- * \param data Pointer to data buffer
+ * Reads one byte
+ * \param data Pointer to space where to read the data
  * \return number of read bytes
  */
 size_t twi_read_byte(uint8_t *data);
+
+/**
+ * Reads one byte using the specific device internal address
+ * \param data Pointer to space where to read the data
+ * \param iadr Device internal address. Slave's register
+ * \return number of read bytes
+ */
 size_t twi_read_byte(uint8_t *data, uint8_t iadr);
 
 /**
- * Write n pieces of bytes
+ * Writes n number of bytes
  * \param data Pointer to data buffer
- * \param n    Number of bytes to read
+ * \param n Number of bytes to write
  * \return number of written bytes
  */
 size_t twi_write_nbytes(uint8_t *data, size_t n);
+
+/**
+ * Writes n number of bytes using the specific device internal address
+ * \param data Data to be written
+ * \param n Number of bytes to write
+ * \param iadr Device internal address. Slave's register.
+ * \return number of read bytes
+ */
 size_t twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr);
 
 /**
- * Write one byte
+ * Writes one byte
  * \param data Data to be written
  * \return number of read bytes
  */
 size_t twi_write_byte(uint8_t data);
+
+/**
+ * Writes one byte using the specific device internal address
+ * \param data Data to be written
+ * \param iadr Device internal address. Slave's register.
+ * \return number of read bytes
+ */
 size_t twi_write_byte(uint8_t data, uint8_t iadr);
 
 /**
  * Tells if TWI bus is busy
- * \return True if busy. False if ready.
+ * \return True if busy, false if ready.
  */
 bool twi_isbusy(void);
 
