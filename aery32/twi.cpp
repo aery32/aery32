@@ -194,3 +194,10 @@ bool aery::twi_isbusy(void)
 	}
 	return (aery::__twi_lsr & AVR32_TWI_SR_TXRDY_MASK) == 0;
 }
+
+bool aery::twi_has_overrun(bool reread)
+{
+	if (reread)
+		aery::__twi_lsr = aery::twi->sr;
+	return (aery::__twi_lsr & AVR32_TWI_SR_OVRE_MASK) == 1;
+}

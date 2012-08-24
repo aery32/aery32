@@ -160,6 +160,13 @@ size_t twi_write_byte(uint8_t data, uint8_t iadr);
  */
 bool twi_isbusy(void);
 
+/**
+ * Tells if the TWI has read/write operationr has been overrun
+ * \param reread Rereads the status register. Optional. Default false.
+ * \return True if has overrun. False if everything is ok.
+ */
+bool twi_has_overrun(bool reread = false);
+
 } /* end of namespace */
 
 #endif
