@@ -7,7 +7,7 @@ int main(void)
 {
 	/*
 	 * Put your application initialization sequence here. The default
-	 * board_init() setups the LED pin and the CPU clock (66 MHz).
+	 * board_init() sets up the LED pin and the CPU clock to 66 MHz.
 	 */
 	init_board();
 
