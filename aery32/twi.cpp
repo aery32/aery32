@@ -47,17 +47,17 @@ void aery::twi_init_master(void)
 	aery::twi->CR.msen = 1;
 }
 
-void aery::twi_init_slave(uint16_t sla)
-{
-	/* Software reset. */
-	aery::twi->CR.swrst = 1;
-	while (aery::twi->CR.swrst);
+// void aery::twi_init_slave(uint16_t sla)
+// {
+// 	/* Software reset. */
+// 	aery::twi->CR.swrst = 1;
+// 	while (aery::twi->CR.swrst);
 
-	/* Disable master mode and enable as slave with SLA */
-	aery::twi->SMR.sadr = sla;
-	aery::twi->CR.msdis = 1;
-	aery::twi->CR.sven = 1;
-}
+// 	 Disable master mode and enable as slave with SLA 
+// 	aery::twi->SMR.sadr = sla;
+// 	aery::twi->CR.msdis = 1;
+// 	aery::twi->CR.sven = 1;
+// }
 
 int aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
 {
