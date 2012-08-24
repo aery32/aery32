@@ -25,7 +25,12 @@ namespace aery {
 
 #define TWI_WAS_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
 #define TWI_WASNT_ACKNOWLEDGED() ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 1)
-#define TWI_WAIT_TO_COMPLETE() while (((aery::__twi_lsr = aery::twi->sr) & AVR32_TWI_SR_TXCOMP_MASK) == 0)
+
+static void twi_wait_to_complete(void)
+{
+	while ((aery::__twi_lsr & AVR32_TWI_SR_TXCOMP_MASK) == 0)
+		aery::__twi_lsr = aery::twi->sr;
+}
 
 void aery::twi_init_master(void)
 {
@@ -113,7 +118,7 @@ size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 			data[i++] = aery::twi->RHR.rxdata;
 	}
 
-	TWI_WAIT_TO_COMPLETE();
+	twi_wait_to_complete();
 	return i;
 }
 
@@ -137,7 +142,7 @@ size_t aery::twi_read_byte(uint8_t *data)
 	if (TWI_WAS_ACKNOWLEDGED())
 		data[i++] = aery::twi->RHR.rxdata;
 
-	TWI_WAIT_TO_COMPLETE();
+	twi_wait_to_complete();
 	return i;
 }
 
@@ -161,7 +166,7 @@ size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
 			break;
 	}
 	
-	TWI_WAIT_TO_COMPLETE();
+	twi_wait_to_complete();
 	return i;
 }
 

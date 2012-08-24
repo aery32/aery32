@@ -45,7 +45,8 @@ extern volatile uint32_t __twi_lsr;
 /**
  * Initializes TWI as master
  *
- * The SLK is set 400 kHz by default. Use twi_setup_clkwaveform() to reset.
+ * The SLK is set 400 kHz by default. Use aery::twi_setup_clkwaveform() to
+ * reset.
  */
 void twi_init_master(void);
 
@@ -55,6 +56,11 @@ void twi_init_master(void);
  * \param cldiv Clock low divider
  * \param chdiv Clock high divider
  * \return 0 on success, -1 on error
+ *
+ * For example, to set SLK to 100 kHz call
+ * \code
+ * aery::twi_setup_clkwaveform(4, 0x3f, 0x3f);
+ * \endcode
  */
 int twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv);
 
