@@ -69,6 +69,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - Added instructions how to use Sublime Text 2 with SublimeClang plugin. Refer to reference guide.
 - Bug fixes:
   - `aery::gpio_read_pin()` didn't work.
+  - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.
 
 ### v0.3.0
 
