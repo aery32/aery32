@@ -43,6 +43,7 @@
 #include "aery32/pwm.h"
 #include "aery32/rtc.h"
 #include "aery32/spi.h"
+#include "aery32/twi.h"
 
 #include "aery32/string.h"
 
