@@ -64,11 +64,11 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ## Release notes
 ### Changelog for the next release v0.4.0
 - Added Twi-wire (I2C) module functions, see example `twi_scan.cpp`.
-- SPI functions now take advance of C++. More flexible API.
+- SPI functions now take advance of C++. Allows more flexible API.
 - Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
 - Added instructions how to use Sublime Text 2 with SublimeClang plugin. Refer to reference guide.
 - Bug fixes:
-  - aery::gpio_read_pin() didn't work.
+  - `aery::gpio_read_pin()` didn't work.
 
 ### v0.3.0
 
