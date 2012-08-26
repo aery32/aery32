@@ -37,7 +37,7 @@ extern "C" {
 
 /**
  * Converts GPIO number to the corresponding pin number of the port number,
- * which is M_GPIO_NUM2PORT(gpio_number), see datasheet p. 175.
+ * which is GPIO_NUM2PORT(gpio_number), see datasheet p. 175.
  * \param gpio GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc.
  *
  * \par Example:
@@ -154,8 +154,7 @@ static inline void gpio_toggle_pin(uint8_t pinnum)
  */
 static inline bool gpio_read_pin(uint8_t pinnum)
 {
-	return (bool) AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr
-	       & (1UL << GPIO_NUM2PIN(pinnum));
+	return AVR32_GPIO.port[GPIO_NUM2PORT(pinnum)].pvr & (1UL << GPIO_NUM2PIN(pinnum));
 }
 
 /**
