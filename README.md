@@ -70,6 +70,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - Added instructions [how to use Aery32 Framework wtih Eclipse Juno](http://aery32.readthedocs.org/en/latest/use_with_eclipse.html).
 - Bug fixes:
   - `aery::gpio_read_pin()` didn't work.
+  - Global variables were not placed under aery namespace.
   - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.
 
 ### v0.3.0
