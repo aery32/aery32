@@ -63,10 +63,11 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ## Release notes
 ### Changelog for the next release v0.4.0
-- Added Twi-wire (I2C) module functions, see example `twi_scan.cpp`.
+- Added Twi-wire (I2C) module functions, see device scanning example `twi_scan.cpp`.
 - SPI functions now take advance of C++. Allows more flexible API.
 - Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
-- Added instructions how to use Sublime Text 2 with SublimeClang plugin. Refer to reference guide.
+- Added instructions [how to use Aery32 Framework with Sublime Text 2](http://aery32.readthedocs.org/en/latest/use_with_st2.html) and SublimeClang plugin.
+- Added instructions [how to use Aery32 Framework wtih Eclipse Juno](http://aery32.readthedocs.org/en/latest/use_with_eclipse.html).
 - Bug fixes:
   - `aery::gpio_read_pin()` didn't work.
   - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.

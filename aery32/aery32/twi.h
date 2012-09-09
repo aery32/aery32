@@ -45,8 +45,8 @@ extern volatile uint32_t __twi_lsr;
 /**
  * Initializes TWI as master
  *
- * The SLK is set 400 kHz by default. Use aery::twi_setup_clkwaveform() to
- * reset.
+ * The SLK is set 100 kHz by default. Use aery::twi_setup_clkwaveform() to
+ * increase or decrease the SLK frequency.
  */
 void twi_init_master(void);
 
@@ -103,9 +103,12 @@ size_t twi_read_nbytes(uint8_t *data, size_t n);
  * \param data Pointer to space where to read the data
  * \param n Number of bytes to read
  * \param iadr Device internal address
+ * \param iadrlen Device internal address length in bytes. Optional
+ *                Default value is 1 that is 1 byte (8 bits).
  * \return number of read bytes
  */
-size_t twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr);
+size_t twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr,
+		uint8_t iadrlen = 1);
 
 /**
  * Reads one byte
@@ -117,10 +120,12 @@ size_t twi_read_byte(uint8_t *data);
 /**
  * Reads one byte using the specific device internal address
  * \param data Pointer to space where to read the data
- * \param iadr Device internal address. Slave's register
+ * \param iadr Device internal address. Slave's register.
+ * \param iadrlen Device internal address length in bytes. Optional
+ *                Default value is 1 that is 1 byte (8 bits).
  * \return number of read bytes
  */
-size_t twi_read_byte(uint8_t *data, uint8_t iadr);
+size_t twi_read_byte(uint8_t *data, uint8_t iadr, uint8_t iadrlen = 1);
 
 /**
  * Writes n number of bytes
@@ -135,9 +140,12 @@ size_t twi_write_nbytes(uint8_t *data, size_t n);
  * \param data Data to be written
  * \param n Number of bytes to write
  * \param iadr Device internal address. Slave's register.
+ * \param iadrlen Device internal address length in bytes. Optional
+ *                Default value is 1 that is 1 byte (8 bits).
  * \return number of read bytes
  */
-size_t twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr);
+size_t twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr,
+		uint8_t iadrlen = 1);
 
 /**
  * Writes one byte
@@ -150,9 +158,11 @@ size_t twi_write_byte(uint8_t data);
  * Writes one byte using the specific device internal address
  * \param data Data to be written
  * \param iadr Device internal address. Slave's register.
+ * \param iadrlen Device internal address length in bytes. Optional
+ *                Default value is 1 that is 1 byte (8 bits).
  * \return number of read bytes
  */
-size_t twi_write_byte(uint8_t data, uint8_t iadr);
+size_t twi_write_byte(uint8_t data, uint8_t iadr, uint8_t iadrlen = 1);
 
 /**
  * Tells if TWI bus is busy

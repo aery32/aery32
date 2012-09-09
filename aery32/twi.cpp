@@ -34,8 +34,8 @@ void aery::twi_init_master(void)
 	aery::twi->CR.swrst = 1;
 	while (aery::twi->CR.swrst);
 
-	/* Setup SLK to 400 kHz by default with 50% duty cycle */
-	aery::twi_setup_clkwaveform(0x01, 0x3f, 0x3f);
+	/* Setup SLK to 100 kHz by default with 50% duty cycle */
+	aery::twi_setup_clkwaveform(4, 0x3f, 0x3f);
 	aery::twi_clear_internal_address();
 
 	/* Disable slave mode and enable as master */
@@ -87,7 +87,7 @@ void aery::twi_clear_internal_address(void)
 size_t aery::twi_read_nbytes(uint8_t *data, size_t n)
 {
 	using namespace aery;
-	size_t i;
+	size_t i = 0;
 
 	if (n == 1)
 		return twi_read_byte(data);
@@ -127,9 +127,10 @@ error:
 	return i;
 }
 
-size_t aery::twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr)
+size_t aery::twi_read_nbytes(uint8_t *data, size_t n, uint8_t iadr,
+		uint8_t iadrlen)
 {
-	aery::twi_use_internal_address(iadr, 1);
+	aery::twi_use_internal_address(iadr, iadrlen);
 	return aery::twi_read_nbytes(data, n);
 }
 
@@ -151,9 +152,9 @@ size_t aery::twi_read_byte(uint8_t *data)
 	return i;
 }
 
-size_t aery::twi_read_byte(uint8_t *data, uint8_t iadr)
+size_t aery::twi_read_byte(uint8_t *data, uint8_t iadr, uint8_t iadrlen)
 {
-	aery::twi_use_internal_address(iadr, 1);
+	aery::twi_use_internal_address(iadr, iadrlen);
 	return aery::twi_read_byte(data);
 }
 
@@ -175,9 +176,10 @@ size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
 	return i;
 }
 
-size_t aery::twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr)
+size_t aery::twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr,
+		uint8_t iadrlen)
 {
-	aery::twi_use_internal_address(iadr, 1);
+	aery::twi_use_internal_address(iadr, iadrlen);
 	return aery::twi_write_nbytes(data, n);
 }
 
@@ -186,17 +188,16 @@ size_t aery::twi_write_byte(uint8_t data)
 	return aery::twi_write_nbytes(&data, 1);
 }
 
-size_t aery::twi_write_byte(uint8_t data, uint8_t iadr)
+size_t aery::twi_write_byte(uint8_t data, uint8_t iadr, uint8_t iadrlen)
 {
-	return aery::twi_write_nbytes(&data, 1, iadr);
+	return aery::twi_write_nbytes(&data, 1, iadr, iadrlen);
 }
 
 bool aery::twi_isbusy(void)
 {
 	aery::__twi_lsr = aery::twi->sr;
-	if (aery::twi->MMR.mread == 1) {
+	if (aery::twi->MMR.mread == 1)
 		return (aery::__twi_lsr & AVR32_TWI_SR_RXRDY_MASK) == 0;
-	}
 	return (aery::__twi_lsr & AVR32_TWI_SR_TXRDY_MASK) == 0;
 }
 
