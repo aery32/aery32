@@ -62,7 +62,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
-### Changelog for the next release v0.4.0
+### Release v0.4.0
 - Added Twi-wire (I2C) module functions, see device scanning example `twi_scan.cpp`.
 - SPI functions now take advance of C++. Allows more flexible API.
 - Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
