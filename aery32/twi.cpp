@@ -100,12 +100,12 @@ begin:
 	twi->cr |= AVR32_TWI_CR_START_MASK;
 
 	/* Check arbitration */
-	if (((__twi_lsr = twi->sr) & AVR32_TWI_SR_ARBLST_MASK) == 1)
+	if (((__twi_lsr = twi->sr) & AVR32_TWI_SR_ARBLST_MASK) != 0)
 		goto begin;
 
 	for (; i < n - 1; i++) {
 		while (twi_isbusy());
-		if ((__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 1)
+		if ((__twi_lsr & AVR32_TWI_SR_NACK_MASK) != 0)
 			goto error;
 		data[i] = twi->RHR.rxdata;
 	}
@@ -168,7 +168,7 @@ size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
 	for (; i < n; i++) {
 		aery::twi->THR.txdata = *data;
 		while (aery::twi_isbusy());
-		if ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 1)
+		if ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) != 0)
 			break;
 	}
 	
@@ -205,5 +205,5 @@ bool aery::twi_has_overrun(bool reread)
 {
 	if (reread)
 		aery::__twi_lsr = aery::twi->sr;
-	return (aery::__twi_lsr & AVR32_TWI_SR_OVRE_MASK) == 1;
+	return (aery::__twi_lsr & AVR32_TWI_SR_OVRE_MASK) != 0;
 }
