@@ -150,7 +150,7 @@ bool aery::spi_has_rxdata(volatile avr32_spi_t *pspi, bool reread)
 	uint8_t n = pspi2num(pspi);
 	if (reread)
 		aery::__spi_lsr[n] = pspi->sr;
-	return (aery::__spi_lsr[n] & AVR32_SPI_SR_RDRF_MASK) == 1;
+	return (aery::__spi_lsr[n] & AVR32_SPI_SR_RDRF_MASK) != 0;
 }
 
 bool aery::spi_has_overrun(volatile avr32_spi_t *pspi, bool reread)
@@ -158,5 +158,5 @@ bool aery::spi_has_overrun(volatile avr32_spi_t *pspi, bool reread)
 	uint8_t n = pspi2num(pspi);
 	if (reread)
 		aery::__spi_lsr[n] = pspi->sr;
-	return (aery::__spi_lsr[n] & AVR32_SPI_SR_OVRES_MASK) == 1;
+	return (aery::__spi_lsr[n] & AVR32_SPI_SR_OVRES_MASK) != 0;
 }
