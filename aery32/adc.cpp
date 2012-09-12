@@ -95,7 +95,7 @@ int aery::adc_isbusy(uint8_t chamask)
 		return -1;
 	if (chamask == 0)
 		return (__adc_lsr & AVR32_ADC_SR_DRDY_MASK) == 0;
-	return (__adc_lsr & chamask) == chamask;
+	return (__adc_lsr & chamask) != chamask;
 }
 
 bool adc_has_overrun(uint8_t chamask, bool reread)
