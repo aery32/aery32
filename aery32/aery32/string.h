@@ -30,7 +30,7 @@ EXPERIMENTAL!!! These functions may be removed or heavily changed.
 #ifndef __AERY32_STRING_H
 #define __AERY32_STRING_H
 
-#include <cstdio>
+#include <cstring>
 extern "C" {
 	#include <inttypes.h>
 }
