@@ -65,6 +65,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ### Changelog for the next release
 - Bug fixes:
   - `aery::adc_isbusy()` didn't work with channel masks.
+  - Typo in `aery::nputs()` that prevented it to work.
 
 ### v0.4.0
 
