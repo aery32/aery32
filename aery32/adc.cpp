@@ -30,6 +30,7 @@ void aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 
 	/* Software reset */
 	AVR32_ADC.CR.swrst = 1;
+	while (AVR32_ADC.CR.swrst == 1);
 
 	/* Options */
 	AVR32_ADC.MR.prescal = prescal;

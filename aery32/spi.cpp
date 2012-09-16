@@ -33,7 +33,9 @@ static uint8_t pspi2num(volatile avr32_spi_t *pspi)
 
 void aery::spi_init_master(volatile avr32_spi_t *pspi)
 {
-	/* Software reset before intialization */
+	bool was_enabled = aery::spi_is_enabled(pspi);
+
+	/* Software reset */
 	pspi->CR.swrst = 1;
 	while (pspi->CR.swrst);
 
@@ -42,6 +44,9 @@ void aery::spi_init_master(volatile avr32_spi_t *pspi)
 		(1 << AVR32_SPI_MR_MODFDIS_OFFSET) |
 		(1 << AVR32_SPI_MR_PS_OFFSET) |
 		(1 << AVR32_SPI_MR_MSTR_OFFSET);
+
+	if (was_enabled)
+		aery::spi_is_enabled(pspi);
 }
 
 void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,

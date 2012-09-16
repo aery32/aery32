@@ -64,6 +64,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ## Release notes
 ### Changelog for the next release
 - The dependency of PM module has been removed from ADC module. In addition, unnecessary error checking removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
+- `aery::adc_init()` and `aery::spi_init_master()` are aware of reinits (if enabled reinit should keep module enabled).
 - Added `aery::adc_is_enabled()`
 - Added new example, `example/display/hd44780_print_adc.cpp`, that uses hd44780 example to print the result of A/D conversion.
 - `<aery32/string.h>` now includes `<cstring>` for convenience.
