@@ -114,7 +114,7 @@ void aery::pwm_disable(uint8_t chamask)
 	AVR32_PWM.dis = chamask;
 }
 
-bool aery::pwm_isenabled(uint8_t chanum)
+bool aery::pwm_is_enabled(uint8_t chanum)
 {
 	return AVR32_PWM.sr & (1 << chanum);
 }
