@@ -1,4 +1,4 @@
-    
+
       _____             ___ ___   |
      |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
      |     | -_|  _| | |_  |  _|  |  
@@ -63,8 +63,13 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ## Release notes
 ### Changelog for the next release
-- The dependency of PM module has been removed from ADC module. In addition, unnecessary error checking removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
-- `aery::adc_init()` and `aery::spi_init_master()` are aware of reinits (if enabled reinit should keep module enabled).
+
+- ...
+
+### v0.4.1
+
+- The dependency of the PM module has been removed from the ADC module. In addition, an unnecessary error checking has been removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
+- `aery::adc_init()` and `aery::spi_init_master()` are now aware of reinits (means that if the module was enabled, reinit should keep it enabled).
 - Added `aery::adc_is_enabled()`
 - Added new example, `example/display/hd44780_print_adc.cpp`, that uses hd44780 example to print the result of A/D conversion.
 - `<aery32/string.h>` now includes `<cstring>` for convenience.
@@ -76,6 +81,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - Backward compatibility breaks:
   - `aery::pwm_isenabled()` renamed to `aery::pwm_is_enabled()`.
   - `aery::spi_has_enabled()` renamed to `aery::spi_is_enabled()`.
+  - `aery::adc_init()` does not return anymore.
 
 ### v0.4.0
 
