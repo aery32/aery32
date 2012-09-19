@@ -131,7 +131,7 @@ bool spi_isbusy(volatile avr32_spi_t *pspi);
  * \param pspi Pointer to the SPI peripheral which to check
  * \return True if enabled. False if not enabled.
  */
-bool spi_has_enabled(volatile avr32_spi_t *pspi);
+bool spi_is_enabled(volatile avr32_spi_t *pspi);
 
 /**
  * Tells if the SPI has data to be read

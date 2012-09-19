@@ -162,7 +162,7 @@ void pwm_disable(uint8_t chamask);
  * \param chanum Channel number
  * \return True if the channel is enabled. False if disabled.
  */
-bool pwm_isenabled(uint8_t chanum);
+bool pwm_is_enabled(uint8_t chanum);
 
 } /* end of namespace aery */
 

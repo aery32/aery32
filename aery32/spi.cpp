@@ -33,15 +33,20 @@ static uint8_t pspi2num(volatile avr32_spi_t *pspi)
 
 void aery::spi_init_master(volatile avr32_spi_t *pspi)
 {
-	/* Software reset before intialization */
+	bool was_enabled = aery::spi_is_enabled(pspi);
+
+	/* Software reset */
 	pspi->CR.swrst = 1;
-	while (pspi->CR.swrst);
+	while (pspi->CR.swrst == 1);
 
 	pspi->mr =
 		(6 << AVR32_SPI_MR_DLYBCS_OFFSET) |
 		(1 << AVR32_SPI_MR_MODFDIS_OFFSET) |
 		(1 << AVR32_SPI_MR_PS_OFFSET) |
 		(1 << AVR32_SPI_MR_MSTR_OFFSET);
+
+	if (was_enabled)
+		aery::spi_enable(pspi);
 }
 
 void aery::spi_setup_npcs(volatile avr32_spi_t *pspi, uint8_t npcs,
@@ -140,7 +145,7 @@ bool aery::spi_isbusy(volatile avr32_spi_t *pspi)
 	return (aery::__spi_lsr[n] & AVR32_SPI_SR_TXEMPTY_MASK) == 0;
 }
 
-bool aery::spi_has_enabled(volatile avr32_spi_t *pspi)
+bool aery::spi_is_enabled(volatile avr32_spi_t *pspi)
 {
 	return pspi->CR.spien == 1;
 }

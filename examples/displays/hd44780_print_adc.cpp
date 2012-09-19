@@ -1,5 +1,6 @@
 #include "board.h"
 #include <aery32/spi.h>
+#include <aery32/adc.h>
 #include <aery32/gpio.h>
 #include <aery32/delay.h>
 #include <aery32/string.h>
@@ -43,6 +44,7 @@ using namespace aery;
 // ----------------------------------------------------------------------
 // Additional board settings
 // ----------------------------------------------------------------------
+#define ADC_PINMASK_ALLCHAN (0xff << 21)
 #define SPI0_PINMASK        ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
 
 #define DISPLAY_SPI         spi0
@@ -67,8 +69,11 @@ void display_goto(uint8_t x, uint8_t y);
 // ----------------------------------------------------------------------
 int main(void)
 {
+	char buf[20] = "";
+	uint16_t result = 0;
+
 	init_board();
-	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
+	gpio_init_pins(porta, ADC_PINMASK_ALLCHAN|SPI0_PINMASK, GPIO_FUNCTION_A);
 
 	spi_init_master(DISPLAY_SPI);
 	spi_setup_npcs(DISPLAY_SPI, DISPLAY_SPI_NPCS, DISPLAY_SPI_MODE, 10);
@@ -81,17 +86,30 @@ int main(void)
 	display_instruct(HD44780_CLEAR_DISPLAY);
 	display_instruct(HD44780_RETURN_HOME);
 	display_instruct(HD44780_EMODE_INCREMENT);
-	display_instruct(HD44780_DISPLAY_ON|HD44780_CURSOR_ONBLINK);
+	display_instruct(HD44780_DISPLAY_ON);
+
+	adc_init(
+		7,    /* prescal, adclk = pba_clk / (2 * (prescal+1)) */
+		true, /* hires, 10-bit (false would be 8-bit) */
+		0,    /* shtim, sample and hold time = (shtim + 1) / adclk */
+		0     /* startup, startup time = (startup + 1) * 8 / adclk */
+	);
+
+	/* Enable ADC channel 3, PA24 */
+	adc_enable((1 << 3) /* 8-bit channel mask */);
 
 	/* Initialization done. Turn the LED on. */
 	gpio_set_pin_high(LED);
 
-	/* Greet Aery32 community */
-	display_puts("Hello Aery32 devs!");
-
 	for(;;) {
-		/* Put your application code here */
+		adc_start_cnv();
+		while (adc_isbusy(1 << 3) /* 8-bit channel mask */);
+		result = adc_read_cnv(3);
 
+		dtoa(cnv2volt(result), 3, buf);
+		display_puts(buf);
+		display_instruct(HD44780_RETURN_HOME);
+		delay_ms(50);
 	}
 
 	return 0;

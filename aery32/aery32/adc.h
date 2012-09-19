@@ -68,11 +68,8 @@ enum Adc_trigger {
  * \param hires   Use 10-bit resolution, define false if 8-bit is preferred
  * \param shtime  ADC sample and hold time, time = (shtim + 1) / adclk
  * \param startup ADC startup time, time = (startup + 1) * 8 / adclk
- * \return 0 on success, -1 if the maximum ADC frequency has been exceeded
- *
- * \note Calls pm_get_fclkdomain(CLKDOMAIN_PBA)
  */
-int adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup);
+void adc_init(uint8_t prescal, bool hires, uint8_t shtime, uint8_t startup);
 
 /**
  * Setups hardware trigger for Analog-to-digital converter
@@ -91,7 +88,7 @@ void adc_start_cnv(void);
  * \return Conversion result in binary form
  *
  * Before reading the conversion, check that the conversion is ready
- * by using adc_isbusy(1 << chanum).
+ * by using aery::adc_isbusy(1 << chanum).
  */
 uint16_t adc_read_cnv(uint8_t chanum);
 
@@ -100,7 +97,7 @@ uint16_t adc_read_cnv(uint8_t chanum);
  * \return the conversion result in binary form
  *
  * Before reading the last conversion, check that the conversion is
- * ready by using adc_isbusy() function.
+ * ready by using aery::adc_isbusy() function.
  */
 uint16_t adc_read_lastcnv(void);
 
@@ -109,8 +106,8 @@ uint16_t adc_read_lastcnv(void);
  * \param chamask Channel mask for which channels should be enabled
  *
  * \code
- * adc_enable(0xff); // Enables all channels
- * adc_enable(1<<2); // Enables channel two
+ * aery::adc_enable(0xff);   // Enables all channels
+ * aery::adc_enable(1 << 2); // Enables channel two only
  * \endcode
  */
 void adc_enable(uint8_t chamask);
@@ -122,15 +119,22 @@ void adc_enable(uint8_t chamask);
 void adc_disable(uint8_t chamask);
 
 /**
+ * Tells if the channel or channels are enabled
+ * \param chamask Channel mask. Default mask value is 0.
+ * \return True if channel or channels are enabled. If chamask is omitted
+ *         returns True if any channel is enabled.
+ */
+bool adc_is_enabled(uint8_t chamask = 0);
+
+/**
  * Tells if the conversion for the given channel is ready
  * \param chamask Channel mask. Default mask value is 0.
- * \return 1 if the conversion for the given channel is not ready, 0 if
- *         if the convesion is ready to read, and -1 if the given channel
- *         or channels wasn't even enabled. In case where the chamask has
- *         been omitted or defined 0, the function will discard the channel
- *         info and return 1 when the next conversion is ready to read.
+ * \return True if the conversion for the given channel is not ready and
+ *         false in case when the convesion is ready to read. If the chamask
+ *         has been omitted or defined 0, the function will discard the channel
+ *         info and return False when the next conversion is ready to read.
  */
-int adc_isbusy(uint8_t chamask = 0);
+bool adc_isbusy(uint8_t chamask = 0);
 
 /**
  * Tells if the Analog-to-digital conversion has overrun
@@ -140,7 +144,7 @@ int adc_isbusy(uint8_t chamask = 0);
  * \return True if any of the channels defined in the chamask has been
  *         overrun. If the chamask has been omitted, the function will
  *         return true in case of general overrun, being essentially the
- *         same than the call of adc_hasoverrun(0xff).
+ *         same than the call of aery::adc_has_overrun(0xff).
  */
 bool adc_has_overrun(uint8_t chamask = 0, bool reread = false);
 

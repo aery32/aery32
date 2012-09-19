@@ -17,34 +17,22 @@
  */
 
 #include "aery32/adc.h"
-#include "aery32/pm.h"
 
 namespace aery {
 	volatile avr32_adc_t *adc = &AVR32_ADC;
 	volatile uint32_t __adc_lsr = AVR32_ADC.sr;
 }
 
-int aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
+void aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 		uint8_t startup)
 {
-	uint32_t adclk;
+	uint8_t chamask = AVR32_ADC.chsr;
 
-	if (prescal > 63)
-		return -1;
+	/* Software reset */
 	AVR32_ADC.CR.swrst = 1;
-	adclk = aery::pm_get_fclkdomain(CLKDOMAIN_PBA) / (2 * (prescal + 1));
+	while (AVR32_ADC.CR.swrst == 1);
 
-	switch (hires) {
-	case true:
-		if (adclk > ADCLK_HIRES_MAX)
-			return -1;
-		break;
-	case false:
-		if (adclk > ADCLK_LORES_MAX)
-			return -1;
-		break;
-	}
-	
+	/* Options */
 	AVR32_ADC.MR.prescal = prescal;
 	AVR32_ADC.MR.shtim = shtime & ~0xf0;
 	AVR32_ADC.MR.startup = startup & ~0xe0;
@@ -52,7 +40,8 @@ int aery::adc_init(uint8_t prescal, bool hires, uint8_t shtime,
 	AVR32_ADC.MR.lowres = !hires;
 	AVR32_ADC.MR.trgen = 0;
 
-	return 0;
+	/* Re-enable channels */
+	AVR32_ADC.cher = chamask;
 }
 
 void aery::adc_setup_trigger(enum Adc_trigger trigger)
@@ -86,21 +75,24 @@ void aery::adc_disable(uint8_t chamask)
 	AVR32_ADC.chdr = chamask;
 }
 
-int aery::adc_isbusy(uint8_t chamask)
+bool aery::adc_is_enabled(uint8_t chamask)
 {
-	using namespace aery;
-	__adc_lsr = AVR32_ADC.sr;
+	if (chamask > 0)
+		return (AVR32_ADC.chsr & chamask) == chamask;
+	return (AVR32_ADC.chsr & chamask) != 0;
+}
 
-	if (AVR32_ADC.chsr == 0 || (AVR32_ADC.chsr & chamask) != chamask)
-		return -1;
-	if (chamask == 0)
-		return (__adc_lsr & AVR32_ADC_SR_DRDY_MASK) == 0;
-	return (__adc_lsr & chamask) == chamask;
+bool aery::adc_isbusy(uint8_t chamask)
+{
+	aery::__adc_lsr = AVR32_ADC.sr;
+	if (chamask > 0)
+		return (aery::__adc_lsr & chamask) != chamask;
+	return (aery::__adc_lsr & AVR32_ADC_SR_DRDY_MASK) == 0;
 }
 
 bool adc_has_overrun(uint8_t chamask, bool reread)
 {
-	if (reread)
+	if (reread == true)
 		aery::__adc_lsr = AVR32_ADC.sr;
 	if (chamask == 0)
 		return (aery::__adc_lsr & AVR32_ADC_GOVRE_MASK);

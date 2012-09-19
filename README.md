@@ -62,7 +62,23 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
-### Release v0.4.0
+### Changelog for the next release
+- The dependency of PM module has been removed from ADC module. In addition, unnecessary error checking removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
+- `aery::adc_init()` and `aery::spi_init_master()` are aware of reinits (if enabled reinit should keep module enabled).
+- Added `aery::adc_is_enabled()`
+- Added new example, `example/display/hd44780_print_adc.cpp`, that uses hd44780 example to print the result of A/D conversion.
+- `<aery32/string.h>` now includes `<cstring>` for convenience.
+- Resolved is/has naming convention. `isbusy()` makes the exception. Otherwise `is_foo()` is used. Closes gh-11.
+  - Introduced few backward compatibility breaks, see below.
+- Bug fixes:
+  - `aery::adc_isbusy()` didn't work with channel masks.
+  - Typo in `aery::nputs()` that prevented it to work.
+- Backward compatibility breaks:
+  - `aery::pwm_isenabled()` renamed to `aery::pwm_is_enabled()`.
+  - `aery::spi_has_enabled()` renamed to `aery::spi_is_enabled()`.
+
+### v0.4.0
+
 - Added Twi-wire (I2C) module functions, see device scanning example `twi_scan.cpp`.
 - SPI functions now take advance of C++. Allows more flexible API.
 - Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
@@ -82,7 +98,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - `adc_hasoverrun()` tells if the conversion has been overrun.
 - Project file added for Sublime Text 2
   - Open ST2, select `Project/Open Project...` and open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
-- Backward compatiblity breaks in module functions
+- Backward compatibility breaks in module functions
   - ADC `isready()` functions removed. Use `adc_isbusy()`. Closes gh-6.
   - `rtc_init()` parameter list was reorganized. Closes gh-7.
 - Changes to build system:
@@ -103,7 +119,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - `adc_setup_trigger()` allows to setup ADC hardware trigger
   - `adc_nextcnv_isrdy()` tells if the next conversion is ready. Whatever was the channel.
   - `adc_read_lastcnv()` returns the latest conversion. Whatever was the channel.
-- Backward compatiblity breaks
+- Backward compatibility breaks
   - `adc_get_cnv()` renamed to `adc_read_cnv()`
   - `spi_transmit(pspi, data, npcs, islast)`'s parameter order changed to pspi, npcs, data, islast.
 - Fixes

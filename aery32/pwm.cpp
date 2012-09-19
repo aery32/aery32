@@ -43,7 +43,7 @@ int aery::pwm_init_channel(uint8_t chanum, enum Pwm_channel_clk clk,
 		uint32_t duration, uint32_t period)
 {
 	/* Writing in CDTYn and CPRDn is possible while the chan is disabled */
-	if (aery::pwm_isenabled(chanum))
+	if (aery::pwm_is_enabled(chanum))
 		return -1;
 	if (duration > period)
 		return -1;
@@ -57,7 +57,7 @@ int aery::pwm_setup_chamode(uint8_t chanum, enum Pwm_alignment align,
 		enum Pwm_polarity polar)
 {
 	/* Mode can be modified only when the channel is disabled. */
-	if (aery::pwm_isenabled(chanum))
+	if (aery::pwm_is_enabled(chanum))
 		return -1;
 	AVR32_PWM.channel[chanum].CMR.calg = align;
 	AVR32_PWM.channel[chanum].CMR.cpol = polar;
@@ -114,7 +114,7 @@ void aery::pwm_disable(uint8_t chamask)
 	AVR32_PWM.dis = chamask;
 }
 
-bool aery::pwm_isenabled(uint8_t chanum)
+bool aery::pwm_is_enabled(uint8_t chanum)
 {
 	return AVR32_PWM.sr & (1 << chanum);
 }
