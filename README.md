@@ -62,9 +62,9 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
-### Changelog for the next release
-- The dependency of PM module has been removed from ADC module. In addition, unnecessary error checking removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
-- `aery::adc_init()` and `aery::spi_init_master()` are aware of reinits (if enabled reinit should keep module enabled).
+### v0.4.1
+- The dependency of the PM module has been removed from the ADC module. In addition, an unnecessary error checking has been removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
+- `aery::adc_init()` and `aery::spi_init_master()` are now aware of reinits (means that if the module was enabled, reinit should keep it enabled).
 - Added `aery::adc_is_enabled()`
 - Added new example, `example/display/hd44780_print_adc.cpp`, that uses hd44780 example to print the result of A/D conversion.
 - `<aery32/string.h>` now includes `<cstring>` for convenience.
@@ -76,6 +76,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - Backward compatibility breaks:
   - `aery::pwm_isenabled()` renamed to `aery::pwm_is_enabled()`.
   - `aery::spi_has_enabled()` renamed to `aery::spi_is_enabled()`.
+  - `aery::adc_init()` does not return anymore.
 
 ### v0.4.0
 
@@ -88,72 +89,6 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - `aery::gpio_read_pin()` didn't work.
   - Global variables were not placed under aery namespace.
   - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.
-
-### v0.3.0
-
-- New modules:
-  - Flash Controller. How to operate with the chip internal flash, see `examples/writing_flash.cpp`.
-  - Pulse Width Modulation (PWM).
-- New module functions:
-  - `adc_hasoverrun()` tells if the conversion has been overrun.
-- Project file added for Sublime Text 2
-  - Open ST2, select `Project/Open Project...` and open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
-- Backward compatibility breaks in module functions
-  - ADC `isready()` functions removed. Use `adc_isbusy()`. Closes gh-6.
-  - `rtc_init()` parameter list was reorganized. Closes gh-7.
-- Changes to build system:
-  - Link with the libm (math lib) by default. This has been considered to be a good practice in AVRFreak forum.
-  - Enhanced to compile .c sources.
-  - Do not force -O0 optimization for debug.
-  - $(MAKE) wrapped with "" to achieve robust import to Atmel Studio 6.
-
-### v0.2.1
-
-- Hotfix. Flash wait state set to 1 by default, because by default Aery32 Framework sets CPU clockspeed to 66 MHz.
-
-### v0.2.0
-
-- Switch to `avr32-g++` and hence to C++
-- Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
-- Improvements in analog-to-digital conversion module functions.
-  - `adc_setup_trigger()` allows to setup ADC hardware trigger
-  - `adc_nextcnv_isrdy()` tells if the next conversion is ready. Whatever was the channel.
-  - `adc_read_lastcnv()` returns the latest conversion. Whatever was the channel.
-- Backward compatibility breaks
-  - `adc_get_cnv()` renamed to `adc_read_cnv()`
-  - `spi_transmit(pspi, data, npcs, islast)`'s parameter order changed to pspi, npcs, data, islast.
-- Fixes
-  - gh-5, `pm_setup_clkdomain()` in cpp branch does not work anymore as documented
-
-### v0.1.2
-
-- New modules
-  - Analog-to-digital conversion (adc)
-- Change coding style to Linux kernel style
-- Backward compatibility breaks
-  - `aery_pm_get_mck()` renamed to `aery_pm_get_fmck()`
-  - `aery_pm_get_clkdomain_freq()` renamed to `aery_pm_get_fclkdomain()`
-  - `PM_` prefix removed from Pm enums to reduce the verbosity
-- Fixes
-  - gh-3, general clock reinitialization does not take care of enabling the clock
-
-### v0.1.1
-
-- PM module has been expanded with few functions
-  - `aery_pm_setup_clkdomain()` setups the precaler of the different clock domains (CPU, PBA and PBB)
-  - `aery_pm_get_clkdomain_freq()` returns the clock frequency of the specific clock domain
-  - `aery_pm_get_mck()` returns the master (or main) clock frequency
-- Experimental "to string" functions, which can be used to convert integer and double type values to strings
-- Added <aery32/all.h> header file to include the whole library at once
-- Makefile tunings
-
-### v0.1.0
-
-- Project structure that works on Windows, Linux and Mac.
-  - "make program", selects the batchisp in Windows and dfu-programmer in Linux and Mac.
-- Convenient delay functions for mcu cycles, microseconds and milliseconds.
-- Modules for General peripheral Input/Output (gpio), Interrupt controller (intc),
-  Power manager (pm), Real-time counter (rtc) and Serial peripheral interface (spi).
 
 ## License
 
