@@ -10,5 +10,6 @@ var dir_8c07b1055f60b18256bed32f45dd54ce =
     [ "pwm.h", "pwm_8h.html", "pwm_8h" ],
     [ "rtc.h", "rtc_8h.html", "rtc_8h" ],
     [ "spi.h", "spi_8h.html", "spi_8h" ],
-    [ "string.h", "string_8h.html", "string_8h" ]
+    [ "string.h", "string_8h.html", "string_8h" ],
+    [ "twi.h", "twi_8h.html", "twi_8h" ]
 ];

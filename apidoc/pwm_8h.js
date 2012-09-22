@@ -27,7 +27,7 @@ var pwm_8h =
     [ "pwm_enable", "pwm_8h.html#a361734a6088fa8d57ff4724a38ab49de", null ],
     [ "pwm_init_channel", "pwm_8h.html#a0025e5ddafdab1c94eaf00f61c08d475", null ],
     [ "pwm_init_divab", "pwm_8h.html#a530b350e9e95a7ddd8cd9a668a43d8bc", null ],
-    [ "pwm_isenabled", "pwm_8h.html#aa50962bd086a132989c0777b158b59b5", null ],
+    [ "pwm_is_enabled", "pwm_8h.html#a1bf5fd758802d4af0f44c56837a83c9f", null ],
     [ "pwm_setup_chamode", "pwm_8h.html#a9648dadf24fde758445d3acd71d42e62", null ],
     [ "pwm_update_duration", "pwm_8h.html#a2883c59691b60b06cdbfd3d6cdcb527d", null ],
     [ "pwm_update_dutycl", "pwm_8h.html#aa5b333a7e4c30a6984d1ced7f1d011d7", null ],

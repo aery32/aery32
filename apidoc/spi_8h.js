@@ -8,9 +8,13 @@ var spi_8h =
     ] ],
     [ "spi_disable", "spi_8h.html#aa185ebb1afbddfce3751242daa5470e2", null ],
     [ "spi_enable", "spi_8h.html#a0764f9da9be292614e0bbbcc701a6530", null ],
+    [ "spi_has_overrun", "spi_8h.html#a9703d9917a584b931209e5c28b1040f4", null ],
+    [ "spi_has_rxdata", "spi_8h.html#afd92ce01cd73584744d6718472602c64", null ],
     [ "spi_init_master", "spi_8h.html#a367f4beea3792958ee60bd4dd3e48326", null ],
+    [ "spi_is_enabled", "spi_8h.html#ad0629ddae7461ecb6aaeff4239f840ed", null ],
+    [ "spi_isbusy", "spi_8h.html#a5d25d2845d3b0f62ee3477214a2d4cd1", null ],
     [ "spi_setup_npcs", "spi_8h.html#acb0fc6e5266c9566b13c0933b801439e", null ],
-    [ "spi_transmit", "spi_8h.html#a5d78937d6ca10ed866067d220f57f183", null ],
+    [ "spi_transmit", "spi_8h.html#a5dbbd4fb7d6d6ec156bb59e6ad552596", null ],
     [ "spi0", "spi_8h.html#a5f9d213dad30e0cb5d954d18cecbb1c8", null ],
     [ "spi1", "spi_8h.html#a2194ee757db0ab12ade1c2ad6b703381", null ]
 ];

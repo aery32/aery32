@@ -56,6 +56,7 @@ var pm_8h =
       [ "PLL_SOURCE_OSC1", "pm_8h.html#a924ac7fa4431097c3f87c1d4316fc590a4bc832fe5b07c4cfe95edefb23e4ab90", null ]
     ] ],
     [ "pm_disable_gclk", "pm_8h.html#a538874b3e847bb000484cba1933d7e0e", null ],
+    [ "pm_disable_pll", "pm_8h.html#a6fead2faf3068cfece72221ed83fd731", null ],
     [ "pm_enable_gclk", "pm_8h.html#a711494ec7b759340732c4c7f380d6f0f", null ],
     [ "pm_enable_pll", "pm_8h.html#abd276b58d4a33475315f43237698198c", null ],
     [ "pm_get_fclkdomain", "pm_8h.html#a5eadbdf14ff26435864509d5c356aeac", null ],
