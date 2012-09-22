@@ -55,14 +55,11 @@ void aery::twi_init_master(void)
 // 	aery::twi->CR.sven = 1;
 // }
 
-int aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
+void aery::twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv)
 {
-	if (ckdiv > 7)
-		return -1;
 	aery::twi->CWGR.ckdiv = ckdiv;
 	aery::twi->CWGR.cldiv = cldiv;
 	aery::twi->CWGR.chdiv = chdiv;
-	return 0;
 }
 
 void aery::twi_select_slave(uint16_t sla)
@@ -70,13 +67,10 @@ void aery::twi_select_slave(uint16_t sla)
 	aery::twi->MMR.dadr = sla;
 }
 
-int aery::twi_use_internal_address(uint32_t iadr, uint8_t n)
+void aery::twi_use_internal_address(uint32_t iadr, uint8_t n)
 {
-	if (iadr > 0xffffff)
-		return -1;
 	aery::twi->IADR.iadr = iadr;
 	aery::twi->MMR.iadrsz = n;
-	return 0;
 }
 
 void aery::twi_clear_internal_address(void)
@@ -199,6 +193,25 @@ bool aery::twi_isbusy(void)
 	if (aery::twi->MMR.mread == 1)
 		return (aery::__twi_lsr & AVR32_TWI_SR_RXRDY_MASK) == 0;
 	return (aery::__twi_lsr & AVR32_TWI_SR_TXRDY_MASK) == 0;
+}
+
+bool aery::twi_is_enabled()
+{
+	#define TWI_PINS ((1 << 29) | (1 << 30))
+	volatile avr32_gpio_port_t *twi_port = &AVR32_GPIO.port[0];
+
+	/* 
+	 * TWI is enabled when dedicate TWD and TWCK have been assigned to
+	 * the peripheral lines and defined to be as open-drain. */
+	if ((twi_port->gper & TWI_PINS) != 0)
+		return false;
+	if ((twi_port->pmr0 & TWI_PINS) != 0)
+		return false;
+	if ((twi_port->pmr1 & TWI_PINS) != 0)
+		return false;
+	if ((twi_port->odmer & TWI_PINS) != 0)
+		return false;
+	return true;
 }
 
 bool aery::twi_has_overrun(bool reread)
