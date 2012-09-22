@@ -1,6 +1,7 @@
-#include <cstring>
 #include "board.h"
-#include <aery32/all.h>
+#include <aery32/gpio.h>
+#include <aery32/flashc.h>
+#include <aery32/string.h>
 
 using namespace aery;
 

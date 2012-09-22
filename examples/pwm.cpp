@@ -1,5 +1,6 @@
 #include "board.h"
-#include <aery32/all.h>
+#include <aery32/gpio.h>
+#include <aery32/pwm.h>
 
 using namespace aery;
 

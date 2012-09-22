@@ -1,5 +1,5 @@
 #include "board.h"
-#include <aery32/all.h>
+#include <aery32/gpio.h>
 
 using namespace aery;
 
