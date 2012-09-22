@@ -46,6 +46,9 @@ extern "C" {
 
 namespace aery {
 
+/**
+ * Pointer to the internal interrupt controller register
+ */
 extern volatile avr32_intc_t *intc;
 
 /**
@@ -74,7 +77,7 @@ void intc_init(void);
  * The registered function is called when ever the interrupt of the
  * group which for the function was registered occur.
  */
-void intc_register_isrhandler(void (*)(void), uint32_t group,
+void intc_register_isrhandler(void (*handler)(void), uint32_t group,
 		uint8_t priority);
 
 /**

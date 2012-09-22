@@ -57,13 +57,21 @@ char *itoa(int number, char *buffer, size_t *n = NULL);
 
 /**
  * Converts double to string
- * \param number Double
- * \param buffer Buffer where to write the string
- * \param n      A pointer to the number of written chars
+ * \param number    Double
+ * \param precision Double precision
+ * \param buffer    Buffer where to write the string
+ * \param n         A pointer to the number of written chars
  * \return A pointer to the resulting null-terminated string
  */
 char *dtoa(double number, uint8_t precision, char *buffer, size_t *n = NULL);
 
+/**
+ * Prints string by using the specific putchar function
+ * \param str      Input string
+ * \param n        Maximum number of characters that can be written
+ * \param _putchar Function pointer to the putchar function
+ * \return The number of characters that would have been passed to putchar
+ */
 int nputs(const char *str, size_t n, int (*_putchar)(int));
 
 } /* end of namespace aery */
