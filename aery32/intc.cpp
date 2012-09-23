@@ -22,6 +22,9 @@
 extern const unsigned int _ipr[20];
 extern const unsigned int _evba;
 
+extern int __builtin_mfsr(int reg);
+extern void __builtin_mtsr(int reg, int val);
+
 namespace aery {
 	volatile avr32_intc_t *intc = &AVR32_INTC;
 }
