@@ -27,7 +27,7 @@ void init_board(void);
 
 static inline double cnv2volt(uint32_t cnv)
 {
-	return cnv * (ADC_VREF / (1UL << ADC_BITS));
+	return cnv * ((double) ADC_VREF / (1UL << ADC_BITS));
 }
 
 #endif
