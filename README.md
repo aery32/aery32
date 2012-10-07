@@ -65,10 +65,12 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ### Changelog for the next release
 
 - Added new function `aery::twi_is_enabled()`.
-- Added new example to scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
+- New examples:
+  - Scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
+  - External interrupt on pin change, `examples/gpio_extint_pin_change.cpp`.
 - Explicitly define twi pins as GPIO_OPENDRAIN in the twi scan example.
 - Bug fixes:
-  - Handle the division by zero gracefully in `aery::pwm_update_dutycl`. Closes gh-13.
+  - Handle the division by zero gracefully in `aery::pwm_update_dutycl()`. Closes gh-13.
 
 ### v0.4.1
 

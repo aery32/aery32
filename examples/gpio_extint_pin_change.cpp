@@ -5,7 +5,7 @@
 
 using namespace aery;
 
-void isrhandler(void)
+void isrhandler_group2(void)
 {
 	gpio_toggle_pin(LED);
 	delay_ms(100); /* Reduce glitch */
@@ -22,9 +22,9 @@ int main(void)
 	/* Init interrupt controller */
 	intc_init();	
 	intc_register_isrhandler(
-		&isrhandler, /* Function pointer to the ISR handler */
-		2,           /* Interrupt group number */
-		0            /* Priority level */
+		&isrhandler_group2, /* Function pointer to the ISR handler */
+		2, /* Interrupt group number */
+		0  /* Priority level */
 	);
 
 	/* Enable interrupts globally */
@@ -33,8 +33,8 @@ int main(void)
 	for(;;) {
 		/*
 		 * Now try to connect PA00 to GND and then disconnecting it
-		 * to let pull-up make the pin state high again. The LED should
-		 * toggle on the pin change.
+		 * to let pull-up to set the pin state high again. The LED
+		 * should toggle between the pin change.
 		 */
 
 	}
