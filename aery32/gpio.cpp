@@ -32,10 +32,11 @@ void aery::gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 {
 	/*
 	 * By default define pin to be controlled by the GPIO with output
-	 * drivers disabled.
+	 * drivers disabled and interrupts cleared.
 	 */
 	pport->gpers = pinmask;
 	pport->oderc = pinmask;
+	pport->ierc = pinmask;
 
 	switch (options & 0007) {
 	case 0002:		/* Output */
@@ -75,12 +76,21 @@ void aery::gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 		break;
 	}
 
+	/* Note that the value of the glitch filter should only be changed
+	 * when IER is 0. Otherwise the corresponding pin can cause an
+	 * unintentional interrupt to be trigged. [ds, p.187]
+	 */
+	if (options & 0400)
+		pport->gfers = pinmask;
+	else
+		pport->gferc = pinmask;
+
+	/* 
+	 * Interrupt can be enabled on a pin, regardless of the configuration
+	 * the I/O line, i.e. controlled by the GPIO or assigned to
+	 * a peripheral function. [ds, p.173]
+	 */
 	if (options & 0040) {
-		/* 
-		 * Interrupt can be enabled on a pin, regardless of the
-		 * configuration the I/O line, i.e. controlled by the GPIO
-		 * or assigned to a peripheral function. [ds, p.173]
-		 */
 		switch (options & 0030) {
 		case 0000:
 			pport->imr0c = pinmask;
@@ -96,34 +106,27 @@ void aery::gpio_init_pins(volatile avr32_gpio_port_t *pport, uint32_t pinmask,
 			break;
 		}
 		pport->iers = pinmask;
-	} else {
-		pport->ierc = pinmask;
 	}
 
+	/*
+	 * Control of the pull-up resistor is possible whether an I/O line is
+	 * controlled by a peripheral or the GPIO.
+	 */
 	if (options & 0100) {
-		/*
-		 * Control of the pull-up resistor is possible whether an I/O
-		 * line is controlled by a peripheral or the GPIO.
-		 */
 		pport->puers = pinmask;
 	} else {
 		pport->puerc = pinmask;
 	}
 
+	/* 
+	 * The open drain mode can be selected whether the I/O line is
+	 * controlled by the GPIO or assigned to a peripheral function.
+	 */
 	if (options & 0200) {
-		/* 
-		 * The open drain mode can be selected whether the I/O line is
-		 * controlled by the GPIO or assigned to a peripheral function.
-		 */
 		pport->odmers = pinmask;
 	} else {
 		pport->odmerc = pinmask;
 	}
-
-	if (options & 0400)
-		pport->gfers = pinmask;
-	else
-		pport->gferc = pinmask;
 }
 
 void aery::gpio_init_pin(uint8_t pinnum, int options)
