@@ -8,7 +8,7 @@ using namespace aery;
 void isrhandler_group2(void)
 {
 	gpio_toggle_pin(LED);
-	delay_ms(100); /* Reduce glitch */
+	delay_ms(100); /* Reduce glitches */
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
 }
 
@@ -33,8 +33,8 @@ int main(void)
 	for(;;) {
 		/*
 		 * Now try to connect PA00 to GND and then disconnecting it
-		 * to let pull-up to set the pin state high again. The LED
-		 * should toggle between the pin change.
+		 * to let the pull-up to set the pin state high again. The LED
+		 * should toggle on the pin change.
 		 */
 
 	}
