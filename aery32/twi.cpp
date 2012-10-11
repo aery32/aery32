@@ -34,6 +34,9 @@ void aery::twi_init_master(void)
 	aery::twi->CR.swrst = 1;
 	while (aery::twi->CR.swrst);
 
+	/* See errata, datahseet p. 794 */
+	volatile uint32_t rhr = aery::twi->rhr;
+
 	/* Setup SLK to 100 kHz by default with 50% duty cycle */
 	aery::twi_setup_clkwaveform(4, 0x3f, 0x3f);
 	aery::twi_clear_internal_address();
