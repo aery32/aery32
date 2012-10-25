@@ -140,7 +140,7 @@ int aery::flashc_write_fusebit(uint16_t fusebit, bool value)
 	if (value == true)
 		flashc_instruct(fusebit, FLASH_CMD_WGPB);
 	else
-		flashc_instruct(fusebit, FLASH_CMD_WGPB);
+		flashc_instruct(fusebit, FLASH_CMD_EGPB);
 
 	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
 		return EFLASH_PAGE_LOCKED;
