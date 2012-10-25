@@ -43,7 +43,7 @@ void aery::flashc_init(enum Flash_ws ws, bool ensas)
 	AVR32_FLASHC.FCR.locke = 0;
 	AVR32_FLASHC.FCR.proge = 0;
 
-	switch (FLASH_SIZE_IN_KILOBYTES) {
+	switch (AVR32_FLASHC_FLASH_SIZE / 1024) {
 	case 32:
 		AVR32_FLASHC.FSR.fsz = 0;
 		break;
@@ -81,9 +81,8 @@ void aery::flashc_instruct(uint16_t page, enum Flash_cmd cmd)
 
 void *aery::flashc_read_page(uint16_t page, void *dest)
 {
-	const unsigned char *src = AVR32_FLASH +
-			(page * FLASH_PAGE_SIZE_IN_BYTES);
-
+	const unsigned char *src = (unsigned char *) AVR32_FLASH_ADDRESS;
+	src += page * AVR32_FLASHC_PAGE_SIZE;
 	while (aery::flashc_isbusy());
 	return memcpy32(dest, src, 128);
 }
@@ -91,16 +90,57 @@ void *aery::flashc_read_page(uint16_t page, void *dest)
 int aery::flashc_save_page(uint16_t page, const void *src)
 {
 	using namespace aery;
-	unsigned char *dest = AVR32_FLASH +
-			(page * FLASH_PAGE_SIZE_IN_BYTES);
+	unsigned char *dest = (unsigned char *) AVR32_FLASH_ADDRESS;
+	dest += page * AVR32_FLASHC_PAGE_SIZE;
 
-	flashc_instruct(page, FLASH_CMD_EP);   /* Erase page */
-	flashc_instruct(page, FLASH_CMD_CPB);  /* Clear page buffer */
-	while (flashc_isbusy());               /* Wait clear to complete */
+	flashc_instruct(page, FLASH_CMD_EP);  /* Erase page */
+	flashc_instruct(page, FLASH_CMD_CPB); /* Clear page buffer */
+	while (flashc_isbusy());              /* Wait clear to complete */
 
-	memcpy32(dest, src, 128);              /* Fill page buffer */
-	flashc_instruct(page, FLASH_CMD_WP);   /* Write page */
+	memcpy32(dest, src, 128);             /* Fill page buffer */
+	flashc_instruct(page, FLASH_CMD_WP);  /* Write page */
 	while (flashc_isbusy());
+
+	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
+		return EFLASH_PAGE_LOCKED;
+	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
+		return EFLASH_PROG_ERR;
+	return 0;
+}
+
+void *aery::flashc_read_userpage(void *dest)
+{
+	const unsigned char *src = (unsigned char*) AVR32_FLASHC_USER_PAGE_ADDRESS;
+	while (aery::flashc_isbusy());
+	return memcpy32(dest, src, 128);
+}
+
+int aery::flashc_save_userpage(const void *src)
+{
+	using namespace aery;
+	unsigned char *dest = (unsigned char *) AVR32_FLASHC_USER_PAGE_ADDRESS;
+
+	flashc_instruct(0, FLASH_CMD_EUP);
+	flashc_instruct(0, FLASH_CMD_CPB);
+	while (flashc_isbusy());
+
+	memcpy32(dest, src, 128);
+	flashc_instruct(0, FLASH_CMD_WUP);
+	while (flashc_isbusy());
+
+	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
+		return EFLASH_PAGE_LOCKED;
+	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
+		return EFLASH_PROG_ERR;
+	return 0;
+}
+
+int aery::flashc_write_fusebit(uint16_t fusebit, bool value)
+{
+	if (value == true)
+		flashc_instruct(fusebit, FLASH_CMD_WGPB);
+	else
+		flashc_instruct(fusebit, FLASH_CMD_WGPB);
 
 	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
 		return EFLASH_PAGE_LOCKED;
@@ -126,13 +166,20 @@ bool aery::flashc_page_isempty(uint16_t page)
 	return AVR32_FLASHC.FSR.qprr;
 }
 
+bool aery::flashc_userpage_isempty(void)
+{
+	aery::flashc_instruct(0, FLASH_CMD_QPRUP);
+	while (aery::flashc_isbusy());
+	return AVR32_FLASHC.FSR.qprr;
+}
+
 bool aery::flashc_page_haslock(uint16_t page)
 {
 	uint16_t preg = page / AVR32_FLASHC_PAGES_PR_REGION;
-	return aery::flashc_preg_haslock(preg);
+	return aery::flashc_page_region_haslock(preg);
 }
 
-bool aery::flashc_preg_haslock(uint16_t preg)
+bool aery::flashc_page_region_haslock(uint16_t preg)
 {
 	uint32_t mask = (1 << preg) << AVR32_FLASHC_FSR_LOCK0_OFFSET;
 	while (aery::flashc_isbusy());
