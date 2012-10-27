@@ -66,12 +66,12 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 - New functions:
   - `twi_is_enabled`
-  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`, `flashc_read_fusebits`, `flashc_read_fusebyte`, `flashc_write_fusebit`, 
+  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`, `flashc_read_fusebits`, `flashc_read_fusebyte`, `flashc_write_fusebit`
 - New examples:
   - Scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
   - External interrupt on pin change, `examples/gpio_extint_pin_change.cpp`.
 - Explicitly define twi pins as GPIO_OPENDRAIN in the twi scan example.
-- Define __gcc-built-in functions as extern to silence the warnings with SublimeClang ST2 plug-in.
+- Define GCC built-in functions as extern to silence the warnings with SublimeClang ST2 plug-in.
 - Bug fixes:
   - Handle the division by zero gracefully in `aery::pwm_update_dutycl()`. Closes gh-13.
 
