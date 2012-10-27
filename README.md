@@ -65,11 +65,8 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ### Changelog for the next release
 
 - New functions:
-  - `aery::twi_is_enabled()`
-  - `flashc_read_userpage()`
-  - `flashc_save_userpage()`
-  - `flashc_write_fusebit()`
-  - `flashc_userpage_isempty()`
+  - `twi_is_enabled`
+  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`, `flashc_read_fusebits`, `flashc_read_fusebyte`, `flashc_write_fusebit`, 
 - New examples:
   - Scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
   - External interrupt on pin change, `examples/gpio_extint_pin_change.cpp`.

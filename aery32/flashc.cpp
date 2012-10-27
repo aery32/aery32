@@ -135,6 +135,11 @@ int aery::flashc_save_userpage(const void *src)
 	return 0;
 }
 
+uint32_t aery::flashc_read_fusebits(void)
+{
+	return AVR32_FLASHC.fgpfrlo;
+}
+
 int aery::flashc_write_fusebit(uint16_t fusebit, bool value)
 {
 	if (value == true)
@@ -142,6 +147,16 @@ int aery::flashc_write_fusebit(uint16_t fusebit, bool value)
 	else
 		flashc_instruct(fusebit, FLASH_CMD_EGPB);
 
+	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
+		return EFLASH_PAGE_LOCKED;
+	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
+		return EFLASH_PROG_ERR;
+	return 0;
+}
+
+int aery::flashc_write_fusebyte(uint8_t byte_addr, uint8_t value)
+{
+	flashc_instruct((byte_addr & ~0xfc)|(value << 3), FLASH_CMD_WGPB);
 	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
 		return EFLASH_PAGE_LOCKED;
 	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
