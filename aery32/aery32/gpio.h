@@ -29,6 +29,9 @@ extern "C" {
 	#include <avr32/io.h>
 }
 
+extern int __builtin_mfsr(int reg);
+extern void __builtin_mtsr(int reg, int val);
+
 /**
  * Converts GPIO number to the corresponding PORT, see datasheet p. 175
  * \param gpio GPIO number, AVR32_GPIO_PIN00, AVR32_GPIO_PIN01, etc.

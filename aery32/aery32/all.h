@@ -21,13 +21,18 @@
 \brief Includes all the headers files at once
 \namespace aery Aery
 
-\example main.cpp
 \example adc.cpp
+\example gpio_localbus.cpp
+\example main.cpp
+\example pwm.cpp
 \example rtc_interrupt.cpp
 \example spi.cpp
 \example toggle_led.cpp
+\example twi_scan.cpp
+\example writing_flash.cpp
 
 \example displays/hd44780.cpp
+\example displays/hd44780_print_adc.cpp
 */
 
 

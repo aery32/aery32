@@ -55,14 +55,13 @@ void twi_init_master(void);
  * \param ckdiv Clock divider
  * \param cldiv Clock low divider
  * \param chdiv Clock high divider
- * \return 0 on success, -1 on error
  *
  * For example, to set SLK to 100 kHz call
  * \code
  * aery::twi_setup_clkwaveform(4, 0x3f, 0x3f);
  * \endcode
  */
-int twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv);
+void twi_setup_clkwaveform(uint8_t ckdiv, uint8_t cldiv, uint8_t chdiv);
 
 /**
  * Select slave
@@ -75,13 +74,12 @@ void twi_select_slave(uint16_t sla);
  * \param iadr Device internal address. Means the slave's register.
  * \param n Address length in bytes: 1, 2 or 3 bytes. Zero clears the
  *          address and disables its usage.
- * \return 0 on success, -1 on error
  *
  * \note Once set the address will be used for every read/write opertaions
  * that follows calling this function. To revert this behavior call
  * aery::twi_clear_internal_address().
  */
-int twi_use_internal_address(uint32_t iadr, uint8_t n);
+void twi_use_internal_address(uint32_t iadr, uint8_t n);
 
 /**
  * Clear device internal address
@@ -169,6 +167,12 @@ size_t twi_write_byte(uint8_t data, uint8_t iadr, uint8_t iadrlen = 1);
  * \return True if busy, false if ready.
  */
 bool twi_isbusy(void);
+
+/**
+ * Tells if the TWI interface is enabled
+ * \return True if enabled. False if not enabled.
+ */
+bool twi_is_enabled(void);
 
 /**
  * Tells if the TWI has read/write operationr has been overrun

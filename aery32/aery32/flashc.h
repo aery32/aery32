@@ -31,11 +31,8 @@ extern "C" {
 	#include <avr32/io.h>
 }
 
-#define FLASH_WS0_MAX_CLKSPEED   (AVR32_FLASHC_FWS_0_MAX_FREQ)
-#define FLASH_SIZE_IN_KILOBYTES  (AVR32_FLASHC_FLASH_SIZE / 1024)
-#define FLASH_PAGE_SIZE_IN_BYTES (AVR32_FLASHC_PAGE_SIZE)
-#define FLASH_LAST_PAGE \
-	((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
+#define FLASH_WS0_MAX_CLKSPEED (AVR32_FLASHC_FWS_0_MAX_FREQ)
+#define FLASH_LAST_PAGE        ((AVR32_FLASHC_FLASH_SIZE / AVR32_FLASHC_PAGE_SIZE) - 1)
 
 /* Flash error codes */
 #define EFLASH_PAGE_LOCKED -2
@@ -94,7 +91,6 @@ void flashc_init(enum Flash_ws ws, bool ensas);
  * Instructs Flash controller to issue the given command
  * \param page Flash page number.
  * \param cmd  Flash command.
- * \return
  */
 void flashc_instruct(uint16_t page, enum Flash_cmd cmd);
 
@@ -102,6 +98,7 @@ void flashc_instruct(uint16_t page, enum Flash_cmd cmd);
  * Writes (or saves) the data from the given buffer
  * \param page Flash page number.
  * \param buf  Pointer to the page buffer that will be written into the flash.
+ * \return 0 on success, EFLASH_PAGE_LOCKED or EFLASH_PROG_ERR on error
  */
 int flashc_save_page(uint16_t page, const void *buf);
 
@@ -116,6 +113,41 @@ int flashc_save_page(uint16_t page, const void *buf);
  * \endcode
  */
 void *flashc_read_page(uint16_t page, void *buf);
+
+/**
+ * Reads the user page into the given buffer
+ * \param buf Pointer to the page buffer where to read.
+ */
+void *flashc_read_userpage(void *buf);
+
+/**
+ * Writes (or saves) the data from the given buffer to user page
+ * \param buf Pointer to the page buffer that will be written into the flash.
+ * \return 0 on success, EFLASH_PAGE_LOCKED or EFLASH_PROG_ERR on error
+ */
+int flashc_save_userpage(const void *buf);
+
+/**
+ * Returns general purpose fuse bits
+ * \return fuse bits
+ */
+uint32_t flashc_read_fusebits(void);
+
+/**
+ * Writes a fuse bit
+ * \parem fusebit Fusebit number, 0-31
+ * \param value Set or unset
+ * \return 0 on success, EFLASH_PAGE_LOCKED or EFLASH_PROG_ERR on error
+ */
+int flashc_write_fusebit(uint16_t fusebit, bool value);
+
+/**
+ * Writes a fuse byte (8 bits at ones)
+ * \parem byteaddr Fusebyte address, 0-3
+ * \param value Fusy byte
+ * \return 0 on success, EFLASH_PAGE_LOCKED or EFLASH_PROG_ERR on error
+ */
+int flashc_write_fusebyte(uint8_t byteaddr, uint8_t value);
 
 /**
  * Locks the page
@@ -136,6 +168,12 @@ void flashc_unlock_page(uint16_t page);
 bool flashc_page_isempty(uint16_t page);
 
 /**
+ * Tells if the user page is empty
+ * \param page Page number.
+ */
+bool flashc_userpage_isempty(void);
+
+/**
  * Tells if the page has been secured with the lock
  * \param page Page number.
  *
@@ -147,7 +185,7 @@ bool flashc_page_haslock(uint16_t page);
  * Tells if the page region has locked
  * \param preg Number of page region.
  */
-bool flashc_preg_haslock(uint16_t preg);
+bool flashc_page_region_haslock(uint16_t preg);
 
 /**
  * Tells if the Flash controller is busy

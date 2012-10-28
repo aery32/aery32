@@ -1,5 +1,6 @@
 #include "board.h"
-#include <aery32/all.h>
+#include <aery32/gpio.h>
+#include <aery32/twi.h>
 
 using namespace aery;
 
@@ -16,7 +17,7 @@ int main(void)
 	 * board_init() setups the LED pin and the CPU clock (66 MHz).
 	 */
 	init_board();
-	gpio_init_pins(porta, TWI_MASK, GPIO_FUNCTION_A);
+	gpio_init_pins(porta, TWI_MASK, GPIO_FUNCTION_A|GPIO_OPENDRAIN);
 	twi_init_master();
 
 	/* All done. Turn the LED on. */

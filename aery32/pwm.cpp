@@ -98,10 +98,15 @@ int aery::pwm_update_dutycl(uint8_t chanum, double D)
 
 	if (D < 0.0 || D > 1.0)
 		return -1;
-	if (pwm->CMR.cpd == 0)
+	if (pwm->CMR.cpd == 0) {
 		return pwm_update_duration(chanum, (uint32_t) (D * pwm->cprd));
-	else
-		return pwm_update_period(chanum, (uint32_t) (pwm->cdty / D));
+	} else {
+		if (D == 0)
+			return pwm_update_period(chanum, 0);
+		else
+			return pwm_update_period(chanum, (uint32_t) (pwm->cdty / D));
+	}
+
 }
 
 void aery::pwm_enable(uint8_t chamask)

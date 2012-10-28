@@ -1,4 +1,4 @@
-    
+
       _____             ___ ___   |
      |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
      |     | -_|  _| | |_  |  _|  |  
@@ -62,7 +62,21 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
+### v0.4.2
+
+- New functions:
+  - `twi_is_enabled`
+  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`, `flashc_read_fusebits`, `flashc_write_fusebit`, `flashc_write_fusebyte`
+- New examples:
+  - Scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
+  - External interrupt on pin change, `examples/gpio_extint_pin_change.cpp`.
+- Explicitly define twi pins as GPIO_OPENDRAIN in the twi scan example.
+- Define GCC built-in functions as extern to silence the warnings with SublimeClang ST2 plug-in.
+- Bug fixes:
+  - Handle the division by zero gracefully in `aery::pwm_update_dutycl()`. Closes gh-13.
+
 ### v0.4.1
+
 - The dependency of the PM module has been removed from the ADC module. In addition, an unnecessary error checking has been removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
 - `aery::adc_init()` and `aery::spi_init_master()` are now aware of reinits (means that if the module was enabled, reinit should keep it enabled).
 - Added `aery::adc_is_enabled()`
