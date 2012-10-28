@@ -62,7 +62,12 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
+
 ### Changelog for the next release
+
+- ...
+
+### v0.4.2
 
 - New functions:
   - `twi_is_enabled`
