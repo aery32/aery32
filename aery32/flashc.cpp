@@ -156,7 +156,7 @@ int aery::flashc_write_fusebit(uint16_t fusebit, bool value)
 
 int aery::flashc_write_fusebyte(uint8_t byte_addr, uint8_t value)
 {
-	flashc_instruct((byte_addr & ~0xfc)|(value << 3), FLASH_CMD_WGPB);
+	flashc_instruct((byte_addr & ~0xf8)|(value << 3), FLASH_CMD_WGPB);
 	if (__flashc_lsr & AVR32_FLASHC_FSR_LOCKE_MASK)
 		return EFLASH_PAGE_LOCKED;
 	if (__flashc_lsr & AVR32_FLASHC_FSR_PROGE_MASK)
