@@ -1,4 +1,3 @@
-
       _____             ___ ___   |
      |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
      |     | -_|  _| | |_  |  _|  |  
@@ -25,8 +24,12 @@ To start Aery32 project [download the framework from GitHub](https://github.com/
 
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
-    
-Start by editing `main.cpp`. The default board initialization sequence, that starts the external oscillators and sets the master (or main) clock to 66 MHz, can be found from `board.cpp`. Other settings and board/platform related functions are defined inside the `board.h` header file. It is intended that you work under the root directory most of the time as that is the place where you keep adding your .cpp source files and .h header files.
+
+If you tend to use Sublime Text 2, there is an [Aery32 plug-in](https://github.com/aery32/sublime-aery32) available that simplifies the project creation for you.
+
+When you are in Aery32 project directory, start by editing `main.cpp` and `board.cpp` source files. The default board initialization sequence that can be found from `board.cpp`, starts the external oscillators and sets the master (or main) clock to 66 MHz. Other settings and board related inline functions are defined inside the `board.h` header file.
+
+It is intended that you work under the root directory most of the time as that is the place where you keep adding your `.c` and `.cpp` source files and `.h` header files.
 
 To compile the project just call
 
