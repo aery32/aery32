@@ -84,7 +84,7 @@ libaery32_$(MPART).a: $(OBJECTS)
 # ----------------------------------------------------------------------
 # Other supportive tasks
 # ----------------------------------------------------------------------
-.PHONY: clean re debug qa size
+.PHONY: clean re qa size
 
 clean:
 	-rm -f *.o *.a *.d

@@ -227,7 +227,7 @@ re: clean all
 reall: cleanall all
 
 debug: reall
-debug: COPT+=-g3 -DDEBUG
+debug: COPT+=-g -DDEBUG
 
 qa: re
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
