@@ -4,7 +4,8 @@
 		{
 			"cmd": ["make"],
 			"name": "Aery32",
-			"working_dir": "$project_path",
+			"working_dir": "${project_path}",
+			"selector": "source.c, source.c++",
 			"variants": [
 				{ "cmd": ["make", "programs"], "name": "Run" },
 				{ "cmd": ["make", "clean"], "name": "Clean" },
