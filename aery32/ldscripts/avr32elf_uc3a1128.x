@@ -16,6 +16,10 @@ SECTIONS
 
 	.reset :
 		{ *(.reset) } >FLASH
+	.rel.got :
+		{ *(.rel.got) } >FLASH AT>FLASH
+	.rela.got :
+		{ *(.rela.got) } >FLASH AT>FLASH
 	.init :
 		{ KEEP (*(.init)) } >FLASH
 	.text :
@@ -55,6 +59,10 @@ SECTIONS
 			KEEP (*(SORT(.dtors.*)))
 			KEEP (*(.dtors))
 		} >CPUSRAM AT>FLASH
+	.jcr :
+		{ KEEP (*(.jcr)) } >CPUSRAM AT>FLASH
+	.got :
+		{ *(.got.plt) *(.got) } >CPUSRAM AT>FLASH
 	.data :
 		{ *(.data .data.* .gnu.linkonce.d.*) SORT(CONSTRUCTORS)	} >CPUSRAM AT>FLASH
 	.balign	:
