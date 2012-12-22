@@ -6,9 +6,8 @@
 
 
 Aery32 is a starting point for AVR32-based projects. It provides a
-project structure and library enabling _rapid_ prototyping and development.
-
-**Aery32 aims to be professional and fun** that makes it ideal framework for
+project structure and library enabling ___rapid prototyping and development___.
+Aery32 aims to be both ___professional___ and ___fun___ that makes it ideal choise for
 R&D Engineers, Academics and Hobbyists.
 
 [![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
@@ -37,7 +36,7 @@ Or use git clone
 
 If you tend to use Sublime Text 2, there is an
 [Aery32 plug-in](https://github.com/aery32/sublime-aery32)
-available that simplifies the project creation for you.
+available that simplifies the project creation.
 
 When you are in Aery32 project directory, start by editing `main.cpp`
 and `board.cpp` source files. The default board initialization sequence
