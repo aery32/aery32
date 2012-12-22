@@ -5,10 +5,11 @@
                    |___|          |
 
 
-Aery32 is a starting point for new AVR32-based projects. It provides a
-project structure and library enabling rapid prototyping and development.
-*Aery32 aims to be professionally fun* that makes it ideal framework for
-Hobbyists, R&D Engineers and Academics.
+Aery32 is a starting point for AVR32-based projects. It provides a
+project structure and library enabling _rapid_ prototyping and development.
+
+**Aery32 aims to be professional and fun** that makes it ideal framework for
+R&D Engineers, Academics and Hobbyists.
 
 [![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
 
@@ -27,38 +28,54 @@ For Windows download and install [Atmel AVR Toolchain for Windows](http://www.at
  
 ## Quick start
 
-To start Aery32 project [download the framework from GitHub](https://github.com/aery32/aery32/tags). Or use git clone
+To start Aery32 project
+[download the framework from GitHub](https://github.com/aery32/aery32/tags).
+Or use git clone
 
     git clone git://github.com/aery32/aery32.git myproject
     cd myproject
 
-If you tend to use Sublime Text 2, there is an [Aery32 plug-in](https://github.com/aery32/sublime-aery32) available that simplifies the project creation for you.
+If you tend to use Sublime Text 2, there is an
+[Aery32 plug-in](https://github.com/aery32/sublime-aery32)
+available that simplifies the project creation for you.
 
-When you are in Aery32 project directory, start by editing `main.cpp` and `board.cpp` source files. The default board initialization sequence that can be found from `board.cpp`, starts the external oscillators and sets the master (or main) clock to 66 MHz. Other settings and board related inline functions are defined inside the `board.h` header file.
+When you are in Aery32 project directory, start by editing `main.cpp`
+and `board.cpp` source files. The default board initialization sequence
+that can be found from `board.cpp`, starts the external oscillators and sets
+the master (or main) clock to 66 MHz. Other settings and board related
+stuff are defined inside the `board.h` and `settings.h` header file.
 
-It is intended that you work under the root directory most of the time as that is the place where you keep adding your `.c` and `.cpp` source files and `.h` header files.
+It is intended that you work under the root directory most of the time as
+that is the place where you keep adding your `.c` and `.cpp` source files,
+and `.h` header files.
 
 To compile the project just call
 
     make
 
-All .cpp files under the project root will be compiled and linked with Aery32 Software Framework library. When you want to recompile the project call
+All .cpp files under the project root will be compiled and linked with
+Aery32 Software Framework library. When you want to recompile the project
+call
 
     make re
 
-To program (or upload) the application to the board, connect the USB cable and command
+To program (or upload) the application to the board, connect the USB cable
+and command
 
     make program
     
-DFU is a USB class that allows board to be programmed through USB bus without external programmer board. After programming the board, you have to start it
+DFU is a USB class that allows board to be programmed through USB bus without
+external programmer board. After programming the board, you have to start it
 
     make start
 
-If you like to start the board immediately after the programming, chain the program target with the start target, like this
+If you like to start the board immediately after the programming, chain the
+program target with the start target, like this
 
     make program start
     
-Or less verbosely `make programs`. The latter is also quicker with batchisp (in Windows).
+Or less verbosely `make programs`. The latter is also quicker with
+batchisp (in Windows).
 
 ## Learning the Aery32 Software Framework
 
@@ -75,17 +92,17 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### Changelog for the next release
 
-- Minor change in Sublime Text 2 project file. No need to change build system
-  manually any more (from Tools > Build System).
+- Minor change in Sublime Text 2 project file. No need to change the ST2
+  build system manually any more (from Tools > Build System).
 - It's now possible to define project wide (global) settings in one file.
   See `settings.h` header file. This file is passed to gcc via `-include`
   option.
 - Build system modifications
   - Uses now -O0 optimization for debugging. This allows to set breakpoints
-    in Atmel Studio 6. Silences the following error: "The breakpoint will not
-    currently be hit. Unable to set requested breakpoint on target." However,
-    be aware that some programs may not work properly with -O0 optimization.
-    In that case try -O1.
+    in Atmel Studio 6. Silences the error where Atmel Studio complained that:
+    "The breakpoint will not currently be hit. Unable to set requested
+    breakpoint on target." However, be aware that some programs may not
+    work properly with -O0 optimization.
   - The creation of `obj/` directory has been removed. It was just adding
     unnecessary complexity to the Makefile. Thus removing it.
 - New linker script, which sets stack size to 4KB by default.
@@ -93,7 +110,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
     that avr32-gcc uses if none was given), was only slightly modified to
     start program from correct address. It was not known that in the default
     version of this linker script, the heap and stack sections weren't
-    defined. This is now corrected with additional major clean up for the
+    defined. This is now corrected with additional major clean up of the
     file.
 
 ### v0.4.2
