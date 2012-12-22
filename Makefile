@@ -46,9 +46,6 @@ SOURCES=$(wildcard *.cpp) $(wildcard *.c)
 # Additional include paths
 INCLUDES=aery32
 
-# Where to put .o object files
-OBJDIR=obj
-
 
 # ----------------------------------------------------------------------
 # Standard user variables
@@ -90,13 +87,6 @@ OS=$(shell uname)
 OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS:=$(OBJECTS:.c=.o)
 
-# Append object files with $(OBJDIR)
-OBJECTS:=$(addprefix $(OBJDIR)/,$(OBJECTS))
-
-# Resolve the nested object directories that has to be created
-OBJDIRS=$(sort $(dir $(OBJECTS)))
-OBJDIRS:=$(filter-out ./,$(OBJDIRS)) # Filter the root dir out, that's "./"
-
 .PHONY: all
 all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
@@ -111,23 +101,14 @@ $(TARGET).hex: $(TARGET).elf
 aery32/libaery32_$(MPART).a:
 	"$(MAKE)" -C aery32 MPART="$(MPART)" CXXOPT="$(CXXOPT)"
 
-$(OBJDIR)/%.o: %.cpp
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
-$(OBJDIR)/%.o: %.c
+%.o: %.c
 	$(CC) $(CFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(TARGET).lst: $(TARGET).elf
 	avr32-objdump -h -S $< > $@
-
-# Create directories where to place object files
-$(OBJECTS): | $(OBJDIRS)
-$(OBJDIRS):
-ifneq (, $(filter $(OS), windows32))
-	-mkdir $(subst /,\,$@)
-else
-	-mkdir -p $@
-endif
 
 # Add dependency lists, .d files
 -include $(OBJECTS:.o=.d)
@@ -216,8 +197,8 @@ size: $(TARGET).elf $(TARGET).hex
 	avr32-size -B $^
 
 clean:
-	-rm -f $(addprefix $(TARGET),.elf .hex .lst .map) userpage.hex fusebits.hex
-	-rm -rf $(OBJDIR)
+	-rm -f $(addprefix $(TARGET),.elf .hex .lst .map)
+	-rm -f $(OBJECTS) $(OBJECTS:.o=.d)
 
 cleanall: clean
 	-"$(MAKE)" -C aery32 clean
