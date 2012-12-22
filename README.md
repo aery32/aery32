@@ -68,7 +68,27 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### Changelog for the next release
 
-- ...
+- Minor change in Sublime Text 2 project file. No need to change build system
+manually any more.
+
+- Makefile modifications:
+
+  - Uses now -O0 optimization for debugging. This allows to set breakpoints
+  in Atmel Studio 6. Silences the following error: "The breakpoint will not
+  currently be hit. Unable to set requested breakpoint on target." However,
+  be aware that some programs may not work properly with -O0 optimization.
+  In that case try -O1.
+  
+  - The creation of `obj/` directory has been removed. It was just adding
+  unnecessary complexity to the Makefile. Thus removing it.
+
+- New linker script, which sets stack size to 4KB by default.
+
+  - The previous linker script, adapted from the AVR32 GNU Toolchain (the one
+  that avr32-gcc uses if none was given), was only slightly modified to start
+  program from correct address. However, it was not known that in the default
+  version of this linker script, the heap and stack sections weren't defined.
+  This is now corrected with additional major clean up for the file.
 
 ### v0.4.2
 
