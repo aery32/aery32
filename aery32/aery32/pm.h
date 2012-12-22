@@ -30,16 +30,14 @@ extern "C" {
 }
 
 #ifndef F_OSC0
-#define F_OSC0 12000000UL
+#error "F_OSC0 Not Defined: Define OSC0 frequency (F_OSC0) in settings.h and provide it through -include option."
 #endif
 
 #ifndef F_OSC1
-#define F_OSC1 16000000UL
+#error "F_OSC1 Not Defined: Define OSC1 frequency (F_OSC1) in settings.h and provide it through -include option."
 #endif
 
-#ifndef F_SLOWCLK
 #define F_SLOWCLK 115000UL
-#endif
 
 #define CLKDOMAIN_CPU 01
 #define CLKDOMAIN_PBA 02

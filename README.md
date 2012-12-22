@@ -5,11 +5,18 @@
                    |___|          |
 
 
-Aery32 is a starting point for new AVR32-based projects. It provides a project structure and library enabling rapid prototyping and development. *Aery32 aims to be professionally fun* that makes it ideal framework for Hobbyists, R&D Engineers and Academics.[![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
+Aery32 is a starting point for new AVR32-based projects. It provides a
+project structure and library enabling rapid prototyping and development.
+*Aery32 aims to be professionally fun* that makes it ideal framework for
+Hobbyists, R&D Engineers and Academics.
+
+[![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
 
 ## Installation
 
-You don't have to install Aery32 Software Framework as you would do with regular software. Just download the framework, unzip it and start working on it.
+You don't have to install Aery32 Software Framework as you would do with
+regular software. Just download the framework, unzip it and start working
+on it.
 
 ## Requirements
 
@@ -69,39 +76,42 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 ### Changelog for the next release
 
 - Minor change in Sublime Text 2 project file. No need to change build system
-manually any more.
-
-- Makefile modifications:
-
+  manually any more (from Tools > Build System).
+- It's now possible to define project wide (global) settings in one file.
+  See `settings.h` header file. This file is passed to gcc via `-include`
+  option.
+- Build system modifications
   - Uses now -O0 optimization for debugging. This allows to set breakpoints
-  in Atmel Studio 6. Silences the following error: "The breakpoint will not
-  currently be hit. Unable to set requested breakpoint on target." However,
-  be aware that some programs may not work properly with -O0 optimization.
-  In that case try -O1.
-  
+    in Atmel Studio 6. Silences the following error: "The breakpoint will not
+    currently be hit. Unable to set requested breakpoint on target." However,
+    be aware that some programs may not work properly with -O0 optimization.
+    In that case try -O1.
   - The creation of `obj/` directory has been removed. It was just adding
-  unnecessary complexity to the Makefile. Thus removing it.
-
+    unnecessary complexity to the Makefile. Thus removing it.
 - New linker script, which sets stack size to 4KB by default.
-
   - The previous linker script, adapted from the AVR32 GNU Toolchain (the one
-  that avr32-gcc uses if none was given), was only slightly modified to start
-  program from correct address. However, it was not known that in the default
-  version of this linker script, the heap and stack sections weren't defined.
-  This is now corrected with additional major clean up for the file.
+    that avr32-gcc uses if none was given), was only slightly modified to
+    start program from correct address. It was not known that in the default
+    version of this linker script, the heap and stack sections weren't
+    defined. This is now corrected with additional major clean up for the
+    file.
 
 ### v0.4.2
 
 - New functions:
   - `twi_is_enabled`
-  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`, `flashc_read_fusebits`, `flashc_write_fusebit`, `flashc_write_fusebyte`
+  - `flashc_read_userpage`, `flashc_save_userpage`, `flashc_userpage_isempty`,
+    `flashc_read_fusebits`, `flashc_write_fusebit`, `flashc_write_fusebyte`
 - New examples:
-  - Scroll text on hd44780 type display, `examples/displays/hd44780_scroll_text.cpp`.
+  - Scroll text on hd44780 type display,
+    `examples/displays/hd44780_scroll_text.cpp`.
   - External interrupt on pin change, `examples/gpio_extint_pin_change.cpp`.
 - Explicitly define twi pins as GPIO_OPENDRAIN in the twi scan example.
-- Define GCC built-in functions as extern to silence the warnings with SublimeClang ST2 plug-in.
+- Define GCC built-in functions as extern to silence the warnings with
+  SublimeClang ST2 plug-in.
 - Bug fixes:
-  - Handle the division by zero gracefully in `aery::pwm_update_dutycl()`. Closes gh-13.
+  - Handle the division by zero gracefully in `aery::pwm_update_dutycl()`.
+    Closes gh-13.
 
 ### v0.4.1
 

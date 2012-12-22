@@ -43,6 +43,9 @@ MPART=uc3a1128
 # Project's source files. Grab all under the project root.
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
 
+# Global project wide settings file. IMPORTANT! Define with absolute path.
+SETTINGS=$(addsuffix settings.h, $(CURDIR)/)
+
 # Additional include paths
 INCLUDES=aery32
 
@@ -61,10 +64,11 @@ COPT=-O2 -fdata-sections -ffunction-sections
 CXXOPT=$(COPT) -fno-exceptions -fno-rtti
 
 CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(COPT) -Wall
-CFLAGS+=$(addprefix -I,$(INCLUDES))
+CFLAGS+=$(addprefix -I,$(INCLUDES)) -include $(SETTINGS)
 
 CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
 CXXFLAGS+=$(addprefix -I,$(INCLUDES))
+CXXFLAGS+=-include "$(SETTINGS)"
 
 LDFLAGS=-mpart=$(MPART) -Taery32/ldscripts/avr32elf_$(MPART).x
 LDFLAGS+=-Wl,--gc-sections
@@ -99,7 +103,7 @@ $(TARGET).hex: $(TARGET).elf
 	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
-	"$(MAKE)" -C aery32 MPART="$(MPART)" CXXOPT="$(CXXOPT)"
+	"$(MAKE)" -C aery32 MPART="$(MPART)" CXXOPT="$(CXXOPT)" SETTINGS="$(SETTINGS)"
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
@@ -209,6 +213,7 @@ reall: cleanall all
 
 debug: reall
 debug: COPT+=-g -O0 -DDEBUG
+debug: LDFLAGS+=-mrelax
 
 qa: re
 qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline

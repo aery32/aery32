@@ -1,0 +1,2 @@
+#define F_OSC0 12000000UL
+#define F_OSC1 16000000UL
