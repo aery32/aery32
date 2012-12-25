@@ -27,11 +27,11 @@ int main(void)
 
 	for(;;) {
 		usart_puts(usart0, "in: ");
-		if (usart_gets(usart0, buf, BUFSIZE)) {
-			usart_puts(usart0, "\r\nout: ");
-			usart_puts(usart0, buf);
-			usart_puts(usart0, "\r\n");
-		}
+		usart_gets(usart0, buf, BUFSIZE);
+
+		usart_puts(usart0, "\r\nout: ");
+		usart_puts(usart0, buf);
+		usart_puts(usart0, "\r\n\n");
 	}
 
 	return 0;
