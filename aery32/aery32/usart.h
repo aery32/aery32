@@ -78,13 +78,25 @@ void usart_init_serial(volatile avr32_usart_t *usart,
 void usart_setup_speed(volatile avr32_usart_t *usart, enum Usart_clock clk,
 	uint16_t cd, uint8_t fp = 0, bool over = true);
 
-size_t usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n);
+int usart_read(volatile avr32_usart_t *usart, int *buf, size_t n);
+
+int usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n);
+
 int usart_puts(volatile avr32_usart_t *usart, const char *str);
+
 char usart_putc(volatile avr32_usart_t *usart, char c);
+
+int usart_getc(volatile avr32_usart_t *usart);
+
+char* usart_gets(volatile avr32_usart_t *usart, char *str, size_t n,
+	char terminator = '\n');
 
 uint32_t usart_wait_txready(volatile avr32_usart_t *usart);
 
+uint32_t usart_wait_rxready(volatile avr32_usart_t *usart);
+
 void usart_enable_rx(volatile avr32_usart_t *usart);
+
 void usart_enable_tx(volatile avr32_usart_t *usart);
 
 } /* end of namespace */

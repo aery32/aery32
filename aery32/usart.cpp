@@ -57,7 +57,19 @@ void aery::usart_setup_speed(volatile avr32_usart_t *usart,
 	usart->BRGR.fp = fp;
 }
 
-size_t aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
+int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
+{
+	uint32_t status;
+	for (size_t i = 0; i < n; i++) {
+		status = aery::usart_wait_rxready(usart);
+		if (status & (AVR32_USART_PARE_MASK|AVR32_USART_FRAME_MASK))
+			return i;
+		buf[i] = usart->RHR.rxchr;
+	}
+	return n;
+}
+
+int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
 {
 	uint32_t status;
 	aery::usart_wait_txready(usart);
@@ -71,6 +83,14 @@ size_t aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n
 	return n;
 }
 
+char aery::usart_putc(volatile avr32_usart_t *usart, char c)
+{
+	int c2 = c;
+	if (aery::usart_write(usart, &c2, 1) == 0)
+		return EOF;
+	return c;
+}
+
 int aery::usart_puts(volatile avr32_usart_t *usart, const char *str)
 {
 	size_t n = strlen(str);
@@ -81,18 +101,38 @@ int aery::usart_puts(volatile avr32_usart_t *usart, const char *str)
 	return n;
 }
 
-char aery::usart_putc(volatile avr32_usart_t *usart, char c)
+int aery::usart_getc(volatile avr32_usart_t *usart)
 {
-	int c2 = c;
-	if (aery::usart_write(usart, &c2, 1) == 0)
+	int c;
+	if (aery::usart_read(usart, &c, 1) == 0)
 		return EOF;
 	return c;
+}
+
+char* aery::usart_gets(volatile avr32_usart_t *usart, char *str,
+	size_t n, char terminator)
+{
+	size_t i = 0;
+	for (; i < n; i++) {
+		if ((str[i] = aery::usart_getc(usart)) == terminator)
+			break;
+	}
+	str[i] = '\0';
+	return str;
 }
 
 uint32_t aery::usart_wait_txready(volatile avr32_usart_t *usart)
 {
 	uint32_t status = usart->csr;
 	while ((status & AVR32_USART_TXRDY_MASK) == 0)
+		status = usart->csr;
+	return status;
+}
+
+uint32_t aery::usart_wait_rxready(volatile avr32_usart_t *usart)
+{
+	uint32_t status = usart->csr;
+	while ((status & AVR32_USART_RXRDY_MASK) == 0)
 		status = usart->csr;
 	return status;
 }

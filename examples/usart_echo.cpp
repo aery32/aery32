@@ -22,8 +22,16 @@ int main(void)
 	usart_enable_rx(usart0);
 	usart_enable_tx(usart0);
 
+	#define BUFSIZE 100
+	char buf[BUFSIZE] = "";
+
 	for(;;) {
-		usart_puts(usart0, "hello\r\n");
+		usart_puts(usart0, "in: ");
+		if (usart_gets(usart0, buf, BUFSIZE)) {
+			usart_puts(usart0, "\r\nout: ");
+			usart_puts(usart0, buf);
+			usart_puts(usart0, "\r\n");
+		}
 	}
 
 	return 0;
