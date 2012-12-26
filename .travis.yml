@@ -24,7 +24,9 @@ script:
   - cp examples/toggle_led.cpp main.cpp && make re
   - cp examples/twi_scan.cpp main.cpp && make re
   - cp examples/writing_flash.cpp main.cpp && make re
-  - cp examples/usart_echo.cpp main.cpp && make re
+  - cp examples/usart_serial_echo.cpp main.cpp && make re
+  - cp examples/usart_spi_master.cpp main.cpp && make re
+  - cp examples/usart_spi_slave.cpp main.cpp && make re
   - cp examples/displays/hd44780.cpp main.cpp && make re
   - cp examples/displays/hd44780_print_adc.cpp main.cpp && make re
   - make cleanall

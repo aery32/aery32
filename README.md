@@ -95,6 +95,8 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - Serial read and write operations (RS-232).
   - SPI communication (master and slave). Yes, USART module can be also used
     for SPI in addition to the dedicated SPI module.
+  - Examples: usart_serial_echo.cpp, usart_spi_master.cpp and
+    usart_spi_slave.cpp.
 - Minor change in Sublime Text 2 project file. No need to change the ST2
   build system manually any more (from Tools > Build System).
 - It's now possible to define project wide (global) settings in one file.
