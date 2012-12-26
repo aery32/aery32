@@ -51,6 +51,25 @@ INCLUDES=aery32
 
 
 # ----------------------------------------------------------------------
+# Some stuff that has to be done
+# ----------------------------------------------------------------------
+
+# Grab the name of the Operating System
+OS=$(shell uname)
+
+# Resolve object files from source files
+OBJECTS=$(SOURCES:.cpp=.o)
+OBJECTS:=$(OBJECTS:.c=.o)
+
+# Escape possible space characters in settings path. Needed in Linux.
+ifeq (, $(filter $(OS), windows32))
+sp:=
+sp+=
+SETTINGS:=$(subst $(sp),\ ,$(SETTINGS))
+endif
+
+
+# ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
 
@@ -83,13 +102,6 @@ LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref
 # ----------------------------------------------------------------------
 # Build targets
 # ----------------------------------------------------------------------
-
-# Grab the name of the Operating System
-OS=$(shell uname)
-
-# Resolve object files from source files
-OBJECTS=$(SOURCES:.cpp=.o)
-OBJECTS:=$(OBJECTS:.c=.o)
 
 .PHONY: all
 all: $(TARGET).hex $(TARGET).lst
