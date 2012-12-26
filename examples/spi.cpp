@@ -11,10 +11,6 @@ int main(void)
 {
 	uint16_t rd0, rd1; /* received data */
 
-	/*
-	 * Put your application initialization sequence here. The default
-	 * board_init() setups the LED pin and the CPU clock (66 MHz).
-	 */
 	init_board();
 	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 	gpio_init_pins(porta, SPI1_PINMASK, GPIO_FUNCTION_B);

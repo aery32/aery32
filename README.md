@@ -117,6 +117,8 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
     version of this linker script, the heap and stack sections weren't
     defined. This is now corrected with additional major clean up of the
     file.
+- Bug fixes:
+  - Fixed Makefile to work on *BSD.
 
 ### v0.4.2
 
