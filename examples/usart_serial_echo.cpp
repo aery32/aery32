@@ -12,7 +12,7 @@ int main(void)
 	 * PA00 => RXD
 	 * PA01 => TXD
 	 */
-	#define UART0_SERIAL_PINMASK (0x1)
+	#define UART0_SERIAL_PINMASK (0x2)
 	gpio_init_pins(porta, UART0_SERIAL_PINMASK, GPIO_FUNCTION_A);
 	
 	/* 

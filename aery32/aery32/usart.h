@@ -95,8 +95,10 @@ void usart_set_databits(volatile avr32_usart_t *usart,
 int usart_set_spimode(volatile avr32_usart_t *usart,
 	enum Usart_spimode mode);
 
+int usart_read(volatile avr32_usart_t *usart, int *data);
 int usart_read(volatile avr32_usart_t *usart, int *buf, size_t n);
 
+int usart_write(volatile avr32_usart_t *usart, int data);
 int usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n);
 
 int usart_puts(volatile avr32_usart_t *usart, const char *str);

@@ -114,6 +114,11 @@ int aery::usart_set_spimode(volatile avr32_usart_t *usart,
 	return 0;
 }
 
+int aery::usart_read(volatile avr32_usart_t *usart, int *data)
+{
+	return aery::usart_read(usart, data, 1);
+}
+
 int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
 {
 	uint32_t status;
@@ -124,6 +129,11 @@ int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
 		buf[i] = usart->RHR.rxchr;
 	}
 	return n;
+}
+
+int aery::usart_write(volatile avr32_usart_t *usart, int data)
+{
+	return aery::usart_write(usart, &data, 1);
 }
 
 int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
@@ -140,8 +150,7 @@ int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
 
 char aery::usart_putc(volatile avr32_usart_t *usart, char c)
 {
-	int c2 = c;
-	if (aery::usart_write(usart, &c2, 1) == 0)
+	if (aery::usart_write(usart, (int) c) == 0)
 		return EOF;
 	return c;
 }
@@ -159,7 +168,7 @@ int aery::usart_puts(volatile avr32_usart_t *usart, const char *str)
 int aery::usart_getc(volatile avr32_usart_t *usart)
 {
 	int c;
-	if (aery::usart_read(usart, &c, 1) == 0)
+	if (aery::usart_read(usart, &c) == 0)
 		return EOF;
 	return c;
 }
