@@ -65,18 +65,35 @@ enum Usart_clock {
 	USART_CLK_EXTPIN = 3
 };
 
+enum Usart_spimode {
+	USART_SPI_MODE0,
+	USART_SPI_MODE1,
+	USART_SPI_MODE2,
+	USART_SPI_MODE3
+};
+
 /**
  * Init USART for a serial communication
  * \param pusart Pointer to the USART peripheral which to init
  */
 void usart_init_serial(volatile avr32_usart_t *usart,
 	enum Usart_parity parity = USART_PARITY_NONE,
-	enum Usart_databits databits = USART_DATABITS_8,
-	enum Usart_stopbits = USART_STOPBITS_1,
-	bool sync = false, bool msbf = false);
+	enum Usart_stopbits = USART_STOPBITS_1);
 
-void usart_setup_speed(volatile avr32_usart_t *usart, enum Usart_clock clk,
-	uint16_t cd, uint8_t fp = 0, bool over = true);
+void usart_init_spim(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode, enum Usart_databits databits);
+
+void usart_init_spis(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode, enum Usart_databits databits);
+
+void usart_setup_speed(volatile avr32_usart_t *usart,
+	enum Usart_clock clk, uint16_t cd, uint8_t fp = 0, bool over = true);
+
+void usart_set_databits(volatile avr32_usart_t *usart,
+	enum Usart_databits databits);
+
+int usart_set_spimode(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode);
 
 int usart_read(volatile avr32_usart_t *usart, int *buf, size_t n);
 
@@ -88,16 +105,24 @@ char usart_putc(volatile avr32_usart_t *usart, char c);
 
 int usart_getc(volatile avr32_usart_t *usart);
 
-char* usart_gets(volatile avr32_usart_t *usart, char *str, size_t n,
-	char terminator = '\n');
+char* usart_gets(volatile avr32_usart_t *usart,
+	char *str, size_t n, char terminator = '\n');
 
 uint32_t usart_wait_txready(volatile avr32_usart_t *usart);
 
 uint32_t usart_wait_rxready(volatile avr32_usart_t *usart);
 
+void usart_reset_status(volatile avr32_usart_t *usart);
+
+bool usart_has_overrun(volatile avr32_usart_t *usart);
+
 void usart_enable_rx(volatile avr32_usart_t *usart);
 
+void usart_disable_rx(volatile avr32_usart_t *usart);
+
 void usart_enable_tx(volatile avr32_usart_t *usart);
+
+void usart_disable_tx(volatile avr32_usart_t *usart);
 
 } /* end of namespace */
 

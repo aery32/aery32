@@ -27,25 +27,40 @@ namespace aery {
 }
 
 void aery::usart_init_serial(volatile avr32_usart_t *usart,
-	enum Usart_parity parity, enum Usart_databits databits,
-	enum Usart_stopbits, bool sync, bool msbf)
+	enum Usart_parity parity, enum Usart_stopbits)
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
-
 	usart->MR.mode = 0;
-	usart->MR.msbf = msbf;
-	usart->MR.sync = sync;
-	usart->MR.clko = false;
-
-	if (databits == USART_DATABITS_9) {
-		usart->MR.mode9 = 1;
-	} else {
-		usart->MR.mode9 = 0;
-		usart->MR.chrl = databits;
-	}
-
+	usart->MR.filter = 0;
+	usart->MR.msbf = 0;
+	usart->MR.sync = 0;
+	usart->MR.clko = 0;
 	usart->MR.par = parity;
+	aery::usart_set_databits(usart, USART_DATABITS_8);
+}
+
+void aery::usart_init_spim(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode, enum Usart_databits databits)
+{
+	usart->CR.rsttx = 1;
+	usart->CR.rstrx = 1;
+	usart->MR.mode = 0xe;
+	usart->MR.filter = 0;
+	usart->MR.clko = 1;
+	aery::usart_set_databits(usart, databits);
+	aery::usart_set_spimode(usart, mode);
+}
+
+void aery::usart_init_spis(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode, enum Usart_databits databits)
+{
+	usart->CR.rsttx = 1;
+	usart->CR.rstrx = 1;
+	usart->MR.mode = 0xf;
+	usart->MR.filter = 0;
+	aery::usart_set_databits(usart, databits);
+	aery::usart_set_spimode(usart, mode);
 }
 
 void aery::usart_setup_speed(volatile avr32_usart_t *usart,
@@ -55,6 +70,48 @@ void aery::usart_setup_speed(volatile avr32_usart_t *usart,
 	usart->MR.over = over;
 	usart->BRGR.cd = cd;
 	usart->BRGR.fp = fp;
+}
+
+void aery::usart_set_databits(volatile avr32_usart_t *usart,
+	enum Usart_databits databits)
+{
+	if (databits == USART_DATABITS_9) {
+		usart->MR.mode9 = 1;
+	} else {
+		usart->MR.mode9 = 0;
+		usart->MR.chrl = databits;
+	}
+}
+
+int aery::usart_set_spimode(volatile avr32_usart_t *usart,
+	enum Usart_spimode mode)
+{
+	if (usart->MR.mode != 0xe && usart->MR.mode != 0xf)
+		return -1;
+
+	/* 
+	 * Note that UC3 spi mode number does not correspond to the generally
+	 * known mode numbers. This has been corrected here programmatically.
+	 */
+	switch (mode) {
+	case USART_SPI_MODE0:
+		usart->MR.msbf = 0; /* CPOL */
+		usart->MR.sync = 0; /* CPHA */
+		break;
+	case USART_SPI_MODE1:
+		usart->MR.msbf = 0;
+		usart->MR.sync = 1;
+		break;
+	case USART_SPI_MODE2:
+		usart->MR.msbf = 1;
+		usart->MR.sync = 0;
+		break;
+	case USART_SPI_MODE3:
+		usart->MR.msbf = 1;
+		usart->MR.sync = 1;
+		break;
+	}
+	return 0;
 }
 
 int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
@@ -72,13 +129,11 @@ int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
 int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
 {
 	uint32_t status;
-	aery::usart_wait_txready(usart);
-
 	for (size_t i = 0; i < n; i++) {
-		usart->THR.txchr = buf[i];
 		status = aery::usart_wait_txready(usart);
 		if (status & (AVR32_USART_PARE_MASK|AVR32_USART_FRAME_MASK))
 			return i;
+		usart->THR.txchr = buf[i];
 	}
 	return n;
 }
@@ -123,18 +178,24 @@ char* aery::usart_gets(volatile avr32_usart_t *usart, char *str,
 
 uint32_t aery::usart_wait_txready(volatile avr32_usart_t *usart)
 {
-	uint32_t status = usart->csr;
-	while ((status & AVR32_USART_TXRDY_MASK) == 0)
-		status = usart->csr;
-	return status;
+	while ((usart->csr & AVR32_USART_TXRDY_MASK) == 0);
+	return usart->csr;
 }
 
 uint32_t aery::usart_wait_rxready(volatile avr32_usart_t *usart)
 {
-	uint32_t status = usart->csr;
-	while ((status & AVR32_USART_RXRDY_MASK) == 0)
-		status = usart->csr;
-	return status;
+	while ((usart->csr & AVR32_USART_RXRDY_MASK) == 0);
+	return usart->csr;
+}
+
+void aery::usart_reset_status(volatile avr32_usart_t *usart)
+{
+	usart->CR.rststa = 1;
+}
+
+bool aery::usart_has_overrun(volatile avr32_usart_t *usart)
+{
+	return usart->CSR.ovre;
 }
 
 void aery::usart_enable_rx(volatile avr32_usart_t *usart)
@@ -142,7 +203,17 @@ void aery::usart_enable_rx(volatile avr32_usart_t *usart)
 	usart->CR.rxen = true;
 }
 
+void aery::usart_disable_rx(volatile avr32_usart_t *usart)
+{
+	usart->CR.rxdis = true;
+}
+
 void aery::usart_enable_tx(volatile avr32_usart_t *usart)
 {
 	usart->CR.txen = true;
+}
+
+void aery::usart_disable_tx(volatile avr32_usart_t *usart)
+{
+	usart->CR.txdis = true;
 }

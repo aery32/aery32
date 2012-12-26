@@ -91,7 +91,9 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### Changelog for the next release
 
-- Added USART module functions for normal (rs232) read and write operations.
+- Added USART module functions:
+  - Serial read and write operations (RS-232).
+  - SPI communication (master and slave).
 - Minor change in Sublime Text 2 project file. No need to change the ST2
   build system manually any more (from Tools > Build System).
 - It's now possible to define project wide (global) settings in one file.
