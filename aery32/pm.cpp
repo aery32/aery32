@@ -279,15 +279,10 @@ uint32_t aery::pm_get_fclkdomain(uint8_t domain)
 
 void aery::pm_enable_pll(volatile avr32_pm_pll_t *ppll, bool divby2)
 {
-	switch (divby2) {
-	case true:
+	if (divby2 == true)
 		ppll->pllopt |= 2;
-		break;
-	case false:
+	else
 		ppll->pllopt &= ~2;
-		break;
-	}
-
 	ppll->pllen = 1;
 }
 
