@@ -12,10 +12,6 @@ int main(void)
 	uint8_t twi_slave_address = 0;
 	uint8_t read_data = 0;
 
-	/*
-	 * Put your application initialization sequence here. The default
-	 * board_init() setups the LED pin and the CPU clock (66 MHz).
-	 */
 	init_board();
 	gpio_init_pins(porta, TWI_MASK, GPIO_FUNCTION_A|GPIO_OPENDRAIN);
 	twi_init_master();
