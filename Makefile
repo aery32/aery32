@@ -94,7 +94,7 @@ OBJECTS:=$(OBJECTS:.c=.o)
 .PHONY: all
 all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
-	@make -s size
+	@$(MAKE) -s size
 
 $(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 	$(CXX) $(LDFLAGS) $^ -lm   -o $@
