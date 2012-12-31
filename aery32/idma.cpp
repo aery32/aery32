@@ -127,10 +127,8 @@ idma& idma::read(uint8_t *dest, size_t n)
 
 idma& idma::flush()
 {
-	size_t n = bytes_available();
-	uint8_t dev_null[n];
-
-	read(dev_null, n);
+	uint8_t dev_null[bytes_available()];
+	read(dev_null, sizeof(dev_null));
 	return *this;
 }
 
