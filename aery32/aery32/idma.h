@@ -28,17 +28,19 @@ extern "C" {
 	#include <avr32/io.h>
 	#include <inttypes.h>
 }
-
 #include <cstdio>
-#include "dma.h"
 
 namespace aery {
 
 class idma {
 
 	public:
-		idma(int dma_chnum, int dma_pid, enum dma_datasize dma_size,
-			void *buf, uint16_t bufsize);
+		idma(int dma_chnum, int dma_pid,
+			volatile uint8_t *buf, size_t size);
+		idma(int dma_chnum, int dma_pid,
+			volatile uint16_t *buf, size_t size);
+		idma(int dma_chnum, int dma_pid,
+			volatile uint32_t *buf, size_t size);
 
 		idma& enable();
 		idma& disable();
@@ -56,12 +58,12 @@ class idma {
 
 	protected:
 		volatile avr32_pdca_channel_t *dma;
-
-		uint8_t *buffer;
+		volatile uint8_t *buffer;
 		size_t bufsize;
 		size_t bufsize2;
-
 		size_t r_idx;
+
+		idma& init();
 };
 
 } /* end of namespace aery */
