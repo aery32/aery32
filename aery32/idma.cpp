@@ -109,7 +109,7 @@ idma& idma::read(uint8_t *dest, size_t n)
 	if (n > bytes_availabl)
 		n = bytes_availabl;
 
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
 		dest[i] = buffer[r_idx++];
 		if (r_idx == bufsize2) {
 			dma->marr = (uint32_t) buffer;
@@ -144,5 +144,12 @@ idma& idma::reset()
 
 size_t idma::bytes_available()
 {
-	return bufsize - r_idx - (dma->TCR.tcv + dma->TCRR.tcrv);
+	if (has_overflown())
+		return 0;
+	return bufsize - r_idx - dma->TCR.tcv - dma->TCRR.tcrv;
+}
+
+bool idma::has_overflown()
+{
+	return false;
 }
