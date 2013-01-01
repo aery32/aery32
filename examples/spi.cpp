@@ -1,7 +1,4 @@
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/spi.h>
-
 using namespace aery;
 
 #define SPI0_PINMASK ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
@@ -11,7 +8,7 @@ int main(void)
 {
 	uint16_t rd0, rd1; /* received data */
 
-	init_board();
+	board::init();
 	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 	gpio_init_pins(porta, SPI1_PINMASK, GPIO_FUNCTION_B);
 

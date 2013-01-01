@@ -1,11 +1,7 @@
 #include "board.h"
-#include <aery32/pm.h>
-#include <aery32/gpio.h>
-#include <aery32/flashc.h>
-
 using namespace aery;
 
-void init_board(void)
+void board::init(void)
 {
 	gpio_init_pins(porta, 0xffffffff, GPIO_INPUT);
 	gpio_init_pins(portb, 0xffffffff, GPIO_INPUT);

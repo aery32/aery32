@@ -1,7 +1,4 @@
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/twi.h>
-
 using namespace aery;
 
 #define TWI_MASK ((1 << 29) | (1 << 30))
@@ -12,7 +9,7 @@ int main(void)
 	uint8_t twi_slave_address = 0;
 	uint8_t read_data = 0;
 
-	init_board();
+	board::init();
 	gpio_init_pins(porta, TWI_MASK, GPIO_FUNCTION_A|GPIO_OPENDRAIN);
 	twi_init_master();
 

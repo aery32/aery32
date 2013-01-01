@@ -1,11 +1,9 @@
 #include "board.h"
-#include <aery32/all.h>
-
 using namespace aery;
 
 int main(void)
 {
-	init_board();
+	board::init();
 
 	/*
 	 * In UC3A:

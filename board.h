@@ -1,13 +1,12 @@
 #ifndef __BOARD_H
 #define __BOARD_H
 
+#include <aery32/all.h>
+
 extern "C" {
 	#include <inttypes.h>
 }
 
-// ----------------------------------------------------------------------
-// Board specific settings
-// ----------------------------------------------------------------------
 #define LED AVR32_PIN_PC04
 
 #define ADC_VREF 3.0
@@ -17,15 +16,15 @@ extern "C" {
 #define PBAMASK_DEFAULT 0xFFFFFFFF
 #define PBBMASK_DEFAULT 0xFFFFFFFF
 
+namespace board {
 
-// ----------------------------------------------------------------------
-// Board functions
-// ----------------------------------------------------------------------
-void init_board(void);
+void init(void);
 
 static inline double cnv2volt(uint32_t cnv)
 {
 	return cnv * ((double) ADC_VREF / (1UL << ADC_BITS));
 }
+
+} /* end of namespace */
 
 #endif
