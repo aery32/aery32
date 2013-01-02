@@ -103,7 +103,7 @@ int usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n);
 
 int usart_puts(volatile avr32_usart_t *usart, const char *str);
 
-char usart_putc(volatile avr32_usart_t *usart, char c);
+int usart_putc(volatile avr32_usart_t *usart, char c);
 
 int usart_getc(volatile avr32_usart_t *usart);
 

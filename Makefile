@@ -228,5 +228,5 @@ debug: COPT+=-g -O0 -DDEBUG
 debug: LDFLAGS+=-mrelax
 
 qa: re
-qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
-qa: CXXFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline
+qa: CFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline -Wextra
+qa: CXXFLAGS+=-pedantic -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -Winline -Wextra

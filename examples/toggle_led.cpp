@@ -1,12 +1,9 @@
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/delay.h>
-
 using namespace aery;
 
 int main(void)
 {
-	init_board();
+	board::init();
 	for(;;) {
 		gpio_toggle_pin(LED);
 		delay_ms(500);

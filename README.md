@@ -95,8 +95,9 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
   - Serial read and write operations (RS-232).
   - SPI communication (master and slave). Yes, USART module can be also used
     for SPI in addition to the dedicated SPI module.
-  - Examples: usart_serial_echo.cpp, usart_spi_master.cpp and
-    usart_spi_slave.cpp.
+  - Examples: `usart_serial_echo.cpp`, `usart_spi_master.cpp` and
+    `usart_spi_slave.cpp`.
+- Added namespace `board` for board specific functions (board.h/cpp). #16
 - Minor change in Sublime Text 2 project file. No need to change the ST2
   build system manually any more (from Tools > Build System).
 - It's now possible to define project wide (global) settings in one file.
@@ -118,7 +119,8 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
     defined. This is now corrected with additional major clean up of the
     file.
 - Bug fixes:
-  - Fixed Makefile to work on *BSD.
+  - Makefile fixed to work on *BSD.
+  - Fix off-by-one logic errors in `twi_read/write_nbytes()`.
 
 ### v0.4.2
 
@@ -139,12 +141,18 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### v0.4.1
 
-- The dependency of the PM module has been removed from the ADC module. In addition, an unnecessary error checking has been removed from `aery::adc_init()`. In future Driver Classes take responsible of those. Module functions should be low level stuff.
-- `aery::adc_init()` and `aery::spi_init_master()` are now aware of reinits (means that if the module was enabled, reinit should keep it enabled).
+- The dependency of the PM module has been removed from the ADC module.
+  In addition, an unnecessary error checking has been removed from
+  `aery::adc_init()`. In future Driver Classes take responsible of those.
+  Module functions should be low level stuff.
+- `aery::adc_init()` and `aery::spi_init_master()` are now aware of reinits
+  (means that if the module was enabled, reinit should keep it enabled).
 - Added `aery::adc_is_enabled()`
-- Added new example, `example/display/hd44780_print_adc.cpp`, that uses hd44780 example to print the result of A/D conversion.
+- Added new example, `example/display/hd44780_print_adc.cpp`, that uses
+  hd44780 example to print the result of A/D conversion.
 - `<aery32/string.h>` now includes `<cstring>` for convenience.
-- Resolved is/has naming convention. `isbusy()` makes the exception. Otherwise `is_foo()` is used. Closes gh-11.
+- Resolved is/has naming convention. `isbusy()` makes the exception.
+  Otherwise `is_foo()` is used. Closes gh-11.
   - Introduced few backward compatibility breaks, see below.
 - Bug fixes:
   - `aery::adc_isbusy()` didn't work with channel masks.
@@ -236,7 +244,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 Aery32 Software Framework and its library is licensed under the new BSD license:
 
-> Copyright (c) 2012, Muiku Oy
+> Copyright (c) 2012-2013, Muiku Oy
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without modification,

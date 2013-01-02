@@ -1,8 +1,4 @@
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/intc.h>
-#include <aery32/rtc.h>
-
 using namespace aery;
 
 void isrhandler_rtc(void)
@@ -13,11 +9,7 @@ void isrhandler_rtc(void)
 
 int main(void)
 {
-	/*
-	 * Put your application initialization sequence here. The default
-	 * board_init() setups the LED pin and the CPU clock (66 MHz).
-	 */
-	init_board();
+	board::init();
 	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
 
 	/* Init RTC to count from zero to 60*115000/2 */

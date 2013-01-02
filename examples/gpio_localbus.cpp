@@ -1,11 +1,9 @@
 #include "board.h"
-#include <aery32/gpio.h>
-
 using namespace aery;
 
 int main(void)
 {
-	init_board();
+	board::init();
 	gpio_init_pin(AVR32_PIN_PA17, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 

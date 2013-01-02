@@ -1,7 +1,4 @@
 #include "board.h"
-#include <aery32/gpio.h>
-#include <aery32/adc.h>
-
 using namespace aery;
 
 #define ADC_PINMASK_ALLCHAN (0xff << 21)
@@ -11,7 +8,7 @@ int main(void)
 	uint16_t result; /* conversion result in bits */
 	double volt;     /* conversion in volts */
 
-	init_board();
+	board::init();
 	gpio_init_pins(porta, ADC_PINMASK_ALLCHAN, GPIO_FUNCTION_A);
 
 	adc_init(
@@ -32,7 +29,7 @@ int main(void)
 		adc_start_cnv();
 		while (adc_isbusy(1 << 3) /* 8-bit channel mask */);
 		result = adc_read_cnv(3);
-		volt = cnv2volt(result);
+		volt = board::cnv2volt(result);
 	}
 
 	return 0;

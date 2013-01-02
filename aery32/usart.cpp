@@ -148,7 +148,7 @@ int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
 	return n;
 }
 
-char aery::usart_putc(volatile avr32_usart_t *usart, char c)
+int aery::usart_putc(volatile avr32_usart_t *usart, char c)
 {
 	if (aery::usart_write(usart, (int) c) == 0)
 		return EOF;
