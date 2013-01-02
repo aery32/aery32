@@ -119,7 +119,8 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
     defined. This is now corrected with additional major clean up of the
     file.
 - Bug fixes:
-  - Fixed Makefile to work on *BSD.
+  - Makefile fixed to work on *BSD.
+  - Fix off-by-one logic errors in `twi_read/write_nbytes()`.
 
 ### v0.4.2
 

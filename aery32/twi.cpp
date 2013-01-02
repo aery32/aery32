@@ -113,7 +113,7 @@ begin:
 	/* Read last byte */
 	while (twi_isbusy());
 	if ((__twi_lsr & AVR32_TWI_SR_NACK_MASK) == 0)
-		data[++i] = twi->RHR.rxdata;
+		data[i++] = twi->RHR.rxdata;
 
 	TWI_WAIT_TO_COMPLETE();
 	return i;
@@ -163,7 +163,7 @@ size_t aery::twi_write_nbytes(uint8_t *data, size_t n)
 	aery::twi->MMR.mread = 0;
 	
 	for (; i < n; i++) {
-		aery::twi->THR.txdata = *data;
+		aery::twi->THR.txdata = data[i];
 		while (aery::twi_isbusy());
 		if ((aery::__twi_lsr & AVR32_TWI_SR_NACK_MASK) != 0)
 			break;
