@@ -17,6 +17,7 @@
  */
 
 #include "aery32/twi.h"
+#include "aery32/devnull.h"
 
 namespace aery {
 	volatile avr32_twi_t *twi = &AVR32_TWI;
@@ -34,8 +35,8 @@ void aery::twi_init_master(void)
 	aery::twi->CR.swrst = 1;
 	while (aery::twi->CR.swrst);
 
-	/* See errata, datahseet p. 794 */
-	volatile uint32_t rhr = aery::twi->rhr;
+	/* See errata, datasheet p. 794 */
+	aery::__devnull = aery::twi->rhr;
 
 	/* Setup SLK to 100 kHz by default with 50% duty cycle */
 	aery::twi_setup_clkwaveform(4, 0x3f, 0x3f);

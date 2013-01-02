@@ -35,7 +35,7 @@ static void *memcpy32(void *dest, const void *src, size_t count)
 	return dest;
 }
 
-void aery::flashc_init(enum Flash_ws ws, bool ensas)
+void aery::flashc_init(enum Flash_ws ws, __attribute__ ((unused)) bool ensas)
 {
 	AVR32_FLASHC.FCR.fws = ws;
 	//AVR32_FLASHC.FCR.sasd = ensas; /* http://asf.atmel.com/bugzilla/show_bug.cgi?id=2647 */
