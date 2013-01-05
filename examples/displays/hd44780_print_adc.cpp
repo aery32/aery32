@@ -100,7 +100,7 @@ int main(void)
 		while (adc_isbusy(1 << 3) /* 8-bit channel mask */);
 		result = adc_read_cnv(3);
 
-		dtoa(cnv2volt(result), 3, buf);
+		dtoa(board::cnv2volt(result), 3, buf);
 		display_puts(buf);
 		display_instruct(HD44780_RETURN_HOME);
 		delay_ms(50);
