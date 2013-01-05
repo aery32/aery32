@@ -1,9 +1,4 @@
 #include "board.h"
-#include <aery32/spi.h>
-#include <aery32/gpio.h>
-#include <aery32/delay.h>
-#include <aery32/string.h>
-
 using namespace aery;
 
 // ----------------------------------------------------------------------
@@ -96,7 +91,7 @@ int main(void)
 	char buf[] = "Hello Aery32 devs! ";
 	int len = strlen(buf);
 
-	init_board();
+	board::init();
 	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 
 	spi_init_master(DISPLAY_SPI);
