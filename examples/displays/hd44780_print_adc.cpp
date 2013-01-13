@@ -1,5 +1,9 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
+
+#define LED AVR32_PIN_PC04
 
 // ----------------------------------------------------------------------
 // HD44780 instruction set
@@ -66,7 +70,13 @@ int main(void)
 	char buf[20] = "";
 	uint16_t result = 0;
 
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
+	
 	gpio_init_pins(porta, ADC_PINMASK_ALLCHAN|SPI0_PINMASK, GPIO_FUNCTION_A);
 
 	spi_init_master(DISPLAY_SPI);
@@ -92,7 +102,7 @@ int main(void)
 	/* Enable ADC channel 3, PA24 */
 	adc_enable((1 << 3) /* 8-bit channel mask */);
 
-	/* Initialization done. Turn the LED on. */
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
 	for(;;) {
