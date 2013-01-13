@@ -4,7 +4,7 @@
 using namespace aery;
 
 #define LED 			AVR32_PIN_PC04
-#define UART0_SERIAL_PINMASK	(0b11)
+#define UART0_SERIAL_PINMASK	0x3
 
 int main(void)
 {
@@ -38,6 +38,8 @@ int main(void)
 	gpio_set_pin_high(LED);
 
 	for(;;) {
+		/* Put your application code here */
+		
 		usart_puts(usart0, "in: ");
 		usart_gets(usart0, buf, BUFSIZE);
 
