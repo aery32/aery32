@@ -21,6 +21,7 @@ int main(void)
 		/* Put your application code here */
 
 		board::usb << "hello\r\n";
+		delay_ms(500);
 	}
 
 	return 0;
