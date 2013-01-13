@@ -89,7 +89,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ## Release notes
 
-### Changelog for the next release
+### v0.5.0
 
 - Added USART module functions:
   - Serial read and write operations (RS-232).
