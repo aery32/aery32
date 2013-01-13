@@ -1,14 +1,23 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
 
-#define SPI0_PINMASK ((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
-#define SPI1_PINMASK ((1 << 15) | (1 << 16) | (1 << 17) | (1 << 19))
+#define LED		AVR32_PIN_PC04
+#define SPI0_PINMASK	((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
+#define SPI1_PINMASK	((1 << 15) | (1 << 16) | (1 << 17) | (1 << 19))
 
 int main(void)
 {
 	uint16_t rd0, rd1; /* received data */
 
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
+	
 	gpio_init_pins(porta, SPI0_PINMASK, GPIO_FUNCTION_A);
 	gpio_init_pins(porta, SPI1_PINMASK, GPIO_FUNCTION_B);
 
@@ -28,7 +37,7 @@ int main(void)
 	spi_setup_npcs(spi1, 2, SPI_MODE1, 8);
 	spi_enable(spi1);
 
-	/* All done. Turn the LED on. */
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
 	for (;;) {
