@@ -1,32 +1,42 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
+
+#define LED AVR32_PIN_PC04
 
 int main(void)
 {
 	int errno;
-	uint16_t page = FLASH_LAST_PAGE;
 	char buf[512] = {'\0'};
+	uint16_t page = FLASH_LAST_PAGE;
 
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
-	gpio_init_pin(LED, GPIO_OUTPUT);
 
-	/* If page is empty, write "foo". Else read the page. */
+	/*
+	 * If the page is empty, save "foo" into it, else read the page
+	 * in to buffer.
+	 */
 	if (flashc_page_isempty(page)) {
 		strcpy(buf, "foo");
 		errno = flashc_save_page(page, buf);
 
 		switch (errno) {
 		case EFLASH_PAGE_LOCKED:
-			/* Page was locked */
 			break;
 		case EFLASH_PROG_ERR:
-			/* Programming error was occurred */
 			break;
 		}
 	} else {
 		flashc_read_page(page, buf);
 	}
 
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
 	for(;;) {
