@@ -22,14 +22,16 @@
 \namespace aery Aery
 
 \example adc.cpp
+\example flashc_save_foo.cpp
 \example gpio_localbus.cpp
-\example main.cpp
+\example gpio_toggle_led.cpp
 \example pwm.cpp
 \example rtc_interrupt.cpp
 \example spi.cpp
-\example toggle_led.cpp
 \example twi_scan.cpp
-\example writing_flash.cpp
+\example usart_serial_echo.cpp
+\example usart_spi_master.cpp
+\example usart_spi_slave.cpp
 
 \example displays/hd44780.cpp
 \example displays/hd44780_print_adc.cpp
@@ -39,18 +41,18 @@
 #ifndef __AERY32_ALL_H
 #define __AERY32_ALL_H
 
-#include "aery32/adc.h"
-#include "aery32/delay.h"
-#include "aery32/flashc.h"
-#include "aery32/gpio.h"
-#include "aery32/intc.h"
-#include "aery32/pm.h"
-#include "aery32/pwm.h"
-#include "aery32/rtc.h"
-#include "aery32/spi.h"
-#include "aery32/twi.h"
-#include "aery32/usart.h"
+#include "adc.h"
+#include "delay.h"
+#include "flashc.h"
+#include "gpio.h"
+#include "intc.h"
+#include "pm.h"
+#include "pwm.h"
+#include "rtc.h"
+#include "spi.h"
+#include "twi.h"
+#include "usart.h"
 
-#include "aery32/string.h"
+#include "string.h"
 
 #endif

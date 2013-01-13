@@ -5,6 +5,8 @@ using namespace aery;
 
 #define LED AVR32_PIN_PC04
 
+usb usb = usb(new usb_descriptor_cdc());
+
 int main(void)
 {
 	/*
@@ -20,7 +22,7 @@ int main(void)
 	for(;;) {
 		/* Put your application code here */
 
-		board::usb << "hello\r\n";
+		usb << "hello\r\n";
 		delay_ms(500);
 	}
 
