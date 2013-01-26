@@ -17,7 +17,6 @@
  */
 
 #include "aery32/usb.h"
-
 volatile avr32_usbb_t *__usb = &AVR32_USBB;
 
 void aery::usb_init_device(bool low_speed)
@@ -25,14 +24,25 @@ void aery::usb_init_device(bool low_speed)
 	aery::usb_detach();
 	aery::usb_disable();
 
-	__usb->USBCON.uimod = 1;   /* USB device mode selected */
-	
-	__usb->USBCON.uide = 0;    /* Do not use USB_ID pin to select mode */
-	
-	__usb->USBCON.otgpade = 0; /* Disable on-the-go OTG pad */
+	avr32_usbb_usbcon_t usbcon = {};
+	usbcon.uimod   = 1; /* USB device mode selected */
+	usbcon.uide    = 0; /* Do not use USB_ID pin to select mode */
+	usbcon.frzclk  = 1; /* Keep clock freezed before the usb_enable() is called */
+	usbcon.vbuspo  = 0; /* VBus polarity is active high (default USB functionality) */
+	usbcon.otgpade = 0; /* Disable on-the-go OTG pad */
+	usbcon.srpreq  = 1;
+	usbcon.vbushwc = 1; /* Disable hardware control over USB VBus. Only used in host and OTG applications */
+	usbcon.stoe    = 1;
+	usbcon.hnperre = 1;
+	usbcon.roleexe = 1;
+	usbcon.bcerre  = 1;
+	usbcon.vberre  = 1;
+	usbcon.srpe    = 1;
+	usbcon.vbuste  = 1;
+	usbcon.idte    = 1;
 
-	__usb->USBCON.vbushwc = 1; /* Disable hardware control over USB VBus,
-	                            * only used in host and OTG applications */
+	/* Write USB Control Register */
+	__usb->usbcon = *((unsigned long*) &usbcon);
 
 	/*
 	 * Select full or low speed. This bit should be configured before
