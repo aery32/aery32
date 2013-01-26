@@ -52,6 +52,7 @@
 #include "spi.h"
 #include "twi.h"
 #include "usart.h"
+#include "usb.h"
 
 #include "string.h"
 
