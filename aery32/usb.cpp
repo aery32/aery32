@@ -43,13 +43,13 @@ void aery::usb_init_device(bool low_speed)
 
 void aery::usb_alloc_epn(int epn,
 	enum Usb_epbank bank, enum Usb_epsize size,
-	enum Usb_eptype type, enum Usb_epdirection direction)
+	enum Usb_eptype type, enum Usb_epdirection dir)
 {
 	volatile unsigned long *uecfg = &__usb->uecfg0 + epn;
 	*uecfg = (bank << AVR32_USBB_UECFG0_EPBK_OFFSET) |
 	         (size << AVR32_USBB_UECFG0_EPSIZE_OFFSET) |
 	         (type << AVR32_USBB_UECFG0_EPTYPE_OFFSET) |
-	         (direction << AVR32_USBB_UECFG0_EPDIR_OFFSET);
+	         (dir << AVR32_USBB_UECFG0_EPDIR_OFFSET);
 	*uecfg |= AVR32_USBB_UECFG0_ALLOC_MASK;
 }
 

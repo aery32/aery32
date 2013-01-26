@@ -50,7 +50,7 @@ enum Usb_eptype {
 
 enum Usb_epdirection {
 	USB_EPDIR_OUT,
-	USB_EPDIR_IN /* not for control epns */
+	USB_EPDIR_IN /* not for control ep */
 };
 
 namespace aery {
