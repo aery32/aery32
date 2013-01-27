@@ -102,20 +102,20 @@ void aery::usb_reset_all_eps()
 
 bool aery::usb_epn_is_active(int epn)
 {
-	const volatile unsigned long *uesta = &__usb->uesta0 + epn;
+	const volatile unsigned long *uesta = &(__usb->uesta0) + epn;
 	return *uesta & AVR32_USBB_UESTA0_CFGOK_MASK;
 }
 
 void aery::usb_enable(void)
 {
-	__usb->USBCON.frzclk = 0;
 	__usb->USBCON.usbe = 1;
+	__usb->USBCON.frzclk = 0;
 }
 
 void aery::usb_disable(void)
 {
-	__usb->USBCON.usbe = 0;
 	__usb->USBCON.frzclk = 1;
+	__usb->USBCON.usbe = 0;
 }
 
 int aery::usb_attach(bool wakeup)
