@@ -83,7 +83,8 @@ COPT=-O2 -fdata-sections -ffunction-sections
 CXXOPT=$(COPT) -fno-exceptions -fno-rtti
 
 CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(COPT) -Wall
-CFLAGS+=$(addprefix -I,$(INCLUDES)) -include $(SETTINGS)
+CFLAGS+=$(addprefix -I,$(INCLUDES))
+CFLAGS+=-include "$(SETTINGS)"
 
 CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
 CXXFLAGS+=$(addprefix -I,$(INCLUDES))

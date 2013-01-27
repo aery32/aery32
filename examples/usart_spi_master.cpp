@@ -1,18 +1,26 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
+
+#define LED 			AVR32_PIN_PC04
+#define UART0_SPIM_PINMASK	0xf
 
 int main(void)
 {
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
 
 	/*
-	 * In UC3A:
 	 * PA00 => MISO, USART RXD
 	 * PA01 => MOSI, USART TXD
 	 * PA02 => CLK
 	 * PA03 => SC, USART RTS
 	 */
-	#define UART0_SPIM_PINMASK (0xf)
 	gpio_init_pins(porta, UART0_SPIM_PINMASK, GPIO_FUNCTION_A);
 	
 	/*
@@ -25,9 +33,12 @@ int main(void)
 	usart_enable_rx(usart0);
 	usart_enable_tx(usart0);
 
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
 	for(;;) {
+		/* Put your application code here */
+		
 		usart_putc(usart0, 0x51);
 	}
 

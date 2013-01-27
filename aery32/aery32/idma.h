@@ -36,11 +36,11 @@ class idma {
 
 	public:
 		idma(int dma_chnum, int dma_pid,
-			volatile uint8_t *buf, size_t size);
+			volatile uint8_t *buf, size_t n);
 		idma(int dma_chnum, int dma_pid,
-			volatile uint16_t *buf, size_t size);
+			volatile uint16_t *buf, size_t n);
 		idma(int dma_chnum, int dma_pid,
-			volatile uint32_t *buf, size_t size);
+			volatile uint32_t *buf, size_t n);
 
 		idma& enable();
 		idma& disable();
@@ -60,7 +60,6 @@ class idma {
 		volatile avr32_pdca_channel_t *dma;
 		volatile uint8_t *buffer;
 		size_t bufsize;
-		size_t bufsize2;
 		size_t r_idx;
 
 		idma& init();

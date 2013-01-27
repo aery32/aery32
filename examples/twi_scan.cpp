@@ -1,7 +1,10 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
 
-#define TWI_MASK ((1 << 29) | (1 << 30))
+#define LED		AVR32_PIN_PC04
+#define TWI_PINMASK	((1 << 29) | (1 << 30))
 
 int main(void)
 {
@@ -9,12 +12,16 @@ int main(void)
 	uint8_t twi_slave_address = 0;
 	uint8_t read_data = 0;
 
-	board::init();
-	gpio_init_pins(porta, TWI_MASK, GPIO_FUNCTION_A|GPIO_OPENDRAIN);
-	twi_init_master();
 
-	/* All done. Turn the LED on. */
-	gpio_set_pin_high(LED);
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
+	board::init();
+
+	gpio_init_pins(porta, TWI_PINMASK, GPIO_FUNCTION_A|GPIO_OPENDRAIN);
+	twi_init_master();
 
 	/* Scan for the first device on the twi-bus */
 	for (; twi_slave_address <= 0x7f; twi_slave_address++) {
@@ -25,17 +32,17 @@ int main(void)
 		}
 	}
 
-	if (twi_slave_found) {
-		/* Writes 0x90 using 0x80 as internal device address */
-		twi_write_byte(0x90, 0x80);
-
-		/* Reads from the same address (0x80) */
-		twi_read_byte(&read_data);
-	}
+	gpio_init_pin(LED, GPIO_OUTPUT);
+	gpio_set_pin_high(LED);
 
 	for(;;) {
 		/* Put your application code here */
 
+		if (twi_slave_found) {
+			twi_write_byte(0x90 /*data*/, 0x80 /*int. device addr. */);
+			twi_read_byte(&read_data);
+			delay_ms(500);
+		}
 	}
 
 	return 0;

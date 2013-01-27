@@ -1,5 +1,9 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
+
+#define LED AVR32_PIN_PC04
 
 void isrhandler_group2(void)
 {
@@ -10,7 +14,13 @@ void isrhandler_group2(void)
 
 int main(void)
 {
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
+	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
 
 	/* GPIO pins 0-13 can be "wired" to int group 2, see datasheet p. 42 */
 	gpio_init_pin(AVR32_PIN_PA00, GPIO_INPUT|GPIO_PULLUP|GPIO_INT_PIN_CHANGE);

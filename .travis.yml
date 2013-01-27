@@ -17,13 +17,13 @@ script:
   # Ensure that the examples always compile
   - make
   - cp examples/adc.cpp main.cpp && make re
+  - cp examples/flashc_save_foo.cpp main.cpp && make re
   - cp examples/gpio_localbus.cpp main.c && make re
+  - cp examples/gpio_toggle_led.cpp main.cpp && make re
   - cp examples/pwm.cpp main.c && make re
   - cp examples/rtc_interrupt.cpp main.c && make re
   - cp examples/spi.cpp main.cpp && make re
-  - cp examples/toggle_led.cpp main.cpp && make re
   - cp examples/twi_scan.cpp main.cpp && make re
-  - cp examples/writing_flash.cpp main.cpp && make re
   - cp examples/usart_serial_echo.cpp main.cpp && make re
   - cp examples/usart_spi_master.cpp main.cpp && make re
   - cp examples/usart_spi_slave.cpp main.cpp && make re

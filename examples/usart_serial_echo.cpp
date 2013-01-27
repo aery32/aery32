@@ -1,16 +1,24 @@
+#include <aery32/all.h>
 #include "board.h"
+
 using namespace aery;
+
+#define LED 			AVR32_PIN_PC04
+#define UART0_SERIAL_PINMASK	0x3
 
 int main(void)
 {
+	#define BUFSIZE 100
+	char buf[BUFSIZE] = "";
+
+	/*
+	 * Put your application initialization sequence here. The default
+	 * board initializer defines all pins as input and sets the CPU clock
+	 * speed to 66 MHz.
+	 */
 	board::init();
 	
-	/*
-	 * In UC3A:
-	 * PA00 => RXD
-	 * PA01 => TXD
-	 */
-	#define UART0_SERIAL_PINMASK (0b11)
+	/* PA00 => RXD, PA01 => TXD */
 	gpio_init_pins(porta, UART0_SERIAL_PINMASK, GPIO_FUNCTION_A);
 	
 	/* 
@@ -26,12 +34,12 @@ int main(void)
 	usart_enable_rx(usart0);
 	usart_enable_tx(usart0);
 
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
-	#define BUFSIZE 100
-	char buf[BUFSIZE] = "";
-
 	for(;;) {
+		/* Put your application code here */
+		
 		usart_puts(usart0, "in: ");
 		usart_gets(usart0, buf, BUFSIZE);
 
