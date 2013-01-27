@@ -12,7 +12,9 @@ volatile uint8_t bufdma0[DMA0_BUFSIZE];
 int main(void)
 {
 	#define BUFSIZE 100
-	char buf[BUFSIZE] = "";
+	uint8_t buf[BUFSIZE];
+
+	char bufchar[100];
 
 	/*
 	 * Put your application initialization sequence here. The default
@@ -44,11 +46,12 @@ int main(void)
         dma0.enable();
  
         gpio_set_pin_high(LED);
- 
+
         for(;;) {
+        	usart_puts(usart0, itoa(dma0.bytes_available(), bufchar));
                 if (dma0.bytes_available()) {
-                        dma0.read((uint8_t*) buf, 1);
-                        usart_putc(usart0, buf[0]);
+                        dma0.read(buf, 1);
+                      	usart_putc(usart0, (char) buf[0]);
                 }
                 delay_ms(1000);
         }

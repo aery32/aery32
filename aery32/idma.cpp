@@ -28,6 +28,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
 
 	buffer = buf;
 	bufsize = n;
+	dma_tcrv = n;
 
 	init();
 }
@@ -40,6 +41,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
 
 	buffer = (uint8_t*) buf;
 	bufsize = n * sizeof(uint16_t);
+	dma_tcrv = n;
 
 	init();
 }
@@ -52,6 +54,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
 
 	buffer = (uint8_t*) buf;
 	bufsize = n * sizeof(uint32_t);
+	dma_tcrv = n;
 
 	init();
 }
@@ -60,10 +63,10 @@ idma& idma::init()
 {
 	dma->CR.eclr = true;
 
+	dma->TCR.tcv = dma_tcrv;
+	dma->TCRR.tcrv = dma_tcrv;
 	dma->mar = (uint32_t) buffer;
 	dma->marr = (uint32_t) buffer;
-	dma->TCR.tcv = bufsize;
-	dma->TCRR.tcrv = bufsize;
 
 	return *this;
 }
@@ -97,7 +100,7 @@ idma& idma::read(uint8_t *dest, size_t n)
 		if (r_idx == bufsize) {
 			r_idx = 0;
 			dma->marr = (uint32_t) buffer;
-			dma->TCRR.tcrv = bufsize;
+			dma->TCRR.tcrv = dma_tcrv;
 		}
 	}
 
@@ -106,13 +109,13 @@ idma& idma::read(uint8_t *dest, size_t n)
 
 idma& idma::read(uint16_t *dest, size_t n)
 {
-	read((uint8_t*) dest, n * 2);
+	read((uint8_t*) dest, n * sizeof(uint16_t));
 	return *this;
 }
 
 idma& idma::read(uint32_t *dest, size_t n)
 {
-	read((uint8_t*) dest, n * 4);
+	read((uint8_t*) dest, n * sizeof(uint32_t));
 	return *this;
 }
 
@@ -137,16 +140,20 @@ size_t idma::bytes_available()
 {
 	if (has_overflown())
 		return 0;
+
+	size_t rv = bufsize - r_idx;
 	if (dma->TCRR.tcrv == 0)
-		return bufsize - r_idx + (bufsize - dma->TCR.tcv);
-	return bufsize - dma->TCR.tcv - r_idx;
+		rv += bufsize;
+ 	return rv - ((1 << dma->MR.size) * dma->TCR.tcv);
 }
 
 bool idma::has_overflown()
 {
-	if (dma->TCRR.tcrv == 0) {
-		if (r_idx < (bufsize - dma->TCR.tcv))
-			return true;
-	}
+	if (dma->TCRR.tcrv != 0)
+		return false;
+
+	if (r_idx < (bufsize - (1 << dma->MR.size) * dma->TCR.tcv))
+		return true;
+
 	return false;
 }

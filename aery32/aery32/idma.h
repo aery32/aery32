@@ -28,7 +28,7 @@ extern "C" {
 	#include <avr32/io.h>
 	#include <inttypes.h>
 }
-#include <cstdio>
+#include <cstdlib>
 
 namespace aery {
 
@@ -58,6 +58,8 @@ class idma {
 
 	protected:
 		volatile avr32_pdca_channel_t *dma;
+		size_t dma_tcrv;
+
 		volatile uint8_t *buffer;
 		size_t bufsize;
 		size_t r_idx;
