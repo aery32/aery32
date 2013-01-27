@@ -45,6 +45,7 @@
 #include "delay.h"
 #include "flashc.h"
 #include "gpio.h"
+#include "idma.h"
 #include "intc.h"
 #include "pm.h"
 #include "pwm.h"
