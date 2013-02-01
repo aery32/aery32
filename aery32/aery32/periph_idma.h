@@ -21,8 +21,8 @@
 \brief Input DMA
 */
 
-#ifndef __AERY32_IDMA_H
-#define __AERY32_IDMA_H
+#ifndef __AERY32_PERIPH_IDMA_H
+#define __AERY32_PERIPH_IDMA_H
 
 extern "C" {
 	#include <avr32/io.h>
@@ -49,6 +49,10 @@ class idma {
 		idma& read(uint8_t *dest, size_t n);
 		idma& read(uint16_t *dest, size_t n);
 		idma& read(uint32_t *dest, size_t n);
+
+		uint8_t read_byte();
+		uint16_t read_halfword();
+		uint32_t read_word();
 		
 		idma& flush();
 		idma& reset();
