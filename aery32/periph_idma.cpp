@@ -61,6 +61,7 @@ periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, siz
 
 periph_idma& periph_idma::init()
 {
+	r_idx = 0;
 	dma->CR.eclr = true;
 
 	dma->TCR.tcv = dma_tcrv;

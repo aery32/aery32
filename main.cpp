@@ -5,17 +5,15 @@ using namespace aery;
 
 #define LED			AVR32_PIN_PC04
 #define UART0_SERIAL_PINMASK	0x3
+
 #define DMA0_BUFSIZE		128
+#define DMA1_BUFSIZE		128
 
 volatile uint8_t bufdma0[DMA0_BUFSIZE];
+volatile uint8_t bufdma1[DMA1_BUFSIZE];
 
 int main(void)
 {
-	#define BUFSIZE 100
-	uint8_t buf[BUFSIZE];
-
-	char bufchar[100];
-
 	/*
 	 * Put your application initialization sequence here. The default
 	 * board initializer defines all pins as input and sets the CPU clock
@@ -41,20 +39,28 @@ int main(void)
 	usart_setup_speed(usart0, USART_CLK_PBA, 71);
 	usart_enable_rx(usart0);
 	usart_enable_tx(usart0);
- 
-        periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
-        dma0.enable();
- 
-        gpio_set_pin_high(LED);
 
-        for(;;) {
-        	usart_puts(usart0, itoa(dma0.bytes_available(), bufchar));
-                if (dma0.bytes_available()) {
-                        dma0.read(buf, 1);
-                      	usart_putc(usart0, (char) buf[0]);
-                }
-                delay_ms(1000);
-        }
+	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
+	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
+	dma0.enable();
+	dma1.enable();
+
+	gpio_set_pin_high(LED);
+
+	#define BUFSIZE 128
+	uint8_t buf[BUFSIZE];
+
+	int n = 0;
+
+	for(;;) {
+		if ((n = dma0.bytes_available())) {
+			dma0.read(buf, n);
+			dma1.write((uint8_t) '\n');
+			dma1.write((uint8_t) '\r');
+			dma1.write(buf, n).flush();
+		}
+		delay_ms(5000);
+	}
  
-        return 0;
+	return 0;
 }
