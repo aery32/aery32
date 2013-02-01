@@ -42,7 +42,7 @@ int main(void)
 	usart_enable_rx(usart0);
 	usart_enable_tx(usart0);
  
-        idma dma0 = idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
+        periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
         dma0.enable();
  
         gpio_set_pin_high(LED);

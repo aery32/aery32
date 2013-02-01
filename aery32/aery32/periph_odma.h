@@ -18,7 +18,7 @@
 
 /*!
 \file aery32/periph_odma.h
-\brief Input DMA
+\brief Output DMA
 */
 
 #ifndef __AERY32_PERIPH_ODMA_H
@@ -58,7 +58,7 @@ class periph_odma {
 
 		size_t bytes_in_buffer();
 		size_t bytes_in_progress();
-		
+
 		bool is_enabled();
 
 	protected:

@@ -38,7 +38,7 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp periph_idma.cpp periph_odma.cpp
+SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp periph_idma.cpp periph_odma.cpp \
         pm.cpp pwm.cpp rtc.cpp spi.cpp string.cpp twi.cpp usart.cpp devnull.cpp
 SOURCES+=exception.S
 

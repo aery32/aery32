@@ -16,11 +16,11 @@
  * you a copy.
  */
 
-#include "aery32/idma.h"
+#include "aery32/periph_idma.h"
 
 using namespace aery;
 
-idma::idma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
+periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
 {
 	dma = &AVR32_PDCA.channel[dma_chnum];
 	dma->PSR.pid = dma_pid;
@@ -33,7 +33,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
 	init();
 }
 
-idma::idma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
+periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
 {
 	dma = &AVR32_PDCA.channel[dma_chnum];
 	dma->PSR.pid = dma_pid;
@@ -46,7 +46,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
 	init();
 }
 
-idma::idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
+periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
 {
 	dma = &AVR32_PDCA.channel[dma_chnum];
 	dma->PSR.pid = dma_pid;
@@ -59,7 +59,7 @@ idma::idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
 	init();
 }
 
-idma& idma::init()
+periph_idma& periph_idma::init()
 {
 	dma->CR.eclr = true;
 
@@ -71,24 +71,24 @@ idma& idma::init()
 	return *this;
 }
 
-idma& idma::enable()
+periph_idma& periph_idma::enable()
 {
 	dma->CR.ten = true;
 	return *this;
 }
 
-idma& idma::disable()
+periph_idma& periph_idma::disable()
 {
 	dma->CR.tdis = true;
 	return *this;
 }
 
-bool idma::is_enabled()
+bool periph_idma::is_enabled()
 {
 	return dma->SR.ten;
 }
 
-idma& idma::read(uint8_t *dest, size_t n)
+periph_idma& periph_idma::read(uint8_t *dest, size_t n)
 {
 	size_t bytes_available = this->bytes_available();
 
@@ -107,26 +107,26 @@ idma& idma::read(uint8_t *dest, size_t n)
 	return *this;
 }
 
-idma& idma::read(uint16_t *dest, size_t n)
+periph_idma& periph_idma::read(uint16_t *dest, size_t n)
 {
 	read((uint8_t*) dest, n * sizeof(uint16_t));
 	return *this;
 }
 
-idma& idma::read(uint32_t *dest, size_t n)
+periph_idma& periph_idma::read(uint32_t *dest, size_t n)
 {
 	read((uint8_t*) dest, n * sizeof(uint32_t));
 	return *this;
 }
 
-idma& idma::flush()
+periph_idma& periph_idma::flush()
 {
 	uint8_t dev_null[bytes_available()];
 	read(dev_null, sizeof(dev_null));
 	return *this;
 }
 
-idma& idma::reset()
+periph_idma& periph_idma::reset()
 {
 	bool was_enabled = is_enabled();
 	disable().init();
@@ -136,7 +136,7 @@ idma& idma::reset()
 	return *this;
 }
 
-size_t idma::bytes_available()
+size_t periph_idma::bytes_available()
 {
 	if (has_overflown())
 		return 0;
@@ -147,7 +147,7 @@ size_t idma::bytes_available()
  	return rv - ((1 << dma->MR.size) * dma->TCR.tcv);
 }
 
-bool idma::has_overflown()
+bool periph_idma::has_overflown()
 {
 	if (dma->TCRR.tcrv != 0)
 		return false;

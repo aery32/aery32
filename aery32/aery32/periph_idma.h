@@ -17,7 +17,7 @@
  */
 
 /*!
-\file aery32/idma.h
+\file aery32/periph_idma.h
 \brief Input DMA
 */
 
@@ -32,30 +32,30 @@ extern "C" {
 
 namespace aery {
 
-class idma {
+class periph_idma {
 
 	public:
-		idma(int dma_chnum, int dma_pid,
+		periph_idma(int dma_chnum, int dma_pid,
 			volatile uint8_t *buf, size_t n);
-		idma(int dma_chnum, int dma_pid,
+		periph_idma(int dma_chnum, int dma_pid,
 			volatile uint16_t *buf, size_t n);
-		idma(int dma_chnum, int dma_pid,
+		periph_idma(int dma_chnum, int dma_pid,
 			volatile uint32_t *buf, size_t n);
 
-		idma& enable();
-		idma& disable();
+		periph_idma& enable();
+		periph_idma& disable();
 		bool is_enabled();
 
-		idma& read(uint8_t *dest, size_t n);
-		idma& read(uint16_t *dest, size_t n);
-		idma& read(uint32_t *dest, size_t n);
+		periph_idma& read(uint8_t *dest, size_t n);
+		periph_idma& read(uint16_t *dest, size_t n);
+		periph_idma& read(uint32_t *dest, size_t n);
 
 		uint8_t read_byte();
 		uint16_t read_halfword();
 		uint32_t read_word();
 		
-		idma& flush();
-		idma& reset();
+		periph_idma& flush();
+		periph_idma& reset();
 
 		size_t bytes_available();
 		bool has_overflown();
@@ -68,7 +68,7 @@ class idma {
 		size_t bufsize;
 		size_t r_idx;
 
-		idma& init();
+		periph_idma& init();
 };
 
 } /* end of namespace aery */
