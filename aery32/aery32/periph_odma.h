@@ -42,22 +42,22 @@ class periph_odma {
 		periph_odma(int dma_chnum, int dma_pid,
 			volatile uint32_t *buf, size_t n);
 
-		periph_odma& enable();
-		periph_odma& disable();
-		periph_odma& reset();
-
 		periph_odma& write(uint8_t *dest, size_t n);
 		periph_odma& write(uint16_t *dest, size_t n);
 		periph_odma& write(uint32_t *dest, size_t n);
 
-		periph_odma& write(uint8_t byte);
-		periph_odma& write(uint16_t halfword);
-		periph_odma& write(uint32_t word);
+		periph_odma& write_byte(uint8_t byte);
+		periph_odma& write_halfword(uint16_t halfword);
+		periph_odma& write_word(uint32_t word);
 		
 		periph_odma& flush();
 
 		size_t bytes_in_buffer();
 		size_t bytes_in_progress();
+
+		periph_odma& enable();
+		periph_odma& disable();
+		periph_odma& reset();
 
 		bool is_enabled();
 

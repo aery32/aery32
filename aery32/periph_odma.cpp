@@ -75,19 +75,19 @@ periph_odma& periph_odma::disable()
 	return *this;
 }
 
-periph_odma& periph_odma::write(uint8_t byte)
+periph_odma& periph_odma::write_byte(uint8_t byte)
 {
 	write(&byte, 1);
 	return *this;
 }
 
-periph_odma& periph_odma::write(uint16_t halfword)
+periph_odma& periph_odma::write_halfword(uint16_t halfword)
 {
 	write(&halfword, 1);
 	return *this;
 }
 
-periph_odma& periph_odma::write(uint32_t word)
+periph_odma& periph_odma::write_word(uint32_t word)
 {
 	write(&word, 1);
 	return *this;

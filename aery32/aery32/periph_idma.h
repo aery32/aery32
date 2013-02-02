@@ -42,10 +42,6 @@ class periph_idma {
 		periph_idma(int dma_chnum, int dma_pid,
 			volatile uint32_t *buf, size_t n);
 
-		periph_idma& enable();
-		periph_idma& disable();
-		periph_idma& reset();
-
 		periph_idma& read(uint8_t *dest, size_t n);
 		periph_idma& read(uint16_t *dest, size_t n);
 		periph_idma& read(uint32_t *dest, size_t n);
@@ -58,6 +54,11 @@ class periph_idma {
 
 		size_t bytes_available();
 		bool has_overflown();
+		
+		periph_idma& enable();
+		periph_idma& disable();
+		periph_idma& reset();
+
 		bool is_enabled();
 
 	protected:
