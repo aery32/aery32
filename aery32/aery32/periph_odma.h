@@ -44,6 +44,7 @@ class periph_odma {
 
 		periph_odma& enable();
 		periph_odma& disable();
+		periph_odma& reset();
 
 		periph_odma& write(uint8_t *dest, size_t n);
 		periph_odma& write(uint16_t *dest, size_t n);
@@ -54,7 +55,6 @@ class periph_odma {
 		periph_odma& write(uint32_t word);
 		
 		periph_odma& flush();
-		periph_odma& reset();
 
 		size_t bytes_in_buffer();
 		size_t bytes_in_progress();

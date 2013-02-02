@@ -44,7 +44,7 @@ class periph_idma {
 
 		periph_idma& enable();
 		periph_idma& disable();
-		bool is_enabled();
+		periph_idma& reset();
 
 		periph_idma& read(uint8_t *dest, size_t n);
 		periph_idma& read(uint16_t *dest, size_t n);
@@ -53,12 +53,12 @@ class periph_idma {
 		uint8_t read_byte();
 		uint16_t read_halfword();
 		uint32_t read_word();
-		
+
 		periph_idma& flush();
-		periph_idma& reset();
 
 		size_t bytes_available();
 		bool has_overflown();
+		bool is_enabled();
 
 	protected:
 		volatile avr32_pdca_channel_t *dma;
