@@ -3,7 +3,8 @@
 
 using namespace aery;
 
-#define LED AVR32_PIN_PC04
+#define LED			AVR32_PIN_PC04
+#define UART0_SERIAL_PINMASK	0x3		// PA0 = RX, PA01 = TX
 
 #define DMA0_BUFSIZE		128
 #define DMA1_BUFSIZE		128
@@ -19,8 +20,8 @@ int main(void)
 	 * speed to 66 MHz.
 	 */
 	board::init();
-	gpio_init_pin(LED, GPIO_OUTPUT);
-	gpio_set_pin_high(LED);
+	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
+	gpio_init_pins(porta, UART0_SERIAL_PINMASK, GPIO_FUNCTION_A); 
 
 	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
 	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
