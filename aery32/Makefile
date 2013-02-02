@@ -39,7 +39,8 @@ MPART=uc3a1128
 
 # Source files
 SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp periph_idma.cpp periph_odma.cpp \
-        pm.cpp pwm.cpp rtc.cpp spi.cpp string.cpp twi.cpp usart.cpp devnull.cpp
+        pm.cpp pwm.cpp rtc.cpp spi.cpp serial_port.cpp string.cpp twi.cpp \
+        usart.cpp devnull.cpp
 SOURCES+=exception.S
 
 # Default settings. Generally given externally through make.
