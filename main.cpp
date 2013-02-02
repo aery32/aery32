@@ -5,6 +5,12 @@ using namespace aery;
 
 #define LED AVR32_PIN_PC04
 
+#define DMA0_BUFSIZE		128
+#define DMA1_BUFSIZE		128
+
+volatile uint8_t bufdma0[DMA0_BUFSIZE];
+volatile uint8_t bufdma1[DMA1_BUFSIZE];
+
 int main(void)
 {
 	/*
@@ -13,13 +19,27 @@ int main(void)
 	 * speed to 66 MHz.
 	 */
 	board::init();
-
 	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_set_pin_high(LED);
 
+	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
+	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
+
+	serial_port serial = serial_port(usart0, 115200);
+	serial.set_idma(dma0).set_odma(dma1);
+	serial.enable();
+
+	serial.puts("hello ");
+	serial << "world\n\r";
+
+	char line[32] = "";
 	for(;;) {
 		/* Put your application code here */
 
+		serial.puts("in: ");
+		serial.getline(line);
+		serial << "\r\nout: " << line << " (" << strlen(line) << ")\r\n";
+		serial.print("\r\nout: %s (%d)", strlen(line));
 	}
 
 	return 0;

@@ -51,6 +51,7 @@
 #include "pm.h"
 #include "pwm.h"
 #include "rtc.h"
+#include "serial_port.h"
 #include "spi.h"
 #include "twi.h"
 #include "usart.h"
