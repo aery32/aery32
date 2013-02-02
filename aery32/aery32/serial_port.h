@@ -54,9 +54,11 @@ class serial_port {
 		serial_port& set_idma(aery::periph_idma &idma);
 		serial_port& set_odma(aery::periph_odma &odma);
 
-		int puts(const char *str);
 		int putc(char c);
 		int getc();
+
+		int puts(const char *str);
+		int print(const char *str, ... );
 
 		char* getline(char *str, size_t n,
 			char terminator = SERIAL_PORT_DEFAULT_TERMINATOR);
@@ -73,6 +75,11 @@ class serial_port {
 		serial_port& reset();
 
 		bool is_enabled();
+
+		serial_port& operator<<(const char *str);
+		serial_port& operator<<(int);
+		serial_port& operator<<(unsigned int);
+		serial_port& operator<<(double);
 
 	protected:
 		aery::periph_idma idma;
