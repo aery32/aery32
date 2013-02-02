@@ -89,6 +89,10 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ## Release notes
 
+### Changelog for the next release
+
+- Support for PDC (Peripheral DMA Controller)
+
 ### v0.5.0
 
 - Added USART module functions:
