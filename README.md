@@ -78,7 +78,10 @@ batchisp (in Windows).
 
 ## Learning the Aery32 Software Framework
 
-Read the [reference guide](http://aery32.readthedocs.org) and go through the articles from [Aery32 DevZone](http://devzone.aery32.com). There is also [API documentation](http://devzone.aery32.com/aery32/apidoc/) providing a quick reference to the functions.
+Read the [reference guide](http://aery32.readthedocs.org) and go through the
+articles from [Aery32 DevZone](http://devzone.aery32.com). There is also
+[API documentation](http://devzone.aery32.com/aery32/apidoc/) providing
+a quick reference to the functions.
 
 ### Optional supportive readings
 
@@ -168,42 +171,53 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### v0.4.0
 
-- Added Twi-wire (I2C) module functions, see device scanning example `twi_scan.cpp`.
+- Added Twi-wire (I2C) module functions, see device scanning example
+  `twi_scan.cpp`.
 - SPI functions now take advance of C++. Allows more flexible API.
-- Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
+- Documentations have been expanded to cover string functions. With string
+  functions, `itoa()` and `dtoa()`, you can convert integers and doubles to
+  string.
 - Added instructions [how to use Aery32 Framework with Sublime Text 2](http://aery32.readthedocs.org/en/latest/use_with_st2.html) and SublimeClang plugin.
 - Added instructions [how to use Aery32 Framework wtih Eclipse Juno](http://aery32.readthedocs.org/en/latest/use_with_eclipse.html).
 - Bug fixes:
   - `aery::gpio_read_pin()` didn't work.
   - Global variables were not placed under aery namespace.
-  - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.
+  - GH-10. Aery32 build system for Sublime Text 2 didn't build the project,
+    if you weren't in the project root, e.g. in main.cpp.
 
 ### v0.3.0
 
 - New modules:
-  - Flash Controller. How to operate with the chip internal flash, see `examples/writing_flash.cpp`.
+  - Flash Controller. How to operate with the chip internal flash, see
+    `examples/writing_flash.cpp`.
   - Pulse Width Modulation (PWM).
 - New module functions:
   - `adc_hasoverrun()` tells if the conversion has been overrun.
 - Project file added for Sublime Text 2
-  - Open ST2, select `Project/Open Project...` and open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
+  - Open ST2, select `Project/Open Project...` and open
+    `aery32.sublime-project`. Then select `Tools/Build System` and check
+    Aery32. Now you can build the project by pressing Ctrl+B.
+    Ctrl+Shift+B programs the board.
 - Backward compatibility breaks in module functions
   - ADC `isready()` functions removed. Use `adc_isbusy()`. Closes gh-6.
   - `rtc_init()` parameter list was reorganized. Closes gh-7.
 - Changes to build system:
-  - Link with the libm (math lib) by default. This has been considered to be a good practice in AVRFreak forum.
+  - Link with the libm (math lib) by default. This has been considered
+    to be a good practice in AVRFreak forum.
   - Enhanced to compile .c sources.
   - Do not force -O0 optimization for debug.
   - $(MAKE) wrapped with "" to achieve robust import to Atmel Studio 6.
 
 ### v0.2.1
 
-- Hotfix. Flash wait state set to 1 by default, because by default Aery32 Framework sets CPU clockspeed to 66 MHz.
+- Hotfix. Flash wait state set to 1 by default, because by default Aery32
+  Framework sets CPU clockspeed to 66 MHz.
 
 ### v0.2.0
 
 - Switch to `avr32-g++` and hence to C++
-- Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
+- Module functions wrapped inside `aery` namespace. No more `aery_`
+  function prefix.
 - Improvements in analog-to-digital conversion module functions.
   - `adc_setup_trigger()` allows to setup ADC hardware trigger
   - `adc_nextcnv_isrdy()` tells if the next conversion is ready. Whatever was the channel.
@@ -248,7 +262,7 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 Aery32 Software Framework and its library is licensed under the new BSD license:
 
-> Copyright (c) 2012-2013, Muiku Oy
+> Copyright (c) 2012-2013, Muiku Oy  
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without modification,
