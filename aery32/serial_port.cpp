@@ -22,66 +22,96 @@
 
 using namespace aery;
 
-serial_port::serial_port(volatile avr32_usart_t *usart,	uint32_t speed,
-	enum Usart_databits databits, enum Usart_parity parity, enum Usart_stopbits)
+serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
+	periph_odma &o) : usart(u), idma(i), odma(o)
 {
-
 }
 
-serial_port& serial_port::set_idma(aery::periph_idma &idma)
-{}
-
-serial_port& serial_port::set_odma(aery::periph_odma &odma)
-{}
+// } uint32_t speed,
+// 	enum Usart_databits databits, enum Usart_parity parity, enum Usart_stopbits)
+// {
 
 int serial_port::putc(char c)
-{}
+{
+	return 0;
+}
 
 int serial_port::getc()
-{}
+{
+	return 0;
+}
 
 int serial_port::puts(const char *str)
-{}
+{
+	return 0;
+}
 
 int serial_port::print(const char *str, ... )
-{}
+{
+	return 0;
+}
 
 char* serial_port::getline(char *str, size_t n, char terminator)
-{}
+{
+	return 0;
+}
 
 char* serial_port::getline(char *str, char terminator)
-{}
+{
+	return 0;
+}
 
 serial_port& serial_port::flush()
-{}
+{
+	return *this;
+}
 
 size_t serial_port::bytes_available()
-{}
+{
+	return 0;
+}
 
 bool serial_port::has_overflown()
-{}
+{
+	return 0;
+}
 
 serial_port& serial_port::enable()
-{}
+{
+	return *this;
+}
 
 serial_port& serial_port::disable()
-{}
+{
+	return *this;
+}
 
 serial_port& serial_port::reset()
-{}
+{
+	return *this;
+}
 
 bool serial_port::is_enabled()
-{}
+{
+	return true;
+}
 
 serial_port& serial_port::operator<<(const char *str)
-{}
+{
+	return *this;
+}
 
-serial_port& serial_port::operator<<(int)
-{}
+serial_port& serial_port::operator<<(int i)
+{
+	return *this;
+}
 
-serial_port& serial_port::operator<<(unsigned int)
-{}
+serial_port& serial_port::operator<<(unsigned int i)
+{
+	return *this;
+}
 
-serial_port& serial_port::operator<<(double)
-{}
-
+serial_port& serial_port::operator<<(double d) 
+{
+	return *this;
+}

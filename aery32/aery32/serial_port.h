@@ -43,16 +43,15 @@ namespace aery {
 class serial_port {
 
 	public:
+		volatile avr32_usart_t *usart;
+		aery::periph_idma idma;
+		aery::periph_odma odma;
+
 		serial_port(
 			volatile avr32_usart_t *usart,
-			uint32_t speed,
-			enum Usart_databits databits = USART_DATABITS_8,
-			enum Usart_parity parity = USART_PARITY_NONE,
-			enum Usart_stopbits = USART_STOPBITS_1
+			aery::periph_idma &idma,
+			aery::periph_odma &odma
 		);
-
-		serial_port& set_idma(aery::periph_idma &idma);
-		serial_port& set_odma(aery::periph_odma &odma);
 
 		int putc(char c);
 		int getc();
@@ -80,11 +79,7 @@ class serial_port {
 		serial_port& operator<<(int);
 		serial_port& operator<<(unsigned int);
 		serial_port& operator<<(double);
-
-	protected:
-		aery::periph_idma idma;
-		aery::periph_odma odma;
-
+		
 };
 
 } /* end of namespace aery */

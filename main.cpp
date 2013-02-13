@@ -26,8 +26,7 @@ int main(void)
 	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
 	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
 
-	serial_port serial = serial_port(usart0, 115200);
-	serial.set_idma(dma0).set_odma(dma1);
+	serial_port serial = serial_port(usart0, dma0, dma1);
 	serial.enable();
 
 	serial.puts("hello ");
@@ -39,7 +38,7 @@ int main(void)
 
 		serial.puts("in: ");
 		serial.getline(line);
-		serial << "\r\nout: " << line << " (" << strlen(line) << ")\r\n";
+		serial << "\r\nout: " << line << " (" << (int) strlen(line) << ")\r\n";
 		serial.print("\r\nout: %s (%d)", strlen(line));
 	}
 
