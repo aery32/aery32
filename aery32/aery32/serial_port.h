@@ -75,10 +75,18 @@ class serial_port {
 
 		bool is_enabled();
 
+		double set_speed(unsigned int speed);
+		void set_databits(enum Usart_databits databits);
+		void set_parity(enum Usart_parity parity);
+		void set_stopbits(enum Usart_stopbits);
+
 		serial_port& operator<<(const char *str);
 		serial_port& operator<<(int);
 		serial_port& operator<<(unsigned int);
 		serial_port& operator<<(double);
+
+	protected:
+		void init();
 		
 };
 

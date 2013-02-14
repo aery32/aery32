@@ -27,7 +27,7 @@ namespace aery {
 }
 
 void aery::usart_init_serial(volatile avr32_usart_t *usart,
-	enum Usart_parity parity, enum Usart_stopbits)
+	enum Usart_parity parity, enum Usart_stopbits stopbits)
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
@@ -37,6 +37,7 @@ void aery::usart_init_serial(volatile avr32_usart_t *usart,
 	usart->MR.sync = 0;
 	usart->MR.clko = 0;
 	usart->MR.par = parity;
+	usart->MR.nbstop = stopbits;
 	aery::usart_set_databits(usart, USART_DATABITS_8);
 }
 

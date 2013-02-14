@@ -25,11 +25,49 @@ using namespace aery;
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 	periph_odma &o) : usart(u), idma(i), odma(o)
 {
+	init();
 }
 
-// } uint32_t speed,
-// 	enum Usart_databits databits, enum Usart_parity parity, enum Usart_stopbits)
-// {
+void serial_port::init()
+{
+	usart->CR.rsttx = 1;
+	usart->CR.rstrx = 1;
+	usart->MR.mode = 0;
+	usart->MR.filter = 0;
+	usart->MR.msbf = 0;
+	usart->MR.sync = 0;
+	usart->MR.clko = 0;
+
+	set_speed(115200);
+	set_databits(USART_DATABITS_8);
+	set_parity(USART_PARITY_NONE);
+	set_stopbits(USART_STOPBITS_1);
+}
+
+double serial_port::set_speed(unsigned int speed)
+{
+	unsigned int clk = pm_get_fclkdomain(CLKDOMAIN_PBA);
+	double cd =  clk / 8 / speed;
+	double error =  1 - (speed / (clk / 8 / (unsigned int) cd));
+
+	usart_setup_speed(usart, USART_CLK_PBA, (unsigned int) cd);
+	return error;
+}
+
+void serial_port::set_databits(enum Usart_databits databits)
+{
+	usart_set_databits(usart, databits);
+}
+
+void serial_port::set_parity(enum Usart_parity parity)
+{
+	usart->MR.par = parity;
+}
+
+void serial_port::set_stopbits(enum Usart_stopbits stopbits)
+{
+	usart->MR.nbstop = stopbits;
+}
 
 int serial_port::putc(char c)
 {
@@ -43,7 +81,11 @@ int serial_port::getc()
 
 int serial_port::puts(const char *str)
 {
-	return 0;
+	size_t n = strlen(str);
+	odma.write((uint8_t*) str, n);
+	odma.write_byte('\n');
+	odma.flush();
+	return n;
 }
 
 int serial_port::print(const char *str, ... )
@@ -78,6 +120,10 @@ bool serial_port::has_overflown()
 
 serial_port& serial_port::enable()
 {
+	idma.enable();
+	odma.enable();
+	usart_enable_rx(usart);
+	usart_enable_tx(usart);
 	return *this;
 }
 

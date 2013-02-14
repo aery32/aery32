@@ -20,26 +20,36 @@ int main(void)
 	 * speed to 66 MHz.
 	 */
 	board::init();
-	gpio_init_pin(LED, GPIO_OUTPUT|GPIO_HIGH);
+	gpio_init_pin(LED, GPIO_OUTPUT);
 	gpio_init_pins(porta, UART0_SERIAL_PINMASK, GPIO_FUNCTION_A); 
 
+	/*
+	 * Instantiate input and output DMAs. You can consider these as
+	 * input/output buffers.
+	 */
 	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
 	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
 
+	/*
+	 * Instantiate serial port class driver with DMAs. Default speed
+	 * is 115200, parity none, 8 data bits and one stop bit.
+	 */
 	serial_port serial = serial_port(usart0, dma0, dma1);
 	serial.enable();
 
-	serial.puts("hello ");
-	serial << "world\n\r";
+	gpio_set_pin_high(LED);
 
-	char line[32] = "";
 	for(;;) {
+		serial.puts("hello");
+		delay_ms(500);
+
+
 		/* Put your application code here */
 
-		serial.puts("in: ");
-		serial.getline(line);
-		serial << "\r\nout: " << line << " (" << (int) strlen(line) << ")\r\n";
-		serial.print("\r\nout: %s (%d)", strlen(line));
+		// serial.puts("in: ");
+		// serial.getline(line);
+		// serial << "\r\nout: " << line << " (" << (int) strlen(line) << ")\r\n";
+		// serial.print("\r\nout: %s (%d)", strlen(line));
 	}
 
 	return 0;
