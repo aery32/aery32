@@ -76,9 +76,8 @@ enum Usart_spimode {
  * Init USART for a serial communication
  * \param pusart Pointer to the USART peripheral which to init
  */
-void usart_init_serial(volatile avr32_usart_t *usart,
-	enum Usart_parity parity = USART_PARITY_NONE,
-	enum Usart_stopbits = USART_STOPBITS_1);
+void usart_init_serial(volatile avr32_usart_t*,
+	enum Usart_parity, enum Usart_stopbits, enum Usart_databits);
 
 void usart_init_spim(volatile avr32_usart_t *usart,
 	enum Usart_spimode mode, enum Usart_databits databits);
@@ -87,10 +86,13 @@ void usart_init_spis(volatile avr32_usart_t *usart,
 	enum Usart_spimode mode, enum Usart_databits databits);
 
 void usart_setup_speed(volatile avr32_usart_t *usart,
-	enum Usart_clock clk, uint16_t cd, uint8_t fp = 0, bool over = true);
+	enum Usart_clock clk, uint16_t cd, uint8_t fp = 0, bool over = false);
 
-void usart_set_databits(volatile avr32_usart_t *usart,
-	enum Usart_databits databits);
+void usart_set_parity(volatile avr32_usart_t*, enum Usart_parity);
+
+void usart_set_stopbits(volatile avr32_usart_t*, enum Usart_stopbits);
+
+void usart_set_databits(volatile avr32_usart_t*, enum Usart_databits);
 
 int usart_set_spimode(volatile avr32_usart_t *usart,
 	enum Usart_spimode mode);

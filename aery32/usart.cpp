@@ -27,18 +27,18 @@ namespace aery {
 }
 
 void aery::usart_init_serial(volatile avr32_usart_t *usart,
-	enum Usart_parity parity, enum Usart_stopbits stopbits)
+	enum Usart_parity parity, enum Usart_stopbits stopbits,
+	enum Usart_databits databits)
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
-	usart->MR.mode = 0;
-	usart->MR.filter = 0;
-	usart->MR.msbf = 0;
-	usart->MR.sync = 0;
-	usart->MR.clko = 0;
-	usart->MR.par = parity;
-	usart->MR.nbstop = stopbits;
-	aery::usart_set_databits(usart, USART_DATABITS_8);
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
+	
+	aery::usart_set_parity(usart, parity);
+	aery::usart_set_stopbits(usart, stopbits);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_init_spim(volatile avr32_usart_t *usart,
@@ -46,11 +46,14 @@ void aery::usart_init_spim(volatile avr32_usart_t *usart,
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
 	usart->MR.mode = 0xe;
-	usart->MR.filter = 0;
 	usart->MR.clko = 1;
-	aery::usart_set_databits(usart, databits);
+
 	aery::usart_set_spimode(usart, mode);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_init_spis(volatile avr32_usart_t *usart,
@@ -58,10 +61,13 @@ void aery::usart_init_spis(volatile avr32_usart_t *usart,
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
 	usart->MR.mode = 0xf;
-	usart->MR.filter = 0;
-	aery::usart_set_databits(usart, databits);
+
 	aery::usart_set_spimode(usart, mode);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_setup_speed(volatile avr32_usart_t *usart,
@@ -82,6 +88,18 @@ void aery::usart_set_databits(volatile avr32_usart_t *usart,
 		usart->MR.mode9 = 0;
 		usart->MR.chrl = databits;
 	}
+}
+
+void aery::usart_set_parity(volatile avr32_usart_t *usart,
+	enum Usart_parity parity)
+{
+	usart->MR.par = parity;
+}
+
+void aery::usart_set_stopbits(volatile avr32_usart_t *usart,
+	enum Usart_stopbits stopbits)
+{
+	usart->MR.nbstop = stopbits;
 }
 
 int aery::usart_set_spimode(volatile avr32_usart_t *usart,

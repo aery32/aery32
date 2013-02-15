@@ -40,16 +40,12 @@ int main(void)
 	gpio_set_pin_high(LED);
 
 	for(;;) {
-		serial.puts("hello");
-		delay_ms(500);
-
-
 		/* Put your application code here */
 
-		// serial.puts("in: ");
-		// serial.getline(line);
-		// serial << "\r\nout: " << line << " (" << (int) strlen(line) << ")\r\n";
-		// serial.print("\r\nout: %s (%d)", strlen(line));
+		serial.print("Hello Aery%d\n", 32);
+		serial << "Hello Aery" << 32 << '\n';
+		serial.puts("---\n");
+		delay_ms(500);
 	}
 
 	return 0;

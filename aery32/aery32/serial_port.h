@@ -80,6 +80,7 @@ class serial_port {
 		void set_parity(enum Usart_parity parity);
 		void set_stopbits(enum Usart_stopbits);
 
+		serial_port& operator<<(char c);
 		serial_port& operator<<(const char *str);
 		serial_port& operator<<(int);
 		serial_port& operator<<(unsigned int);

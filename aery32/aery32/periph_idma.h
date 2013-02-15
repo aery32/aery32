@@ -61,7 +61,6 @@ class periph_idma {
 
 		bool is_enabled();
 
-	protected:
 		volatile avr32_pdca_channel_t *dma;
 		size_t dma_tcrv;
 
@@ -69,6 +68,7 @@ class periph_idma {
 		size_t bufsize;
 		size_t r_idx;
 
+	protected:
 		periph_idma& init();
 };
 

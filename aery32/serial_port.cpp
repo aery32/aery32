@@ -20,6 +20,9 @@
 #include "aery32/string.h"
 #include "aery32/pm.h"
 
+#include <cstdio>
+#include <cstdarg>
+
 using namespace aery;
 
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
@@ -30,33 +33,21 @@ serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 
 void serial_port::init()
 {
-	usart->CR.rsttx = 1;
-	usart->CR.rstrx = 1;
-	usart->MR.mode = 0;
-	usart->MR.filter = 0;
-	usart->MR.msbf = 0;
-	usart->MR.sync = 0;
-	usart->MR.clko = 0;
-
+	odma.reset();
+	idma.reset();
+	usart_init_serial(usart, USART_PARITY_NONE, USART_STOPBITS_1,
+		USART_DATABITS_8);
 	set_speed(115200);
-	set_databits(USART_DATABITS_8);
-	set_parity(USART_PARITY_NONE);
-	set_stopbits(USART_STOPBITS_1);
 }
 
 double serial_port::set_speed(unsigned int speed)
 {
 	unsigned int clk = pm_get_fclkdomain(CLKDOMAIN_PBA);
-	double cd =  clk / 8 / speed;
-	double error =  1 - (speed / (clk / 8 / (unsigned int) cd));
+	double cd =  clk / 16 / speed;
+	double error =  1 - (speed / (clk / 16 / (unsigned int) cd));
 
 	usart_setup_speed(usart, USART_CLK_PBA, (unsigned int) cd);
 	return error;
-}
-
-void serial_port::set_databits(enum Usart_databits databits)
-{
-	usart_set_databits(usart, databits);
 }
 
 void serial_port::set_parity(enum Usart_parity parity)
@@ -71,93 +62,146 @@ void serial_port::set_stopbits(enum Usart_stopbits stopbits)
 
 int serial_port::putc(char c)
 {
-	return 0;
+	while (odma.bytes_in_progress());
+	odma.write_byte((uint8_t) c);
+	odma.flush();
+	return 1;
 }
 
 int serial_port::getc()
 {
-	return 0;
+	if (idma.has_overflown())
+		return EOF;
+
+	int c;
+	/* TODO: idma.read should tell how many bytes was read */
+	//while (idma.read((uint8_t*) &c, 1) == 1);
+	idma.read((uint8_t*) &c, 1);
+	return c;
 }
 
 int serial_port::puts(const char *str)
 {
 	size_t n = strlen(str);
+
+	while (odma.bytes_in_progress());
 	odma.write((uint8_t*) str, n);
-	odma.write_byte('\n');
 	odma.flush();
 	return n;
 }
 
-int serial_port::print(const char *str, ... )
+int serial_port::print(const char *format, ... )
 {
-	return 0;
+	int n;
+	va_list args;
+	va_start(args, format);
+	
+	while (odma.bytes_in_progress());
+	n = vsnprintf((char*) odma.buffer, odma.bufsize, format, args);
+	va_end(args);
+	
+	if (n < 0) { /* vsnprintf() failed */
+		odma.w_idx = 0;
+		return n;
+	}
+
+	odma.w_idx = n;
+	odma.flush();
+	return n;
 }
 
-char* serial_port::getline(char *str, size_t n, char terminator)
+char* serial_port::getline(char *str, char delim)
 {
-	return 0;
-}
-
-char* serial_port::getline(char *str, char terminator)
-{
-	return 0;
+	size_t i = 0;
+	for (; i < idma.bufsize; i++) {
+		str[i] = getc();
+		if (str[i] == delim)
+			break;
+		if (str[i] == EOF)
+			return NULL;
+	}
+	str[i] = '\0';
+	return str;
 }
 
 serial_port& serial_port::flush()
 {
+	idma.flush();
 	return *this;
 }
 
 size_t serial_port::bytes_available()
 {
-	return 0;
+	return idma.bytes_available();
 }
 
 bool serial_port::has_overflown()
 {
-	return 0;
+	return idma.has_overflown();
 }
 
 serial_port& serial_port::enable()
 {
 	idma.enable();
-	odma.enable();
 	usart_enable_rx(usart);
+
+	odma.enable();
 	usart_enable_tx(usart);
 	return *this;
 }
 
 serial_port& serial_port::disable()
 {
+	usart_disable_rx(usart);
+	idma.disable();
+
+	usart_disable_tx(usart);
+	odma.disable();
 	return *this;
 }
 
 serial_port& serial_port::reset()
 {
+	bool was_enabled = is_enabled();
+	
+	disable().init();
+	if (was_enabled == true)
+		enable();
+
 	return *this;
 }
 
 bool serial_port::is_enabled()
 {
-	return true;
+	return idma.is_enabled() && odma.is_enabled();
+}
+
+serial_port& serial_port::operator<<(char c)
+{
+	putc(c);
+	return *this;
 }
 
 serial_port& serial_port::operator<<(const char *str)
 {
+	puts(str);
 	return *this;
 }
 
 serial_port& serial_port::operator<<(int i)
 {
+	print("%d", i);
 	return *this;
 }
 
 serial_port& serial_port::operator<<(unsigned int i)
 {
+	print("%u", i);
 	return *this;
 }
 
 serial_port& serial_port::operator<<(double d) 
 {
+	print("%lf", d);
 	return *this;
 }
