@@ -94,14 +94,16 @@ int serial_port::putc(char c)
 int serial_port::puts(const char *str)
 {
 	size_t n = strlen(str);
-
 	while (odma.bytes_in_progress());
 	odma.write((uint8_t*) str, n);
 	odma.flush();
 	return n;
 }
 
-/* TODO: newlib version of s{n}printf takes way too much space */
+/*
+ * TODO: Come up with own s{n}printf family functions. Newlib versions are
+ * taking way too much space
+ */
 // int serial_port::print(const char *format, ... )
 // {
 // 	int n;

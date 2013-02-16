@@ -55,7 +55,7 @@ CXX=avr32-g++
 CXXSTANDARD=gnu++98
 CXXOPT=-O2 -fdata-sections -ffunction-sections -fno-exceptions -fno-rtti
 
-CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall -fno-strict-aliasing
 CXXFLAGS+=-include "$(SETTINGS)"
 
 ASFLAGS=-mpart=$(MPART)
