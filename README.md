@@ -94,7 +94,12 @@ a quick reference to the functions.
 
 ### Changelog for the next release
 
-- Support for PDC (Peripheral DMA Controller)
+- Support for PDC (Peripheral DMA Controller) via perih_idma and perip_odma
+  class drivers.
+- Added serial port class driver. Uses peripheral DMA. See
+  `examples/serial_port_class_driver.cpp`.
+  - USART module functions also changed and some functionality has been moved
+    to serial port class driver.
 
 ### v0.5.0
 
