@@ -42,9 +42,9 @@ class periph_idma {
 		periph_idma(int dma_chnum, int dma_pid,
 			volatile uint32_t *buf, size_t n);
 
-		periph_idma& read(uint8_t *dest, size_t n);
-		periph_idma& read(uint16_t *dest, size_t n);
-		periph_idma& read(uint32_t *dest, size_t n);
+		size_t read(uint8_t *dest, size_t n);
+		size_t read(uint16_t *dest, size_t n);
+		size_t read(uint32_t *dest, size_t n);
 
 		uint8_t read_byte();
 		uint16_t read_halfword();

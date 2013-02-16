@@ -40,12 +40,16 @@ int main(void)
 
 	gpio_set_pin_high(LED);
 
+	serial << "Hello Aery" << 32 << '\n';
+	serial << "pi = " << 3.14159265359 << '\n';
+
+	char line[32] = "";
+	size_t n;
 	for(;;) {
 		/* Put your application code here */
 
-		serial << "Hello Aery" << 32 << '\n';
-		serial << "pi = " << 3.14159265359 << '\n';
-		delay_ms(500);
+		serial.getline(line, &n);
+		serial << line << ", " << n << " chars\n";
 	}
 
 	return 0;

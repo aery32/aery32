@@ -106,7 +106,8 @@ class serial_port {
 		 * \param delim the delimitation character [OPTIONAL]
 		 * \return The same as parameter str
 		 * \note The read process is limited to the size of the DMA
-		 *       input buffer
+		 *       input buffer. The character that precedes the char
+		 *       (del), decimal value 127, are not included.
 		 */
 		char* getline(char *str, size_t *n,
 			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
@@ -126,8 +127,8 @@ class serial_port {
 		size_t bytes_available();
 
 		/**
-		 * Indicates whether DMA buffers have been overflown
-		 * \return True if one or the other DMA buffers have been overflowm
+		 * Indicates whether input DMA buffer has been overflown
+		 * \return True if input DMA buffer has been overflowm
 		 */
 		bool has_overflown();
 		
@@ -184,11 +185,16 @@ class serial_port {
 		 */
 		serial_port& set_stopbits(enum Usart_stopbits stopbits);
 
-		serial_port& operator<<(char c);
-		serial_port& operator<<(const char *str);
+		serial_port& operator<<(char);
+		serial_port& operator<<(const char*);
+
 		serial_port& operator<<(int);
-		serial_port& operator<<(unsigned int);
 		serial_port& operator<<(double);
+
+		serial_port& operator<<(unsigned int);
+		serial_port& operator<<(unsigned char);
+		serial_port& operator<<(unsigned short);
+		serial_port& operator<<(unsigned long);
 
 	protected:
 		serial_port& init();

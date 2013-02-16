@@ -63,13 +63,11 @@ serial_port& serial_port::set_stopbits(enum Usart_stopbits stopbits)
 int serial_port::getc()
 {
 	if (idma.has_overflown())
-		return EOF;
+		return -1;
 
-	int c;
-	/* TODO: idma.read should tell how many bytes was read */
-	//while (idma.read((uint8_t*) &c, 1) == 1);
-	idma.read((uint8_t*) &c, 1);
-	return c;
+	uint8_t c;
+	while (idma.read(&c, 1) == 0);
+	return (int) c;
 }
 
 char* serial_port::getline(char *str, char delim)
@@ -80,21 +78,27 @@ char* serial_port::getline(char *str, char delim)
 
 char* serial_port::getline(char *str, size_t *n, char delim)
 {
-	size_t i = 0;
-	for (; i < idma.bufsize; i++) {
-		str[i] = getc();
-		if (str[i] == delim)
-			break;
-		if (str[i] < 0)
-			return NULL;
-	}
-	if (i < idma.bufsize) {
-		*n = i-1;
-		str[i] = '\0';
-	} else {
-		*n = i;
-	}
+	size_t i = 0, j = 0;
+	int c;
 
+	for (; i < idma.bufsize; i++) {
+		c = getc();
+		if (c == delim) {
+			break;
+		} else if (c == 127) { /* c == (del) */
+			if (j > 1)
+				j--;
+			else 
+				j = 0;
+		} else if (c < 0) {
+			return NULL;
+		} else {
+			str[j++] = c;
+		}
+	}
+	if (j < idma.bufsize)
+		str[j] = '\0';
+	*n = j;
 	return str;
 }
 
@@ -203,10 +207,18 @@ serial_port& serial_port::operator<<(const char *str)
 	return *this;
 }
 
-serial_port& serial_port::operator<<(int i)
+serial_port& serial_port::operator<<(int d)
 {
 	while (odma.bytes_in_progress());
-	itoa(i, (char*) odma.buffer, &odma.w_idx);
+	itoa(d, (char*) odma.buffer, &odma.w_idx);
+	odma.flush();
+	return *this;
+}
+
+serial_port& serial_port::operator<<(double lf) 
+{
+	while (odma.bytes_in_progress());
+	dtoa(lf, precision, (char*) odma.buffer, &odma.w_idx);
 	odma.flush();
 	return *this;
 }
@@ -219,10 +231,17 @@ serial_port& serial_port::operator<<(unsigned int u)
 	return *this;
 }
 
-serial_port& serial_port::operator<<(double d) 
+serial_port& serial_port::operator<<(unsigned char u)
 {
-	while (odma.bytes_in_progress());
-	dtoa(d, precision, (char*) odma.buffer, &odma.w_idx);
-	odma.flush();
-	return *this;
+	return *this << (unsigned int) u;
+}
+
+serial_port& serial_port::operator<<(unsigned short u)
+{
+	return *this << (unsigned int) u;
+}
+
+serial_port& serial_port::operator<<(unsigned long u)
+{
+	return *this << (unsigned int) u;
 }
