@@ -28,13 +28,14 @@ serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 	init();
 }
 
-void serial_port::init()
+serial_port& serial_port::init()
 {
 	odma.reset();
 	idma.reset();
 	usart_init_serial(usart, USART_PARITY_NONE, USART_STOPBITS_1,
 		USART_DATABITS_8);
 	set_speed(115200);
+	return *this;
 }
 
 double serial_port::set_speed(unsigned int speed)
@@ -47,14 +48,16 @@ double serial_port::set_speed(unsigned int speed)
 	return error;
 }
 
-void serial_port::set_parity(enum Usart_parity parity)
+serial_port& serial_port::set_parity(enum Usart_parity parity)
 {
 	usart->MR.par = parity;
+	return *this;
 }
 
-void serial_port::set_stopbits(enum Usart_stopbits stopbits)
+serial_port& serial_port::set_stopbits(enum Usart_stopbits stopbits)
 {
 	usart->MR.nbstop = stopbits;
+	return *this;
 }
 
 int serial_port::getc()
@@ -71,15 +74,27 @@ int serial_port::getc()
 
 char* serial_port::getline(char *str, char delim)
 {
+	size_t n = 0;
+	return getline(str, &n, delim);
+}
+
+char* serial_port::getline(char *str, size_t *n, char delim)
+{
 	size_t i = 0;
 	for (; i < idma.bufsize; i++) {
 		str[i] = getc();
 		if (str[i] == delim)
 			break;
-		if (str[i] == EOF)
+		if (str[i] < 0)
 			return NULL;
 	}
-	str[i] = '\0';
+	if (i < idma.bufsize) {
+		*n = i-1;
+		str[i] = '\0';
+	} else {
+		*n = i;
+	}
+
 	return str;
 }
 

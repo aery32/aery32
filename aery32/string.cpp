@@ -16,7 +16,6 @@
  * you a copy.
  */
 
-#include <cstdio>
 #include <cmath>
 extern "C" {
 	#include <ieeefp.h>
@@ -96,10 +95,10 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 
 int aery::nputs(const char *buffer, size_t n, int (*_putchar)(int))
 {
-	int i = 0;
+	int i = 0, rv;
 	for (; (*(buffer+i) && n > 0); i++, n--) {
-		if (_putchar(*(buffer+i)) == EOF)
-			return EOF;
+		if ((rv = _putchar(*(buffer+i))) < 0)
+			return rv;
 	}
 	return i;
 }

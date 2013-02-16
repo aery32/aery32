@@ -34,52 +34,155 @@ extern "C" {
 #include "periph_idma.h"
 #include "periph_odma.h"
 
-#ifndef SERIAL_PORT_DEFAULT_TERMINATOR
-#define SERIAL_PORT_DEFAULT_TERMINATOR '\n'
+#ifndef AERY32_SERIAL_PORT_CLSDRV_DELIM
+#define AERY32_SERIAL_PORT_CLSDRV_DELIM '\n'
 #endif
 
 namespace aery {
 
 class serial_port {
-
 	public:
+		/**
+		 * Pointer to the low level AVR32 USART register
+		 */
 		volatile avr32_usart_t *usart;
+
+		/**
+		 * Peripheral input DMA buffer object
+		 */
 		aery::periph_idma idma;
+
+		/**
+		 * Peripheral output DMA buffer object
+		 */
 		aery::periph_odma odma;
+
+		/**
+		 * Precision used for floating points
+		 */
 		uint8_t precision;
 
+		/**
+		 * Constructor
+		 * \param usart pointer to the low level AVR32 USART register
+		 * \param idma peripheral input DMA on which the character
+		 *             receive is performed
+		 * \param odma peripheral output DMA on which the character
+		 *             transmission is performed
+		 */
 		serial_port(
 			volatile avr32_usart_t *usart,
 			aery::periph_idma &idma,
 			aery::periph_odma &odma
 		);
 
+		/**
+		 * Put character
+		 * \param c char to be written
+		 * \return Number of written chars
+		 */
 		int putc(char c);
+
+		/**
+		 * Get character
+		 * \return On success, the character read is returned
+		 */
 		int getc();
 
+		/**
+		 * Write the C string to output DMA buffer
+		 * \param str C string to be written
+		 * \return the total number of characters written
+		 */
 		int puts(const char *str);
-		int print(const char *str, ... );
 
-		char* getline(char *str, size_t n,
-			char terminator = SERIAL_PORT_DEFAULT_TERMINATOR);
+		/**
+		 * Get a line from input DMA buffer into C string
+		 *
+		 * Extracts characters from input DMA buffer and stores them
+		 * into str until the delimitation character delim is found.
+		 * \param str C string where the extracted line is stored
+		 * \param n the total number of characters read. '\0' is not added. [OPTIONAL]
+		 * \param delim the delimitation character [OPTIONAL]
+		 * \return The same as parameter str
+		 * \note The read process is limited to the size of the DMA
+		 *       input buffer
+		 */
+		char* getline(char *str, size_t *n,
+			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
 		char* getline(char *str,
-			char terminator = SERIAL_PORT_DEFAULT_TERMINATOR);
+			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
 
+		/**
+		 * Clears the input DMA buffer from all received characters
+		 * \return The same serial port class driver object
+		 */
 		serial_port& flush();
 
+		/**
+		 * Indicates the number of bytes available in input DMA buffer
+		 * \return the total number of bytes available to be read
+		 */
 		size_t bytes_available();
+
+		/**
+		 * Indicates whether DMA buffers have been overflown
+		 * \return True if one or the other DMA buffers have been overflowm
+		 */
 		bool has_overflown();
 		
+		/**
+		 * Enables the serial port class driver
+		 * \return The same serial port class driver object
+		 */
 		serial_port& enable();
+
+		/**
+		 * Disables the serial port class driver
+		 * \return The same serial port class driver object
+		 */
 		serial_port& disable();
+
+		/**
+		 * Resets the serial port class driver
+		 * \return The same serial port class driver object
+		 */
 		serial_port& reset();
 
+		/**
+		 * Indicates whether the serial port class driver is enabled
+		 * \return True if enabled
+		 */
 		bool is_enabled();
 
+		/**
+		 * Set serial port speed
+		 * \param speed serial port speed or baud rate
+		 * \return baud rate error
+		 * \note PBA clock has been used as a source
+		 */
 		double set_speed(unsigned int speed);
-		void set_databits(enum Usart_databits databits);
-		void set_parity(enum Usart_parity parity);
-		void set_stopbits(enum Usart_stopbits);
+
+		/**
+		 * Set serial port data bits
+		 * \param databits number of data bits per character
+		 * \return The same serial port class driver object
+		 */
+		serial_port& set_databits(enum Usart_databits databits);
+
+		/**
+		 * Set parity
+		 * \param parity number of parity bits
+		 * \return The same serial port class driver object
+		 */
+		serial_port& set_parity(enum Usart_parity parity);
+
+		/**
+		 * Set stop bits
+		 * \param stopbits number of stop bits
+		 * \return The same serial port class driver object
+		 */
+		serial_port& set_stopbits(enum Usart_stopbits stopbits);
 
 		serial_port& operator<<(char c);
 		serial_port& operator<<(const char *str);
@@ -88,8 +191,7 @@ class serial_port {
 		serial_port& operator<<(double);
 
 	protected:
-		void init();
-		
+		serial_port& init();
 };
 
 } /* end of namespace aery */
