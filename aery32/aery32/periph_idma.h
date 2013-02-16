@@ -46,10 +46,6 @@ class periph_idma {
 		size_t read(uint16_t *dest, size_t n);
 		size_t read(uint32_t *dest, size_t n);
 
-		uint8_t read_byte();
-		uint16_t read_halfword();
-		uint32_t read_word();
-
 		periph_idma& flush();
 
 		size_t bytes_available();
