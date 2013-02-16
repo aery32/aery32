@@ -27,17 +27,18 @@ namespace aery {
 }
 
 void aery::usart_init_serial(volatile avr32_usart_t *usart,
-	enum Usart_parity parity, enum Usart_stopbits)
+	enum Usart_parity parity, enum Usart_stopbits stopbits,
+	enum Usart_databits databits)
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
-	usart->MR.mode = 0;
-	usart->MR.filter = 0;
-	usart->MR.msbf = 0;
-	usart->MR.sync = 0;
-	usart->MR.clko = 0;
-	usart->MR.par = parity;
-	aery::usart_set_databits(usart, USART_DATABITS_8);
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
+	
+	aery::usart_set_parity(usart, parity);
+	aery::usart_set_stopbits(usart, stopbits);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_init_spim(volatile avr32_usart_t *usart,
@@ -45,11 +46,14 @@ void aery::usart_init_spim(volatile avr32_usart_t *usart,
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
 	usart->MR.mode = 0xe;
-	usart->MR.filter = 0;
 	usart->MR.clko = 1;
-	aery::usart_set_databits(usart, databits);
+
 	aery::usart_set_spimode(usart, mode);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_init_spis(volatile avr32_usart_t *usart,
@@ -57,10 +61,13 @@ void aery::usart_init_spis(volatile avr32_usart_t *usart,
 {
 	usart->CR.rsttx = 1;
 	usart->CR.rstrx = 1;
+
+	avr32_usart_mr_t mr = {};
+	usart->mr = *((unsigned long*) &mr);
 	usart->MR.mode = 0xf;
-	usart->MR.filter = 0;
-	aery::usart_set_databits(usart, databits);
+
 	aery::usart_set_spimode(usart, mode);
+	aery::usart_set_databits(usart, databits);
 }
 
 void aery::usart_setup_speed(volatile avr32_usart_t *usart,
@@ -81,6 +88,18 @@ void aery::usart_set_databits(volatile avr32_usart_t *usart,
 		usart->MR.mode9 = 0;
 		usart->MR.chrl = databits;
 	}
+}
+
+void aery::usart_set_parity(volatile avr32_usart_t *usart,
+	enum Usart_parity parity)
+{
+	usart->MR.par = parity;
+}
+
+void aery::usart_set_stopbits(volatile avr32_usart_t *usart,
+	enum Usart_stopbits stopbits)
+{
+	usart->MR.nbstop = stopbits;
 }
 
 int aery::usart_set_spimode(volatile avr32_usart_t *usart,
@@ -114,12 +133,15 @@ int aery::usart_set_spimode(volatile avr32_usart_t *usart,
 	return 0;
 }
 
-int aery::usart_read(volatile avr32_usart_t *usart, int *data)
+uint32_t aery::usart_read(volatile avr32_usart_t *usart)
 {
-	return aery::usart_read(usart, data, 1);
+	uint32_t data = 0;
+	aery::usart_read(usart, &data, 1);
+	return data;
 }
 
-int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
+uint32_t aery::usart_read(volatile avr32_usart_t *usart,
+	uint32_t *buf, size_t n)
 {
 	uint32_t status;
 	for (size_t i = 0; i < n; i++) {
@@ -131,12 +153,13 @@ int aery::usart_read(volatile avr32_usart_t *usart, int *buf, size_t n)
 	return n;
 }
 
-int aery::usart_write(volatile avr32_usart_t *usart, int data)
+uint32_t aery::usart_write(volatile avr32_usart_t *usart, uint32_t data)
 {
 	return aery::usart_write(usart, &data, 1);
 }
 
-int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
+uint32_t aery::usart_write(volatile avr32_usart_t *usart,
+	const uint32_t *buf, size_t n)
 {
 	uint32_t status;
 	for (size_t i = 0; i < n; i++) {
@@ -148,41 +171,11 @@ int aery::usart_write(volatile avr32_usart_t *usart, const int *buf, size_t n)
 	return n;
 }
 
-int aery::usart_putc(volatile avr32_usart_t *usart, char c)
+uint32_t aery::usart_spi_transmit(volatile avr32_usart_t *usart,
+	uint32_t data)
 {
-	if (aery::usart_write(usart, (int) c) == 0)
-		return EOF;
-	return c;
-}
-
-int aery::usart_puts(volatile avr32_usart_t *usart, const char *str)
-{
-	size_t n = strlen(str);
-	for (size_t i = 0; i < n; i++) {
-		if (aery::usart_putc(usart, str[i]) == EOF)
-			return EOF;
-	}
-	return n;
-}
-
-int aery::usart_getc(volatile avr32_usart_t *usart)
-{
-	int c;
-	if (aery::usart_read(usart, &c) == 0)
-		return EOF;
-	return c;
-}
-
-char* aery::usart_gets(volatile avr32_usart_t *usart, char *str,
-	size_t n, char terminator)
-{
-	size_t i = 0;
-	for (; i < n; i++) {
-		if ((str[i] = aery::usart_getc(usart)) == terminator)
-			break;
-	}
-	str[i] = '\0';
-	return str;
+	aery::usart_write(usart, data);
+	return aery::usart_read(usart);
 }
 
 uint32_t aery::usart_wait_txready(volatile avr32_usart_t *usart)

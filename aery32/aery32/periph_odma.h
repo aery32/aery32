@@ -61,12 +61,12 @@ class periph_odma {
 
 		bool is_enabled();
 
-	protected:
 		volatile avr32_pdca_channel_t *dma;
 		volatile uint8_t *buffer;
 		size_t bufsize;
 		size_t w_idx;
 
+	protected:
 		periph_odma& init();
 };
 

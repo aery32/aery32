@@ -89,14 +89,18 @@ bool periph_idma::is_enabled()
 	return dma->SR.ten;
 }
 
-periph_idma& periph_idma::read(uint8_t *dest, size_t n)
+size_t periph_idma::read(uint8_t *dest, size_t n)
 {
+	size_t i = 0;
 	size_t bytes_available = this->bytes_available();
+
+	if (!bytes_available)
+		return 0;
 
 	if (n > bytes_available)
 		n = bytes_available;
 
-	for (size_t i = 0; i < n; i++) {
+	for (; i < n; i++) {
 		dest[i] = buffer[r_idx++];
 		if (r_idx == bufsize) {
 			r_idx = 0;
@@ -105,19 +109,17 @@ periph_idma& periph_idma::read(uint8_t *dest, size_t n)
 		}
 	}
 
-	return *this;
+	return i;
 }
 
-periph_idma& periph_idma::read(uint16_t *dest, size_t n)
+size_t periph_idma::read(uint16_t *dest, size_t n)
 {
-	read((uint8_t*) dest, n * sizeof(uint16_t));
-	return *this;
+	return read((uint8_t*) dest, n * sizeof(uint16_t)) / sizeof(uint16_t);
 }
 
-periph_idma& periph_idma::read(uint32_t *dest, size_t n)
+size_t periph_idma::read(uint32_t *dest, size_t n)
 {
-	read((uint8_t*) dest, n * sizeof(uint32_t));
-	return *this;
+	return read((uint8_t*) dest, n * sizeof(uint32_t)) / sizeof(uint32_t);
 }
 
 periph_idma& periph_idma::flush()

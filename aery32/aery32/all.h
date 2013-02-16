@@ -59,6 +59,11 @@
 #include "periph_idma.h"
 #include "periph_odma.h"
 
+/* High level peripheral classes */
+#include "serial_port.h"
+#include "periph_idma.h"
+#include "periph_odma.h"
+
 #include "string.h"
 
 #endif
