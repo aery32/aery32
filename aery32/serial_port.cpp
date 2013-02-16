@@ -20,13 +20,10 @@
 #include "aery32/string.h"
 #include "aery32/pm.h"
 
-#include <cstdio>
-#include <cstdarg>
-
 using namespace aery;
 
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
-	periph_odma &o) : usart(u), idma(i), odma(o)
+	periph_odma &o) : usart(u), idma(i), odma(o), precision(8)
 {
 	init();
 }
@@ -60,14 +57,6 @@ void serial_port::set_stopbits(enum Usart_stopbits stopbits)
 	usart->MR.nbstop = stopbits;
 }
 
-int serial_port::putc(char c)
-{
-	while (odma.bytes_in_progress());
-	odma.write_byte((uint8_t) c);
-	odma.flush();
-	return 1;
-}
-
 int serial_port::getc()
 {
 	if (idma.has_overflown())
@@ -78,36 +67,6 @@ int serial_port::getc()
 	//while (idma.read((uint8_t*) &c, 1) == 1);
 	idma.read((uint8_t*) &c, 1);
 	return c;
-}
-
-int serial_port::puts(const char *str)
-{
-	size_t n = strlen(str);
-
-	while (odma.bytes_in_progress());
-	odma.write((uint8_t*) str, n);
-	odma.flush();
-	return n;
-}
-
-int serial_port::print(const char *format, ... )
-{
-	int n;
-	va_list args;
-	va_start(args, format);
-	
-	while (odma.bytes_in_progress());
-	n = vsnprintf((char*) odma.buffer, odma.bufsize, format, args);
-	va_end(args);
-	
-	if (n < 0) { /* vsnprintf() failed */
-		odma.w_idx = 0;
-		return n;
-	}
-
-	odma.w_idx = n;
-	odma.flush();
-	return n;
 }
 
 char* serial_port::getline(char *str, char delim)
@@ -123,6 +82,45 @@ char* serial_port::getline(char *str, char delim)
 	str[i] = '\0';
 	return str;
 }
+
+int serial_port::putc(char c)
+{
+	while (odma.bytes_in_progress());
+	odma.write_byte((uint8_t) c);
+	odma.flush();
+	return 1;
+}
+
+int serial_port::puts(const char *str)
+{
+	size_t n = strlen(str);
+
+	while (odma.bytes_in_progress());
+	odma.write((uint8_t*) str, n);
+	odma.flush();
+	return n;
+}
+
+/* TODO: newlib version of s{n}printf takes way too much space */
+// int serial_port::print(const char *format, ... )
+// {
+// 	int n;
+// 	va_list args;
+// 	va_start(args, format);
+	
+// 	while (odma.bytes_in_progress());
+// 	n = aery::vsnprintf((char*) odma.buffer, odma.bufsize, format, args);
+// 	va_end(args);
+	
+// 	if (n < 0) { /* vsnprintf() failed */
+// 		odma.w_idx = 0;
+// 		return n;
+// 	}
+
+// 	odma.w_idx = n;
+// 	odma.flush();
+// 	return n;
+// }
 
 serial_port& serial_port::flush()
 {
@@ -190,18 +188,24 @@ serial_port& serial_port::operator<<(const char *str)
 
 serial_port& serial_port::operator<<(int i)
 {
-	print("%d", i);
+	while (odma.bytes_in_progress());
+	itoa(i, (char*) odma.buffer, &odma.w_idx);
+	odma.flush();
 	return *this;
 }
 
-serial_port& serial_port::operator<<(unsigned int i)
+serial_port& serial_port::operator<<(unsigned int u)
 {
-	print("%u", i);
+	while (odma.bytes_in_progress());
+	utoa(u, (char*) odma.buffer, &odma.w_idx);
+	odma.flush();
 	return *this;
 }
 
 serial_port& serial_port::operator<<(double d) 
 {
-	print("%lf", d);
+	while (odma.bytes_in_progress());
+	dtoa(d, precision, (char*) odma.buffer, &odma.w_idx);
+	odma.flush();
 	return *this;
 }

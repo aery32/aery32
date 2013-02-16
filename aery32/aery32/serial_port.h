@@ -46,6 +46,7 @@ class serial_port {
 		volatile avr32_usart_t *usart;
 		aery::periph_idma idma;
 		aery::periph_odma odma;
+		uint8_t precision;
 
 		serial_port(
 			volatile avr32_usart_t *usart,

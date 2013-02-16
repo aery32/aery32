@@ -31,6 +31,7 @@ EXPERIMENTAL!!! These functions may be removed or heavily changed.
 #define __AERY32_STRING_H
 
 #include <cstring>
+#include <cstdarg>
 extern "C" {
 	#include <inttypes.h>
 }

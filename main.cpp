@@ -35,6 +35,7 @@ int main(void)
 	 * is 115200, parity none, 8 data bits and one stop bit.
 	 */
 	serial_port serial = serial_port(usart0, dma0, dma1);
+	serial.precision = 2;
 	serial.enable();
 
 	gpio_set_pin_high(LED);
@@ -42,9 +43,8 @@ int main(void)
 	for(;;) {
 		/* Put your application code here */
 
-		serial.print("Hello Aery%d\n", 32);
 		serial << "Hello Aery" << 32 << '\n';
-		serial.puts("---\n");
+		serial << "pi = " << 3.14159265359 << '\n';
 		delay_ms(500);
 	}
 

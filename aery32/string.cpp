@@ -54,12 +54,14 @@ char *aery::itoa(int number, char *buffer, size_t *n)
 	if (number < 0) {
 		buffer[0] = '-';
 		aery::utoa((unsigned int) (-1 * number), &buffer[1], n);
-		if (n != NULL) *n++;
+		if (n != NULL)
+			*n += 1;
 		return buffer;
 	}
 	return aery::utoa((unsigned int) number, buffer, n);
 }
 
+/* TODO: Fix rounding */
 char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 {
 	size_t n2 = 0;
@@ -81,6 +83,8 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 	buffer[n2++] = '.';
 
 	/* write the fractional part into the buffer */
+	if (precision > 8)
+		precision = 8;
 	while (precision--) {
 		fp *= 10;
 		aery::utoa((unsigned int) fp, buffer + n2++);
