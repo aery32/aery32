@@ -203,15 +203,19 @@ class serial_port {
 		serial_port& operator<<(char);
 		serial_port& operator<<(const char*);
 
-		serial_port& operator<<(int);
 		serial_port& operator<<(double);
 
-		serial_port& operator<<(unsigned int);
-		serial_port& operator<<(unsigned char);
-		serial_port& operator<<(unsigned short);
-		serial_port& operator<<(unsigned long);
+		serial_port& operator<<(int);
+		serial_port& operator<<(signed long);
 
-		serial_port& operator>>(int &val);
+		serial_port& operator<<(unsigned int);
+		serial_port& operator<<(unsigned long);
+		serial_port& operator<<(unsigned short);
+		serial_port& operator<<(unsigned char);
+
+		serial_port& operator>>(long int &value);
+		serial_port& operator>>(unsigned long &value);
+
 		serial_port& operator>>(double &value);
 
 	protected:

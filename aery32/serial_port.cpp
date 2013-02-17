@@ -17,6 +17,7 @@
  */
 
 #include <cctype>
+#include <cstdlib>
 
 #include "aery32/serial_port.h"
 #include "aery32/string.h"
@@ -24,7 +25,7 @@
 
 using namespace aery;
 
-volatile static char __tbuf[25] = ""; /* temp buffer for operator>>() */
+volatile static char __tbuf[25] = ""; /* temporary char buffer for operator>>() */
 
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 	periph_odma &o) : usart(u), idma(i), odma(o), precision(8)
@@ -179,26 +180,69 @@ bool serial_port::is_enabled()
 	return idma.is_enabled() && odma.is_enabled();
 }
 
+
+
+// --------------------------------------------------------------------------
+// OUTPUT, characters
+// --------------------------------------------------------------------------
 serial_port& serial_port::operator<<(char c)
 {
 	putc(c);
 	return *this;
 }
-
 serial_port& serial_port::operator<<(const char *str)
 {
 	puts(str);
 	return *this;
 }
 
-serial_port& serial_port::operator<<(int d)
+
+
+// --------------------------------------------------------------------------
+// OUTPUT, signed integers
+// --------------------------------------------------------------------------
+serial_port& serial_port::operator<<(int value)
 {
 	while (odma.bytes_in_progress());
-	itoa(d, (char*) odma.buffer, &odma.w_idx);
+	itoa(value, (char*) odma.buffer, &odma.w_idx);
 	odma.flush();
 	return *this;
 }
+serial_port& serial_port::operator<<(signed long value)
+{
+	return this->operator<<((int) value);
+}
 
+
+
+// --------------------------------------------------------------------------
+// OUTPUT, unsigned integers
+// --------------------------------------------------------------------------
+serial_port& serial_port::operator<<(unsigned int value)
+{
+	while (odma.bytes_in_progress());
+	utoa(value, (char*) odma.buffer, &odma.w_idx);
+	odma.flush();
+	return *this;
+}
+serial_port& serial_port::operator<<(unsigned long value)
+{
+	return this->operator<<((unsigned int) value);
+}
+serial_port& serial_port::operator<<(unsigned short value)
+{
+	return this->operator<<((unsigned int) value);
+}
+serial_port& serial_port::operator<<(unsigned char value)
+{
+	return this->operator<<((unsigned int) value);
+}
+
+
+
+// --------------------------------------------------------------------------
+// OUTPUT, double
+// --------------------------------------------------------------------------
 serial_port& serial_port::operator<<(double lf) 
 {
 	while (odma.bytes_in_progress());
@@ -207,39 +251,41 @@ serial_port& serial_port::operator<<(double lf)
 	return *this;
 }
 
-serial_port& serial_port::operator<<(unsigned int u)
-{
-	while (odma.bytes_in_progress());
-	utoa(u, (char*) odma.buffer, &odma.w_idx);
-	odma.flush();
-	return *this;
-}
 
-serial_port& serial_port::operator<<(unsigned char u)
-{
-	return *this << (unsigned int) u;
-}
 
-serial_port& serial_port::operator<<(unsigned short u)
-{
-	return *this << (unsigned int) u;
-}
-
-serial_port& serial_port::operator<<(unsigned long u)
-{
-	return *this << (unsigned int) u;
-}
-
-serial_port& serial_port::operator>>(int &value)
+// --------------------------------------------------------------------------
+// INPUT, unsigned integers
+// --------------------------------------------------------------------------
+serial_port& serial_port::operator>>(unsigned long &value)
 {
 	for (uint8_t i = 0; i < 11; i++) {
 		if (isspace(__tbuf[i] = getc()))
 			break;
 	}
-	value = atoi((char*) &__tbuf[0]);
+	value = strtoul((char*) &__tbuf[0], NULL, 0);
 	return *this;
 }
 
+
+
+// --------------------------------------------------------------------------
+// INPUT, signed integers
+// --------------------------------------------------------------------------
+serial_port& serial_port::operator>>(long int &value)
+{
+	for (uint8_t i = 0; i < 11; i++) {
+		if (isspace(__tbuf[i] = getc()))
+			break;
+	}
+	value = strtol((char*) &__tbuf[0], NULL, 0);
+	return *this;
+}
+
+
+
+// --------------------------------------------------------------------------
+// INPUT, double
+// --------------------------------------------------------------------------
 serial_port& serial_port::operator>>(double &value)
 {
 	for (uint8_t i = 0; i < 24; i++) {
