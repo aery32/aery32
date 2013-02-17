@@ -16,9 +16,7 @@
  * you a copy.
  */
 
-#include <cstdlib>
 #include <cctype>
-#include <cmath>
 
 #include "aery32/serial_port.h"
 #include "aery32/string.h"
@@ -94,14 +92,11 @@ char* serial_port::getline(char *str, size_t *n, char delim)
 				j--;
 			else 
 				j = 0;
-		} else if (c < 0) {
-			return NULL;
 		} else {
 			str[j++] = c;
 		}
 	}
-	if (j < idma.bufsize)
-		str[j] = '\0';
+	str[j] = '\0';
 	*n = j;
 	return str;
 }
@@ -123,10 +118,15 @@ int serial_port::puts(const char *str)
 	return n;
 }
 
-/*
- * TODO: Come up with own s{n}printf family functions. Newlib versions are
- * taking way too much space
- */
+serial_port& serial_port::putback(char c)
+{
+	idma.r_idx--;
+	idma.buffer[idma.r_idx] = (uint8_t) c;
+	return *this;
+}
+
+/// \todo Come up with own s{n}printf family functions. Newlib versions are
+/// taking way too much space and fill up all the sram.
 // int serial_port::print(const char *format, ... )
 // {
 // 	int n;
@@ -250,33 +250,24 @@ serial_port& serial_port::operator<<(unsigned long u)
 	return *this << (unsigned int) u;
 }
 
-/* TODO: Implementation could be better? */
 serial_port& serial_port::operator>>(int &value)
 {
-	uint8_t max = 10;
-	char str[12] = "";
-
-begin:
-	while (!isdigit(str[0] = getc()) && str[0] != '-');
-	if (str[0] == '0')
-		goto end;
-
-	str[1] = getc();
-	if (str[0] == '-' && !isdigit(str[1]))
-		goto begin;
-	else if (str[0] == '-' && str[1] == '0')
-		goto end;
-	else if (str[0] != '-' && !isdigit(str[1]))
-		goto end;
-	else
-		max = 11;
-
-	for (uint8_t i = 2; i < max; i++) {
-		if (!isdigit(str[i] = getc())) /* TODO: put getc back */
+	char str[11 + 1] = "";
+	for (uint8_t i = 0; i < sizeof(str); i++) {
+		if (isspace(str[i] = getc()))
 			break;
 	}
-
-end:
 	value = atoi(str);
+	return *this;
+}
+
+serial_port& serial_port::operator>>(double &value)
+{
+	char str[24 + 1] = "";
+	for (uint8_t i = 0; i < sizeof(str); i++) {
+		if (isspace(str[i] = getc()))
+			break;
+	}
+	value = atof(str);
 	return *this;
 }

@@ -77,17 +77,40 @@ class serial_port {
 		);
 
 		/**
+		 * Get character
+		 * \return On success, the character read is returned
+		 */
+		int getc();
+
+		/**
+		 * Get a line from input DMA buffer into C string
+		 *
+		 * Extracts characters from input DMA buffer and stores them
+		 * into str until the delimitation character delim is found.
+		 * \param str C string where the extracted line is stored.
+		 *            The generated string has a length of at most
+		 *            n-1, leaving space for the additional
+		 *            terminating null character.
+		 * \param n OPTIONAL. The total number of characters read.
+		 *          '\0' is not added to this value.
+		 * \param delim OPTIONAL. The delimitation character.
+		 * \return The same as parameter str
+		 * \note The read process is limited to the size of the DMA
+		 *       input buffer. The character that precedes the char
+		 *       (del), decimal value 127, are not included to the
+		 *       get line.
+		 */
+		char* getline(char *str, size_t *n,
+			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
+		char* getline(char *str,
+			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
+
+		/**
 		 * Put character
 		 * \param c char to be written
 		 * \return Number of written chars
 		 */
 		int putc(char c);
-
-		/**
-		 * Get character
-		 * \return On success, the character read is returned
-		 */
-		int getc();
 
 		/**
 		 * Write the C string to output DMA buffer
@@ -97,22 +120,15 @@ class serial_port {
 		int puts(const char *str);
 
 		/**
-		 * Get a line from input DMA buffer into C string
+		 * Put character back
 		 *
-		 * Extracts characters from input DMA buffer and stores them
-		 * into str until the delimitation character delim is found.
-		 * \param str C string where the extracted line is stored
-		 * \param n the total number of characters read. '\0' is not added. [OPTIONAL]
-		 * \param delim the delimitation character [OPTIONAL]
-		 * \return The same as parameter str
-		 * \note The read process is limited to the size of the DMA
-		 *       input buffer. The character that precedes the char
-		 *       (del), decimal value 127, are not included.
+		 * Decrements the internal get pointer by one, and c becomes
+		 * the character to be read at that position by the next
+		 * get operation.
+		 * \param c the character to be put back
+		 * \return The same serial port class driver object
 		 */
-		char* getline(char *str, size_t *n,
-			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
-		char* getline(char *str,
-			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
+		serial_port& putback(char c);
 
 		/**
 		 * Clears the input DMA buffer from all received characters
@@ -197,6 +213,7 @@ class serial_port {
 		serial_port& operator<<(unsigned long);
 
 		serial_port& operator>>(int &val);
+		serial_port& operator>>(double &value);
 
 	protected:
 		serial_port& init();
