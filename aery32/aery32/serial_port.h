@@ -97,8 +97,7 @@ class serial_port {
 		 * \return The same as parameter str
 		 * \note The read process is limited to the size of the DMA
 		 *       input buffer. The character that precedes the char
-		 *       (del), decimal value 127, are not included to the
-		 *       get line.
+		 *       (del), decimal value 127, are discarded from the str.
 		 */
 		char* getline(char *str, size_t *n,
 			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
