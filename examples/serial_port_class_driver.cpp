@@ -49,7 +49,8 @@ int main(void)
 		/* Put your application code here */
 
 		serial.getline(line, &n);
-		serial << line << ", " << n << " chars\n";
+		if (n == 0) continue; /* skip blank line */
+		serial << "'" << line << "' is " << n << " characters long.\n";
 	}
 
 	return 0;
