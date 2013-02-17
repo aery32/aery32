@@ -24,6 +24,8 @@
 
 using namespace aery;
 
+volatile static char __tbuf[25] = ""; /* temp buffer for operator>>() */
+
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 	periph_odma &o) : usart(u), idma(i), odma(o), precision(8)
 {
@@ -124,28 +126,6 @@ serial_port& serial_port::putback(char c)
 	idma.buffer[idma.r_idx] = (uint8_t) c;
 	return *this;
 }
-
-/// \todo Come up with own s{n}printf family functions. Newlib versions are
-/// taking way too much space and fill up all the sram.
-// int serial_port::print(const char *format, ... )
-// {
-// 	int n;
-// 	va_list args;
-// 	va_start(args, format);
-	
-// 	while (odma.bytes_in_progress());
-// 	n = aery::vsnprintf((char*) odma.buffer, odma.bufsize, format, args);
-// 	va_end(args);
-	
-// 	if (n < 0) { /* vsnprintf() failed */
-// 		odma.w_idx = 0;
-// 		return n;
-// 	}
-
-// 	odma.w_idx = n;
-// 	odma.flush();
-// 	return n;
-// }
 
 serial_port& serial_port::flush()
 {
@@ -252,22 +232,20 @@ serial_port& serial_port::operator<<(unsigned long u)
 
 serial_port& serial_port::operator>>(int &value)
 {
-	char str[11 + 1] = "";
-	for (uint8_t i = 0; i < sizeof(str); i++) {
-		if (isspace(str[i] = getc()))
+	for (uint8_t i = 0; i < 11; i++) {
+		if (isspace(__tbuf[i] = getc()))
 			break;
 	}
-	value = atoi(str);
+	value = atoi((char*) &__tbuf[0]);
 	return *this;
 }
 
 serial_port& serial_port::operator>>(double &value)
 {
-	char str[24 + 1] = "";
-	for (uint8_t i = 0; i < sizeof(str); i++) {
-		if (isspace(str[i] = getc()))
+	for (uint8_t i = 0; i < 24; i++) {
+		if (isspace(__tbuf[i] = getc()))
 			break;
 	}
-	value = atof(str);
+	value = atof((char*) &__tbuf[0]);
 	return *this;
 }
