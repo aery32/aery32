@@ -21,8 +21,8 @@
 \brief An RS-232 serial port connection
 */
 
-#ifndef __AERY32_SERIAL_PORT_H
-#define __AERY32_SERIAL_PORT_H
+#ifndef __AERY32_SERIAL_PORT_CLSDRV_H
+#define __AERY32_SERIAL_PORT_CLSDRV_H
 
 extern "C" {
 	#include <avr32/io.h>
@@ -195,6 +195,8 @@ class serial_port {
 		serial_port& operator<<(unsigned char);
 		serial_port& operator<<(unsigned short);
 		serial_port& operator<<(unsigned long);
+
+		serial_port& operator>>(int &val);
 
 	protected:
 		serial_port& init();

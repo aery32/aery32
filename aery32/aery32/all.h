@@ -41,7 +41,7 @@
 #ifndef __AERY32_ALL_H
 #define __AERY32_ALL_H
 
-/* Low level peripheral functions */
+/* Low level module functions */
 #include "adc.h"
 #include "delay.h"
 #include "flashc.h"
@@ -53,17 +53,13 @@
 #include "spi.h"
 #include "twi.h"
 #include "usart.h"
-#include "util.h"
 
-/* High level peripheral classes */
+/* High level class drivers */
 #include "periph_idma.h"
 #include "periph_odma.h"
-
-/* High level peripheral classes */
 #include "serial_port.h"
-#include "periph_idma.h"
-#include "periph_odma.h"
 
 #include "string.h"
+#include "util.h"
 
 #endif

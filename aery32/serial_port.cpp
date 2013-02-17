@@ -16,6 +16,10 @@
  * you a copy.
  */
 
+#include <cstdlib>
+#include <cctype>
+#include <cmath>
+
 #include "aery32/serial_port.h"
 #include "aery32/string.h"
 #include "aery32/pm.h"
@@ -244,4 +248,35 @@ serial_port& serial_port::operator<<(unsigned short u)
 serial_port& serial_port::operator<<(unsigned long u)
 {
 	return *this << (unsigned int) u;
+}
+
+/* TODO: Implementation could be better? */
+serial_port& serial_port::operator>>(int &value)
+{
+	uint8_t max = 10;
+	char str[12] = "";
+
+begin:
+	while (!isdigit(str[0] = getc()) && str[0] != '-');
+	if (str[0] == '0')
+		goto end;
+
+	str[1] = getc();
+	if (str[0] == '-' && !isdigit(str[1]))
+		goto begin;
+	else if (str[0] == '-' && str[1] == '0')
+		goto end;
+	else if (str[0] != '-' && !isdigit(str[1]))
+		goto end;
+	else
+		max = 11;
+
+	for (uint8_t i = 2; i < max; i++) {
+		if (!isdigit(str[i] = getc())) /* TODO: put getc back */
+			break;
+	}
+
+end:
+	value = atoi(str);
+	return *this;
 }
