@@ -17,7 +17,7 @@
  */
 
 /*!
-\file aery32/devnull.h
+\file aery32/oldschool.h
 */
 
 #ifndef __AERY32_OLDSCHOOL_H
