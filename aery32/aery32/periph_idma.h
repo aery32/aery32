@@ -21,8 +21,8 @@
 \brief Input DMA
 */
 
-#ifndef __AERY32_PERIPH_IDMA_H
-#define __AERY32_PERIPH_IDMA_H
+#ifndef __AERY32_PERIPH_IDMA_CLSDRV_H
+#define __AERY32_PERIPH_IDMA_CLSDRV_H
 
 extern "C" {
 	#include <avr32/io.h>
@@ -62,7 +62,7 @@ class periph_idma {
 
 		volatile uint8_t *buffer;
 		size_t bufsize;
-		size_t r_idx;
+		size_t idx;
 
 	protected:
 		periph_idma& init();

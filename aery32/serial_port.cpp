@@ -25,8 +25,6 @@
 
 using namespace aery;
 
-volatile static char __tbuf[25] = ""; /* temporary char buffer for operator>>() */
-
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
 	periph_odma &o) : usart(u), idma(i), odma(o), precision(8)
 {
@@ -81,7 +79,7 @@ char* serial_port::getline(char *str, char delim)
 	return getline(str, &n, delim);
 }
 
-char* serial_port::getline(char *str, size_t *n, char delim)
+char* serial_port::getline(char *str, size_t *nread, char delim)
 {
 	size_t i = 0, j = 0;
 	int c;
@@ -100,14 +98,14 @@ char* serial_port::getline(char *str, size_t *n, char delim)
 		}
 	}
 	str[j] = '\0';
-	*n = j;
+	*nread = j;
 	return str;
 }
 
 int serial_port::putc(char c)
 {
 	while (odma.bytes_in_progress());
-	odma.write_byte((uint8_t) c);
+	odma.write((uint8_t*) &c, 1);
 	odma.flush();
 	return 1;
 }
@@ -123,8 +121,8 @@ int serial_port::puts(const char *str)
 
 serial_port& serial_port::putback(char c)
 {
-	idma.r_idx--;
-	idma.buffer[idma.r_idx] = (uint8_t) c;
+	idma.idx--;
+	idma.buffer[idma.idx] = (uint8_t) c;
 	return *this;
 }
 
@@ -204,7 +202,7 @@ serial_port& serial_port::operator<<(const char *str)
 serial_port& serial_port::operator<<(int value)
 {
 	while (odma.bytes_in_progress());
-	itoa(value, (char*) odma.buffer, &odma.w_idx);
+	itoa(value, (char*) odma.buffer, &odma.idx);
 	odma.flush();
 	return *this;
 }
@@ -221,7 +219,7 @@ serial_port& serial_port::operator<<(signed long value)
 serial_port& serial_port::operator<<(unsigned int value)
 {
 	while (odma.bytes_in_progress());
-	utoa(value, (char*) odma.buffer, &odma.w_idx);
+	utoa(value, (char*) odma.buffer, &odma.idx);
 	odma.flush();
 	return *this;
 }
@@ -246,52 +244,7 @@ serial_port& serial_port::operator<<(unsigned char value)
 serial_port& serial_port::operator<<(double lf) 
 {
 	while (odma.bytes_in_progress());
-	dtoa(lf, precision, (char*) odma.buffer, &odma.w_idx);
+	dtoa(lf, precision, (char*) odma.buffer, &odma.idx);
 	odma.flush();
-	return *this;
-}
-
-
-
-// --------------------------------------------------------------------------
-// INPUT, unsigned integers
-// --------------------------------------------------------------------------
-serial_port& serial_port::operator>>(unsigned long &value)
-{
-	for (uint8_t i = 0; i < 11; i++) {
-		if (isspace(__tbuf[i] = getc()))
-			break;
-	}
-	value = strtoul((char*) &__tbuf[0], NULL, 0);
-	return *this;
-}
-
-
-
-// --------------------------------------------------------------------------
-// INPUT, signed integers
-// --------------------------------------------------------------------------
-serial_port& serial_port::operator>>(long int &value)
-{
-	for (uint8_t i = 0; i < 11; i++) {
-		if (isspace(__tbuf[i] = getc()))
-			break;
-	}
-	value = strtol((char*) &__tbuf[0], NULL, 0);
-	return *this;
-}
-
-
-
-// --------------------------------------------------------------------------
-// INPUT, double
-// --------------------------------------------------------------------------
-serial_port& serial_port::operator>>(double &value)
-{
-	for (uint8_t i = 0; i < 24; i++) {
-		if (isspace(__tbuf[i] = getc()))
-			break;
-	}
-	value = atof((char*) &__tbuf[0]);
 	return *this;
 }

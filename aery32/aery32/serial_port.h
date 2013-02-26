@@ -213,11 +213,6 @@ class serial_port {
 		serial_port& operator<<(unsigned short);
 		serial_port& operator<<(unsigned char);
 
-		serial_port& operator>>(long int &value);
-		serial_port& operator>>(unsigned long &value);
-
-		serial_port& operator>>(double &value);
-
 	protected:
 		serial_port& init();
 };

@@ -58,7 +58,7 @@ periph_odma::periph_odma(int dma_chnum, int dma_pid, volatile uint32_t *buf, siz
 
 periph_odma& periph_odma::init()
 {
-	w_idx = 0;
+	idx = 0;
 	dma->CR.eclr = true;
 	return *this;
 }
@@ -75,29 +75,11 @@ periph_odma& periph_odma::disable()
 	return *this;
 }
 
-periph_odma& periph_odma::write_byte(uint8_t byte)
-{
-	write(&byte, 1);
-	return *this;
-}
-
-periph_odma& periph_odma::write_halfword(uint16_t halfword)
-{
-	write(&halfword, 1);
-	return *this;
-}
-
-periph_odma& periph_odma::write_word(uint32_t word)
-{
-	write(&word, 1);
-	return *this;
-}
-
 periph_odma& periph_odma::write(uint8_t *src, size_t n)
 {
 	for (size_t i = 0; i < n; i++) {
-		buffer[w_idx++] = src[i];
-		if (w_idx == bufsize) {
+		buffer[idx++] = src[i];
+		if (idx == bufsize) {
 			flush();
 			while (bytes_in_progress() < i);				
 		}
@@ -121,8 +103,8 @@ periph_odma& periph_odma::flush()
 {
 	while (bytes_in_progress());
 	dma->mar = (uint32_t) buffer;
-	dma->TCR.tcv = w_idx / (1 << dma->MR.size);
-	w_idx = 0;
+	dma->TCR.tcv = idx / (1 << dma->MR.size);
+	idx = 0;
 	return *this;
 }
 
@@ -138,7 +120,7 @@ periph_odma& periph_odma::reset()
 
 size_t periph_odma::bytes_in_buffer()
 {
-	return w_idx;
+	return idx;
 }
 
 size_t periph_odma::bytes_in_progress()

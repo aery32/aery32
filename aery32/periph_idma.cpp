@@ -61,7 +61,7 @@ periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, siz
 
 periph_idma& periph_idma::init()
 {
-	r_idx = 0;
+	idx = 0;
 	dma->CR.eclr = true;
 
 	dma->TCR.tcv = dma_tcrv;
@@ -101,9 +101,9 @@ size_t periph_idma::read(uint8_t *dest, size_t n)
 		n = bytes_available;
 
 	for (; i < n; i++) {
-		dest[i] = buffer[r_idx++];
-		if (r_idx == bufsize) {
-			r_idx = 0;
+		dest[i] = buffer[idx++];
+		if (idx == bufsize) {
+			idx = 0;
 			dma->marr = (uint32_t) buffer;
 			dma->TCRR.tcrv = dma_tcrv;
 		}
@@ -144,7 +144,7 @@ size_t periph_idma::bytes_available()
 	if (has_overflown())
 		return 0;
 
-	size_t rv = bufsize - r_idx;
+	size_t rv = bufsize - idx;
 	if (dma->TCRR.tcrv == 0)
 		rv += bufsize;
  	return rv - ((1 << dma->MR.size) * dma->TCR.tcv);
@@ -155,7 +155,7 @@ bool periph_idma::has_overflown()
 	if (dma->TCRR.tcrv != 0)
 		return false;
 
-	if (r_idx < (bufsize - (1 << dma->MR.size) * dma->TCR.tcv))
+	if (idx < (bufsize - (1 << dma->MR.size) * dma->TCR.tcv))
 		return true;
 
 	return false;

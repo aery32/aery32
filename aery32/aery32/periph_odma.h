@@ -21,8 +21,8 @@
 \brief Output DMA
 */
 
-#ifndef __AERY32_PERIPH_ODMA_H
-#define __AERY32_PERIPH_ODMA_H
+#ifndef __AERY32_PERIPH_ODMA_CLSDRV_H
+#define __AERY32_PERIPH_ODMA_CLSDRV_H
 
 extern "C" {
 	#include <avr32/io.h>
@@ -46,10 +46,6 @@ class periph_odma {
 		periph_odma& write(uint16_t *dest, size_t n);
 		periph_odma& write(uint32_t *dest, size_t n);
 
-		periph_odma& write_byte(uint8_t byte);
-		periph_odma& write_halfword(uint16_t halfword);
-		periph_odma& write_word(uint32_t word);
-		
 		periph_odma& flush();
 
 		size_t bytes_in_buffer();
@@ -64,7 +60,7 @@ class periph_odma {
 		volatile avr32_pdca_channel_t *dma;
 		volatile uint8_t *buffer;
 		size_t bufsize;
-		size_t w_idx;
+		size_t idx;
 
 	protected:
 		periph_odma& init();
