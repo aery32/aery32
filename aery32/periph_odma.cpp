@@ -20,38 +20,12 @@
 
 using namespace aery;
 
-periph_odma::periph_odma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
+periph_odma::periph_odma(int chnum, int pid, volatile void *buf,
+	size_t bufsize) : buffer((uint8_t*) buf), bufsize(bufsize)
 {
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
+	dma = &AVR32_PDCA.channel[chnum];
+	dma->PSR.pid = pid;
 	dma->MR.size = 0;
-
-	buffer = buf;
-	bufsize = n;
-
-	init();
-}
-
-periph_odma::periph_odma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
-{
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
-	dma->MR.size = 1;
-
-	buffer = (uint8_t*) buf;
-	bufsize = n * sizeof(uint16_t);
-
-	init();
-}
-
-periph_odma::periph_odma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
-{
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
-	dma->MR.size = 2;
-
-	buffer = (uint8_t*) buf;
-	bufsize = n * sizeof(uint32_t);
 
 	init();
 }
@@ -105,6 +79,12 @@ periph_odma& periph_odma::flush()
 	dma->mar = (uint32_t) buffer;
 	dma->TCR.tcv = idx / (1 << dma->MR.size);
 	idx = 0;
+	return *this;
+}
+
+periph_odma& periph_odma::set_sizeof_transfer(enum Pdca_sizeof_transfer size)
+{
+	dma->MR.size = size;
 	return *this;
 }
 

@@ -20,42 +20,14 @@
 
 using namespace aery;
 
-periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint8_t *buf, size_t n)
+periph_idma::periph_idma(int chnum, int pid, volatile void *buf,
+	size_t bufsize) : buffer((uint8_t*) buf), bufsize(bufsize)
 {
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
+	dma = &AVR32_PDCA.channel[chnum];
+	dma->PSR.pid = pid;
 	dma->MR.size = 0;
 
-	buffer = buf;
-	bufsize = n;
-	dma_tcrv = n;
-
-	init();
-}
-
-periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint16_t *buf, size_t n)
-{
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
-	dma->MR.size = 1;
-
-	buffer = (uint8_t*) buf;
-	bufsize = n * sizeof(uint16_t);
-	dma_tcrv = n;
-
-	init();
-}
-
-periph_idma::periph_idma(int dma_chnum, int dma_pid, volatile uint32_t *buf, size_t n)
-{
-	dma = &AVR32_PDCA.channel[dma_chnum];
-	dma->PSR.pid = dma_pid;
-	dma->MR.size = 2;
-
-	buffer = (uint8_t*) buf;
-	bufsize = n * sizeof(uint32_t);
-	dma_tcrv = n;
-
+	dma_tcrv = bufsize;
 	init();
 }
 
@@ -71,6 +43,14 @@ periph_idma& periph_idma::init()
 
 	return *this;
 }
+
+periph_idma& periph_idma::set_sizeof_transfer(enum Pdca_sizeof_transfer size)
+{
+	dma->MR.size = size;
+	dma_tcrv = bufsize / (1 << size);
+	return init();
+}
+
 
 periph_idma& periph_idma::enable()
 {

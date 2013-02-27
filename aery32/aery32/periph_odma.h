@@ -29,18 +29,15 @@ extern "C" {
 	#include <inttypes.h>
 }
 #include <cstdlib>
+#include "pdca.h"
 
 namespace aery {
 
 class periph_odma {
 
 	public:
-		periph_odma(int dma_chnum, int dma_pid,
-			volatile uint8_t *buf, size_t n);
-		periph_odma(int dma_chnum, int dma_pid,
-			volatile uint16_t *buf, size_t n);
-		periph_odma(int dma_chnum, int dma_pid,
-			volatile uint32_t *buf, size_t n);
+		periph_odma(int chnum, int pid,	volatile void *buf,
+			size_t bufsize);
 
 		periph_odma& write(uint8_t *dest, size_t n);
 		periph_odma& write(uint16_t *dest, size_t n);
@@ -51,6 +48,9 @@ class periph_odma {
 		size_t bytes_in_buffer();
 		size_t bytes_in_progress();
 
+		periph_odma& set_sizeof_transfer(
+			enum Pdca_sizeof_transfer size);
+
 		periph_odma& enable();
 		periph_odma& disable();
 		periph_odma& reset();
@@ -58,6 +58,7 @@ class periph_odma {
 		bool is_enabled();
 
 		volatile avr32_pdca_channel_t *dma;
+
 		volatile uint8_t *buffer;
 		size_t bufsize;
 		size_t idx;

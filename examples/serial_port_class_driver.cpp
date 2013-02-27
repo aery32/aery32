@@ -6,11 +6,8 @@ using namespace aery;
 #define LED			AVR32_PIN_PC04
 #define UART0_SERIAL_PINMASK	0x3		// PA0 = RX, PA01 = TX
 
-#define DMA0_BUFSIZE		128
-#define DMA1_BUFSIZE		128
-
-volatile uint8_t bufdma0[DMA0_BUFSIZE];
-volatile uint8_t bufdma1[DMA1_BUFSIZE];
+volatile uint8_t bufdma0[128];
+volatile uint8_t bufdma1[128];
 
 int main(void)
 {
@@ -27,8 +24,8 @@ int main(void)
 	 * Instantiate input and output DMAs. You can consider these as
 	 * input/output buffers.
 	 */
-	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, DMA0_BUFSIZE);
-	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, DMA1_BUFSIZE);
+	periph_idma dma0 = periph_idma(0, AVR32_PDCA_PID_USART0_RX, bufdma0, sizeof(bufdma0));
+	periph_odma dma1 = periph_odma(1, AVR32_PDCA_PID_USART0_TX, bufdma1, sizeof(bufdma1));
 
 	/*
 	 * Instantiate serial port class driver with DMAs. Default speed
@@ -44,13 +41,13 @@ int main(void)
 	serial << "pi = " << 3.14159265359 << '\n';
 
 	char line[32] = "";
-	size_t n;
+	size_t nread;
 	for(;;) {
 		/* Put your application code here */
 
-		serial.getline(line, &n);
-		if (n == 0) continue; /* skip blank line */
-		serial << "'" << line << "' is " << n << " characters long.\n";
+		serial.getline(line, &nread);
+		if (nread == 0) continue; /* skip blank line */
+		serial << "'" << line << "' is " << nread << " characters long.\n";
 	}
 
 	return 0;

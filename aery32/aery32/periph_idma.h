@@ -29,18 +29,15 @@ extern "C" {
 	#include <inttypes.h>
 }
 #include <cstdlib>
+#include "pdca.h"
 
 namespace aery {
 
 class periph_idma {
 
 	public:
-		periph_idma(int dma_chnum, int dma_pid,
-			volatile uint8_t *buf, size_t n);
-		periph_idma(int dma_chnum, int dma_pid,
-			volatile uint16_t *buf, size_t n);
-		periph_idma(int dma_chnum, int dma_pid,
-			volatile uint32_t *buf, size_t n);
+		periph_idma(int chnum, int pid, volatile void *buf,
+			size_t bufsize);
 
 		size_t read(uint8_t *dest, size_t n);
 		size_t read(uint16_t *dest, size_t n);
@@ -50,6 +47,9 @@ class periph_idma {
 
 		size_t bytes_available();
 		bool has_overflown();
+
+		periph_idma& set_sizeof_transfer(
+			enum Pdca_sizeof_transfer size);
 		
 		periph_idma& enable();
 		periph_idma& disable();
