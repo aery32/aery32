@@ -42,12 +42,18 @@ int main(void)
 
 	char line[32] = "";
 	size_t nread;
+
+	int i = 0;
+	double d = 0.0;
+	
 	for(;;) {
 		/* Put your application code here */
 
 		serial.getline(line, &nread);
 		if (nread == 0) continue; /* skip blank line */
+		sscanf(line, "%d %lf", &i, &d);
 		serial << "'" << line << "' is " << nread << " characters long.\n";
+		serial << "i = " << i << " d = " << d << '\n';
 	}
 
 	return 0;
