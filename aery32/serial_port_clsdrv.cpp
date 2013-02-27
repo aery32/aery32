@@ -16,9 +16,6 @@
  * you a copy.
  */
 
-#include <cctype>
-#include <cstdlib>
-
 #include "aery32/serial_port_clsdrv.h"
 #include "aery32/string.h"
 #include "aery32/pm.h"
@@ -68,7 +65,7 @@ int serial_port::getc()
 	if (idma.has_overflown())
 		return -1;
 
-	uint8_t c;
+	uint8_t c = '\0';
 	while (idma.read(&c, 1) == 0);
 	return (int) c;
 }

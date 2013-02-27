@@ -16,7 +16,6 @@
  * you a copy.
  */
 
-#include <cstring>
 #include "aery32/usart.h"
 
 namespace aery {

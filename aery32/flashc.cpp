@@ -16,7 +16,7 @@
  * you a copy.
  */
 
-#include <cstring>
+#include <cstdlib>
 #include "aery32/flashc.h"
 
 namespace aery {
