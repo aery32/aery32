@@ -16,7 +16,7 @@
  * you a copy.
  */
 
-#include "aery32/periph_odma.h"
+#include "aery32/periph_odma_clsdrv.h"
 
 using namespace aery;
 

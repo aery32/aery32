@@ -55,9 +55,9 @@
 #include "usart.h"
 
 /* High level class drivers */
-#include "periph_idma.h"
-#include "periph_odma.h"
-#include "serial_port.h"
+#include "periph_idma_clsdrv.h"
+#include "periph_odma_clsdrv.h"
+#include "serial_port_clsdrv.h"
 
 #include "string.h"
 #include "util.h"

@@ -19,7 +19,7 @@
 #include <cctype>
 #include <cstdlib>
 
-#include "aery32/serial_port.h"
+#include "aery32/serial_port_clsdrv.h"
 #include "aery32/string.h"
 #include "aery32/pm.h"
 

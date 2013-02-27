@@ -31,8 +31,8 @@ extern "C" {
 #include <cstdlib>
 
 #include "usart.h"
-#include "periph_idma.h"
-#include "periph_odma.h"
+#include "periph_idma_clsdrv.h"
+#include "periph_odma_clsdrv.h"
 
 #ifndef AERY32_SERIAL_PORT_CLSDRV_DELIM
 #define AERY32_SERIAL_PORT_CLSDRV_DELIM '\n'

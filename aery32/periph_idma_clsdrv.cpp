@@ -16,7 +16,7 @@
  * you a copy.
  */
 
-#include "aery32/periph_idma.h"
+#include "aery32/periph_idma_clsdrv.h"
 
 using namespace aery;
 
