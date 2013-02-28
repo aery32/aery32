@@ -91,18 +91,25 @@ class serial_port {
 		 *            The generated string has a length of at most
 		 *            n-1, leaving space for the additional
 		 *            terminating null character.
-		 * \param n OPTIONAL. The total number of characters read.
-		 *          '\0' is not added to this value.
-		 * \param delim OPTIONAL. The delimitation character.
+		 * \param nread The total number of characters read. Delimiter
+		 *              and '\0' is not added to this value. OPTIONAL.
+		 * \param delim The delimitation character. Can be either one
+		 *              or two chars, e.g. '\n' or "\r\n". Defaults
+		 *              to '\n'. OPTIONAL.
 		 * \return The same as parameter str
 		 * \note The read process is limited to the size of the DMA
 		 *       input buffer. The character that precedes the char
 		 *       (del), decimal value 127, are discarded from the str.
 		 */
-		char* getline(char *str, size_t *n,
-			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
-		char* getline(char *str,
-			char delim = AERY32_SERIAL_PORT_CLSDRV_DELIM);
+		char* getline(char *str, size_t *nread, char delim);
+		char* getline(char *str, size_t *nread, const char *delim);
+		inline char* getline(char *str, size_t *nread) {
+			return getline(str, nread, AERY32_SERIAL_PORT_CLSDRV_DELIM);
+		}
+		inline char* getline(char *str) {
+			size_t nread = 0;
+			return getline(str, &nread, AERY32_SERIAL_PORT_CLSDRV_DELIM);
+		}
 
 		/**
 		 * Put character

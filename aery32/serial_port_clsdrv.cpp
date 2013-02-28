@@ -65,34 +65,48 @@ int serial_port::getc()
 	if (idma.has_overflown())
 		return -1;
 
-	uint8_t c = '\0';
+	uint8_t c = 0;
 	while (idma.read(&c, 1) == 0);
 	return (int) c;
-}
-
-char* serial_port::getline(char *str, char delim)
-{
-	size_t n = 0;
-	return getline(str, &n, delim);
 }
 
 char* serial_port::getline(char *str, size_t *nread, char delim)
 {
 	size_t i = 0, j = 0;
-	int c;
+	int c = 0;
 
 	for (; i < idma.bufsize; i++) {
 		c = getc();
 		if (c == delim) {
 			break;
-		} else if (c == 127) { /* c == (del) */
-			if (j > 1)
-				j--;
-			else 
-				j = 0;
-		} else {
-			str[j++] = c;
 		}
+		if (c == 127) { /* c == (del) */
+			j = (j > 1) ? (j - 1) : 0;
+			continue;
+		}
+		str[j++] = c;
+	}
+	str[j] = '\0';
+	*nread = j;
+	return str;
+}
+
+char* serial_port::getline(char *str, size_t *nread, const char *delim)
+{
+	size_t i = 0, j = 0;
+	int c = 0;
+
+	for (; i < idma.bufsize; i++) {
+		c = getc();
+		if (c == delim[1] && str[j-1] == delim[0]) {
+			j--;
+			break;
+		}
+		if (c == 127) { /* c == (del) */
+			j = (j > 1) ? (j - 1) : 0;
+			continue;
+		}
+		str[j++] = c;
 	}
 	str[j] = '\0';
 	*nread = j;
