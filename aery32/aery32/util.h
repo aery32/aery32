@@ -32,6 +32,6 @@ extern int __builtin_mfsr(int reg);
 extern void __builtin_mtsr(int reg, int val);
 
 #define START_MEASURING_CYCLES() (__builtin_mtsr(AVR32_COUNT, 0))
-#define END_MEASURING_CYCLES(__count) ((__count) = __builtin_mfsr(AVR32_COUNT))
+#define STOP_MEASURING_CYCLES(__count) ((__count) = __builtin_mfsr(AVR32_COUNT))
 
 #endif
