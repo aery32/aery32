@@ -10,4 +10,4 @@
 #define F_OSC1 16000000UL
 #define F_CPU  66000000UL
 
-#define AERY32_SERIAL_PORT_CLSDRV_DELIM '\n'
+#define AERY32_SERIAL_PORT_CLSDRV_DELIM '\n' // "\r\n" works as well
