@@ -73,10 +73,9 @@ int serial_port::getc()
 char* serial_port::getline(char *str, size_t *nread, char delim)
 {
 	size_t i = 0, j = 0;
-	int c = 0;
+	int c = getc();
 
-	for (; i < idma.bufsize; i++) {
-		c = getc();
+	for (; i < idma.bufsize; i++, c = getc()) {
 		if (c == delim) {
 			break;
 		}
@@ -94,11 +93,10 @@ char* serial_port::getline(char *str, size_t *nread, char delim)
 char* serial_port::getline(char *str, size_t *nread, const char *delim)
 {
 	size_t i = 0, j = 0;
-	int c = 0;
+	int c = getc();
 
-	for (; i < idma.bufsize; i++) {
-		c = getc();
-		if (c == delim[1] && str[j-1] == delim[0]) {
+	for (; i < idma.bufsize; i++, c = getc()) {
+		if (c == delim[1] && (j > 0 && str[j-1] == delim[0])) {
 			j--;
 			break;
 		}
