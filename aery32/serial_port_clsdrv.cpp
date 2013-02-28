@@ -60,6 +60,12 @@ serial_port& serial_port::set_stopbits(enum Usart_stopbits stopbits)
 	return *this;
 }
 
+serial_port& serial_port::enable_hw_handshaking()
+{
+	usart->MR.mode = 0x2;
+	return *this;
+}
+
 int serial_port::getc()
 {
 	if (idma.has_overflown())

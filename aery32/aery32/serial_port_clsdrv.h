@@ -92,7 +92,7 @@ class serial_port {
 		 *            n-1, leaving space for the additional
 		 *            terminating null character.
 		 * \param nread The total number of characters read. Delimiter
-		 *              and '\0' is not added to this value. OPTIONAL.
+		 *              and '\0' aren't added to this value. OPTIONAL.
 		 * \param delim The delimitation character. Can be either one
 		 *              or two chars, e.g. '\n' or "\r\n". Defaults
 		 *              to '\n'. OPTIONAL.
@@ -206,6 +206,14 @@ class serial_port {
 		 * \return The same serial port class driver object
 		 */
 		serial_port& set_stopbits(enum Usart_stopbits stopbits);
+
+		/**
+		 * Enables hardware handshaking
+		 * 
+		 * When enabled the receiver drives the RTS pin and the level
+		 * on the CTS pin modifies the behavior of the transmitter
+		 */
+		serial_port& enable_hw_handshaking();
 
 		serial_port& operator<<(char);
 		serial_port& operator<<(const char*);
