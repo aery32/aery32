@@ -133,6 +133,8 @@ class serial_port {
 		 */
 		serial_port& putback(char c);
 
+		int print(const char *format, ... );
+
 		/**
 		 * Clears the input DMA buffer from all received characters
 		 * \return The same serial port class driver object

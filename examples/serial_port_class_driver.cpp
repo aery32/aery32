@@ -54,9 +54,10 @@ int main(void)
 
 		pc.getline(line, &nread);
 		if (nread == 0) continue; /* skip blank line */
-		sscanf(line, "%d %lf", &i, &d);
 		pc << "'" << line << "' is " << nread << " characters long.\n";
-		pc << "i = " << i << " d = " << d << '\n';
+
+		sscanf(line, "%d %lf", &i, &d);
+		pc.print("i = %d, d = %.2lf\n", i, d);
 	}
 
 	return 0;

@@ -16,6 +16,8 @@
  * you a copy.
  */
 
+#include <cstdarg>
+
 #include "aery32/serial_port_clsdrv.h"
 #include "aery32/string.h"
 #include "aery32/pm.h"
@@ -157,6 +159,26 @@ serial_port& serial_port::putback(char c)
 	idma.idx--;
 	idma.buffer[idma.idx] = (uint8_t) c;
 	return *this;
+}
+
+int serial_port::print(const char *format, ... )
+{
+	int n = 0;
+	va_list args;
+	va_start(args, format);
+
+	while (odma.bytes_in_progress());
+	n = vsnprintf((char*) odma.buffer, odma.bufsize, format, args);
+	va_end(args);
+
+	if (n < 0 /* vsnprintf() failed */) {
+		odma.idx = 0;
+		return n;
+	}
+
+	odma.idx = n;
+	odma.flush();
+	return n;
 }
 
 serial_port& serial_port::flush()
