@@ -41,7 +41,7 @@ int main(void)
 
 	/*
 	 * Change the default line delimitation (or line ending recognition)
-	 * from "\r\n", which is the default, to '\n'.
+	 * from the default "\r\n" to '\n'.
 	 */
 	pc.set_default_delim('\n');
 	pc.enable();
@@ -57,7 +57,7 @@ int main(void)
 		pc << "'" << line << "' is " << nread << " characters long.\n";
 
 		sscanf(line, "%d %lf", &i, &d);
-		pc.print("i = %d, d = %.2lf\n", i, d);
+		pc.printf("i = %d, d = %.2lf\n", i, d);
 	}
 
 	return 0;

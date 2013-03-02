@@ -17,15 +17,16 @@
  */
 
 #include <cstdarg>
+#include <cstdio>
+#include <cstring>
 
 #include "aery32/serial_port_clsdrv.h"
-#include "aery32/string.h"
 #include "aery32/pm.h"
 
 using namespace aery;
 
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
-	periph_odma &o) : usart(u), idma(i), odma(o), precision(2)
+	periph_odma &o) : usart(u), idma(i), odma(o)
 {
 	delim[0] = '\r';
 	delim[1] = '\n';
@@ -161,7 +162,7 @@ serial_port& serial_port::putback(char c)
 	return *this;
 }
 
-int serial_port::print(const char *format, ... )
+int serial_port::printf(const char *format, ... )
 {
 	int n = 0;
 	va_list args;
@@ -256,9 +257,7 @@ serial_port& serial_port::operator<<(const char *str)
 // --------------------------------------------------------------------------
 serial_port& serial_port::operator<<(int value)
 {
-	while (odma.bytes_in_progress());
-	itoa(value, (char*) odma.buffer, &odma.idx);
-	odma.flush();
+	printf("%d", value);
 	return *this;
 }
 serial_port& serial_port::operator<<(signed long value)
@@ -273,33 +272,21 @@ serial_port& serial_port::operator<<(signed long value)
 // --------------------------------------------------------------------------
 serial_port& serial_port::operator<<(unsigned int value)
 {
-	while (odma.bytes_in_progress());
-	utoa(value, (char*) odma.buffer, &odma.idx);
-	odma.flush();
+	printf("%u", value);
 	return *this;
 }
 serial_port& serial_port::operator<<(unsigned long value)
 {
-	return this->operator<<((unsigned int) value);
+	printf("%lu", value);
+	return *this;
 }
 serial_port& serial_port::operator<<(unsigned short value)
 {
-	return this->operator<<((unsigned int) value);
+	printf("%hu", value);
+	return *this;
 }
 serial_port& serial_port::operator<<(unsigned char value)
 {
-	return this->operator<<((unsigned int) value);
-}
-
-
-
-// --------------------------------------------------------------------------
-// OUTPUT, double
-// --------------------------------------------------------------------------
-serial_port& serial_port::operator<<(double lf) 
-{
-	while (odma.bytes_in_progress());
-	dtoa(lf, precision, (char*) odma.buffer, &odma.idx);
-	odma.flush();
+	printf("%hhu", value);
 	return *this;
 }

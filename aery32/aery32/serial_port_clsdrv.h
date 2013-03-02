@@ -54,11 +54,6 @@ class serial_port {
 		aery::periph_odma odma;
 
 		/**
-		 * Precision used for floating points
-		 */
-		uint8_t precision;
-
-		/**
 		 * Constructor
 		 * \param usart pointer to the low level AVR32 USART register
 		 * \param idma peripheral input DMA on which the character
@@ -133,7 +128,13 @@ class serial_port {
 		 */
 		serial_port& putback(char c);
 
-		int print(const char *format, ... );
+		/**
+		 * Print formatted data to output DMA buffer
+		 * \param format C string that contains the text to be written.
+		 * \return On success, the total number of characters written
+		 *         is returned.
+		 */
+		int printf(const char *format, ... );
 
 		/**
 		 * Clears the input DMA buffer from all received characters
@@ -225,8 +226,6 @@ class serial_port {
 
 		serial_port& operator<<(char);
 		serial_port& operator<<(const char*);
-
-		serial_port& operator<<(double);
 
 		serial_port& operator<<(int);
 		serial_port& operator<<(signed long);
