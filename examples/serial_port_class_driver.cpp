@@ -11,6 +11,12 @@ volatile uint8_t bufdma1[128];
 
 int main(void)
 {
+	char line[32] = "";
+	size_t nread = 0;
+
+	int i = 0;
+	double d = 0.0;
+
 	/*
 	 * Put your application initialization sequence here. The default
 	 * board initializer defines all pins as input and sets the CPU clock
@@ -31,29 +37,26 @@ int main(void)
 	 * Instantiate serial port class driver with DMAs. Default speed
 	 * is 115200, parity none, 8 data bits and one stop bit.
 	 */
-	serial_port serial = serial_port(usart0, dma0, dma1);
-	serial.precision = 2;
-	serial.enable();
+	serial_port pc = serial_port(usart0, dma0, dma1);
+
+	/*
+	 * Change the default line delimitation (or line ending recognition)
+	 * from "\r\n", which is the default, to '\n'.
+	 */
+	pc.set_default_delim('\n');
+	pc.enable();
 
 	gpio_set_pin_high(LED);
+	pc << "Hello Aery" << 32 << '\n';
 
-	serial << "Hello Aery" << 32 << '\n';
-	serial << "pi = " << 3.14159265359 << '\n';
-
-	char line[32] = "";
-	size_t nread;
-
-	int i = 0;
-	double d = 0.0;
-	
 	for(;;) {
 		/* Put your application code here */
 
-		serial.getline(line, &nread);
+		pc.getline(line, &nread);
 		if (nread == 0) continue; /* skip blank line */
 		sscanf(line, "%d %lf", &i, &d);
-		serial << "'" << line << "' is " << nread << " characters long.\n";
-		serial << "i = " << i << " d = " << d << '\n';
+		pc << "'" << line << "' is " << nread << " characters long.\n";
+		pc << "i = " << i << " d = " << d << '\n';
 	}
 
 	return 0;

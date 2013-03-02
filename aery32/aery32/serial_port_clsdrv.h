@@ -34,10 +34,6 @@ extern "C" {
 #include "periph_idma_clsdrv.h"
 #include "periph_odma_clsdrv.h"
 
-#ifndef AERY32_SERIAL_PORT_CLSDRV_DELIM
-#define AERY32_SERIAL_PORT_CLSDRV_DELIM '\n'
-#endif
-
 namespace aery {
 
 class serial_port {
@@ -94,21 +90,22 @@ class serial_port {
 		 * \param nread The total number of characters read. Delimiter
 		 *              and '\0' aren't added to this value. OPTIONAL.
 		 * \param delim The delimitation character. Can be either one
-		 *              or two chars, e.g. '\n' or "\r\n". Defaults
-		 *              to '\n'. OPTIONAL.
+		 *              or two chars, e.g. '\n' or "\r\n". OPTIONAL.
 		 * \return The same as parameter str
 		 * \note The read process is limited to the size of the DMA
 		 *       input buffer. The character that precedes the char
-		 *       (del), decimal value 127, are discarded from the str.
+		 *       (del), decimal value 127, is discarded from the str.
 		 */
 		char* getline(char *str, size_t *nread, char delim);
 		char* getline(char *str, size_t *nread, const char *delim);
 		inline char* getline(char *str, size_t *nread) {
-			return getline(str, nread, AERY32_SERIAL_PORT_CLSDRV_DELIM);
+			if (delim_len == 2)
+				return getline(str, nread, delim);
+			return getline(str, nread, delim[0]);
 		}
 		inline char* getline(char *str) {
 			size_t nread = 0;
-			return getline(str, &nread, AERY32_SERIAL_PORT_CLSDRV_DELIM);
+			return getline(str, &nread);
 		}
 
 		/**
@@ -208,6 +205,15 @@ class serial_port {
 		serial_port& set_stopbits(enum Usart_stopbits stopbits);
 
 		/**
+		 * Set default line delimitation character
+		 * \param delim The delimitation character. Can be either one
+		 *              or two chars, e.g. '\n' or "\r\n".
+		 * \return The same serial port class driver object
+		 */
+		serial_port& set_default_delim(char delim);
+		serial_port& set_default_delim(const char *delim);
+
+		/**
 		 * Enables hardware handshaking
 		 * 
 		 * When enabled the receiver drives the RTS pin and the level
@@ -230,6 +236,9 @@ class serial_port {
 
 	protected:
 		serial_port& init();
+
+		char delim[3];
+		uint8_t delim_len;
 };
 
 } /* end of namespace aery */

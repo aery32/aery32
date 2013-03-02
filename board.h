@@ -3,6 +3,10 @@
 
 #include <inttypes.h>
 
+#define F_OSC0 12000000UL
+#define F_OSC1 16000000UL
+#define F_CPU  66000000UL
+
 #define ADC_VREF 3.0
 #define ADC_BITS 10
 

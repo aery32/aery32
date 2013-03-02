@@ -23,8 +23,11 @@
 using namespace aery;
 
 serial_port::serial_port(volatile avr32_usart_t *u, periph_idma &i,
-	periph_odma &o) : usart(u), idma(i), odma(o), precision(8)
+	periph_odma &o) : usart(u), idma(i), odma(o), precision(2)
 {
+	delim[0] = '\r';
+	delim[1] = '\n';
+	delim_len = 2;
 	init();
 }
 
@@ -60,6 +63,21 @@ serial_port& serial_port::set_stopbits(enum Usart_stopbits stopbits)
 	return *this;
 }
 
+serial_port& serial_port::set_default_delim(char delim)
+{
+	this->delim[0] = delim;
+	delim_len = 1;
+	return *this;
+}
+
+serial_port& serial_port::set_default_delim(const char *delim)
+{
+	this->delim[0] = delim[0];
+	this->delim[1] = delim[1];
+	delim_len = 2;
+	return *this;
+}
+
 serial_port& serial_port::enable_hw_handshaking()
 {
 	usart->MR.mode = 0x2;
@@ -85,7 +103,7 @@ char* serial_port::getline(char *str, size_t *nread, char delim)
 		if (c == delim) {
 			break;
 		}
-		if (c == 127) { /* c == (del) */
+		if (c == 127 /* (del) */) {
 			j = (j > 1) ? (j - 1) : 0;
 			continue;
 		}
@@ -106,7 +124,7 @@ char* serial_port::getline(char *str, size_t *nread, const char *delim)
 			j--;
 			break;
 		}
-		if (c == 127) { /* c == (del) */
+		if (c == 127 /* (del) */) {
 			j = (j > 1) ? (j - 1) : 0;
 			continue;
 		}
