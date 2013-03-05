@@ -44,14 +44,13 @@ serial_port& serial_port::init()
 	return *this;
 }
 
-double serial_port::set_speed(unsigned int speed)
+serial_port& serial_port::set_speed(unsigned int speed)
 {
 	unsigned int clk = pm_get_fclkdomain(CLKDOMAIN_PBA);
 	double cd =  clk / 16 / speed;
-	double error =  1 - (speed / (clk / 16 / (unsigned int) cd));
-
+	
+	error =  1 - (speed / (clk / 16 / (unsigned int) cd));
 	usart_setup_speed(usart, USART_CLK_PBA, (unsigned int) cd);
-	return error;
 }
 
 serial_port& serial_port::set_parity(enum Usart_parity parity)

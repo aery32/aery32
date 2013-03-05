@@ -54,6 +54,11 @@ class serial_port {
 		aery::periph_odma odma;
 
 		/**
+		 * Baud error rate set by set_speed()
+		 */
+		double error;
+
+		/**
 		 * Constructor
 		 * \param usart pointer to the low level AVR32 USART register
 		 * \param idma peripheral input DMA on which the character
@@ -180,11 +185,11 @@ class serial_port {
 
 		/**
 		 * Set serial port speed
-		 * \param speed serial port speed or baud rate
-		 * \return baud rate error
+		 * \param speed serial port speed (or baud rate)
+		 * \return The same serial port class driver object
 		 * \note PBA clock has been used as a source
 		 */
-		double set_speed(unsigned int speed);
+		serial_port& set_speed(unsigned int speed);
 
 		/**
 		 * Set serial port data bits
