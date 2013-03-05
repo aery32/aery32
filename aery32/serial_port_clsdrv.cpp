@@ -51,6 +51,8 @@ serial_port& serial_port::set_speed(unsigned int speed)
 	
 	error =  1 - (speed / (clk / 16 / (unsigned int) cd));
 	usart_setup_speed(usart, USART_CLK_PBA, (unsigned int) cd);
+	
+	return *this;
 }
 
 serial_port& serial_port::set_parity(enum Usart_parity parity)
