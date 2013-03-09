@@ -22,9 +22,9 @@
 namespace aery {
 
 enum Pdca_sizeof_transfer {
-	ODMA_SIZE_BYTE,
-	ODMA_SIZE_HALFWORD,
-	ODMA_SIZE_WORD
+	DMA_SIZE_BYTE,
+	DMA_SIZE_HALFWORD,
+	DMA_SIZE_WORD
 };
 
 } /* end of namespace aery */
