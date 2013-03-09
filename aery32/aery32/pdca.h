@@ -21,7 +21,7 @@
 
 namespace aery {
 
-enum Pdca_sizeof_transfer {
+enum Pdca_transfer_size {
 	PDCA_TRANSFER_SIZE_BYTE,
 	PDCA_TRANSFER_SIZE_HALFWORD,
 	PDCA_TRANSFER_SIZE_WORD
