@@ -48,7 +48,7 @@ int main(void)
 
 	gpio_set_pin_high(LED);
 	pc << "Hello Aery" << 32 << '\n';
-	pc.printf("Baud rate error is %lf\n", pc.error);
+	pc.printf("Baud rate error is %0.2lf%%\n", pc.error * 100);
 
 	for(;;) {
 		/* Put your application code here */

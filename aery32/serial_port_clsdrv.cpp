@@ -47,11 +47,13 @@ serial_port& serial_port::init()
 serial_port& serial_port::set_speed(unsigned int speed)
 {
 	unsigned int clk = pm_get_fclkdomain(CLKDOMAIN_PBA);
-	double cd =  clk / 16 / speed;
+	double cd =  clk / 16.0 / speed;
+	uint8_t fp = (cd - (unsigned int) cd) / 0.125;
+
+	cd = (unsigned int) cd;
+	usart_setup_speed(usart, USART_CLK_PBA, cd, fp);
 	
-	error =  clk / cd / 16 / speed;
-	usart_setup_speed(usart, USART_CLK_PBA, (unsigned int) cd);
-	
+	error = 1 - speed / (clk / (cd + (fp / 8.0)) / 16);
 	return *this;
 }
 
