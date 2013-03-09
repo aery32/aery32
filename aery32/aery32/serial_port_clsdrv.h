@@ -54,7 +54,7 @@ class serial_port {
 		aery::periph_odma odma;
 
 		/**
-		 * Baud rate error set by set_speed()
+		 * Baud rate error.
 		 */
 		double error;
 

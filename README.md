@@ -100,6 +100,7 @@ a quick reference to the functions.
   `examples/serial_port_class_driver.cpp`.
   - USART module functions also changed and some functionality has been moved
     to serial port class driver.
+- `settings.h` file merged to `board.h`.
 - Added macros for performance testing, `START_MEASURING_CYCLES()` and
   `STOP_MEASURING_CYCLES(count)`, see `aery32/aery32/util.h`.
 
