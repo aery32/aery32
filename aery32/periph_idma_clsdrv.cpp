@@ -44,7 +44,7 @@ periph_idma& periph_idma::init()
 	return *this;
 }
 
-periph_idma& periph_idma::set_sizeof_transfer(enum Pdca_sizeof_transfer size)
+periph_idma& periph_idma::set_sizeof_transfer(enum Pdca_transfer_size size)
 {
 	dma->MR.size = size;
 	dma_tcrv = bufsize / (1 << size);

@@ -49,7 +49,7 @@ class periph_odma {
 		size_t bytes_in_progress();
 
 		periph_odma& set_sizeof_transfer(
-			enum Pdca_sizeof_transfer size);
+			enum Pdca_transfer_size size);
 
 		periph_odma& enable();
 		periph_odma& disable();

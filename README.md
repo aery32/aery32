@@ -92,7 +92,7 @@ a quick reference to the functions.
 
 ## Release notes
 
-### Changelog for the next release
+### v0.6.0
 
 - Support for PDC (Peripheral DMA Controller) via perih_idma and perip_odma
   class drivers.

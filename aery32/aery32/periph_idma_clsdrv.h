@@ -49,7 +49,7 @@ class periph_idma {
 		bool has_overflown();
 
 		periph_idma& set_sizeof_transfer(
-			enum Pdca_sizeof_transfer size);
+			enum Pdca_transfer_size size);
 		
 		periph_idma& enable();
 		periph_idma& disable();

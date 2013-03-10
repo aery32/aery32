@@ -82,7 +82,7 @@ periph_odma& periph_odma::flush()
 	return *this;
 }
 
-periph_odma& periph_odma::set_sizeof_transfer(enum Pdca_sizeof_transfer size)
+periph_odma& periph_odma::set_sizeof_transfer(enum Pdca_transfer_size size)
 {
 	dma->MR.size = size;
 	return *this;
