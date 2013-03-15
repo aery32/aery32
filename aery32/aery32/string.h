@@ -74,6 +74,8 @@ char *dtoa(double number, uint8_t precision, char *buffer, size_t *n = NULL);
  */
 int nputs(const char *str, size_t n, int (*_putchar)(int));
 
+int line_to_argv(char *line, char *argv[]);
+
 } /* end of namespace aery */
 
 #endif

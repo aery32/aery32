@@ -17,6 +17,7 @@
  */
 
 #include <cmath>
+#include <cctype>
 extern "C" {
 	#include <ieeefp.h>
 }
@@ -101,4 +102,20 @@ int aery::nputs(const char *buffer, size_t n, int (*_putchar)(int))
 			return rv;
 	}
 	return i;
+}
+
+int aery::line_to_argv(char *line, char *argv[])
+{
+	unsigned int i = 0, j = 0;
+ 
+	begin:
+		while (line[i] && isspace(line[i])) i++;
+		argv[j++] = &line[i];
+ 
+ 		while (line[i] && !isspace(line[i])) i++;
+		if (line[i] == '\0') goto end;
+		line[i++] = '\0'; goto begin;
+ 
+	end:
+		return j;
 }
