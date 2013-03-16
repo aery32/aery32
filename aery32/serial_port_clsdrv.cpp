@@ -180,9 +180,10 @@ int serial_port::printf(const char *format, ... )
 		return n;
 	}
 
-	// TODO: Find out why this commented code does not work, but the next
-	//       if-else does. Could it be the collision of types (size_t to int)?
-	//       At least casting does not help.
+	// TODO: Find out why this solution doesn't work, but the next if-else
+	//       does. Could it be the collision of types (size_t to int)?
+	//       At least casting didn't help. Docblock already updated to
+	//       correspond this change in the return value of this function.
 	// if (n > odma.bufsize)
 	// 	n = odma.bufsize;
 	// odma.idx = n;
