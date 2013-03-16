@@ -94,11 +94,11 @@ a quick reference to the functions.
 
 ### Changelog for the next release
 
-- Fixed serial_port_clsdrv::printf(). vsnprintf() may return the number of
+- Fixed `serial_port::printf()`. `vsnprintf()` may return the number of
   characters which would have been written to the final string if enough
   space had been available.
-- Added new string function, line_to_argv().
-- Reverted settings.h. It wasn't a good idea to merge it to board.h.
+- Added new string function, `line_to_argv()`.
+- Reverted `settings.h`. It wasn't a good idea to merge it to `board.h`.
 
 ### v0.6.0
 
