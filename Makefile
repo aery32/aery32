@@ -40,8 +40,9 @@ TARGET=aery32
 # MPU (Microprocessor Unit) type
 MPART=uc3a1128
 
-# Project's source files. Grab all under the project root.
+# Project's source files
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
+EXCLUDE=
 
 # Global project wide settings file. IMPORTANT! Define with absolute path.
 SETTINGS=$(CURDIR)/settings.h
@@ -56,6 +57,9 @@ INCLUDES=aery32
 
 # Grab the name of the Operating System
 OS=$(shell uname)
+
+# Remove excluded source files
+SOURCES:=$(filter-out $(EXCLUDE),$(SOURCES))
 
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.cpp=.o)
