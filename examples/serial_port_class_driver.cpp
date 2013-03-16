@@ -1,13 +1,13 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
 #define LED			AVR32_PIN_PC04
 #define UART0_SERIAL_PINMASK	0x3		// PA0 = RX, PA01 = TX
 
-volatile uint8_t bufdma0[128];
-volatile uint8_t bufdma1[128];
+volatile uint8_t bufdma0[128] = {};
+volatile uint8_t bufdma1[128] = {};
+
+using namespace aery;
 
 int main(void)
 {
