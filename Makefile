@@ -44,7 +44,7 @@ MPART=uc3a1128
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
 
 # Global project wide settings file. IMPORTANT! Define with absolute path.
-SETTINGS=$(CURDIR)/board.h
+SETTINGS=$(CURDIR)/settings.h
 
 # Additional include paths
 INCLUDES=aery32
