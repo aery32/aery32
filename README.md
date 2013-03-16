@@ -92,6 +92,13 @@ a quick reference to the functions.
 
 ## Release notes
 
+### Changelog for the next release
+
+- Fixed serial_port_clsdrv::printf(). vsnprintf() may return the number of
+  characters which would have been written to the final string if enough
+  space had been available.
+- Reverted settings.h. It wasn't a good idea to merge it to board.h.
+
 ### v0.6.0
 
 - Support for PDC (Peripheral DMA Controller) via perih_idma and perip_odma
