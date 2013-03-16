@@ -139,7 +139,7 @@ class serial_port {
 		 * \return On success, the total number of characters written
 		 *         is returned. If the output was truncated due to the
 		 *         limited DMA buffer size then the return value is
-		 *         the number of  characters which would have been
+		 *         the number of characters which would have been
 		 *         written if enough space had been available.
 		 */
 		int printf(const char *format, ... );
