@@ -5,7 +5,7 @@
 #define ADC_PINMASK_ALLCHAN	(0xff << 21)
 
 using namespace aery;
-using namespace boad;
+using namespace board;
 
 int main(void)
 {
