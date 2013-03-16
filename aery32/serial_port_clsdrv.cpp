@@ -179,6 +179,8 @@ int serial_port::printf(const char *format, ... )
 		odma.idx = 0;
 		return n;
 	}
+	if (n > odma.bufsize)
+		n = odma.bufsize;
 
 	odma.idx = n;
 	odma.flush();
