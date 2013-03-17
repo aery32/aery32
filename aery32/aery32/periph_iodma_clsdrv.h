@@ -16,8 +16,8 @@
  * you a copy.
  */
 
-#ifndef __AERY32_PERIPH_IODMA_H
-#define __AERY32_PERIPH_IODMA_H
+#ifndef __AERY32_PERIPH_IODMA_CLSDRV_H
+#define __AERY32_PERIPH_IODMA_CLSDRV_H
 
 #include "periph_idma_clsdrv.h"
 #include "periph_odma_clsdrv.h"

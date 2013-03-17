@@ -137,7 +137,10 @@ class serial_port {
 		 * Print formatted data to output DMA buffer
 		 * \param format C string that contains the text to be written.
 		 * \return On success, the total number of characters written
-		 *         is returned.
+		 *         is returned. If the output was truncated due to the
+		 *         limited DMA buffer size then the return value is
+		 *         the number of characters which would have been
+		 *         written if enough space had been available.
 		 */
 		int printf(const char *format, ... );
 

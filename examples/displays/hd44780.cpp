@@ -1,8 +1,6 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
 #define LED AVR32_PIN_PC04
 
 // ----------------------------------------------------------------------
@@ -60,10 +58,8 @@ int display_puts(const char *buf);
 int display_puts(const char *buf, size_t n);
 void display_goto(uint8_t x, uint8_t y);
 
+using namespace aery;
 
-// ----------------------------------------------------------------------
-// Main function
-// ----------------------------------------------------------------------
 int main(void)
 {
 	/*

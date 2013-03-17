@@ -92,6 +92,14 @@ a quick reference to the functions.
 
 ## Release notes
 
+### v0.6.1
+
+- Fixed `serial_port::printf()` from transmitting gibberish in a situation
+  where the formatted input exceeded the buffer size.
+- Added new string function, `line_to_argv()`.
+- Build system can now exclude source files.
+- Reverted `settings.h`. It wasn't a good idea to merge it to `board.h`.
+
 ### v0.6.0
 
 - Support for PDC (Peripheral DMA Controller) via perih_idma and perip_odma

@@ -1,8 +1,6 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
 #define LED AVR32_PIN_PC04
 
 // ----------------------------------------------------------------------
@@ -87,9 +85,8 @@ void display_scrolleft(const char *buf, int n, uint8_t rowlen, uint8_t offset)
 	j++;
 }
 
-// ----------------------------------------------------------------------
-// Main function
-// ----------------------------------------------------------------------
+using namespace aery;
+
 int main(void)
 {
 	char buf[] = "Hello Aery32 devs! ";
