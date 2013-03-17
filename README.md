@@ -92,12 +92,12 @@ a quick reference to the functions.
 
 ## Release notes
 
-### Changelog for the next release
+### v0.6.1
 
-- Fixed `serial_port::printf()`. `vsnprintf()` may return the number of
-  characters which would have been written to the final string if enough
-  space had been available.
+- Fixed `serial_port::printf()` from transmitting gibberish in a situation
+  where the formatted input exceeded the buffer size.
 - Added new string function, `line_to_argv()`.
+- Build system can now exclude source files.
 - Reverted `settings.h`. It wasn't a good idea to merge it to `board.h`.
 
 ### v0.6.0
