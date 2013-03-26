@@ -5,8 +5,10 @@
 
 void isrhandler_group2(void)
 {
-	gpio_toggle_pin(LED);
 	delay_ms(100); /* Reduce glitches */
+	if (gpio_read_pin(LED) == true) {
+		gpio_toggle_pin(LED);
+	}
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
 }
 
