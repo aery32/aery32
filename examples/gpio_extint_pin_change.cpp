@@ -5,6 +5,8 @@
 
 volatile bool pa00 = false;
 
+using namespace aery;
+
 void isrhandler_group2(void)
 {
 	pa00 = gpio_read_pin(AVR32_PIN_PA00);
@@ -14,8 +16,6 @@ void isrhandler_group2(void)
 	}
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
 }
-
-using namespace aery;
 
 int main(void)
 {
