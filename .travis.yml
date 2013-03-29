@@ -20,6 +20,7 @@ script:
   - cp examples/flashc_save_foo.cpp main.cpp && make re
   - cp examples/gpio_localbus.cpp main.c && make re
   - cp examples/gpio_toggle_led.cpp main.cpp && make re
+  - cp examples/gpio_extint_pin_change.cpp && make re
   - cp examples/pwm.cpp main.c && make re
   - cp examples/rtc_interrupt.cpp main.c && make re
   - cp examples/serial_port_class_driver.cpp main.cpp && make re
