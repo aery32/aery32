@@ -3,10 +3,13 @@
 
 #define LED AVR32_PIN_PC04
 
+volatile bool pa00 = false;
+
 void isrhandler_group2(void)
 {
-	delay_ms(100); /* Reduce glitches */
-	if (gpio_read_pin(LED) == true) {
+	pa00 = gpio_read_pin(AVR32_PIN_PA00);
+	delay_ms(10);
+	if (gpio_read_pin(ARV32_PIN_PA00) == pa00) { /* Still connected? */
 		gpio_toggle_pin(LED);
 	}
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
