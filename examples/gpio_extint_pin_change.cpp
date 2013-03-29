@@ -10,8 +10,8 @@ using namespace aery;
 void isrhandler_group2(void)
 {
 	pa00 = gpio_read_pin(AVR32_PIN_PA00);
-	delay_ms(10);
-	if (gpio_read_pin(AVR32_PIN_PA00) == pa00) { /* Still connected? */
+	delay_ms(100);
+	if (gpio_read_pin(AVR32_PIN_PA00) == pa00) { /* State remains? */
 		gpio_toggle_pin(LED);
 	}
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
