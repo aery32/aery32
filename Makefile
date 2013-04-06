@@ -219,7 +219,7 @@ size: $(TARGET).elf $(TARGET).hex
 ifneq (, $(filter $(OS), windows32))
 	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{a=32*1024-$$2; print \"SDRAM usage:\", a, \"bytes,\", 100*a/(32*1024), \"%%\"}"
 else
-	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=32*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/(32*1024), "%%"}'
+	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=32*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/(32*1024), "%"}'
 endif
 
 clean:
