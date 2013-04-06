@@ -216,6 +216,12 @@ dfu-dump-user:
 
 size: $(TARGET).elf $(TARGET).hex
 	avr32-size -B $^
+	@echo SDRAM usage:
+ifneq (, $(filter $(OS), windows32))
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{print 32*1024-$$2}"
+else
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " '{print 32*1024-$$2}'
+endif
 
 clean:
 	-rm -f $(addprefix $(TARGET),.elf .hex .lst .map)
