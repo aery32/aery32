@@ -1,7 +1,7 @@
 #include <aery32/all.h>
 #include "board.h"
 
-#define LED AVR32_PIN_PC04
+#define LED AVR32_PIN_PC00
 
 volatile bool pa00 = false;
 

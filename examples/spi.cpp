@@ -1,7 +1,7 @@
 #include <aery32/all.h>
 #include "board.h"
 
-#define LED		AVR32_PIN_PC04
+#define LED		AVR32_PIN_PC00
 #define SPI0_PINMASK	((1 << 10) | (1 << 11) | (1 << 12) | (1 << 13))
 #define SPI1_PINMASK	((1 << 15) | (1 << 16) | (1 << 17) | (1 << 19))
 

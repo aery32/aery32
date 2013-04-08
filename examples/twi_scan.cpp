@@ -1,7 +1,7 @@
 #include <aery32/all.h>
 #include "board.h"
 
-#define LED		AVR32_PIN_PC04
+#define LED		AVR32_PIN_PC00
 #define TWI_PINMASK	((1 << 29) | (1 << 30))
 
 using namespace aery;

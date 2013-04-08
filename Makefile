@@ -38,7 +38,7 @@
 TARGET=aery32
 
 # MPU (Microprocessor Unit) type
-MPART=uc3a1128
+MPART=uc3a1256
 
 # Project's source files
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
@@ -158,7 +158,7 @@ dump-fuses: $(PROGRAMMER)-dump-fuses
 # Chip programming targets for batchisp/batchisp (Windows)
 # ----------------------------------------------------------------------
 .PHONY: batchisp-program batchisp-start batchisp-programs \
-	batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
+	batchisp-dump-userdata batchisp-dump-fuses
 
 BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
@@ -172,15 +172,6 @@ batchisp-start:
 batchisp-programs: $(TARGET).hex
 	$(BATCHISP) -operation erase f memory flash blankcheck \
 	loadbuffer $< program verify start reset 0
-
-# Programs ISP_IO_COND_PIN to be PC04, which is GPIO pin number 69,
-# which is 0x45 in hex. Thus "fillbuffer 0x45". The 0x94 is CRC for
-# the whole userdata which is 0x929E45.
-batchisp-program-user:
-	$(BATCHISP) -operation memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
-	$(BATCHISP) -operation memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
-	$(BATCHISP) -operation memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
-	$(BATCHISP) -operation memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
 
 batchisp-dump-user:
 	$(BATCHISP) -operation memory user read savebuffer userpage.hex hex386
@@ -217,9 +208,9 @@ dfu-dump-user:
 size: $(TARGET).elf $(TARGET).hex
 	@avr32-size -B $^
 ifneq (, $(filter $(OS), windows32))
-	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{a=32*1024-$$2; print \"SDRAM usage:\", a, \"bytes,\", 100*a/(32*1024), \"%%\"}"
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{a=64*1024-$$2; print \"SDRAM usage:\", a, \"bytes,\", 100*a/(64*1024), \"%%\"}"
 else
-	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=32*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/(32*1024), "%"}'
+	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=64*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/(64*1024), "%"}'
 endif
 
 clean:
