@@ -1,7 +1,7 @@
 #include <aery32/all.h>
 #include "board.h"
 
-#define LED			AVR32_PIN_PC04
+#define LED			AVR32_PIN_PC00
 #define UART0_SERIAL_PINMASK	0x3 // PA0 = RX, PA01 = TX
 
 volatile uint8_t bufdma0[128] = {};

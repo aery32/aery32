@@ -1,16 +1,21 @@
 #include <aery32/all.h>
 #include "board.h"
 
-#define LED AVR32_PIN_PC04
+#define LED AVR32_PIN_PC00
+
+volatile bool pa00 = false;
+
+using namespace aery;
 
 void isrhandler_group2(void)
 {
-	gpio_toggle_pin(LED);
-	delay_ms(100); /* Reduce glitches */
+	pa00 = gpio_read_pin(AVR32_PIN_PA00);
+	delay_ms(100);
+	if (gpio_read_pin(AVR32_PIN_PA00) == pa00) { /* State remains? */
+		gpio_toggle_pin(LED);
+	}
 	porta->ifrc = (1 << 0); /* Remember to clear the interrupt */
 }
-
-using namespace aery;
 
 int main(void)
 {
