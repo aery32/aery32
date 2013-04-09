@@ -92,6 +92,11 @@ a quick reference to the functions.
 
 ## Release notes
 
+### v0.6.2
+
+- Framework updated to Aery32 development board revision A.
+- Build system now shows SDRAM usage after successful build.
+
 ### v0.6.1
 
 - Fixed `serial_port::printf()` from transmitting gibberish in a situation
