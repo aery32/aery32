@@ -281,7 +281,7 @@ a quick reference to the functions.
 
 ## License
 
-Aery32 Software Framework is licensed under the new BSD license:
+Aery32 Framework is licensed under the new BSD license:
 
 > Copyright (c) 2012-2013, Muiku Oy  
 > All rights reserved.
