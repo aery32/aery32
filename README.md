@@ -78,14 +78,12 @@ program target with the start target, like this
 Or less verbosely `make programs`. The latter is also quicker with
 batchisp (in Windows).
 
-## Learning the Aery32 Software Framework
+## Learning the Aery32 Framework
 
 Read the [reference guide](http://aery32.readthedocs.org) and go through the
-articles from [Aery32 DevZone](http://devzone.aery32.com). There is also
-[API documentation](http://devzone.aery32.com/aery32/apidoc/) providing
-a quick reference to the functions.
+examples from `examples/` folder.
 
-### Optional supportive readings
+### Supportive readings
 
 - [Learn C The Hard Way](http://c.learncodethehardway.org/)
 - [The Definitive C++ Book Guide and List](http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list)
