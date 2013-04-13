@@ -6,15 +6,17 @@
 
 
 Aery32 is a starting point for AVR32-based projects. It provides a
-project structure and library enabling ___rapid prototyping and development___.
+project structure, build system and library enabling ___rapid prototyping and development___.
 Aery32 aims to be both ___professional___ and ___fun___ that makes it ideal choise for
 R&D Engineers, Academics and Hobbyists.
+
+Supported MCUs: UC3A1
 
 [![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
 
 ## Installation
 
-You don't have to install Aery32 Software Framework as you would do with
+You don't have to install Aery32 Framework as you would do with
 regular software. Just download the framework, unzip it and start working
 on it.
 
@@ -42,7 +44,7 @@ When you are in Aery32 project directory, start by editing `main.cpp`
 and `board.cpp` source files. The default board initialization sequence
 that can be found from `board.cpp`, starts the external oscillators and sets
 the master (or main) clock to 66 MHz. Other settings and board related
-stuff are defined inside the `board.h` and `settings.h` header file.
+stuff are defined within the `board.h` and `settings.h` header files.
 
 It is intended that you work under the root directory most of the time as
 that is the place where you keep adding your `.c` and `.cpp` source files,
@@ -53,7 +55,7 @@ To compile the project just call
     make
 
 All .cpp files under the project root will be compiled and linked with
-Aery32 Software Framework library. When you want to recompile the project
+Aery32 Framework library. When you want to recompile the project
 call
 
     make re
