@@ -75,14 +75,13 @@ endif
 # Resolve the chip SDRAM size. Only 128kB version has 32kB RAM.
 SDRAM=64
 ifeq ($(MPART), uc3a1128)
-	SDRAM:=32
+SDRAM:=32
 endif
 
 
 # ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
-
 CC=avr32-gcc
 CXX=avr32-g++
 
@@ -113,8 +112,8 @@ LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref
 # ----------------------------------------------------------------------
 # Build targets
 # ----------------------------------------------------------------------
-
 .PHONY: all
+
 all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
 	@$(MAKE) -s size
