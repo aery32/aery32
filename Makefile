@@ -72,6 +72,12 @@ sp+=
 SETTINGS:=$(subst $(sp),\ ,$(SETTINGS))
 endif
 
+# Resolve the chip SDRAM size. Only 128kB version has 32kB RAM.
+SDRAM=64
+ifeq ($(MPART), uc3a1128)
+	SDRAM:=32
+endif
+
 
 # ----------------------------------------------------------------------
 # Standard user variables
@@ -208,9 +214,9 @@ dfu-dump-user:
 size: $(TARGET).elf $(TARGET).hex
 	@avr32-size -B $^
 ifneq (, $(filter $(OS), windows32))
-	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{a=64*1024-$$2; print \"SDRAM usage:\", a, \"bytes,\", 100*a/(64*1024), \"%%\"}"
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk -F" " "{a=$(SDRAM)*1024-$$2; print \"SDRAM usage:\", a, \"bytes,\", 100*a/($(SDRAM)*1024), \"%%\"}"
 else
-	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=64*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/(64*1024), "%"}'
+	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk -F" " '{a=$(SDRAM)*1024-$$2; print "SDRAM usage:", a, "bytes,", 100*a/($(SDRAM)*1024), "%"}'
 endif
 
 clean:
