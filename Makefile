@@ -213,7 +213,7 @@ dfu-dump-user:
 size: $(TARGET).elf $(TARGET).hex
 	@avr32-size -B $^
 ifneq (, $(filter $(OS), windows32))
-	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%)\n\", a, b}"
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%%%)\n\", a, b}"
 else
 	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk '{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf "SRAM usage: %d bytes (%.2f%%)\n", a, b}'
 endif
