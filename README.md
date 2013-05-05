@@ -94,7 +94,7 @@ examples from `examples/` folder.
 
 ### Changelog for the next release
 
-- Fixed SDRAM calculator to work with the old Aery32 board revision too
+- Fixed SRAM calculator to work with the old Aery32 board revision too
 
 ### v0.6.2
 
@@ -102,7 +102,7 @@ examples from `examples/` folder.
   - LED pin changed from PC04 to PC00
   - To use the framework with the previous board version change MPART to
     uc3a1128 in Makefile
-- Build system now shows SDRAM usage after successful build
+- Build system now shows SRAM usage after successful build
 
 ### v0.6.1
 
