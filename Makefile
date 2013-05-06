@@ -65,13 +65,6 @@ SOURCES:=$(filter-out $(EXCLUDE),$(SOURCES))
 OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS:=$(OBJECTS:.c=.o)
 
-# Escape possible space characters in settings path. Needed in Linux.
-ifeq (, $(filter $(OS), windows32))
-sp:=
-sp+=
-SETTINGS:=$(subst $(sp),\ ,$(SETTINGS))
-endif
-
 # Resolve the chip SRAM size. Only 128kB version has 32kB RAM.
 SRAM=64
 ifeq ($(MPART), uc3a1128)
