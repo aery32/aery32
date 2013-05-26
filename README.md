@@ -92,10 +92,6 @@ examples from `examples/` folder.
 
 ## Release notes
 
-### Changelog for the next release
-
-- ...
-
 ### v0.6.3
 
 - Fixed SRAM calculator to work with the old Aery32 board revision too
