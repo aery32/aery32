@@ -46,12 +46,12 @@ class serial_port {
 		/**
 		 * Peripheral input DMA buffer object
 		 */
-		aery::periph_idma idma;
+		aery::periph_idma &idma;
 
 		/**
 		 * Peripheral output DMA buffer object
 		 */
-		aery::periph_odma odma;
+		aery::periph_odma &odma;
 
 		/**
 		 * Baud rate error.

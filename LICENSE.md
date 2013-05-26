@@ -1,6 +1,6 @@
-Aery32 Software Framework and its library is licensed under the new BSD license:
+Aery32 Framework is licensed under the new BSD license:
 
-> Copyright (c) 2012, Muiku Oy
+> Copyright (c) 2012-2013, Muiku Oy  
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without modification,
