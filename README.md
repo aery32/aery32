@@ -94,7 +94,13 @@ examples from `examples/` folder.
 
 ### Changelog for the next release
 
+- ...
+
+### v0.6.3
+
 - Fixed SRAM calculator to work with the old Aery32 board revision too
+- Fixed an issue where the project doesn't build when installed in a folder
+  including space (Linux issue)
 
 ### v0.6.2
 
