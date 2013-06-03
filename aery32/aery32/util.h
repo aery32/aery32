@@ -16,8 +16,22 @@
  * you a copy.
  */
 
-#include "aery32/devnull.h"
+/*!
+\file aery32/util.h
+\brief Utilities
+*/
 
-namespace aery {
-	volatile uint32_t __devnull;
+#ifndef __AERY32_UTIL_H
+#define __AERY32_UTIL_H
+
+extern "C" {
+	#include <avr32/io.h>
 }
+
+extern int __builtin_mfsr(int reg);
+extern void __builtin_mtsr(int reg, int val);
+
+#define START_MEASURING_CYCLES() (__builtin_mtsr(AVR32_COUNT, 0))
+#define STOP_MEASURING_CYCLES(__count) ((__count) = __builtin_mfsr(AVR32_COUNT))
+
+#endif

@@ -5,7 +5,7 @@
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
- * Copyright (c) 2012, Muiku Oy
+ * Copyright (c) 2012-2013, Muiku Oy
  * All rights reserved.
  *
  * LICENSE
@@ -16,8 +16,8 @@
  * you a copy.
  */
 
-#include <cstdio>
 #include <cmath>
+#include <cctype>
 extern "C" {
 	#include <ieeefp.h>
 }
@@ -54,12 +54,14 @@ char *aery::itoa(int number, char *buffer, size_t *n)
 	if (number < 0) {
 		buffer[0] = '-';
 		aery::utoa((unsigned int) (-1 * number), &buffer[1], n);
-		if (n != NULL) *n++;
+		if (n != NULL)
+			*n += 1;
 		return buffer;
 	}
 	return aery::utoa((unsigned int) number, buffer, n);
 }
 
+/* TODO: Fix rounding */
 char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 {
 	size_t n2 = 0;
@@ -81,6 +83,8 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 	buffer[n2++] = '.';
 
 	/* write the fractional part into the buffer */
+	if (precision > 8)
+		precision = 8;
 	while (precision--) {
 		fp *= 10;
 		aery::utoa((unsigned int) fp, buffer + n2++);
@@ -92,10 +96,26 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 
 int aery::nputs(const char *buffer, size_t n, int (*_putchar)(int))
 {
-	int i = 0;
+	int i = 0, rv;
 	for (; (*(buffer+i) && n > 0); i++, n--) {
-		if (_putchar(*(buffer+i)) == EOF)
-			return EOF;
+		if ((rv = _putchar(*(buffer+i))) < 0)
+			return rv;
 	}
 	return i;
+}
+
+int aery::line_to_argv(char *line, char *argv[])
+{
+	unsigned int i = 0, j = 0;
+ 
+	begin:
+		while (line[i] && isspace(line[i])) i++;
+		argv[j++] = &line[i];
+ 
+ 		while (line[i] && !isspace(line[i])) i++;
+		if (line[i] == '\0') goto end;
+		line[i++] = '\0'; goto begin;
+ 
+	end:
+		return j;
 }

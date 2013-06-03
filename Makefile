@@ -5,7 +5,7 @@
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
 #
-# Copyright (c) 2012, Muiku Oy
+# Copyright (c) 2012-2013, Muiku Oy
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -38,10 +38,11 @@
 TARGET=aery32
 
 # MPU (Microprocessor Unit) type
-MPART=uc3a1128
+MPART=uc3a1256
 
-# Project's source files. Grab all under the project root.
+# Project's source files
 SOURCES=$(wildcard *.cpp) $(wildcard *.c)
+EXCLUDE=
 
 # Global project wide settings file. IMPORTANT! Define with absolute path.
 SETTINGS=$(CURDIR)/settings.h
@@ -57,22 +58,23 @@ INCLUDES=aery32
 # Grab the name of the Operating System
 OS=$(shell uname)
 
+# Remove excluded source files
+SOURCES:=$(filter-out $(EXCLUDE),$(SOURCES))
+
 # Resolve object files from source files
 OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS:=$(OBJECTS:.c=.o)
 
-# Escape possible space characters in settings path. Needed in Linux.
-ifeq (, $(filter $(OS), windows32))
-sp:=
-sp+=
-SETTINGS:=$(subst $(sp),\ ,$(SETTINGS))
+# Resolve the chip SRAM size. Only 128kB version has 32kB RAM.
+SRAM=64
+ifeq ($(MPART), uc3a1128)
+SRAM:=32
 endif
 
 
 # ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
-
 CC=avr32-gcc
 CXX=avr32-g++
 
@@ -103,8 +105,8 @@ LDFLAGS+=-Wl,-Map=$(TARGET).map,--cref
 # ----------------------------------------------------------------------
 # Build targets
 # ----------------------------------------------------------------------
-
 .PHONY: all
+
 all: $(TARGET).hex $(TARGET).lst
 	@echo Program size:
 	@$(MAKE) -s size
@@ -154,7 +156,7 @@ dump-fuses: $(PROGRAMMER)-dump-fuses
 # Chip programming targets for batchisp/batchisp (Windows)
 # ----------------------------------------------------------------------
 .PHONY: batchisp-program batchisp-start batchisp-programs \
-	batchisp-dump-userdata batchisp-dump-fuses batchisp-program-user 
+	batchisp-dump-userdata batchisp-dump-fuses
 
 BATCHISP=batchisp -device at32$(MPART) -hardware usb
 
@@ -168,15 +170,6 @@ batchisp-start:
 batchisp-programs: $(TARGET).hex
 	$(BATCHISP) -operation erase f memory flash blankcheck \
 	loadbuffer $< program verify start reset 0
-
-# Programs ISP_IO_COND_PIN to be PC04, which is GPIO pin number 69,
-# which is 0x45 in hex. Thus "fillbuffer 0x45". The 0x94 is CRC for
-# the whole userdata which is 0x929E45.
-batchisp-program-user:
-	$(BATCHISP) -operation memory user addrange 0x1FC 0x1FC fillbuffer 0x92 program
-	$(BATCHISP) -operation memory user addrange 0x1FD 0x1FD fillbuffer 0x9E program
-	$(BATCHISP) -operation memory user addrange 0x1FE 0x1FE fillbuffer 0x45 program
-	$(BATCHISP) -operation memory user addrange 0x1FF 0x1FF fillbuffer 0x94 program
 
 batchisp-dump-user:
 	$(BATCHISP) -operation memory user read savebuffer userpage.hex hex386
@@ -211,7 +204,12 @@ dfu-dump-user:
 .PHONY: size debug qa clean cleanall re reall
 
 size: $(TARGET).elf $(TARGET).hex
-	avr32-size -B $^
+	@avr32-size -B $^
+ifneq (, $(filter $(OS), windows32))
+	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%%%)\n\", a, b}"
+else
+	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk '{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf "SRAM usage: %d bytes (%.2f%%)\n", a, b}'
+endif
 
 clean:
 	-rm -f $(addprefix $(TARGET),.elf .hex .lst .map)

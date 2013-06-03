@@ -16,8 +16,17 @@
  * you a copy.
  */
 
-#include "aery32/devnull.h"
+#ifndef __AERY32_PDCA_H
+#define __AERY32_PDCA_H
 
 namespace aery {
-	volatile uint32_t __devnull;
-}
+
+enum Pdca_transfer_size {
+	PDCA_TRANSFER_SIZE_BYTE,
+	PDCA_TRANSFER_SIZE_HALFWORD,
+	PDCA_TRANSFER_SIZE_WORD
+};
+
+} /* end of namespace aery */
+
+#endif

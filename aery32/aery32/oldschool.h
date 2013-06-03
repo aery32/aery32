@@ -16,8 +16,25 @@
  * you a copy.
  */
 
-#include "aery32/devnull.h"
+/*!
+\file aery32/oldschool.h
+*/
 
-namespace aery {
-	volatile uint32_t __devnull;
-}
+#ifndef __AERY32_OLDSCHOOL_H
+#define __AERY32_OLDSCHOOL_H
+
+#include <avr32/io.h>
+
+#define PORTA	(AVR32_GPIO.port[0].ovr)
+#define PINA	(AVR32_GPIO.port[0].pvr)
+#define DDRA	(AVR32_GPIO.port[0].oder)
+
+#define PORTB	(AVR32_GPIO.port[1].ovr)
+#define PINB	(AVR32_GPIO.port[1].pvr)
+#define DDRB	(AVR32_GPIO.port[1].oder)
+
+#define PORTC	(AVR32_GPIO.port[2].ovr)
+#define PINC	(AVR32_GPIO.port[2].pvr)
+#define DDRC	(AVR32_GPIO.port[2].oder)
+
+#endif

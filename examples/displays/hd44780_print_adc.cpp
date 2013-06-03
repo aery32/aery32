@@ -1,9 +1,7 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
-#define LED AVR32_PIN_PC04
+#define LED AVR32_PIN_PC00
 
 // ----------------------------------------------------------------------
 // HD44780 instruction set
@@ -61,10 +59,9 @@ int display_puts(const char *buf);
 int display_puts(const char *buf, size_t n);
 void display_goto(uint8_t x, uint8_t y);
 
+using namespace aery;
+using namespace board;
 
-// ----------------------------------------------------------------------
-// Main function
-// ----------------------------------------------------------------------
 int main(void)
 {
 	char buf[20] = "";
@@ -110,7 +107,7 @@ int main(void)
 		while (adc_isbusy(1 << 3) /* 8-bit channel mask */);
 		result = adc_read_cnv(3);
 
-		dtoa(board::cnv2volt(result), 3, buf);
+		dtoa(cnv_to_volt(result), 3, buf);
 		display_puts(buf);
 		display_instruct(HD44780_RETURN_HOME);
 		delay_ms(50);

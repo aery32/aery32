@@ -1,10 +1,11 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
-#define LED			AVR32_PIN_PC04
+#define LED			AVR32_PIN_PC00
 #define ADC_PINMASK_ALLCHAN	(0xff << 21)
+
+using namespace aery;
+using namespace board;
 
 int main(void)
 {
@@ -40,7 +41,7 @@ int main(void)
 		
 		while (adc_isbusy(1 << 3));
 		result = adc_read_cnv(3);
-		volt = board::cnv2volt(result);
+		volt = cnv_to_volt(result);
 	}
 
 	return 0;

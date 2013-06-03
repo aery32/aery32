@@ -6,15 +6,17 @@
 
 
 Aery32 is a starting point for AVR32-based projects. It provides a
-project structure and library enabling ___rapid prototyping and development___.
+project structure, build system and library enabling ___rapid prototyping and development___.
 Aery32 aims to be both ___professional___ and ___fun___ that makes it ideal choise for
 R&D Engineers, Academics and Hobbyists.
+
+Supported MCUs: UC3A1
 
 [![Build Status](https://secure.travis-ci.org/aery32/aery32.png?branch=master)](http://travis-ci.org/aery32/aery32)
 
 ## Installation
 
-You don't have to install Aery32 Software Framework as you would do with
+You don't have to install Aery32 Framework as you would do with
 regular software. Just download the framework, unzip it and start working
 on it.
 
@@ -42,7 +44,7 @@ When you are in Aery32 project directory, start by editing `main.cpp`
 and `board.cpp` source files. The default board initialization sequence
 that can be found from `board.cpp`, starts the external oscillators and sets
 the master (or main) clock to 66 MHz. Other settings and board related
-stuff are defined inside the `board.h` and `settings.h` header file.
+stuff are defined within the `board.h` and `settings.h` header files.
 
 It is intended that you work under the root directory most of the time as
 that is the place where you keep adding your `.c` and `.cpp` source files,
@@ -53,7 +55,7 @@ To compile the project just call
     make
 
 All .cpp files under the project root will be compiled and linked with
-Aery32 Software Framework library. When you want to recompile the project
+Aery32 Framework library. When you want to recompile the project
 call
 
     make re
@@ -76,11 +78,12 @@ program target with the start target, like this
 Or less verbosely `make programs`. The latter is also quicker with
 batchisp (in Windows).
 
-## Learning the Aery32 Software Framework
+## Learning the Aery32 Framework
 
-Read the [reference guide](http://aery32.readthedocs.org) and go through the articles from [Aery32 DevZone](http://devzone.aery32.com). There is also [API documentation](http://devzone.aery32.com/aery32/apidoc/) providing a quick reference to the functions.
+Read the [reference guide](http://aery32.readthedocs.org) and go through the
+examples from `examples/` folder.
 
-### Optional supportive readings
+### Supportive readings
 
 - [Learn C The Hard Way](http://c.learncodethehardway.org/)
 - [The Definitive C++ Book Guide and List](http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list)
@@ -88,6 +91,44 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 - [AVR32006 : Getting started with GCC for AVR32](http://www.atmel.com/Images/doc32074.pdf)
 
 ## Release notes
+
+### Changelog for the next release
+
+- ...
+
+### v0.6.3
+
+- Fixed SRAM calculator to work with the old Aery32 board revision too
+- Fixed an issue where the project doesn't build when installed in a folder
+  including space (Linux issue)
+
+### v0.6.2
+
+- Framework updated to Aery32 development board revision A
+  - LED pin changed from PC04 to PC00
+  - To use the framework with the previous board version change MPART to
+    uc3a1128 in Makefile
+- Build system now shows SRAM usage after successful build
+
+### v0.6.1
+
+- Fixed `serial_port::printf()` from transmitting gibberish in a situation
+  where the formatted input exceeded the buffer size.
+- Added new string function, `line_to_argv()`.
+- Build system can now exclude source files.
+- Reverted `settings.h`. It wasn't a good idea to merge it to `board.h`.
+
+### v0.6.0
+
+- Support for PDC (Peripheral DMA Controller) via perih_idma and perip_odma
+  class drivers.
+- Added serial port class driver. Uses peripheral DMA. See
+  `examples/serial_port_class_driver.cpp`.
+  - USART module functions also changed and some functionality has been moved
+    to serial port class driver.
+- `settings.h` file merged to `board.h`.
+- Added macros for performance testing, `START_MEASURING_CYCLES()` and
+  `STOP_MEASURING_CYCLES(count)`, see `aery32/aery32/util.h`.
 
 ### v0.5.0
 
@@ -164,42 +205,53 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ### v0.4.0
 
-- Added Twi-wire (I2C) module functions, see device scanning example `twi_scan.cpp`.
+- Added Twi-wire (I2C) module functions, see device scanning example
+  `twi_scan.cpp`.
 - SPI functions now take advance of C++. Allows more flexible API.
-- Documentations have been expanded to cover string functions. With string functions, `itoa()` and `dtoa()`, you can convert integers and doubles to string.
+- Documentations have been expanded to cover string functions. With string
+  functions, `itoa()` and `dtoa()`, you can convert integers and doubles to
+  string.
 - Added instructions [how to use Aery32 Framework with Sublime Text 2](http://aery32.readthedocs.org/en/latest/use_with_st2.html) and SublimeClang plugin.
 - Added instructions [how to use Aery32 Framework wtih Eclipse Juno](http://aery32.readthedocs.org/en/latest/use_with_eclipse.html).
 - Bug fixes:
   - `aery::gpio_read_pin()` didn't work.
   - Global variables were not placed under aery namespace.
-  - GH-10. Aery32 build system for Sublime Text 2 didn't build the project, if you weren't in the project root, e.g. in main.cpp.
+  - GH-10. Aery32 build system for Sublime Text 2 didn't build the project,
+    if you weren't in the project root, e.g. in main.cpp.
 
 ### v0.3.0
 
 - New modules:
-  - Flash Controller. How to operate with the chip internal flash, see `examples/writing_flash.cpp`.
+  - Flash Controller. How to operate with the chip internal flash, see
+    `examples/writing_flash.cpp`.
   - Pulse Width Modulation (PWM).
 - New module functions:
   - `adc_hasoverrun()` tells if the conversion has been overrun.
 - Project file added for Sublime Text 2
-  - Open ST2, select `Project/Open Project...` and open `aery32.sublime-project`. Then select `Tools/Build System` and check Aery32. Now you can build the project by pressing Ctrl+B. Ctrl+Shift+B programs the board.
+  - Open ST2, select `Project/Open Project...` and open
+    `aery32.sublime-project`. Then select `Tools/Build System` and check
+    Aery32. Now you can build the project by pressing Ctrl+B.
+    Ctrl+Shift+B programs the board.
 - Backward compatibility breaks in module functions
   - ADC `isready()` functions removed. Use `adc_isbusy()`. Closes gh-6.
   - `rtc_init()` parameter list was reorganized. Closes gh-7.
 - Changes to build system:
-  - Link with the libm (math lib) by default. This has been considered to be a good practice in AVRFreak forum.
+  - Link with the libm (math lib) by default. This has been considered
+    to be a good practice in AVRFreak forum.
   - Enhanced to compile .c sources.
   - Do not force -O0 optimization for debug.
   - $(MAKE) wrapped with "" to achieve robust import to Atmel Studio 6.
 
 ### v0.2.1
 
-- Hotfix. Flash wait state set to 1 by default, because by default Aery32 Framework sets CPU clockspeed to 66 MHz.
+- Hotfix. Flash wait state set to 1 by default, because by default Aery32
+  Framework sets CPU clockspeed to 66 MHz.
 
 ### v0.2.0
 
 - Switch to `avr32-g++` and hence to C++
-- Module functions wrapped inside `aery` namespace. No more `aery_` function prefix.
+- Module functions wrapped inside `aery` namespace. No more `aery_`
+  function prefix.
 - Improvements in analog-to-digital conversion module functions.
   - `adc_setup_trigger()` allows to setup ADC hardware trigger
   - `adc_nextcnv_isrdy()` tells if the next conversion is ready. Whatever was the channel.
@@ -242,9 +294,9 @@ Read the [reference guide](http://aery32.readthedocs.org) and go through the art
 
 ## License
 
-Aery32 Software Framework and its library is licensed under the new BSD license:
+Aery32 Framework is licensed under the new BSD license:
 
-> Copyright (c) 2012-2013, Muiku Oy
+> Copyright (c) 2012-2013, Muiku Oy  
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without modification,
@@ -271,5 +323,3 @@ Aery32 Software Framework and its library is licensed under the new BSD license:
 > ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 > (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 > SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Example applications placed under `examples/` directory are public domain.

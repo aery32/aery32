@@ -5,7 +5,7 @@
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
- * Copyright (c) 2012, Muiku Oy
+ * Copyright (c) 2012-2013, Muiku Oy
  * All rights reserved.
  *
  * LICENSE
@@ -41,6 +41,7 @@
 #ifndef __AERY32_ALL_H
 #define __AERY32_ALL_H
 
+/* Low level module functions */
 #include "adc.h"
 #include "delay.h"
 #include "flashc.h"
@@ -54,6 +55,11 @@
 #include "usart.h"
 #include "usb.h"
 
+/* High level class drivers */
+#include "periph_iodma_clsdrv.h"
+#include "serial_port_clsdrv.h"
+
 #include "string.h"
+#include "util.h"
 
 #endif

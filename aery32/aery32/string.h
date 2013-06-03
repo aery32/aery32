@@ -5,7 +5,7 @@
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
- * Copyright (c) 2012, Muiku Oy
+ * Copyright (c) 2012-2013, Muiku Oy
  * All rights reserved.
  *
  * LICENSE
@@ -73,6 +73,8 @@ char *dtoa(double number, uint8_t precision, char *buffer, size_t *n = NULL);
  * \return The number of characters that would have been passed to putchar
  */
 int nputs(const char *str, size_t n, int (*_putchar)(int));
+
+int line_to_argv(char *line, char *argv[]);
 
 } /* end of namespace aery */
 

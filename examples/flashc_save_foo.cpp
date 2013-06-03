@@ -1,9 +1,9 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
+#define LED AVR32_PIN_PC00
 
-#define LED AVR32_PIN_PC04
+using namespace aery;
 
 int main(void)
 {

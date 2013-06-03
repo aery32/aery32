@@ -1,15 +1,15 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
-#define LED AVR32_PIN_PC04
+#define LED AVR32_PIN_PC00
 
 void isrhandler_rtc(void)
 {
 	gpio_toggle_pin(LED);
 	rtc_clear_interrupt(); /* Remember to clear RTC interrupt */
 }
+
+using namespace aery;
 
 int main(void)
 {

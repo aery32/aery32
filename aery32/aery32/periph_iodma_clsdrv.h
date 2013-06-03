@@ -16,8 +16,10 @@
  * you a copy.
  */
 
-#include "aery32/devnull.h"
+#ifndef __AERY32_PERIPH_IODMA_CLSDRV_H
+#define __AERY32_PERIPH_IODMA_CLSDRV_H
 
-namespace aery {
-	volatile uint32_t __devnull;
-}
+#include "periph_idma_clsdrv.h"
+#include "periph_odma_clsdrv.h"
+
+#endif

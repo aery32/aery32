@@ -1,10 +1,10 @@
 #include <aery32/all.h>
 #include "board.h"
 
-using namespace aery;
-
-#define LED			AVR32_PIN_PC04
+#define LED			AVR32_PIN_PC00
 #define PWM_CHANNEL2_OUTPUT	AVR32_PIN_PB21
+
+using namespace aery;
 
 int main(void)
 {

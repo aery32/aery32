@@ -5,7 +5,7 @@
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
- * Copyright (c) 2012, Muiku Oy
+ * Copyright (c) 2012-2013, Muiku Oy
  * All rights reserved.
  *
  * LICENSE
@@ -16,7 +16,7 @@
  * you a copy.
  */
 
-#include <cstring>
+#include <cstdlib>
 #include "aery32/flashc.h"
 
 namespace aery {

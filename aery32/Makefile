@@ -5,7 +5,7 @@
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
 #
-# Copyright (c) 2012, Muiku Oy
+# Copyright (c) 2012-2013, Muiku Oy
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -38,8 +38,10 @@
 MPART=uc3a1128
 
 # Source files
-SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp pm.cpp pwm.cpp \
-        rtc.cpp spi.cpp string.cpp twi.cpp usart.cpp usb.cpp devnull.cpp
+SOURCES=adc.cpp flashc.cpp gpio.cpp intc.cpp  \
+        pm.cpp pwm.cpp rtc.cpp spi.cpp string.cpp twi.cpp \
+        usart.cpp usb.cpp devnull.cpp
+SOURCES+=periph_idma_clsdrv.cpp periph_odma_clsdrv.cpp serial_port_clsdrv.cpp
 SOURCES+=exception.S
 
 # Default settings. Generally given externally through make.
@@ -54,7 +56,7 @@ CXX=avr32-g++
 CXXSTANDARD=gnu++98
 CXXOPT=-O2 -fdata-sections -ffunction-sections -fno-exceptions -fno-rtti
 
-CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall -fno-strict-aliasing
 CXXFLAGS+=-include "$(SETTINGS)"
 
 ASFLAGS=-mpart=$(MPART)
