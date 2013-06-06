@@ -1,8 +1,6 @@
 #ifndef __BOARD_H
 #define __BOARD_H
 
-#include <aery32/all.h>
-
 #define ADC_VREF 3.0
 #define ADC_BITS 10
 
