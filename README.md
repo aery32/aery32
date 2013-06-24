@@ -94,7 +94,8 @@ examples from `examples/` folder.
 
 ### Changelog for the next release
 
-- ...
+- Bug fix. Peripheral odma could enter a dead state if a block larger than the
+  ODMA buffer size was written.
 
 ### v0.6.3
 
