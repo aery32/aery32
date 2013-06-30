@@ -1,7 +1,7 @@
 #
 #  _____             ___ ___   |
 # |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
-# |     | -_|  _| | |_  |  _|  |  
+# |     | -_|  _| | |_  |  _|  |
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
 #
@@ -51,12 +51,16 @@ SETTINGS=settings.h
 # ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
+CROSS   ?=avr32-
+CC      :=$(CROSS)gcc
+CXX     :=$(CROSS)g++
+OBJCOPY :=$(CROSS)objcopy
+OBJDUMP :=$(CROSS)objdump
 
-CXX=avr32-g++
-CXXSTANDARD=gnu++98
+CXXSTD=gnu++98
 CXXOPT=-O2 -fdata-sections -ffunction-sections -fno-exceptions -fno-rtti
 
-CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall -fno-strict-aliasing
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTD) $(CXXOPT) -Wall -fno-strict-aliasing
 CXXFLAGS+=-include "$(SETTINGS)"
 
 ASFLAGS=-mpart=$(MPART)

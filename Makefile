@@ -1,7 +1,7 @@
 #
 #  _____             ___ ___   |
 # |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
-# |     | -_|  _| | |_  |  _|  |  
+# |     | -_|  _| | |_  |  _|  |
 # |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
 #               |___|          |
 #
@@ -75,20 +75,22 @@ endif
 # ----------------------------------------------------------------------
 # Standard user variables
 # ----------------------------------------------------------------------
-CC=avr32-gcc
-CXX=avr32-g++
+CROSS   ?=avr32-
+CC      :=$(CROSS)gcc
+CXX     :=$(CROSS)g++
+LD      :=$(CROSS)g++
+OBJCOPY :=$(CROSS)objcopy
+OBJDUMP :=$(CROSS)objdump
 
-CSTANDARD=gnu99
-CXXSTANDARD=gnu++98
-
+CSTD=gnu99
 COPT=-O2 -fdata-sections -ffunction-sections
-CXXOPT=$(COPT) -fno-exceptions -fno-rtti
-
-CFLAGS=-mpart=$(MPART) -std=$(CSTANDARD) $(COPT) -Wall
+CFLAGS=-mpart=$(MPART) -std=$(CSTD) $(COPT) -Wall
 CFLAGS+=$(addprefix -I,$(INCLUDES))
 CFLAGS+=-include "$(SETTINGS)"
 
-CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTANDARD) $(CXXOPT) -Wall
+CXXSTD=gnu++98
+CXXOPT=$(COPT) -fno-exceptions -fno-rtti
+CXXFLAGS=-mpart=$(MPART) -std=$(CXXSTD) $(CXXOPT) -Wall
 CXXFLAGS+=$(addprefix -I,$(INCLUDES))
 CXXFLAGS+=-include "$(SETTINGS)"
 
@@ -112,10 +114,10 @@ all: $(TARGET).hex $(TARGET).lst
 	@$(MAKE) -s size
 
 $(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
-	$(CXX) $(LDFLAGS) $^ -lm   -o $@
+	$(LD) $(LDFLAGS) $^ -lm   -o $@
 
 $(TARGET).hex: $(TARGET).elf
-	avr32-objcopy -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
+	$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
 	"$(MAKE)" -C aery32 MPART="$(MPART)" CXXOPT="$(CXXOPT)" SETTINGS="$(SETTINGS)"
@@ -127,7 +129,7 @@ aery32/libaery32_$(MPART).a:
 	$(CC) $(CFLAGS) -MMD -MP -MF $(@:%.o=%.d) $<   -c -o $@
 
 $(TARGET).lst: $(TARGET).elf
-	avr32-objdump -h -S $< > $@
+	$(OBJDUMP) -h -S $< > $@
 
 # Add dependency lists, .d files
 -include $(OBJECTS:.o=.d)
@@ -217,7 +219,7 @@ clean:
 
 cleanall: clean
 	-"$(MAKE)" -C aery32 clean
-	
+
 re: clean all
 
 reall: cleanall all
