@@ -55,7 +55,7 @@ periph_odma& periph_odma::write(uint8_t *src, size_t n)
 		buffer[idx++] = src[i];
 		if (idx == bufsize) {
 			flush();
-			while (bytes_in_progress() < i);				
+			while (bytes_in_progress());				
 		}
 	}
 	return *this;
