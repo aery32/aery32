@@ -1,7 +1,7 @@
 /*
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
- * |     | -_|  _| | |_  |  _|  |  
+ * |     | -_|  _| | |_  |  _|  |
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
@@ -52,9 +52,19 @@ serial_port& serial_port::set_speed(unsigned int speed)
 
 	cd = (unsigned int) cd;
 	usart_setup_speed(usart, USART_CLK_PBA, cd, fp);
-	
+
 	error = 1 - speed / (clk / (cd + (fp / 8.0)) / 16);
 	return *this;
+}
+serial_port& serial_port::set_databits(enum Usart_databits databits)
+{
+	enum Pdca_transfer_size dma_size = PDCA_TRANSFER_SIZE_BYTE;
+	if (databits > USART_DATABITS_8)
+		dma_size = PDCA_TRANSFER_SIZE_HALFWORD;
+	idma.set_sizeof_transfer(dma_size).reset();
+	odma.set_sizeof_transfer(dma_size).reset();
+	aery::usart_set_databits(usart, databits);
+
 }
 
 serial_port& serial_port::set_parity(enum Usart_parity parity)
@@ -236,7 +246,7 @@ serial_port& serial_port::disable()
 serial_port& serial_port::reset()
 {
 	bool was_enabled = is_enabled();
-	
+
 	disable().init();
 	if (was_enabled == true)
 		enable();
