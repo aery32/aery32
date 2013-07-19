@@ -65,10 +65,12 @@ SOURCES:=$(filter-out $(EXCLUDE),$(SOURCES))
 OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS:=$(OBJECTS:.c=.o)
 
-# Resolve the chip SRAM size. Only 128kB version has 32kB RAM.
+# Resolve the chip SRAM and FLASH sizes.
 SRAM=64
+FLASH=256
 ifeq ($(MPART), uc3a1128)
 SRAM:=32
+FLASH:=128
 endif
 
 
@@ -118,6 +120,9 @@ $(TARGET).elf: $(OBJECTS) aery32/libaery32_$(MPART).a
 
 $(TARGET).hex: $(TARGET).elf
 	$(OBJCOPY) -O ihex -R .eeprom -R .fuse -R .lock -R .signature $< $@
+
+$(TARGET).bin: $(TARGET).elf
+	$(OBJCOPY) -O binary -R .eeprom -R .fuse -R .lock -R .signature $< $@
 
 aery32/libaery32_$(MPART).a:
 	"$(MAKE)" -C aery32 MPART="$(MPART)" CXXOPT="$(CXXOPT)" SETTINGS="$(SETTINGS)"
@@ -205,12 +210,14 @@ dfu-dump-user:
 # ----------------------------------------------------------------------
 .PHONY: size debug qa clean cleanall re reall
 
-size: $(TARGET).elf $(TARGET).hex
-	@avr32-size -B $^
+size: $(TARGET).elf $(TARGET).hex $(TARGET).bin
+	@avr32-size -B $(TARGET).elf $(TARGET).hex
 ifneq (, $(filter $(OS), windows32))
+	wc -c $(TARGET).bin | awk "{printf \"FLASH usage: %d bytes (%.2f%%%%)\n\", $$1, 100*$$1/($(FLASH)*1024)}"
 	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%%%)\n\", a, b}"
 else
 	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk '{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf "SRAM usage: %d bytes (%.2f%%)\n", a, b}'
+	wc -c $(TARGET).bin | awk '{printf "FLASH usage: %d bytes (%.2f%%)\n", $$1, 100*$$1/($(FLASH)*1024)}'
 endif
 
 clean:
@@ -225,7 +232,7 @@ re: clean all
 reall: cleanall all
 
 debug: reall
-debug: COPT+=-g -O0 -DDEBUG
+debug: COPT+=-g3 -O1 -DDEBUG
 debug: LDFLAGS+=-mrelax
 
 qa: re

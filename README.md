@@ -1,6 +1,6 @@
       _____             ___ ___   |
      |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
-     |     | -_|  _| | |_  |  _|  |  
+     |     | -_|  _| | |_  |  _|  |
      |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
                    |___|          |
 
@@ -26,7 +26,7 @@ on it.
 - Batchisp (for Windows) or DFU-programmer (for Mac OS X & Linux)
 
 For Windows download and install [Atmel AVR Toolchain for Windows](http://www.atmel.com/tools/ATMELAVRTOOLCHAIN3_3_2FORWINDOWS.aspx). For Mac OS X & Linux use [AVR32 Toolchain Builder](https://github.com/jsnyder/avr32-toolchain). Batchisp comes with the [FLIP](http://www.atmel.com/tools/FLIP.aspx) installer. OS X and Linux users can install DFU-programmer with the AVR32 Toolchain Builder.
- 
+
 ## Quick start
 
 To start Aery32 project
@@ -64,7 +64,7 @@ To program (or upload) the application to the board, connect the USB cable
 and command
 
     make program
-    
+
 DFU is a USB class that allows board to be programmed through USB bus without
 external programmer board. After programming the board, you have to start it
 
@@ -74,7 +74,7 @@ If you like to start the board immediately after the programming, chain the
 program target with the start target, like this
 
     make program start
-    
+
 Or less verbosely `make programs`. The latter is also quicker with
 batchisp (in Windows).
 
@@ -94,6 +94,7 @@ examples from `examples/` folder.
 
 ### Changelog for the next release
 
+- Build system shows now FLASH usage.
 - Bug fix. Peripheral odma could enter a dead state if a block larger than the
   ODMA buffer size was written.
 
@@ -297,7 +298,7 @@ examples from `examples/` folder.
 
 Aery32 Framework is licensed under the new BSD license:
 
-> Copyright (c) 2012-2013, Muiku Oy  
+> Copyright (c) 2012-2013, Muiku Oy
 > All rights reserved.
 >
 > Redistribution and use in source and binary forms, with or without modification,
