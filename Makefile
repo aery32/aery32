@@ -211,13 +211,13 @@ dfu-dump-user:
 .PHONY: size debug qa clean cleanall re reall
 
 size: $(TARGET).elf $(TARGET).hex $(TARGET).bin
-	@avr32-size -B $(TARGET).elf $(TARGET).hex
+	@avr32-size -B $(TARGET).elf
 ifneq (, $(filter $(OS), windows32))
-	wc -c $(TARGET).bin | awk "{printf \"FLASH usage: %d bytes (%.2f%%%%)\n\", $$1, 100*$$1/($(FLASH)*1024)}"
-	@avr32-size -A aery32.elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%%%)\n\", a, b}"
+	@avr32-size -A $(TARGET).elf | awk "$$0 ~ /.heap/" | awk "{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf \"SRAM usage: %%d bytes (%%.2f%%%%)\n\", a, b}"
+	wc -c $(TARGET).bin | awk "{printf \"FLASH usage: %d bytes (%.2f%%%%)\n-- Bootloader not taken into account\n\", $$1, 100*$$1/($(FLASH)*1024)}"
 else
-	@avr32-size -A aery32.elf | awk '$$0 ~ /.heap/' | awk '{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf "SRAM usage: %d bytes (%.2f%%)\n", a, b}'
-	wc -c $(TARGET).bin | awk '{printf "FLASH usage: %d bytes (%.2f%%)\n", $$1, 100*$$1/($(FLASH)*1024)}'
+	@avr32-size -A $(TARGET).elf | awk '$$0 ~ /.heap/' | awk '{a=$(SRAM)*1024-$$2; b=100*a/($(SRAM)*1024); printf "SRAM usage: %d bytes (%.2f%%)\n", a, b}'
+	wc -c $(TARGET).bin | awk '{printf "FLASH usage: %d bytes (%.2f%%)\n-- Bootloader not taken into account\n", $$1, 100*$$1/($(FLASH)*1024)}'
 endif
 
 clean:
