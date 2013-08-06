@@ -97,6 +97,7 @@ examples from `examples/` folder.
 - Build system shows now FLASH usage.
 - Bug fix. Peripheral odma could enter a dead state if a block larger than the
   ODMA buffer size was written.
+- Bug fix, #20. Implemented set_databits for DMA based UART.
 
 ### v0.6.3
 
