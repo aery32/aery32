@@ -24,11 +24,8 @@
 			[
 				"*.elf",
 				"*.hex",
+				"*.bin",
 				"*.d"
-			],
-			"folder_exclude_patterns":
-			[
-				"obj"
 			],
 			"name": "My Aery32 Project",
 			"path": "."
@@ -36,6 +33,8 @@
 	],
 	"settings":
 	{
-		"tab_size": 8
+		"tab_size": 8,
+		"trim_trailing_white_space_on_save": true,
+		"ensure_newline_at_eof_on_save": true
 	}
 }
