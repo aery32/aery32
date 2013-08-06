@@ -1,7 +1,7 @@
 /*
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
- * |     | -_|  _| | |_  |  _|  |  
+ * |     | -_|  _| | |_  |  _|  |
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
@@ -33,7 +33,9 @@ periph_odma::periph_odma(int chnum, int pid, volatile void *buf,
 periph_odma& periph_odma::init()
 {
 	idx = 0;
-	dma->CR.eclr = true;
+	dma->tcr = 0; 		// Clear transfer counter
+	dma->tcrr = 0; 		// Clear the transfer counter reloaded
+	dma->CR.eclr = true;	// Clear transfer error flag
 	return *this;
 }
 
@@ -55,7 +57,7 @@ periph_odma& periph_odma::write(uint8_t *src, size_t n)
 		buffer[idx++] = src[i];
 		if (idx == bufsize) {
 			flush();
-			while (bytes_in_progress());				
+			while (bytes_in_progress());
 		}
 	}
 	return *this;
