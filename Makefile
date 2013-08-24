@@ -38,6 +38,7 @@
 TARGET=aery32
 
 # MPU (Microprocessor Unit) type
+# Change to uc3a1128 when using Rev. 0 boards
 MPART=uc3a1256
 
 # Project's source files
