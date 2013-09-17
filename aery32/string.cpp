@@ -18,9 +18,6 @@
 
 #include <cmath>
 #include <cctype>
-extern "C" {
-	#include <ieeefp.h>
-}
 #include "aery32/string.h"
 
 static const char lookup[10] = {'0','1','2','3','4','5','6','7','8','9'};
@@ -67,11 +64,11 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 	size_t n2 = 0;
 	double ip, fp; /* integer and fractional parts */
 
-	if (isnan(number)) {
+	if (std::isnan(number)) {
 		if (n != NULL) *n = 3;
 		return strcpy(buffer, "NaN");
 	}
-	if (isinf(number)) {
+	if (std::isinf(number)) {
 		if (n != NULL) *n = 3;
 		return strcpy(buffer, "Inf");
 	}
