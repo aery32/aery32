@@ -140,7 +140,7 @@ size_t twi_write_nbytes(uint8_t *data, size_t n);
  * \param iadr Device internal address. Slave's register.
  * \param iadrlen Device internal address length in bytes. Optional
  *                Default value is 1 that is 1 byte (8 bits).
- * \return number of (successfully) read bytes
+ * \return number of (successfully) written bytes
  */
 size_t twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr,
 		uint8_t iadrlen = 1);
@@ -148,7 +148,7 @@ size_t twi_write_nbytes(uint8_t *data, size_t n, uint8_t iadr,
 /**
  * Writes one byte
  * \param data Data to be written
- * \return number of (successfully) read bytes
+ * \return number of (successfully) written bytes
  */
 size_t twi_write_byte(uint8_t data);
 
@@ -158,7 +158,7 @@ size_t twi_write_byte(uint8_t data);
  * \param iadr Device internal address. Slave's register.
  * \param iadrlen Device internal address length in bytes. Optional
  *                Default value is 1 that is 1 byte (8 bits).
- * \return number of (successfully) read bytes
+ * \return number of (successfully) written bytes
  */
 size_t twi_write_byte(uint8_t data, uint8_t iadr, uint8_t iadrlen = 1);
 
