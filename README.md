@@ -98,6 +98,9 @@ examples from `examples/` folder.
 - Bug fix. Peripheral odma could enter a dead state if a block larger than the
   ODMA buffer size was written.
 - Bug fix, #20. Implemented set_databits for DMA based UART.
+- Support for building on targets with only 1 SPI bus, such as the UC3C2512C.
+- Bug fix. Converting float or double values between -1.0 < x < -0.0 to a
+  string always resulted in a positive value in the string.
 
 ### v0.6.3
 
