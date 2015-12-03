@@ -1,7 +1,7 @@
 /*
  *  _____             ___ ___   |
  * |  _  |___ ___ _ _|_  |_  |  |  C/C++ framework for 32-bit AVRs
- * |     | -_|  _| | |_  |  _|  |  
+ * |     | -_|  _| | |_  |  _|  |
  * |__|__|___|_| |_  |___|___|  |  https://github.com/aery32
  *               |___|          |
  *
@@ -26,7 +26,7 @@ char *aery::utoa(unsigned int number, char *buffer, size_t *n)
 {
 	uint8_t i = 0, k = 0;
 	char t;
-	
+
 	if (number == 0)
 		buffer[i++] = '0';
 
@@ -72,11 +72,20 @@ char *aery::dtoa(double number, uint8_t precision, char *buffer, size_t *n)
 		if (n != NULL) *n = 3;
 		return strcpy(buffer, "Inf");
 	}
-	if ((fp = modf(number, &ip)) < 0)
+
+	fp = modf(number, &ip);
+	if (std::signbit(number)) {
+		/* compensate for loss of sign when converting -0.0 to integer */
 		fp *= -1;
+		ip *= -1;
+		buffer[0] = '-';
+		++n2;
+	}
 
 	/* write the integer part and the dot into the buffer */
-	aery::itoa((int) ip, buffer, &n2);
+	aery::utoa((unsigned int) ip, &buffer[n2], &n2);
+	if (std::signbit(number))
+		++n2;
 	buffer[n2++] = '.';
 
 	/* write the fractional part into the buffer */
@@ -104,15 +113,15 @@ int aery::nputs(const char *buffer, size_t n, int (*_putchar)(int))
 int aery::line_to_argv(char *line, char *argv[])
 {
 	unsigned int i = 0, j = 0;
- 
+
 	begin:
 		while (line[i] && isspace(line[i])) i++;
 		argv[j++] = &line[i];
- 
- 		while (line[i] && !isspace(line[i])) i++;
+
+		while (line[i] && !isspace(line[i])) i++;
 		if (line[i] == '\0') goto end;
 		line[i++] = '\0'; goto begin;
- 
+
 	end:
 		return j;
 }

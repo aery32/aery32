@@ -20,8 +20,17 @@
 
 namespace aery {
 	volatile avr32_spi_t *spi0 = &AVR32_SPI0;
+#if AVR32_NUM_SPI > 1
 	volatile avr32_spi_t *spi1 = &AVR32_SPI1;
-	volatile uint32_t __spi_lsr[2] = { AVR32_SPI0.sr, AVR32_SPI1.sr };
+#endif
+
+	volatile uint32_t __spi_lsr[] =
+   {
+      AVR32_SPI0.sr,
+#if AVR32_NUM_SPI > 1
+      AVR32_SPI1.sr
+#endif
+   };
 }
 
 static uint8_t pspi2num(volatile avr32_spi_t *pspi)
