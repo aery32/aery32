@@ -36,7 +36,7 @@ namespace aery {
  */
 extern volatile avr32_spi_t *spi0;
 
-#if AVR32_NUM_SPI > 1
+#if AVR32_SPI_NUM > 1
 /**
  * Pointer to the internal Serial peripheral interdace module register 1
  */
